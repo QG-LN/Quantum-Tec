@@ -1,15 +1,16 @@
 import './App.css';
 import './styles.css';
 import  Navbar from './component/navbar.js';
-import Header from './component/header.js';
-import Section from './component/section.js';
-import Aside from './component/asideLogin';
+import Header from './component/Pages/MainPage/header.js';
+import Section from './component/Pages/MainPage/section.js';
+import Aside from './component/Pages/MainPage/asideLogin';
+import Footer from './component/footer.js';
+import Loginpage from './component/Pages/LoginPage/login.js';
+import Signpage from './component/Pages/LoginPage/sign.js';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from 'react';
 
-const ClickLogin = () => {
-  document.location.href = "/login";
-}
+
 function App() {
   return (
    <Router>
@@ -18,8 +19,10 @@ function App() {
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </div>
+      <Footer />
     </Router>
   );
 }
@@ -46,7 +49,15 @@ function Home() {
 function Login(){
   return (
     <div className="Login">
-      <Aside />
+      <Loginpage />
+    </div>
+  );
+}
+
+function SignUp(){
+  return (
+    <div className="SignUp">
+      <Signpage />
     </div>
   );
 }
