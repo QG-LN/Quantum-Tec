@@ -1,10 +1,21 @@
+import React, {useEffect , useState} from "react";
+import axios from 'axios';
+
 export default function Navbar() {
+    const [hello, setHello] = useState('');
+
+    useEffect(()=>{
+        axios.get('api/hello')
+            .then(res=> setHello(res.data))
+            .catch(err => console.log(err));
+    },[]);
+
            return (
             <div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container px-4 px-lg-5">
                         {/*로고(클릭시 메인화면)*/}
-                        <a class="navbar-brand" href="/">로고 위치(상표)</a>
+                        <a class="navbar-brand" href="/">{hello}</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                              {/*카테고리*/}
