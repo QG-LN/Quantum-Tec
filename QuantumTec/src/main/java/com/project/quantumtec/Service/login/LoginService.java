@@ -5,6 +5,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface LoginService {
     //
-    public UserVO login(String userID, String userPW) throws Exception;;
+    public UserVO login(String userID, String userPW) throws Exception;
 
 }

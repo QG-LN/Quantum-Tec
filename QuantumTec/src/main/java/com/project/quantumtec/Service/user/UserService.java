@@ -15,4 +15,7 @@ public interface UserService {
 
     // 사용자리스트
     public List<UserVO> getUserListAll() throws Exception;
+
+    // 유저 추가
+    public void insertUser(UserVO userVO) throws Exception;
 }

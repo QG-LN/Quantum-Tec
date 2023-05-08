@@ -25,6 +25,7 @@ export default function AsideLogin() {
     /*로그인 확인 임시 false 비로그인/true 로그인*/
     let truelogin = false;
 
+    us
     if(userData !== null) truelogin = true;
 
 

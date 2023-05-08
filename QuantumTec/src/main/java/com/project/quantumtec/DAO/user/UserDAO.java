@@ -19,4 +19,7 @@ public interface UserDAO {
 
     // 사용자 정보 가져오기
     public UserVO getUserInfo(int userIdx) throws Exception;
+
+    // 사용자 추가하기
+    public int insertUser(UserVO userVO) throws Exception;
 }

@@ -4,7 +4,6 @@ import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 @Service("LoginServiceImpl")
 public class LoginServiceImpl implements LoginService{
@@ -21,5 +20,6 @@ public class LoginServiceImpl implements LoginService{
         }else {
             return null;
         }
+
     }
 }

@@ -1,6 +1,8 @@
 package com.project.quantumtec.Controller;
 
+import com.project.quantumtec.DTO.user.UserDTO;
 import com.project.quantumtec.Service.login.LoginService;
+import com.project.quantumtec.Service.user.UserService;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,6 +16,9 @@ public class UserController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private UserService userService;
+
 
     @PostMapping("/login")
     public UserVO login(@RequestBody UserVO user) throws Exception {
@@ -23,6 +28,12 @@ public class UserController {
         }else {
             return null;
         }
+    }
+
+    @PostMapping("/insertUser")
+    public void insertUser(@RequestBody UserVO userVO) throws Exception{
+        System.out.print(userVO);
+        userService.insertUser(userVO);
     }
 
 

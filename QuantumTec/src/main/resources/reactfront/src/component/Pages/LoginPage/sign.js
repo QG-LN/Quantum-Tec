@@ -30,7 +30,31 @@ export default function Sign(){
     
     // signup 버튼 클릭 이벤트
     const OnClickSignUp = () => {
-        document.location.href = "/signup";
+        console.log(`${inputPw}`);
+        fetch('http://localhost:9090/insertUser',{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userID: inputId,
+                userPW: inputPw,
+                userNickname: "자연인이다",
+                userName: inputName,
+                userBirth: '1999/07/17',
+                userAddress:'earth',
+                userAddressDetail:'koera',
+                userPostal:'none',
+                userEmail:inputEmail
+            }),
+        })
+            .then(res =>{
+                document.location.href = "/";
+            })
+            .catch(err =>{
+                console.log("회원가입도중 에러 발생" + err);
+            })
+        // document.location.href = "/signup";
     }
  
 	// 페이지 렌더링 후 가장 처음 호출되는 함수

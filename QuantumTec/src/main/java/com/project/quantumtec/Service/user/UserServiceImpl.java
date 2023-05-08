@@ -1,6 +1,7 @@
 package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DAO.user.UserDAO;
+import com.project.quantumtec.DAO.user.UserDAOImpl;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,10 @@ public class UserServiceImpl implements UserService{
     public List<UserVO> getUserListAll() throws Exception {
         System.out.println("service: " + userDAO.getUserListAll());
         return userDAO.getUserListAll();
+    }
+
+    @Override
+    public void insertUser(UserVO userVO) throws Exception {
+        userDAO.insertUser(userVO);
     }
 }

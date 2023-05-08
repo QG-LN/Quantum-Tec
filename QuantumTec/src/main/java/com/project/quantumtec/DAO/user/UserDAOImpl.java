@@ -39,4 +39,11 @@ public class UserDAOImpl implements UserDAO{
     public UserVO getUserInfo(int userIdx) throws Exception {
         return sqlSession.selectOne("LoginService.getUserInfo", userIdx);
     }
+
+    @Override
+    public int insertUser(UserVO userVO) throws Exception {
+        return sqlSession.insert("LoginService.insertUserInfo",userVO);
+    }
+
+
 }
