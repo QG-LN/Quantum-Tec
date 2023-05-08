@@ -13,10 +13,10 @@ public class LoginServiceImpl implements LoginService{
     private UserDAO userDAO;
 
     @Override
-    public UserVO login(String userID, String userPW)  throws Exception {
-        int checkUser = userDAO.getUserExist(userID, userPW);
+    public UserVO login(String inputId, String inputPw)  throws Exception {
+        int checkUser = userDAO.getUserExist(inputId, inputPw);
 
-        if(checkUser == 1) {
+        if(checkUser >= 1) {
             return userDAO.getUserInfo(checkUser);
         }else {
             return null;
