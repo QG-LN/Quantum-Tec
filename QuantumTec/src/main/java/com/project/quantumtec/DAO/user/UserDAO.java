@@ -14,4 +14,9 @@ import java.util.List;
 public interface UserDAO {
     // 사용자리스트
     public List<UserVO> getUserListAll() throws Exception;
+    // 사용자 존재 여부 확인
+    public int getUserExist(String userID, String userPW) throws Exception;
+
+    // 사용자 정보 가져오기
+    public UserVO getUserInfo(int userIdx) throws Exception;
 }
