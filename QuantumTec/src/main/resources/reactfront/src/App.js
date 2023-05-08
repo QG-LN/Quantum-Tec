@@ -4,6 +4,7 @@ import  Navbar from './component/navbar.js';
 import Header from './component/Pages/MainPage/header.js';
 import Section from './component/Pages/MainPage/section.js';
 import Aside from './component/Pages/MainPage/asideLogin';
+import MyInfoPage from './component/Pages/MainPage/myInfo.js';
 import Footer from './component/footer.js';
 import Loginpage from './component/Pages/LoginPage/login.js';
 import Signpage from './component/Pages/LoginPage/sign.js';
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" exact element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/myinfo" element={<Myinfo />} />
         </Routes>
       </div>
       <Footer />
@@ -58,6 +60,14 @@ function SignUp(){
   return (
     <div className="SignUp">
       <Signpage />
+    </div>
+  );
+}
+
+function Myinfo(){
+  return (
+    <div className="Myinfo">
+      <MyInfoPage />
     </div>
   );
 }

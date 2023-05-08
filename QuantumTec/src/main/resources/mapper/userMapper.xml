@@ -15,4 +15,9 @@
         from userInfo
         where user_idx = #{userIdx}
     </select>
+    <select id="getUserStatus" resultType="UserStatusVO" parameterType="int">
+        select *
+        from userStatus
+        where user_idx = #{userIdx}
+    </select>
 </mapper>

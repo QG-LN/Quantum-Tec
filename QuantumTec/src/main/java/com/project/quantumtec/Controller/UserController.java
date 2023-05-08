@@ -1,6 +1,8 @@
 package com.project.quantumtec.Controller;
 
 import com.project.quantumtec.Service.login.LoginService;
+import com.project.quantumtec.VO.user.UserSetVo;
+import com.project.quantumtec.VO.user.UserStatusVO;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,5 +27,33 @@ public class UserController {
         }
     }
 
+    @PostMapping("/myinfo")
+    public UserSetVo myinfo(@RequestBody UserVO user) throws Exception {
+        UserVO checkUser = loginService.login(user.getUserID(), user.getUserPW());
+        UserStatusVO userStatus = loginService.getUserStatus(checkUser.getUserIdx());
+        UserSetVo userSetVo = new UserSetVo();
+        userSetVo.setUserIdx(checkUser.getUserIdx());
+        userSetVo.setUserID(checkUser.getUserID());
+        userSetVo.setUserPW(checkUser.getUserPW());
+        userSetVo.setUserNickname(checkUser.getUserNickname());
+        userSetVo.setUserName(checkUser.getUserName());
+        userSetVo.setUserBirth(checkUser.getUserBirth());
+        userSetVo.setUserAddress(checkUser.getUserAddress());   
+        userSetVo.setUserAddressDetail(checkUser.getUserAddressDetail());
+        userSetVo.setUserPostal(checkUser.getUserPostal());
+        userSetVo.setUserEmail(checkUser.getUserEmail());
+        userSetVo.setStatusIdx(userStatus.getStatusIdx());
+        userSetVo.setUserRole(userStatus.getUserRole());
+        userSetVo.setUserStatus(userStatus.getUserStatus());
+        userSetVo.setUserUpdatedAt(userStatus.getUserUpdatedAt());
+        userSetVo.setUserCash(userStatus.getUserCash());
+        
+
+        if(userSetVo != null) {
+            return userSetVo;
+        }else {
+            return null;
+        }
+    }
 
 }

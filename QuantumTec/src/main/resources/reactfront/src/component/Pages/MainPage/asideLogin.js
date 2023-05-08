@@ -33,6 +33,9 @@ export default function AsideLogin() {
     const ClickLogin = () => {
         document.location.href = "/login";
       }
+    const clickMyInfo = () => {
+        document.location.href = "/myinfo";
+    }
     return (
         <>
         <div class="container">
@@ -44,7 +47,7 @@ export default function AsideLogin() {
                 {/*로그인상태일때*/}
                 {truelogin &&<div class="col-sm flex" >
                     <span class='inline ml-4 pt-5 mt-5 loginstyle'><div>{username}</div>{usercash}</span>
-                    <span class='inline'><Userimg /></span>
+                    <span onClick={clickMyInfo} class='inline'><Userimg /></span>
                 </div> }
 
             </div>
