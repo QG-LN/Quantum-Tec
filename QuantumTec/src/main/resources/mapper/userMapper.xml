@@ -5,4 +5,14 @@
         select *
         from userInfo
     </select>
+    <select id="getUserExist" resultType="int">
+        select user_idx
+        from userInfo
+        where user_id = #{userID} and user_pw = #{userPW}
+    </select>
+    <select id="getUserInfo" resultType="UserVO">
+        select *
+        from userInfo
+        where user_idx = #{userIdx}
+    </select>
 </mapper>
