@@ -8,12 +8,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Controller
 public class UserController {
 
     @Autowired
     private LoginService loginService;
 
+    @PostMapping("/testo")
+    public UserVO testo(@RequestParam String userID, @RequestParam String userPW) throws Exception {
+        return login(userID, userPW);
+    }
+
+    public UserVO login(String userID, String userPW) throws Exception {
+        UserVO checkUser = loginService.login(userID, userPW);
+
+        if(checkUser != null) {
+            return checkUser;
+        }else {
+            return null;
+        }
+
+    }
 
     @PostMapping("/login")
     public UserVO login(@RequestBody UserVO user) throws Exception {
@@ -24,6 +38,5 @@ public class UserController {
             return null;
         }
     }
-
 
 }
