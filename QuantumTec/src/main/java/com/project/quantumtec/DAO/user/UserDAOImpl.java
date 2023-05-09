@@ -34,7 +34,7 @@ public class UserDAOImpl implements UserDAO{
         userDTO.setUserPW(userPW);
         return sqlSession.selectOne("LoginService.getUserExist", userDTO);
     }
-
+    // 유저 인덱스를 입력받아 사용자 정보를 가져오는 함수
     @Override
     public UserVO getUserInfo(int userIdx) throws Exception {
         return sqlSession.selectOne("LoginService.getUserInfo", userIdx);
