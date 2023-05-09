@@ -15,4 +15,7 @@ public interface UserService {
 
     // 사용자리스트
     public List<UserVO> getUserListAll() throws Exception;
+
+    // 로그인
+    public UserVO login(String userID, String userPW) throws Exception;
 }
