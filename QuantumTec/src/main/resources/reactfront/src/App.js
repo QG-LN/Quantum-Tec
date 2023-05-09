@@ -10,12 +10,14 @@ import Signpage from './component/Pages/LoginPage/sign.js';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from 'react';
 
+let truelogin=true;
 
 function App() {
+  
   return (
    <Router>
       <div className="App">
-        <Navbar />
+        <Navbar start={truelogin}/>
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -38,7 +40,7 @@ function Home() {
           <Header />
         </header>
         <aside style={{ flexBasis: '30%' }}>
-          <Aside />
+          <Aside start={truelogin}/>
         </aside>
       </div>
       <Section />
