@@ -8,6 +8,7 @@ export default function Sign(){
     const [inputPw, setInputPw] = useState('')
     const [inputPwCheack, setInputPwCheack] = useState('')
     const [inputEmail, setInputEmail] = useState('')
+    const [inputEmailCheck, setInputEmailCheck] = useState('')
     const [inputAddress, setInputAddress] = useState('')
     const [inputAddressDetail, setInputAddressDetail] = useState('')
     const [inputRole, setInputRole] = useState('')
@@ -45,13 +46,18 @@ export default function Sign(){
     const handleInputRole = (e) => {
         setInputRole(e.target.value)
     }
-
- 
-	// login 버튼 클릭 이벤트
-    const onClickLogin = () => {
-        console.log('click login')
+    const handleInputEmailCheck = (e) => {
+        setInputEmailCheck(e.target.value)
     }
-    
+    const OnClickEmailSend = () => {
+        console.log(inputEmail)
+    }
+
+    const OnClickEmailCheck = () => {
+        console.log(inputEmailCheck)
+    }
+	// login 버튼 클릭 이벤트
+
     // signup 버튼 클릭 이벤트
     const OnClickSignUp = () => {
         console.log(inputName, inputBirth, inputId, inputPw, inputPwCheack, inputEmail, inputAddress, inputAddressDetail, inputRole)
@@ -91,6 +97,12 @@ export default function Sign(){
             <div class="py-1">
                 <label htmlFor='input_email'>Email : </label>
                 <input type='email' name='input_email' value={inputEmail} onChange={handleInputEmail} />
+                <button type="button" onClick={OnClickEmailSend}>인증번호 전송</button>
+            </div>
+            <div>
+                <label htmlFor='input_email'>인증번호 : </label>
+                <input type='text' name='input_email_check' value={inputEmailCheck} onChange={handleInputEmailCheck} />
+                <button type="button" onClick={OnClickEmailCheck}>인증번호 확인</button>
             </div>
             <div class="py-1">
                 <label htmlFor='input_address'>주소 : </label>
