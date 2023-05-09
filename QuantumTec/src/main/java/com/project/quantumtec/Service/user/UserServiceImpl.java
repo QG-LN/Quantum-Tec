@@ -24,4 +24,15 @@ public class UserServiceImpl implements UserService{
         System.out.println("service: " + userDAO.getUserListAll());
         return userDAO.getUserListAll();
     }
+
+    @Override
+    public UserVO login(String inputId, String inputPw)  throws Exception {
+        int checkUser = userDAO.getUserExist(inputId, inputPw);
+
+        if(checkUser >= 1) {
+            return userDAO.getUserInfo(checkUser);
+        }else {
+            return null;
+        }
+    }
 }
