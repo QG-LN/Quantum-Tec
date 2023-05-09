@@ -16,7 +16,7 @@ export default function Login(){
  
 	// login 버튼 클릭 이벤트
     const onClickLogin = () => {
-        console.log('click login')
+        console.log({inputId, inputPw})
     }
     
     // signup 버튼 클릭 이벤트

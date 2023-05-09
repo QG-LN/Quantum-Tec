@@ -1,10 +1,43 @@
 import '../App.css';
-export default function Navbar() {
-    const truelogin = false;
-    const username = 'test';
+import axios from 'axios';
+import '../App.js';
+// import React, { useState, useEffect } from "react";
+import json from './b.json';
+export default function Navbar(props) {
+    let truelogin = false;
+    // 로그인 상태일때 유저 이름 받아오기
+    truelogin=props.start;
+    let username= 'test';
+
+    const getUsername = () => { 
+
+        const url = json;
+        axios
+        .get(url)
+        .then(res => username = res.data.username)
+        .catch(username = 'error');
+        
+    };
+//     const [username, setUsername] = useState("");
+
+//   useEffect(() => {
+//     const url = json;
+//     axios
+//       .get(url)
+//       .then((res) => {
+//         const data = res.data;
+//         setUsername(data.username);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//         }, []);
+
+    // 로그인 버튼 클릭시 로그인 페이지로 이동
     const ClickLogin = () => {
         document.location.href = "/login";
       }
+      
            return (
             <div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -29,6 +62,8 @@ export default function Navbar() {
                             </ul>
                             {/*우측 상단에 넣을수 있는 자리(필요시 로그인버튼을 간소화할떄 쓸 위치)*/}
                             <form class="d-flex">
+                                
+                                {getUsername()}
                                 {!truelogin && <button class="btn btn-outline-dark" type="button" onClick={ClickLogin} >
                                 <i class="loginbtn me-1"></i>
                                     로그인
