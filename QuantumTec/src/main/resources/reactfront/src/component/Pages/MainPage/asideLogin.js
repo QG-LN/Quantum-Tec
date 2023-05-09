@@ -11,7 +11,11 @@ export default function AsideLogin(props) {
 
     /*로그인 확인 임시 false 비로그인/true 로그인*/
     let truelogin = false;
+
+
     truelogin=props.start;
+
+    if(userData !== null) truelogin = true;
 
     useEffect(()=>{
         const inputId = localStorage.getItem("inputId");
