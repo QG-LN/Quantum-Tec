@@ -12,7 +12,7 @@ public class UserController {
 
     @Autowired
     private LoginService loginService;
-    
+
     @PostMapping("/testo")
     public UserVO testo(@RequestParam String userID, @RequestParam String userPW) throws Exception {
         return login(userID, userPW);
@@ -38,5 +38,4 @@ public class UserController {
             return null;
         }
     }
-
 }
