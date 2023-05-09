@@ -1,0 +1,13 @@
+{
+    "id": 1,
+    "createdDate": "2022-03-07T19:20:40.638043",
+    "modifiedDate": null,
+    "category": "가전제품",
+    "username": "원",
+    "price": 25000,
+    "immediatelyprice": 27000,
+    "title": "이케아 트롤리 팔아요",
+    "location": "경기도 의왕시",
+    "imgsrc": "/userimg1.png",
+    "deleteYn": "N"
+  }

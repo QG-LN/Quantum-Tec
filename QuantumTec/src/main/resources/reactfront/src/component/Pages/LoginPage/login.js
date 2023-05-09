@@ -13,29 +13,10 @@ export default function Login(){
     const handleInputPw = (e) => {
         setInputPw(e.target.value)
     }
-    // login 버튼 클릭 이벤트
+ 
+	// login 버튼 클릭 이벤트
     const onClickLogin = () => {
-        console.log(`${inputId} , ${inputPw}`)
-        localStorage.setItem("inputId", inputId);
-        localStorage.setItem("inputPw", inputPw);
-        fetch('http://localhost:9090/login',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                userID: inputId,
-                userPW: inputPw,
-            }),
-        })
-            .then(res =>{
-                document.location.href = "/";
-            })
-            .catch(err => {
-                console.log("로그인도중 에러 발생")
-                console.log(err);
-            });
-
+        console.log('click login')
     }
     
     // signup 버튼 클릭 이벤트
