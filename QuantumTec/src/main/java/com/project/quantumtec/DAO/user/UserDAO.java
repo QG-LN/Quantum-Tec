@@ -30,4 +30,7 @@ public interface UserDAO {
     // ID 중복 확인
     public boolean isIdDuplicate(UserVO user) throws Exception;
 
+    // 닉네임 중복 확인
+    public boolean isNicknameDuplicate(UserVO user) throws Exception;
+
 }

@@ -68,4 +68,9 @@ public class UserServiceImpl implements UserService{
     public boolean checkDuplicateId(UserVO user) throws Exception {
         return userDAO.isIdDuplicate(user);
     }
+
+    @Override
+    public boolean checkDuplicateNickname(UserVO user) throws Exception {
+        return userDAO.isNicknameDuplicate(user);
+    }
 }
