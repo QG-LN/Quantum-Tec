@@ -26,4 +26,7 @@ public interface UserService {
 
     // 회원가입
     public UserVO signup(UserVO user) throws Exception;
+
+    // 아이디 중복 확인
+    public boolean checkDuplicateId(UserVO user) throws Exception;
 }

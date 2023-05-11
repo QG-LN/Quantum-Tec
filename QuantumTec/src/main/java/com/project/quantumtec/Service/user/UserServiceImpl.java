@@ -63,4 +63,9 @@ public class UserServiceImpl implements UserService{
             return userDAO.getUserInfo(userDAO.getUserExist(user.getUserID(), user.getUserPW()));
         }
     }
+
+    @Override
+    public boolean checkDuplicateId(UserVO user) throws Exception {
+        return userDAO.isIdDuplicate(user);
+    }
 }
