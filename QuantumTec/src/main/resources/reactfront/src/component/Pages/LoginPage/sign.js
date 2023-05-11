@@ -113,19 +113,24 @@ export default function Sign(){
     },
     // 페이지 호출 후 처음 한번만 호출될 수 있도록 [] 추가
     [])
+    const style_inputbox ={
+        width: '54%',
+    };
+
+
     return (
         <div class="signup-form">
             <h2 class ='Logintitle'>회원가입</h2>
             <div class="form-group">
                 <label htmlFor='input_id'>이름 : </label>
-                <input type='text' name='input_name' maxLength={20} value={inputName} onChange={handleInputName} />
+                <input type='text' name='input_name' maxLength={20} style={style_inputbox} value={inputName} onChange={handleInputName} />
                 {inputName.length > 20 && (
                         <div style={{ color: 'red' }}>이름을 20글자 이내로 써주세요</div>
                     )}
             </div>
             <div class ='form-group'>
                 <label htmlFor='input_date'>생년월일 : </label>
-                <input type='date' name='input_birth' value={inputBirth} onChange={handleInputBirth} />
+                <input type='date' name='input_birth' value={inputBirth} style={style_inputbox} onChange={handleInputBirth} />
             </div>
             <div class='form-group'>
                 <label htmlFor='input_nickname'>닉네임 : </label>
@@ -145,14 +150,14 @@ export default function Sign(){
             </div>
             <div class ="form-group">
                 <label htmlFor='input_pw'>PW : </label>
-                <input type='password' name='input_pw' minLength={8} value={inputPw} onChange={handleInputPw} />
+                <input type='password' name='input_pw' minLength={8} style={style_inputbox} value={inputPw} onChange={handleInputPw} />
                 {inputPw.length <= 8 && (
                         <div style={{ color: 'red' }}>패스워드를 8자 이상 써주세요</div>
                     )}
             </div>
             <div class ="form-group">
                 <label htmlFor='input_pw'>PW확인 : </label>
-                <input type='password' name='check_input_pw' minLength={8} value={inputPwCheck} onChange={handleInputPwCheck} />
+                <input type='password' name='check_input_pw' style={style_inputbox} minLength={8} value={inputPwCheck} onChange={handleInputPwCheck} />
             </div>
 
             <div class="form-group">
@@ -172,11 +177,11 @@ export default function Sign(){
             </div>
             <div class="form-group">
                 <label htmlFor='input_postaddress'>우편번호 : </label>
-                <input type='text' name='input_postaddress' value={inputPostAddress} onChange={handleInputPostAddress} readOnly/>
+                <input type='text' name='input_postaddress' value={inputPostAddress} style={style_inputbox} onChange={handleInputPostAddress} readOnly/>
             </div>
             <div class="form-group">
                 <label htmlFor='input_address_D'>상세주소 : </label>
-                <input type='text' name='input_address_D' value={inputAddressDetail} onChange={handleInputAddressDetail}/>
+                <input type='text' name='input_address_D' style={style_inputbox} value={inputAddressDetail} onChange={handleInputAddressDetail}/>
             </div>
 
             <div class="sign-button">
