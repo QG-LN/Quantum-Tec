@@ -20,6 +20,11 @@
         from userInfo ui, userStatus us
         where ui.user_idx = #{userIdx} and us.user_idx = #{userIdx}
     </select>
+    <select id="selectCountById" resultType="int">
+        SELECT COUNT(*) 
+        FROM userInfo 
+        WHERE user_id = #{userID}
+    </select>
     <insert id="setUser">
         insert into userInfo(user_id,user_pw,user_nickname,user_name,user_birth,user_address,user_address_detail,user_postal,user_email) values(#{userID},#{userPW},#{userNickname},#{userName},#{userBirth},#{userAddress},#{userAddressDetail},#{userPostal},#{userEmail})
     </insert>

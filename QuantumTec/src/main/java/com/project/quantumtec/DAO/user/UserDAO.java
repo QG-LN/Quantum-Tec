@@ -26,4 +26,8 @@ public interface UserDAO {
 
     // 사용자 추가
     public int setUser(UserVO user) throws Exception;
+
+    // ID 중복 확인
+    public boolean isIdDuplicate(UserVO user) throws Exception;
+
 }

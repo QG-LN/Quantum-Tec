@@ -7,6 +7,7 @@ import com.project.quantumtec.VO.user.UserVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.servlet.FlashMap;
 
 import java.util.List;
 
@@ -37,6 +38,13 @@ public class UserDAOImpl implements UserDAO{
         Integer result = sqlSession.selectOne("UserService.getUserExist", userDTO);
         return (result == null) ? 0 : result;
     }
+
+    // 사용자의 아이디를 입력받아 그 값이 존재하는지 확인하고 불린을 반환하는 메소드
+    @Override
+    public boolean isIdDuplicate(UserVO user) throws Exception {
+        return ((Integer) sqlSession.selectOne("UserService.selectCountById", user)) > 0;
+    }
+
     // 유저 인덱스를 입력받아 사용자 정보를 가져오는 함수
     @Override
     public UserVO getUserInfo(int userIdx) throws Exception {
