@@ -10969,11 +10969,11 @@ textarea.form-control-lg {
 .signup-form .form-group label {
   width: 140px;
   margin-right: 10px;
-  text-align: right;
+  text-align: center;
 }
 
 .signup-form .form-group input {
-  width: 40%;
+  width: 30%;
   text-indent: 2%;
 }
 
@@ -10994,3 +10994,4 @@ textarea.form-control-lg {
 .signup-form .input_email {
   margin-bottom : 50px;
 }
+
