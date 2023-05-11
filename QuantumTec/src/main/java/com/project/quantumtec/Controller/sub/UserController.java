@@ -26,4 +26,13 @@ public class UserController {
 //            return null;
 //        }
     }
+
+    public UserVO signupAdd(@RequestBody UserVO user) throws Exception {
+        UserVO checkUser = userService.signup(user);
+        if(checkUser != null) {
+            return checkUser;
+        }else {
+            return null;
+        }
+    }
 }

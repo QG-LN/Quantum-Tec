@@ -23,4 +23,9 @@ public class MainController
     {
         return userController.login(user);
     }
+
+    @PostMapping("/signup/add")
+    public UserVO signupAdd(@RequestBody UserVO user) throws Exception {
+        return userController.signupAdd(user);
+    }
 }

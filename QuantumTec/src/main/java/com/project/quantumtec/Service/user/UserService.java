@@ -24,4 +24,6 @@ public interface UserService {
     // 새로운 로그인 친구
     public LoginResponseDTO login(String userID, String userPW)  throws Exception;
 
+    // 회원가입
+    public UserVO signup(UserVO user) throws Exception;
 }

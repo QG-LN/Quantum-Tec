@@ -34,14 +34,8 @@ public class UserDAOImpl implements UserDAO{
         UserDTO userDTO = new UserDTO();
         userDTO.setUserID(userID);
         userDTO.setUserPW(userPW);
-
-        int userIdx = sqlSession.selectOne("UserService.getUserExist", userDTO);
-        return userIdx;
-//        if ( userIdx <=  0) {
-//            return 0;
-//        } else {
-//            return userIdx;
-//        }
+        Integer result = sqlSession.selectOne("UserService.getUserExist", userDTO);
+        return (result == null) ? 0 : result;
     }
     // 유저 인덱스를 입력받아 사용자 정보를 가져오는 함수
     @Override
@@ -52,5 +46,22 @@ public class UserDAOImpl implements UserDAO{
     @Override
     public LoginResponseDTO getLoginInfo(int userIdx) throws Exception {
         return sqlSession.selectOne("UserService.getLoginInfo", userIdx);
+    }
+    
+    // 사용자 정보를 입력받아 DB에 저장하는 함수
+    @Override
+    public int setUser(UserVO user) throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserID(user.getUserID());
+        userDTO.setUserPW(user.getUserPW());
+        userDTO.setUserNickname(user.getUserNickname());
+        userDTO.setUserName(user.getUserName());
+        userDTO.setUserBirth(user.getUserBirth());
+        userDTO.setUserAddress(user.getUserAddress());
+        userDTO.setUserAddressDetail(user.getUserAddressDetail());
+        userDTO.setUserPostal(user.getUserPostal());
+        userDTO.setUserEmail(user.getUserEmail());
+        Integer result = sqlSession.insert("UserService.setUser", userDTO);
+        return (result == null) ? 0 : result;
     }
 }
