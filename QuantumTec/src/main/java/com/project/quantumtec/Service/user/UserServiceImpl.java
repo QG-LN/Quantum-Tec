@@ -48,4 +48,19 @@ public class UserServiceImpl implements UserService{
             return null;
         }
     }
+
+    @Override
+    public UserVO signup(UserVO user) throws Exception {
+        // 0: 회원가입 실패, 1: 회원가입 성공
+        int checkSignUp = userDAO.setUser(user);
+
+        
+        if(checkSignUp == 0) {
+            // 회원가입 실패
+            return null;
+        }else {
+            // 회원가입 성공
+            return userDAO.getUserInfo(userDAO.getUserExist(user.getUserID(), user.getUserPW()));
+        }
+    }
 }
