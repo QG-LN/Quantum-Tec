@@ -114,20 +114,20 @@ export default function Sign(){
     // 페이지 호출 후 처음 한번만 호출될 수 있도록 [] 추가
     [])
     return (
-        <div class="py-5 mt-5">
-            <h2>회원가입</h2>
-            <div class="py-3">
+        <div class="signup-form">
+            <h2 class ='Logintitle'>회원가입</h2>
+            <div class="form-group">
                 <label htmlFor='input_id'>이름 : </label>
                 <input type='text' name='input_name' maxLength={20} value={inputName} onChange={handleInputName} />
                 {inputName.length > 20 && (
                         <div style={{ color: 'red' }}>이름을 20글자 이내로 써주세요</div>
                     )}
             </div>
-            <div class ='py-1'>
+            <div class ='form-group'>
                 <label htmlFor='input_date'>생년월일 : </label>
                 <input type='date' name='input_birth' value={inputBirth} onChange={handleInputBirth} />
             </div>
-            <div class='py1'>
+            <div class='form-group'>
                 <label htmlFor='input_nickname'>닉네임 : </label>
                 <input type='text' name='input_nickname' maxLength={8} value={inputNickname} onChange={handleInputNickname} />
                 <button type="button" onClick={OnClickNicknameCheck}>중복확인</button>
@@ -135,7 +135,7 @@ export default function Sign(){
                         <div style={{ color: 'red' }}>닉네임을 8글자 이내로 써주세요</div>
                     )}
             </div>
-            <div class="py-1">
+            <div class="form-group">
                 <label htmlFor='input_id'>ID : </label>
                 <input type='text' name='input_id'maxLength={20} value={inputId} onChange={handleInputId} />
                 <button type="button" onClick={OnClickIdCheck}>중복확인</button>
@@ -143,49 +143,49 @@ export default function Sign(){
                         <div style={{ color: 'red' }}>아이디를 20글자 이내로 써주세요</div>
                     )}
             </div>
-            <div class ="py-1">
+            <div class ="form-group">
                 <label htmlFor='input_pw'>PW : </label>
                 <input type='password' name='input_pw' minLength={8} value={inputPw} onChange={handleInputPw} />
                 {inputPw.length <= 8 && (
                         <div style={{ color: 'red' }}>패스워드를 8자 이상 써주세요</div>
                     )}
             </div>
-            <div class ="py-1">
+            <div class ="form-group">
                 <label htmlFor='input_pw'>PW확인 : </label>
                 <input type='password' name='check_input_pw' minLength={8} value={inputPwCheck} onChange={handleInputPwCheck} />
             </div>
 
-            <div class="py-1">
+            <div class="form-group">
                 <label htmlFor='input_email'>Email : </label>
                 <input type='email' name='input_email' value={inputEmail} onChange={handleInputEmail} disabled={inputEmailDisabled}/>
                 <button type="button" onClick={OnClickEmailSend} disabled={inputEmailDisabled}>인증번호 전송</button>
             </div>
-            {showEmailCheck && <div>
+            {showEmailCheck && <div class = "form-group">
                 <label htmlFor='input_email'>인증번호 : </label>
                 <input type='text' name='input_email_check' value={inputEmailCheck} onChange={handleInputEmailCheck}/>
                 <button type="button" onClick={OnClickEmailCheck}>인증번호 확인</button>
             </div>}
-            <div class="py-1">
+            <div class="form-group">
                 <label htmlFor='input_address'>주소 : </label>
                 <input type='text' name='input_address' value={inputAddress} onChange={handleInputAddress} readOnly/>
                 <button type="button" onClick={OnClickAddress}>주소검색</button>
             </div>
-            <div class="py-1">
+            <div class="form-group">
                 <label htmlFor='input_postaddress'>우편번호 : </label>
                 <input type='text' name='input_postaddress' value={inputPostAddress} onChange={handleInputPostAddress} readOnly/>
             </div>
-            <div class="py-1">
+            <div class="form-group">
                 <label htmlFor='input_address_D'>상세주소 : </label>
                 <input type='text' name='input_address_D' value={inputAddressDetail} onChange={handleInputAddressDetail}/>
             </div>
 
-            <div class="py-1">
+            <div class="sign-button">
                 <input type='radio' name='input_role' value='uesr'  onChange={handleInputRole} />사용자
                 <input type='radio' name='input_role' value='depeloper' onChange={handleInputRole} />공급자
             </div>
 
 
-            <div class="py-1">
+            <div class="form-group">
                 <button type="button" onClick={OnClickSignUp}>회원가입</button>
                 <button type='buuton' onClick={OnClickCancel}>취소</button>
             </div>
