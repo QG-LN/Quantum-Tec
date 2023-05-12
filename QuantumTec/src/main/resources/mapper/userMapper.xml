@@ -5,14 +5,19 @@
         select *
         from userInfo
     </select>
-    <select id="getUserExist" resultType="int">
+    <select id="getUserExist" resultType="int" parameterType="UserDTO">
         select user_idx
         from userInfo
         where user_id = #{userID} and user_pw = #{userPW}
     </select>
-    <select id="getUserInfo" resultType="UserVO">
+    <select id="getUserInfo" resultType="UserVO" parameterType="int">
         select *
         from userInfo
         where user_idx = #{userIdx}
+    </select>
+    <select id="getLoginInfo" resultType="LoginResponseDTO" parameterType="int">
+        select user_nickname, user_cash
+        from userInfo ui, userStatus us
+        where ui.user_idx = #{userIdx} and us.user_idx = #{userIdx}
     </select>
 </mapper>
