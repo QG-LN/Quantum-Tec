@@ -10935,10 +10935,11 @@ textarea.form-control-lg {
 
 /*회원가입 페이지*/
 .signup-form {
-  width: 40%;
+  width: 45%;
   margin: 20px auto;
   padding: 20px;
   border: 1px solid #ccc;
+  font-size: 21px;
 }
 
 .signup-form .form-group {
@@ -10989,7 +10990,7 @@ textarea.form-control-lg {
 .signup-form .form-group button {
   margin-left: 10px;
   margin-right: 10px;
-  width:130px;
+  width:150px;
 }
 .signup-form .input_email {
   margin-bottom : 50px;
