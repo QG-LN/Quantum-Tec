@@ -4,7 +4,7 @@ import axios from 'axios';
 export default function Login(){
     const [inputId, setInputId] = useState('')
     const [inputPw, setInputPw] = useState('')
-    const [truelogin, setLogincheck] = useState(false);
+    let [truelogin, setLogincheck] = useState(false);
 
 	// input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
     const handleInputId = (e) => {
@@ -17,6 +17,10 @@ export default function Login(){
  
 	// login 버튼 클릭 이벤트
     const onClickLogin = () => {
+        inputId === '' ? alert('아이디를 입력해주세요') : inputPw === '' 
+        ? alert('비밀번호를 입력해주세요') : inputPw < 8 
+        ? alert('비밀번호는 8자리 이상이어야 합니다') :
+        
         truelogin=true;
     }
     

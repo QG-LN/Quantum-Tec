@@ -21,7 +21,7 @@ function App() {
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signup" element={<SignUp />}/>
         </Routes>
       </div>
       <Footer />
@@ -58,8 +58,8 @@ function Login(){
 
 function SignUp(){
   return (
-    <div className="SignUp">
-      <Signpage />
+    <div className="SignUp" style={{ height: "80vh" }}>
+      <Signpage/>
     </div>
   );
 }
