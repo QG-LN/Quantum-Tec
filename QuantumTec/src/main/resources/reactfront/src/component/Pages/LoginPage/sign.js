@@ -157,88 +157,147 @@ export default function Sign(){
     const style_inputbox ={
         width: '55%',
     };
+    const style_inputbox_2={
+        width: '86%',
+    }
+
+    const bottomBtn = {
+        width: '60%',
+        fontSize: '1.2rem',
+    }
 
 
     return (
-        <div class="signup-form">
+        <div class="signup-form container">
             <h2 class ='Logintitle'>회원가입</h2>
-            <div class="form-group">
-                <label htmlFor='input_id'>이름 : </label>
-                <input type='text' name='input_name' maxLength={20} style={style_inputbox} value={inputName} onChange={handleInputName} />
+            <div class="form-group row">
+                <div class= 'col-3'>
+                    <label htmlFor='input_id'>이름 : </label>
+                </div>
+                <div class= 'col-9'>
+                <input type='text' name='input_name' maxLength={20} style={style_inputbox_2} value={inputName} onChange={handleInputName} />
                 <div class = 'infotxt'>20자 이내로 적어주세요.</div>
                 {inputName.length > 20 && (
                         <div style={{ color: 'red' }}>이름을 20글자 이내로 써주세요</div>
                     )}
+                </div>
             </div>
-            <div class ='form-group'>
-                <label htmlFor='input_date'>생년월일 : </label>
-                <input type='date' name='input_birth' value={inputBirth} style={style_inputbox} onChange={handleInputBirth} />
+            <div class ='form-group row'>
+                <div class= 'col-3'>
+                    <label htmlFor='input_date'>생년월일 : </label>
+                </div>
+                <div class= 'col-9'>
+                    <input type='date' name='input_birth' value={inputBirth} style={style_inputbox_2} onChange={handleInputBirth} />
+                </div>
             </div>
-            <div class='form-group'>
-                <label htmlFor='input_nickname'>닉네임 : </label>
-                <input type='text' name='input_nickname' maxLength={8} value={inputNickname} onChange={handleInputNickname} />
-                <button type="button" onClick={OnClickNicknameCheck} disabled={isNickDiabled}>중복확인</button>
-                <div class = 'infotxt'>8자 이내로 적어주세요.</div>
-                {inputNickname.length > 8 && (
-                        <div style={{ color: 'red' }}>닉네임을 8글자 이내로 써주세요</div>
-                    )}
+            <div class='form-group row'>
+                <div class= 'col-3'>
+                    <label htmlFor='input_nickname'>닉네임 : </label>
+                </div>
+                <div class= 'col-9'>
+                    <input style={style_inputbox} type='text' name='input_nickname' maxLength={8} value={inputNickname} onChange={handleInputNickname} />
+                    <button type="button" onClick={OnClickNicknameCheck} disabled={isNickDiabled}>중복확인</button>
+                    <div class = 'infotxt'>8자 이내로 적어주세요.</div>
+                    {inputNickname.length > 8 && (
+                          <div style={{ color: 'red' }}>닉네임을 8글자 이내로 써주세요</div>
+                     )}
+                </div>
             </div>
-            <div class="form-group">
-                <label htmlFor='input_id'>ID : </label>
-                <input type='text' name='input_id'maxLength={20} value={inputId} onChange={handleInputId} />
-                <button type="button" disabled={isIdDisabled}  onClick={OnClickIdCheck}>중복확인</button>
-                <div class = 'infotxt'>20자 이내로 적어주세요.</div>
-                {inputId.length > 20 && (
-                        <div style={{ color: 'red' }}>아이디를 20글자 이내로 써주세요</div>
+            <div class="form-group row">
+                <div class='col-3'>
+                    <label htmlFor='input_id'>ID : </label>
+                </div>
+                <div class='col-9'>
+                    <input style={style_inputbox} type='text' name='input_id'maxLength={20} value={inputId} onChange={handleInputId} />
+                    <button type="button" disabled={isIdDisabled}  onClick={OnClickIdCheck}>중복확인</button>
+                    <div class = 'infotxt'>20자 이내로 적어주세요.</div>
+                    {inputId.length > 20 && (
+                            <div style={{ color: 'red' }}>아이디를 20글자 이내로 써주세요</div>
 
-                    )}
+                        )}
+                </div>
             </div>
-            <div class ="form-group">
-                <label htmlFor='input_pw'>PW : </label>
-                <input type='password' name='input_pw' minLength={8} style={style_inputbox} value={inputPw} onChange={handleInputPw} />
-                <div class = 'infotxt'>특수문자 + 영문자 + 숫자로 구성된 8자 이상으로 써주세요.</div>
-                {/* {inputPw.length <= 8 && (
-                        <div style={{ color: 'red' }}>패스워드를 8자 이상 써주세요</div>
-                    )} */}
+            <div class ="form-group row">
+                <div class= 'col-3'>
+                    <label htmlFor='input_pw'>PW : </label>
+                </div>
+                <div class= 'col-9'>
+                    <input type='password' name='input_pw' minLength={8} style={style_inputbox_2} value={inputPw} onChange={handleInputPw} />
+                    <div class = 'infotxt'>특수문자 + 영문자 + 숫자로 구성된 8자 이상으로 써주세요.</div>
+                    {/* {inputPw.length <= 8 && (
+                            <div style={{ color: 'red' }}>패스워드를 8자 이상 써주세요</div>
+                        )} */}
+                </div>
             </div>
-            <div class ="form-group">
-                <label htmlFor='input_pw'>PW확인 : </label>
-                <input type='password' name='check_input_pw' style={style_inputbox} minLength={8} value={inputPwCheck} onChange={handleInputPwCheck} />
+            <div class ="form-group row">
+                <div class= 'col-3'>
+                    <label htmlFor='input_pw'>PW확인 : </label>
+                </div>
+                <div class= 'col-9'>
+                    <input type='password' name='check_input_pw' style={style_inputbox_2} minLength={8} value={inputPwCheck} onChange={handleInputPwCheck} />
+                </div>
             </div>
 
-            <div class="form-group">
-                <label htmlFor='input_email'>Email : </label>
-                <input type='email' name='input_email' value={inputEmail} onChange={handleInputEmail} disabled={inputEmailDisabled}/>
-                <button type="button" onClick={OnClickEmailSend} disabled={inputEmailDisabled}>인증번호 전송</button>
+            <div class="form-group row">
+                <div class='col-3'>
+                    <label htmlFor='input_email'>Email : </label>
+                </div>
+                <div class='col-9'>
+                    <input type='email' name='input_email' value={inputEmail} placeholder='example@google.com' style={style_inputbox} onChange={handleInputEmail} disabled={inputEmailDisabled}/>
+                    <button type="button" onClick={OnClickEmailSend} disabled={inputEmailDisabled}>인증번호 전송</button>
+                </div>
             </div>
-            {showEmailCheck && <div class = "form-group">
-                <label htmlFor='input_email'>인증번호 : </label>
-                <input type='text' name='input_email_check' value={inputEmailCheck} onChange={handleInputEmailCheck}/>
-                <button type="button" onClick={OnClickEmailCheck}>인증번호 확인</button>
+            {showEmailCheck && <div class = "form-group row">
+                <div class='col-3'>
+                    <label htmlFor='input_email'>인증번호 : </label>
+                </div>
+                <div class='col-9'>
+                    <input type='text' name='input_email_check' value={inputEmailCheck} style={style_inputbox} onChange={handleInputEmailCheck}/>
+                    <button type="button" onClick={OnClickEmailCheck}>인증번호 확인</button>
+                </div>
             </div>}
-            <div class="form-group">
-                <label htmlFor='input_address'>주소 : </label>
-                <input type='text' name='input_address' value={inputAddress} onChange={handleInputAddress} readOnly/>
-                <button type="button" onClick={OnClickAddress}>주소검색</button>
+            <div class="form-group row">
+                <div class='col-3'>
+                    <label htmlFor='input_address'>주소 : </label>
+                </div>
+                <div class='col-9'>
+                    <input type='text' name='input_address' value={inputAddress} style={style_inputbox} onChange={handleInputAddress} readOnly/>
+                    <button type="button" onClick={OnClickAddress}>주소검색</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label htmlFor='input_postaddress'>우편번호 : </label>
-                <input type='text' name='input_postaddress' value={inputPostAddress} style={style_inputbox} onChange={handleInputPostAddress} readOnly/>
+            <div class="form-group row">
+                <div class='col-3'>
+                    <label htmlFor='input_postaddress'>우편번호 : </label>
+                </div>
+                <div class='col-9'>
+                    <input type='text' name='input_postaddress' value={inputPostAddress} style={style_inputbox_2} onChange={handleInputPostAddress} readOnly/>
+                </div>
             </div>
-            <div class="form-group">
-                <label htmlFor='input_address_D'>상세주소 : </label>
-                <input type='text' name='input_address_D' style={style_inputbox} value={inputAddressDetail} onChange={handleInputAddressDetail}/>
+            <div class="form-group row">
+                <div class='col-3'>
+                    <label htmlFor='input_address_D'>상세주소 : </label>
+                </div>
+                <div class='col-9'>
+                    <input type='text' name='input_address_D' style={style_inputbox_2} value={inputAddressDetail} onChange={handleInputAddressDetail}/>
+                </div>
             </div>
 
-            <div class="sign-button mb-2">
-                <input type='radio' name='input_role' value='uesr' onChange={handleInputRole} checked/>사용자
-                <input type='radio' name='input_role' value='depeloper' onChange={handleInputRole} />공급자
+            <div class="sign-button mb-2 row">
+                <div class='col-6' style={{textAlign:'right'}} >
+                    <input type='radio' name='input_role' value='uesr' onChange={handleInputRole} checked/>사용자
+                </div>
+                <div class='col-6' style={{textAlign:'left'}}>
+                    <input type='radio' name='input_role' value='depeloper' onChange={handleInputRole} />공급자
+                </div>
             </div>
 
-
-            <div class="form-group">
-                <button type="button" onClick={OnClickSignUp}>회원가입</button>
-                <button type='button' onClick={OnClickCancel}>취소</button>
+            <div class="form-group row">
+                <div class='col-6'>
+                    <button type="button" style={bottomBtn} onClick={OnClickSignUp}>회원가입</button>
+                </div>
+                <div class='col-6'>
+                    <button type='button' style={bottomBtn} onClick={OnClickCancel}>취소</button>
+                </div>
             </div>
         </div>
     );
