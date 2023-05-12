@@ -2,6 +2,8 @@ package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.Utils.user.emailApi.EmailApi;
+import com.project.quantumtec.Utils.user.emailApi.EmailApiImpl;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private EmailApi emailApi;
+
     @Override
     public List<UserVO> getUserListAll() throws Exception {
         System.out.println("service: " + userDAO.getUserListAll());
@@ -72,5 +77,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean checkDuplicateNickname(UserVO user) throws Exception {
         return userDAO.isNicknameDuplicate(user);
+    }
+
+    @Override
+    public void sendEmailAuth(UserVO user) throws Exception {
+        emailApi.createKey();
+        emailApi.sendEmail(user.getUserEmail(),"TestTitle" , emailApi.getKey());
     }
 }

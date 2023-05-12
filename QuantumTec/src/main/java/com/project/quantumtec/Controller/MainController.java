@@ -24,8 +24,25 @@ public class MainController
         return userController.login(user);
     }
 
-    @PostMapping("/signup/add")
+    @PostMapping("/add")
     public UserVO signupAdd(@RequestBody UserVO user) throws Exception {
         return userController.signupAdd(user);
+    }
+
+    @PostMapping("/checkDuplicateId")
+    public boolean checkDuplicateId(@RequestBody UserVO user) throws Exception {
+        // true: 중복, false: 중복아님
+        return userController.checkDuplicateId(user);
+    }
+
+    @PostMapping("/checkDuplicateNickname")
+    public boolean checkDuplicateNickname(@RequestBody UserVO user) throws Exception {
+        // true: 중복, false: 중복아님
+        return userController.checkDuplicateNickname(user);
+    }
+
+    @PostMapping("/sendEmailAuth")
+    public void sendEmailAuth(@RequestBody UserVO user) throws Exception {
+        userController.sendEmailAuth(user);
     }
 }

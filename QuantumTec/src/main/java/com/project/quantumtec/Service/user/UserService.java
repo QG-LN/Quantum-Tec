@@ -32,4 +32,7 @@ public interface UserService {
 
     // 닉네임 중복 확인
     public boolean checkDuplicateNickname(UserVO user) throws Exception;
+
+    // 이메일 인증키 보내기
+    public void sendEmailAuth(UserVO user) throws Exception;
 }
