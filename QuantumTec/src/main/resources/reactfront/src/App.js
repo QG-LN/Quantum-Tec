@@ -50,7 +50,7 @@ function Home() {
 
 function Login(){
   return (
-    <div className="Login">
+    <div className="Login" style={{ height: "62vh" }}>
       <Loginpage />
     </div>
   );
