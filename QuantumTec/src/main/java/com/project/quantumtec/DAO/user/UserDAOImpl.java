@@ -1,5 +1,7 @@
 package com.project.quantumtec.DAO.user;
 
+import com.project.quantumtec.DTO.user.LoginRequestDTO;
+import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.UserDTO;
 import com.project.quantumtec.VO.user.UserVO;
 import org.apache.ibatis.session.SqlSession;
@@ -32,15 +34,23 @@ public class UserDAOImpl implements UserDAO{
         UserDTO userDTO = new UserDTO();
         userDTO.setUserID(userID);
         userDTO.setUserPW(userPW);
-        if (sqlSession.selectOne("UserService.getUserExist", userDTO) == null) {
-            return 0;
-        } else {
-            return sqlSession.selectOne("UserService.getUserExist", userDTO);
-        }
+
+        int userIdx = sqlSession.selectOne("UserService.getUserExist", userDTO);
+        return userIdx;
+//        if ( userIdx <=  0) {
+//            return 0;
+//        } else {
+//            return userIdx;
+//        }
     }
     // 유저 인덱스를 입력받아 사용자 정보를 가져오는 함수
     @Override
     public UserVO getUserInfo(int userIdx) throws Exception {
         return sqlSession.selectOne("UserService.getUserInfo", userIdx);
+    }
+
+    @Override
+    public LoginResponseDTO getLoginInfo(int userIdx) throws Exception {
+        return sqlSession.selectOne("UserService.getLoginInfo", userIdx);
     }
 }
