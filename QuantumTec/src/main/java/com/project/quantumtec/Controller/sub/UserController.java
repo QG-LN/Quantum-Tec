@@ -35,4 +35,18 @@ public class UserController {
             return null;
         }
     }
+
+    public boolean checkDuplicateId(@RequestBody UserVO user) throws Exception {
+        // true: 중복, false: 중복아님
+        return userService.checkDuplicateId(user);
+    }
+
+    public boolean checkDuplicateNickname(@RequestBody UserVO user) throws Exception {
+        // true: 중복, false: 중복아님
+        return userService.checkDuplicateNickname(user);
+    }
+
+    public void sendEmailAuth(@RequestBody UserVO user) throws Exception {
+        userService.sendEmailAuth(user);
+    }
 }
