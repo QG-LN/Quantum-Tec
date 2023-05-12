@@ -10935,7 +10935,7 @@ textarea.form-control-lg {
 
 /*회원가입 페이지*/
 .signup-form {
-  width: 45%;
+  width: 35%;
   height: 95%;
   margin: 10px auto;
   padding: 20px;
@@ -10944,12 +10944,13 @@ textarea.form-control-lg {
 }
 
 .signup-form .form-group {
-  margin-bottom: 2.8%;
+  margin-bottom: 1.2%;
 }
 
 .signup-form .form-label {
   font-size: 16px;
   font-weight: bold;
+
 }
 
 .signup-form .form-control {
@@ -10969,9 +10970,9 @@ textarea.form-control-lg {
 }
 
 .signup-form .form-group label {
-  width: 30%;
-  margin-right: 0.5%;
-  text-align: center;
+  /* width: 30%; */
+  margin-right: 0.5%; 
+  
 }
 
 .signup-form .form-group input {
@@ -10992,6 +10993,7 @@ textarea.form-control-lg {
   margin-left: 1%;
   margin-right: 1%;
   width:30%;
+  font-size: 0.8rem;
 }
 .signup-form .input_email {
   margin-bottom : 5%;
@@ -11000,4 +11002,12 @@ textarea.form-control-lg {
 .signup-form .infotxt {
   font-size: 0.7rem;
   color: #6c757d;
+}
+
+.signup-form .form-group .col-3 {
+  text-align:right; 
+}
+
+.signup-form .form-group .col-9 {
+  text-align: left;
 }
