@@ -18,6 +18,8 @@ export default function Sign(){
     const [inputPostAddress, setInputPostAddress] = useState('')
     const [isNickDiabled, setIsNickDisabled] = useState(false);
     const [isIdDisabled, setIsIdDisabled] = useState(false);
+    let [isNickCheck] = useState(false);
+    let [isIdCheck] = useState(false);
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
@@ -43,6 +45,7 @@ export default function Sign(){
 
     const handleInputEmail = (e) => {
         setInputEmail(e.target.value)
+
     }
 
     const handleInputAddress = (e) => {
@@ -68,20 +71,47 @@ export default function Sign(){
 
     // 아이디 체크 버튼 클릭 이벤트
     const OnClickIdCheck = () => {
-        console.log(inputId)
+        if(inputId.length > 20){
+            alert('아이디를 20글자 이내로 써주세요');
+            console.log(inputId);
+            return
+        }
+        else if(inputId === ''){
+            alert('아이디를 입력해주세요');
+            return
+        } else{isIdCheck = true;
+            alert('사용 가능한 아이디입니다.');}
+        // console.log(inputId)
+        // console.log(isIdCheck);
     }
 
     // 닉네임 체크 버튼 클릭 이벤트
     const OnClickNicknameCheck = () => {
-        console.log(inputNickname)
+        if(inputNickname.length > 8){
+            alert('닉네임을 8글자 이내로 써주세요');
+            return
+        }
+        else if(inputNickname ===''){
+            alert('닉네임을 입력해주세요');
+            return
+        } else{isNickCheck = true; 
+            alert('사용 가능한 닉네임입니다.');}
     }
+    //이메일 형식 확인
+    const isEmail = (inputEmail) => {
+        return /^\w+@\w+.\w{2,3}$/.test(inputEmail);
+        };
 
     // 이메일 인증 버튼 클릭 이벤트
     const OnClickEmailSend = () => {
-        //이메일과 이메일 인증버튼 비활성화
+        if(isEmail(inputEmail)=== true){
         setInputEmailDisabled(true);
         //이메일 인증 텍스트와 인증버튼 활성화
         setshowEmailCheck(true);
+        }
+        else{
+            alert('이메일 형식이 올바르지 않습니다.');
+        }
     }
 
     //인증번호 체크 버튼 클릭 이벤트
@@ -100,7 +130,13 @@ export default function Sign(){
         if (inputPw !== inputPwCheck) {
             alert('비밀번호가 일치하지 않습니다.')
             return
-        }else if(inputPw === inputPwCheck){
+        }else if(inputName.length > 20){
+            alert('이름을 20글자 이내로 써주세요');
+            return
+        }else if(inputPw.length < 8){
+            alert('비밀번호를 8글자 이상으로 써주세요');
+            return
+        }else if(inputPw === inputPwCheck || inputName.length <= 20 || inputId.length <= 20 || inputPw.length >= 8 || isNickCheck === true || isIdCheck === true){
             alert('회원가입이 완료되었습니다.')
             return
         }
@@ -129,6 +165,7 @@ export default function Sign(){
             <div class="form-group">
                 <label htmlFor='input_id'>이름 : </label>
                 <input type='text' name='input_name' maxLength={20} style={style_inputbox} value={inputName} onChange={handleInputName} />
+                <div class = 'infotxt'>20자 이내로 적어주세요.</div>
                 {inputName.length > 20 && (
                         <div style={{ color: 'red' }}>이름을 20글자 이내로 써주세요</div>
                     )}
@@ -141,6 +178,7 @@ export default function Sign(){
                 <label htmlFor='input_nickname'>닉네임 : </label>
                 <input type='text' name='input_nickname' maxLength={8} value={inputNickname} onChange={handleInputNickname} />
                 <button type="button" onClick={OnClickNicknameCheck} disabled={isNickDiabled}>중복확인</button>
+                <div class = 'infotxt'>8자 이내로 적어주세요.</div>
                 {inputNickname.length > 8 && (
                         <div style={{ color: 'red' }}>닉네임을 8글자 이내로 써주세요</div>
                     )}
@@ -149,6 +187,7 @@ export default function Sign(){
                 <label htmlFor='input_id'>ID : </label>
                 <input type='text' name='input_id'maxLength={20} value={inputId} onChange={handleInputId} />
                 <button type="button" disabled={isIdDisabled}  onClick={OnClickIdCheck}>중복확인</button>
+                <div class = 'infotxt'>20자 이내로 적어주세요.</div>
                 {inputId.length > 20 && (
                         <div style={{ color: 'red' }}>아이디를 20글자 이내로 써주세요</div>
 
@@ -157,9 +196,10 @@ export default function Sign(){
             <div class ="form-group">
                 <label htmlFor='input_pw'>PW : </label>
                 <input type='password' name='input_pw' minLength={8} style={style_inputbox} value={inputPw} onChange={handleInputPw} />
-                {inputPw.length <= 8 && (
+                <div class = 'infotxt'>특수문자 + 영문자 + 숫자로 구성된 8자 이상으로 써주세요.</div>
+                {/* {inputPw.length <= 8 && (
                         <div style={{ color: 'red' }}>패스워드를 8자 이상 써주세요</div>
-                    )}
+                    )} */}
             </div>
             <div class ="form-group">
                 <label htmlFor='input_pw'>PW확인 : </label>
@@ -190,15 +230,15 @@ export default function Sign(){
                 <input type='text' name='input_address_D' style={style_inputbox} value={inputAddressDetail} onChange={handleInputAddressDetail}/>
             </div>
 
-            <div class="sign-button">
-                <input type='radio' name='input_role' value='uesr'  onChange={handleInputRole} />사용자
+            <div class="sign-button mb-2">
+                <input type='radio' name='input_role' value='uesr' onChange={handleInputRole} checked/>사용자
                 <input type='radio' name='input_role' value='depeloper' onChange={handleInputRole} />공급자
             </div>
 
 
             <div class="form-group">
                 <button type="button" onClick={OnClickSignUp}>회원가입</button>
-                <button type='buuton' onClick={OnClickCancel}>취소</button>
+                <button type='button' onClick={OnClickCancel}>취소</button>
             </div>
         </div>
     );
