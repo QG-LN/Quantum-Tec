@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+// import { isDisabled } from '@testing-library/user-event/dist/utils';
 
 export default function Sign(){
     const [inputName, setInputName] = useState('')
@@ -15,6 +16,8 @@ export default function Sign(){
     const [inputRole, setInputRole] = useState('')
     const [showEmailCheck, setshowEmailCheck] = useState(false)
     const [inputPostAddress, setInputPostAddress] = useState('')
+    const [isNickDiabled, setIsNickDisabled] = useState(false);
+    const [isIdDisabled, setIsIdDisabled] = useState(false);
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
@@ -28,6 +31,7 @@ export default function Sign(){
     }
     const handleInputId = (e) => {
         setInputId(e.target.value)
+        setIsIdDisabled(inputId.length > 20);
     }
  
     const handleInputPw = (e) => {
@@ -56,6 +60,7 @@ export default function Sign(){
     }
     const handleInputNickname = (e) => {
         setInputNickname(e.target.value)
+        setIsNickDisabled(inputName.length > 8);
     }
     const handleInputPostAddress = (e) => {
         setInputPostAddress(e.target.value)
@@ -95,7 +100,7 @@ export default function Sign(){
         if (inputPw !== inputPwCheck) {
             alert('비밀번호가 일치하지 않습니다.')
             return
-        }else if(inputPw == inputPwCheck){
+        }else if(inputPw === inputPwCheck){
             alert('감사링')
             return
         }
@@ -114,7 +119,7 @@ export default function Sign(){
     // 페이지 호출 후 처음 한번만 호출될 수 있도록 [] 추가
     [])
     const style_inputbox ={
-        width: '54%',
+        width: '55%',
     };
 
 
@@ -135,7 +140,7 @@ export default function Sign(){
             <div class='form-group'>
                 <label htmlFor='input_nickname'>닉네임 : </label>
                 <input type='text' name='input_nickname' maxLength={8} value={inputNickname} onChange={handleInputNickname} />
-                <button type="button" onClick={OnClickNicknameCheck}>중복확인</button>
+                <button type="button" onClick={OnClickNicknameCheck} disabled={isNickDiabled}>중복확인</button>
                 {inputNickname.length > 8 && (
                         <div style={{ color: 'red' }}>닉네임을 8글자 이내로 써주세요</div>
                     )}
@@ -143,9 +148,10 @@ export default function Sign(){
             <div class="form-group">
                 <label htmlFor='input_id'>ID : </label>
                 <input type='text' name='input_id'maxLength={20} value={inputId} onChange={handleInputId} />
-                <button type="button" onClick={OnClickIdCheck}>중복확인</button>
+                <button type="button" disabled={isIdDisabled}  onClick={OnClickIdCheck}>중복확인</button>
                 {inputId.length > 20 && (
                         <div style={{ color: 'red' }}>아이디를 20글자 이내로 써주세요</div>
+
                     )}
             </div>
             <div class ="form-group">
