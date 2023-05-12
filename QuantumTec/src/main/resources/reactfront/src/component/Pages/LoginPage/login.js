@@ -38,11 +38,11 @@ export default function Login(){
             <h2 class='Logintitle'>로그인</h2>
             <div class="form-group">
                 <label htmlFor="input_id" class='Logintxt'>아이디 : </label>
-                <input type="text" name="input_id" value={inputId} onChange={handleInputId} />
+                <input type="text" name="input_id" value={inputId} maxLength={20} onChange={handleInputId} />
             </div>
             <div class="form-group">
                 <label htmlFor="input_pw" class='Logintxt'>비밀번호 :</label>
-                <input type="password" name="input_pw" value={inputPw} onChange={handleInputPw}/>
+                <input type="password" name="input_pw" value={inputPw} minLength={8} onChange={handleInputPw}/>
             </div>
             <div class="form-group">
                 <button type="button" class="btn btn-primary" onClick={onClickLogin}>로그인</button>
