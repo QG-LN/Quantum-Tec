@@ -3,6 +3,7 @@ package com.project.quantumtec.Controller;
 import com.project.quantumtec.Controller.sub.UserController;
 import com.project.quantumtec.DTO.user.LoginRequestDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,5 +45,10 @@ public class MainController
     @PostMapping("/sendEmailAuth")
     public void sendEmailAuth(@RequestBody UserVO user) throws Exception {
         userController.sendEmailAuth(user);
+    }
+
+    @PostMapping("/checkEmailAuth")
+    public boolean checkEmailAuth(@RequestBody singupEmailCodeDTO key) throws Exception {
+        return userController.checkEmailAuth(key);
     }
 }

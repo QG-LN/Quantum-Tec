@@ -2,6 +2,7 @@ package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.Utils.user.emailApi.EmailApi;
 import com.project.quantumtec.Utils.user.emailApi.EmailApiImpl;
 import com.project.quantumtec.VO.user.UserVO;
@@ -83,5 +84,10 @@ public class UserServiceImpl implements UserService{
     public void sendEmailAuth(UserVO user) throws Exception {
         emailApi.createKey();
         emailApi.sendEmail(user.getUserEmail(),"TestTitle" , emailApi.getKey());
+    }
+
+    @Override
+    public boolean checkEmailAuth(singupEmailCodeDTO key) throws Exception {
+        return emailApi.getKey().equals(key.getKey());
     }
 }
