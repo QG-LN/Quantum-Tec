@@ -21,4 +21,5 @@ public class UserVO {
     private String userAddressDetail;   // 사용자 상세주소
     private String userPostal;          // 사용자 우편번호
     private String userEmail;           // 사용자 이메일
+    private String userRole;            // 사용자 권한
 }
