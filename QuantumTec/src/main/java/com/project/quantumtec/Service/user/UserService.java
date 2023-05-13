@@ -1,6 +1,7 @@
 package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.VO.user.UserVO;
 
 import java.util.List;
@@ -35,4 +36,7 @@ public interface UserService {
 
     // 이메일 인증키 보내기
     public void sendEmailAuth(UserVO user) throws Exception;
+
+    // 이메일 인증키 확인
+    public boolean checkEmailAuth(singupEmailCodeDTO key) throws Exception;
 }

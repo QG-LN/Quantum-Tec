@@ -3,6 +3,7 @@ package com.project.quantumtec.Controller.sub;
 import com.project.quantumtec.DTO.user.LoginRequestDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.UserDTO;
+import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.Service.user.UserService;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,9 @@ public class UserController {
 
     public void sendEmailAuth(@RequestBody UserVO user) throws Exception {
         userService.sendEmailAuth(user);
+    }
+
+    public boolean checkEmailAuth(@RequestBody singupEmailCodeDTO key) throws Exception {
+        return userService.checkEmailAuth(key);
     }
 }
