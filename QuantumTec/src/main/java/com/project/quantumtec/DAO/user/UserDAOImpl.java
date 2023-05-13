@@ -75,7 +75,8 @@ public class UserDAOImpl implements UserDAO{
         userDTO.setUserAddressDetail(user.getUserAddressDetail());
         userDTO.setUserPostal(user.getUserPostal());
         userDTO.setUserEmail(user.getUserEmail());
-        Integer result = sqlSession.insert("UserService.setUser", userDTO);
+        userDTO.setUserRole(user.getUserRole());
+        Integer result = sqlSession.insert("UserService.setUser", userDTO);        
         return (result == null) ? 0 : result;
     }
 }
