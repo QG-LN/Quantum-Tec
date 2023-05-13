@@ -42,13 +42,13 @@ public class UserDAOImpl implements UserDAO{
     // 사용자의 아이디를 입력받아 그 값이 존재하는지 확인하고 불린을 반환하는 메소드
     @Override
     public boolean isIdDuplicate(UserVO user) throws Exception {
-        return ((Integer) sqlSession.selectOne("UserService.selectCountById", user)) > 0;
+        return (((Integer) sqlSession.selectOne("UserService.selectCountById", user)) == null)? false : true;
     }
 
     // 사용자의 닉네임을 입력받아 그 값이 존재하는지 확인하고 불린을 반환하는 메소드
     @Override
     public boolean isNicknameDuplicate(UserVO user) throws Exception {
-        return ((Integer) sqlSession.selectOne("UserService.selectCountByNickname", user)) > 0;
+        return (((Integer) sqlSession.selectOne("UserService.selectCountByNickname", user)) == null)? false : true;
     }
 
     // 유저 인덱스를 입력받아 사용자 정보를 가져오는 함수
