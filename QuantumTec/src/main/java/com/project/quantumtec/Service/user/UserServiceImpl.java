@@ -60,6 +60,8 @@ public class UserServiceImpl implements UserService{
         // 0: 회원가입 실패, 1: 회원가입 성공
         int checkSignUp = userDAO.setUser(user);
 
+        // 인증키 제거
+        emailApi.removeKey();
         
         if(checkSignUp == 0) {
             // 회원가입 실패
