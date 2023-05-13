@@ -21,12 +21,12 @@
         where ui.user_idx = #{userIdx} and us.user_idx = #{userIdx}
     </select>
     <select id="selectCountById" resultType="int">
-        SELECT COUNT(*) 
+        SELECT user_idx 
         FROM userInfo 
         WHERE user_id = #{userID}
     </select>
     <select id="selectCountByNickname" resultType="int">
-        SELECT COUNT(*) 
+        SELECT user_idx 
         FROM userInfo 
         WHERE user_nickname = #{userNickname}
     </select>
