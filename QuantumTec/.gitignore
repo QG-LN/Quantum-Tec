@@ -38,4 +38,4 @@ out/
 
 
 /src/main/resources/config/db/db.properties
-QuantumTec/src/main/resources/config/email/email.properties
+/src/main/resources/config/email/email.properties
