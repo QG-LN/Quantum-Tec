@@ -33,4 +33,7 @@ public interface UserDAO {
     // 닉네임 중복 확인
     public boolean isNicknameDuplicate(UserVO user) throws Exception;
 
+    // 사용자 정보를 삭제하고, 삭제된 정보를 별도의 테이블에 보관함
+    public boolean deleteUser(int userIdx) throws Exception;
+
 }

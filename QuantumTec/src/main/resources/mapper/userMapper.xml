@@ -33,4 +33,8 @@
     <insert id="setUser" parameterType="UserVO">
         insert into userInfo(user_id,user_pw,user_nickname,user_name,user_birth,user_address,user_address_detail,user_postal,user_email,user_role) values(#{userID},#{userPW},#{userNickname},#{userName},#{userBirth},#{userAddress},#{userAddressDetail},#{userPostal},#{userEmail},#{userRole})
     </insert>
+    <delete id="deleteUser" parameterType="int">
+        delete from userInfo
+        where user_idx = #{userIdx}
+    </delete>
 </mapper>
