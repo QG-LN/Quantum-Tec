@@ -103,4 +103,10 @@ public class UserServiceImpl implements UserService{
         // 사용자 정보를 삭제하고, 삭제된 정보를 별도의 테이블에 보관함
         return userDAO.deleteUser(userIdx);
     }
+
+    @Override
+    public boolean updateUser(UserVO user) throws Exception {
+        // 사용자 정보를 수정함
+        return userDAO.updateUser(user);
+    }
 }
