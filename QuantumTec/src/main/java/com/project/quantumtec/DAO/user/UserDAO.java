@@ -24,4 +24,13 @@ public interface UserDAO {
     // 로그인 정보 가져오기
     public LoginResponseDTO getLoginInfo(int userIdx) throws Exception;
 
+    // 사용자 추가
+    public int setUser(UserVO user) throws Exception;
+
+    // ID 중복 확인
+    public boolean isIdDuplicate(UserVO user) throws Exception;
+
+    // 닉네임 중복 확인
+    public boolean isNicknameDuplicate(UserVO user) throws Exception;
+
 }
