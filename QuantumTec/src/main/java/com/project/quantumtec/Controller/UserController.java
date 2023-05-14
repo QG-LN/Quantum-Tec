@@ -58,4 +58,10 @@ public class UserController {
     public boolean checkEmailAuth(@RequestBody singupEmailCodeDTO key) throws Exception {
         return userService.checkEmailAuth(key);
     }
+
+    // UserService 의 입력받은 회원정보(아이디)를 삭제하는 메소드
+    @DeleteMapping("/delete")
+    public boolean deleteUser(@RequestParam int userIdx) throws Exception {
+        return userService.deleteUser(userIdx);
+    }
 }

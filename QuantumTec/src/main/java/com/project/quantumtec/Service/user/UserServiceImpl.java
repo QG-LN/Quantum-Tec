@@ -92,4 +92,10 @@ public class UserServiceImpl implements UserService{
     public boolean checkEmailAuth(singupEmailCodeDTO key) throws Exception {
         return emailApi.getKey().equals(key.getKey());
     }
+
+    @Override
+    public boolean deleteUser(int userIdx) throws Exception{
+        // 사용자 정보를 삭제하고, 삭제된 정보를 별도의 테이블에 보관함
+        return userDAO.deleteUser(userIdx);
+    }
 }
