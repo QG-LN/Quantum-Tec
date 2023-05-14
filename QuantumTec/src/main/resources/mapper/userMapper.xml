@@ -37,4 +37,17 @@
         delete from userInfo
         where user_idx = #{userIdx}
     </delete>
+    <update id="updateUser" parameterType="UserVO">
+        update userInfo
+        set user_pw = #{userPW},
+            user_nickname = #{userNickname},
+            user_name = #{userName},
+            user_birth = #{userBirth},
+            user_address = #{userAddress},
+            user_address_detail = #{userAddressDetail},
+            user_postal = #{userPostal},
+            user_email = #{userEmail},
+            user_role = #{userRole}
+        where user_idx = #{userIdx}
+    </update>
 </mapper>

@@ -42,4 +42,7 @@ public interface UserService {
 
     // 사용자 정보를 삭제하고, 삭제된 정보를 별도의 테이블에 보관함
     public boolean deleteUser(int userIdx) throws Exception;
+
+    // 사용자 정보 수정
+    public boolean updateUser(UserVO user) throws Exception;
 }
