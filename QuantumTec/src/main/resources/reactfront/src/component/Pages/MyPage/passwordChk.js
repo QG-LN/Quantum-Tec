@@ -5,9 +5,13 @@ import '../../../styles.css';
 export default function PasswordChk(){
     const [inputPw, setInputPw] = useState('')
     const [passwordchk, chkPassword] = useState(false);
+    
+    //비밀번호값 상태 확인
     const handleInputPw = (e) => {
         setInputPw(e.target.value)
     }
+
+    //확인 버튼 눌럿을시 비밀번호 확인
     const handleClick = () => {
         if (inputPw === '1234'){
         chkPassword(!passwordchk);
