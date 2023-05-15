@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public LoginResponseDTO login(String userID, String userPW) throws Exception {
         int userIdx = userDAO.getUserExist(userID, userPW);
+        System.out.println("userIdx: " + userIdx);
         if (userIdx <= 0){
             return null;
         }
