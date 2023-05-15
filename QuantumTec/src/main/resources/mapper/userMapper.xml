@@ -20,4 +20,34 @@
         from userInfo ui, userStatus us
         where ui.user_idx = #{userIdx} and us.user_idx = #{userIdx}
     </select>
+    <select id="selectCountById" resultType="int">
+        SELECT user_idx 
+        FROM userInfo 
+        WHERE user_id = #{userID}
+    </select>
+    <select id="selectCountByNickname" resultType="int">
+        SELECT user_idx 
+        FROM userInfo 
+        WHERE user_nickname = #{userNickname}
+    </select>
+    <insert id="setUser" parameterType="UserVO">
+        insert into userInfo(user_id,user_pw,user_nickname,user_name,user_birth,user_address,user_address_detail,user_postal,user_email,user_role) values(#{userID},#{userPW},#{userNickname},#{userName},#{userBirth},#{userAddress},#{userAddressDetail},#{userPostal},#{userEmail},#{userRole})
+    </insert>
+    <delete id="deleteUser" parameterType="int">
+        delete from userInfo
+        where user_idx = #{userIdx}
+    </delete>
+    <update id="updateUser" parameterType="UserVO">
+        update userInfo
+        set user_pw = #{userPW},
+            user_nickname = #{userNickname},
+            user_name = #{userName},
+            user_birth = #{userBirth},
+            user_address = #{userAddress},
+            user_address_detail = #{userAddressDetail},
+            user_postal = #{userPostal},
+            user_email = #{userEmail},
+            user_role = #{userRole}
+        where user_idx = #{userIdx}
+    </update>
 </mapper>
