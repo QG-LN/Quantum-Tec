@@ -18,6 +18,9 @@ export default function Navbar(props) {
         .catch(username = 'error');
         
     };
+    const logoClick = () => {
+        window.scrollTo(0, 0);
+    }
 //     const [username, setUsername] = useState("");
 
 //   useEffect(() => {
@@ -43,7 +46,7 @@ export default function Navbar(props) {
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container px-4 px-lg-5">
                         {/*로고(클릭시 메인화면)*/}
-                        <a class="navbar-brand" href="/">로고 위치(상표)</a>
+                        <a class="navbar-brand" onClick={logoClick}>로고 위치(상표)</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                              {/*카테고리*/}

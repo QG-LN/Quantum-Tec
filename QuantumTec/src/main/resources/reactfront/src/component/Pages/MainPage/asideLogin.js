@@ -24,7 +24,12 @@ export default function AsideLogin(props) {
     .catch(usercash = '0000')
     };
 
+    // 마이페이지로 이동
+    const OnClickMyPage = () => {
+        document.location.href = "/mypage";
+    }
 
+    // 로그인 페이지로 이동
     const ClickLogin = () => {
         document.location.href = "/login";
       }
@@ -40,6 +45,7 @@ export default function AsideLogin(props) {
                 {truelogin &&<div class="col-sm flex" >
                     {getUsername()}
                     {getUsercash()}
+                    <button button type="button" class="btn btn-primary" onClick={OnClickMyPage}>마이 페이지</button>
                     <span class='inline ml-4 pt-5 mt-5 loginstyle'><div>{username}</div>{usercash}</span>
                     <span class='inline'><Userimg /></span>
                 </div> }
