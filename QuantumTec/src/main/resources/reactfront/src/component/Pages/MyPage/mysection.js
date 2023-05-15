@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 // import { isDisabled } from '@testing-library/user-event/dist/utils';
 
-export default function Sign(){
+export default function Mysection(){
+
+    // 값 불러올 때에는 useState에 입력하면 됨
     const [inputName, setInputName] = useState('')
     const [inputBirth, setInputBirth] = useState('')
     const [inputNickname, setInputNickname] = useState('')
@@ -23,7 +25,9 @@ export default function Sign(){
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
- 
+    
+
+
 	// input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
     const handleInputName = (e) => {
         setInputName(e.target.value)
@@ -120,12 +124,13 @@ export default function Sign(){
 
     }
 
+    // 주소 검색 버튼 클릭 이벤트
     const OnClickAddress = () => {
         console.log(inputAddress)
     }
 
     // signup 버튼 클릭 이벤트
-    const OnClickSignUp = () => {
+    const OnClickSign = () => {
         console.log(inputName, inputBirth, inputId, inputPw, inputPwCheck, inputEmail, inputAddress, inputAddressDetail, inputRole)
         if(inputName.length > 20){
             alert('이름을 20글자 이내로 써주세요');
@@ -138,13 +143,13 @@ export default function Sign(){
             alert('비밀번호를 8글자 이상으로 써주세요');
             return
         }else if(inputPw === inputPwCheck && inputName.length <= 20 && inputId.length <= 20 && inputPw.length >= 8 && isNickCheck === true && isIdCheck === true){
-            alert('회원가입이 완료되었습니다.')
+            alert('회원 정보가 수정되었습니다.')
             return
         }
         
     }
     const OnClickCancel = () => {
-        document.location.href = "/";
+        document.location.href = "/mypage";
     }
  
 	// 페이지 렌더링 후 가장 처음 호출되는 함수
@@ -170,7 +175,7 @@ export default function Sign(){
 
     return (
         <div class="signup-form container">
-            <h2 class ='Logintitle'>회원가입</h2>
+            <h2 class ='Logintitle'>회원정보수정</h2>
             <div class="form-group row">
                 <div class= 'col-3'>
                     <label htmlFor='input_id'>이름 : </label>
@@ -283,18 +288,9 @@ export default function Sign(){
                 </div>
             </div>
 
-            <div class="sign-button mb-2 row">
-                <div class='col-6' style={{textAlign:'right'}} >
-                    <input type='radio' name='input_role' value='uesr' onChange={handleInputRole} checked/>사용자
-                </div>
-                <div class='col-6' style={{textAlign:'left'}}>
-                    <input type='radio' name='input_role' value='depeloper' onChange={handleInputRole} />공급자
-                </div>
-            </div>
-
             <div class="form-group row">
                 <div class='col-6'>
-                    <button type="button" style={bottomBtn} onClick={OnClickSignUp}>회원가입</button>
+                    <button type="button" style={bottomBtn} onClick={OnClickSign}>적용</button>
                 </div>
                 <div class='col-6'>
                     <button type='button' style={bottomBtn} onClick={OnClickCancel}>취소</button>
