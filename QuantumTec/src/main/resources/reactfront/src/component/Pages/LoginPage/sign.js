@@ -13,13 +13,14 @@ export default function Sign(){
     const [inputEmailCheck, setInputEmailCheck] = useState('')
     const [inputAddress, setInputAddress] = useState('')
     const [inputAddressDetail, setInputAddressDetail] = useState('')
-    const [inputRole, setInputRole] = useState('')
+    const [inputRole, setInputRole] = useState('user');                 // 기본 설정이 user이므로
     const [showEmailCheck, setshowEmailCheck] = useState(false)
     const [inputPostAddress, setInputPostAddress] = useState('')
     const [isNickDiabled, setIsNickDisabled] = useState(false);
     const [isIdDisabled, setIsIdDisabled] = useState(false);
-    let [isNickCheck] = useState(false);
-    let [isIdCheck] = useState(false);
+    let [isNickCheck, setIsNickCheck] =useState(false);
+    let [isIdCheck ,setIsIDCheck]= useState(false);
+    let isCheckEmailAuth = false;
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
@@ -69,8 +70,41 @@ export default function Sign(){
         setInputPostAddress(e.target.value)
     }
 
+    /**
+     * 서버와 데이터 통신을 진행하고 결과 데이터를 반환 받는 함수
+     * @param path 데이터를 전송할 서버의 주소
+     * @param body 전송할 데이터의 body JSON
+     * @param methodType 전송할 메소드 타입
+     * @return data 중복여부에따라 true/false 값이 미존재시 false반환
+     */
+    async function checkData(path, body , methodType){
+        try {
+            const response = await fetch(path, {
+                method: methodType,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+
+            // response 객체가 반환될때까지 기다린후 데이터가 전달되면 json 데이터를 반환
+            const data = await response.json();             
+
+            // 반환값이 중복일 경우 true, 중복이 아닐 경우 false 이므로 !data로 반환
+            // 서버에서 받은 값이 없을 경우 false 반환
+            if (data !== null && data !== undefined) {
+                return !data;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
+
     // 아이디 체크 버튼 클릭 이벤트
-    const OnClickIdCheck = () => {
+    const OnClickIdCheck = async () => {
         if(inputId.length > 20){
             alert('아이디를 20글자 이내로 써주세요');
             console.log(inputId);
@@ -79,14 +113,24 @@ export default function Sign(){
         else if(inputId === ''){
             alert('아이디를 입력해주세요');
             return
-        } else{isIdCheck = true;
-            alert('사용 가능한 아이디입니다.');}
-        // console.log(inputId)
-        // console.log(isIdCheck);
+        } else{
+            const path ='http://localhost:9090/user/signup/checkid';
+            const body = { userID: inputId,};
+            const data = await checkData(path, body, 'POST');
+            if(data){
+                alert('사용 가능한 아이디입니다.');
+                setIsIDCheck(true);
+            }else{
+                alert('사용 불가능한 아이디입니다.');
+                setInputId("");
+                setIsIDCheck(false);
+            }
+        }
+
     }
 
     // 닉네임 체크 버튼 클릭 이벤트
-    const OnClickNicknameCheck = () => {
+    const OnClickNicknameCheck = async () => {
         if(inputNickname.length > 8){
             alert('닉네임을 8글자 이내로 써주세요');
             return
@@ -94,20 +138,35 @@ export default function Sign(){
         else if(inputNickname ===''){
             alert('닉네임을 입력해주세요');
             return
-        } else{isNickCheck = true; 
-            alert('사용 가능한 닉네임입니다.');}
+        } else{
+            const path = 'http://localhost:9090/user/signup/checknickname';
+            const body = { userNickname: inputNickname };
+            const data = await checkData(path, body, 'POST');
+            if(data){
+                alert('사용 가능한 닉네임입니다.');
+                setIsNickCheck(true);
+            }else{
+                alert('사용 불가능한 닉네임입니다.');
+                setInputNickname("");
+                setIsNickCheck(false);
+            }
+        }
     }
     //이메일 형식 확인
     const isEmail = (inputEmail) => {
-        return /^\w+@\w+.\w{2,3}$/.test(inputEmail);
-        };
+        return /^\w+@\w+.\w{2,3}(\.\w{2,3})?$/.test(inputEmail);
+    };
 
     // 이메일 인증 버튼 클릭 이벤트
-    const OnClickEmailSend = () => {
-        if(isEmail(inputEmail)=== true){
-        setInputEmailDisabled(true);
-        //이메일 인증 텍스트와 인증버튼 활성화
-        setshowEmailCheck(true);
+    const OnClickEmailSend = async () => {
+        // 이메일 형식을 만족할 경우
+        if(isEmail(inputEmail)){
+            const path = 'http://localhost:9090/user/signup/send-email-auth';
+            const body = { userEmail : inputEmail}
+            const data = await checkData(path,body,'POST');
+            setInputEmailDisabled(true);
+            //이메일 인증 텍스트와 인증버튼 활성화
+            setshowEmailCheck(true);
         }
         else{
             alert('이메일 형식이 올바르지 않습니다.');
@@ -115,30 +174,62 @@ export default function Sign(){
     }
 
     //인증번호 체크 버튼 클릭 이벤트
-    const OnClickEmailCheck = () => {
+    const OnClickEmailCheck = async () => {
         console.log(inputEmailCheck)
+        const path = 'http://localhost:9090/user/signup/check-email-auth';
+        const body = { key : inputEmailCheck}
+        const data = await checkData(path,body,'POST');
+        // 성공적으로 전달될 경우 값이 true로 반환되지만 checkData에서 boolean값을 부정하여 역으로 주었기에 여기서 한번더 수행
+        if(!data){
+            isCheckEmailAuth = true;
+            alert("인증이 완료되었습니다.");
+        }else{
+            alert("인증에 실패하였습니다.");
+        }
 
     }
 
     const OnClickAddress = () => {
         console.log(inputAddress)
+        // 임시 세팅
+        setInputAddress("Earth");
+        setInputAddressDetail("Korea");
+        setInputPostAddress("00000");
     }
 
     // signup 버튼 클릭 이벤트
-    const OnClickSignUp = () => {
+    const OnClickSignUp = async () => {
+
         console.log(inputName, inputBirth, inputId, inputPw, inputPwCheck, inputEmail, inputAddress, inputAddressDetail, inputRole)
-        if(inputName.length > 20){
-            alert('이름을 20글자 이내로 써주세요');
-            return
-        }
-        else if (inputPw !== inputPwCheck) {
+        console.log(isNickCheck , isIdCheck);
+        if (inputPw !== inputPwCheck) {
             alert('비밀번호가 일치하지 않습니다.')
             return
         }else if(inputPw.length < 8){
             alert('비밀번호를 8글자 이상으로 써주세요');
             return
         }else if(inputPw === inputPwCheck && inputName.length <= 20 && inputId.length <= 20 && inputPw.length >= 8 && isNickCheck === true && isIdCheck === true){
-            alert('회원가입이 완료되었습니다.')
+            const path = 'http://localhost:9090/user/signup';
+            const body = {
+                userID: inputId,
+                userPW : inputPw,
+                userNickname: inputNickname,
+                userName: inputName,
+                userBirth: inputBirth,
+                userEmail: inputEmail,
+                userAddress: inputAddress,
+                userAddressDetail : inputAddressDetail,
+                userPostal : inputPostAddress,
+                userRole: inputRole
+            };
+            const data = await checkData(path,body,'POST');
+            if(data !== null){
+                console.log(data);
+                alert('회원가입이 완료되었습니다.');
+                document.location.href='/login';
+            }else{
+                alert('회원가입에 실패하였습니다.');
+            }
             return
         }
         
@@ -285,10 +376,10 @@ export default function Sign(){
 
             <div class="sign-button mb-2 row">
                 <div class='col-6' style={{textAlign:'right'}} >
-                    <input type='radio' name='input_role' value='uesr' onChange={handleInputRole} checked/>사용자
+                    <input type='radio' name='input_role' value='user' onChange={handleInputRole} checked/>사용자
                 </div>
                 <div class='col-6' style={{textAlign:'left'}}>
-                    <input type='radio' name='input_role' value='depeloper' onChange={handleInputRole} />공급자
+                    <input type='radio' name='input_role' value='developer' onChange={handleInputRole} />공급자
                 </div>
             </div>
 
