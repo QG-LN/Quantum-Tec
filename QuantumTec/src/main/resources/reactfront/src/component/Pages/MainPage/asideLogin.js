@@ -1,38 +1,35 @@
 import Userimg from './asideImg.js';
 import '../../../App.css';
 import '../../../styles.css';
-import React, {useEffect , useState} from "react";
 import axios from 'axios';
 
-import Login from '../LoginPage/login.js';
-
 export default function AsideLogin(props) {
-    const [userData, setUserData] = useState('')
+
 
     /*로그인 확인 임시 false 비로그인/true 로그인*/
     let truelogin = false;
-
-
     truelogin=props.start;
+    
+    // 로그인 상태일때 유저 이름 받아오기
+    let username = 'test';
+    const getUsername = () => { axios.get('/user_inform/username')
+    .then(res => username = res.data.username)
+    .catch(username = '응없어')
+    };
 
-    if(userData !== null) truelogin = true;
+    // 로그인 상태일때 유저 캐시 받아오기
+    let usercash = '10000';
+    const getUsercash = () => { axios.get('/user_inform/usercash')
+    .then(res => usercash = res.data.usercash)
+    .catch(usercash = '0000')
+    };
 
-    useEffect(()=>{
-        const inputId = localStorage.getItem("inputId");
-        const inputPw = localStorage.getItem("inputPw");
-        axios.post('/login', {
-            userID: inputId,
-            userPW: inputPw,
-        })
-            .then(res=>{
-                setUserData(res.data);
-            })
-            .catch(err => console.log(err));
-    },[]);
+    // 마이페이지로 이동
+    const OnClickMyPage = () => {
+        document.location.href = "/mypage";
+    }
 
-    const username = userData.userNickname;
-    const usercash = userData.userPostal;
-
+    // 로그인 페이지로 이동
     const ClickLogin = () => {
         document.location.href = "/login";
       }
@@ -46,6 +43,9 @@ export default function AsideLogin(props) {
                 </div>}               
                 {/*로그인상태일때*/}               
                 {truelogin &&<div class="col-sm flex" >
+                    {getUsername()}
+                    {getUsercash()}
+                    <button button type="button" class="btn btn-primary" onClick={OnClickMyPage}>마이 페이지</button>
                     <span class='inline ml-4 pt-5 mt-5 loginstyle'><div>{username}</div>{usercash}</span>
                     <span class='inline'><Userimg /></span>
                 </div> }
