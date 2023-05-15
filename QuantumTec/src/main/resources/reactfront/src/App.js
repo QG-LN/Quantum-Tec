@@ -10,19 +10,18 @@ import Signpage from './component/Pages/LoginPage/sign.js';
 import MyMain from './component/Pages/MyPage/mymain';
 import PasswordChk from './component/Pages/MyPage/passwordChk';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import React from 'react';
-
-let truelogin=true;
+import React, { useState, useEffect } from 'react';
 
 function App() {
-  
+    // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
+    let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
   return (
    <Router>
       <div className="App" style={{overflow:'auto',marginTop:'4%'}}>
         <Navbar start={truelogin}/>
         <Routes>
-          <Route path="/" exact element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" exact element={<Home start={truelogin}/>} />
+          <Route path="/login" element={<Login start={truelogin} setTruelogin={setTruelogin} />} />
           <Route path="/signup" element={<SignUp />}/>
           <Route path="/mypage" element={<MyPage />}/>
         </Routes>
@@ -34,7 +33,7 @@ function App() {
 
 
 
-function Home() {
+function Home(props) {
   return (
     <div className="Home">
           {/*위에 광고 화면과 로그인 크기 맞추기위해 설정해놓음*/}
@@ -43,7 +42,7 @@ function Home() {
           <Header />
         </header>
         <aside style={{ flexBasis: '30%' }}>
-          <Aside start={truelogin}/>
+          <Aside start={props.start}/>
         </aside>
       </div>
       <Section />
@@ -51,10 +50,10 @@ function Home() {
   );
 }
 
-function Login(){
+function Login(props){
   return (
     <div className="Login" style={{ height: "62vh" }}>
-      <Loginpage />
+      <Loginpage start={props.start} setTruelogin={props.setTruelogin} />
     </div>
   );
 }
