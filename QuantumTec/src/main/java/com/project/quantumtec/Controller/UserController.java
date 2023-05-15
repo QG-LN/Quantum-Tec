@@ -17,7 +17,7 @@ public class UserController {
 
     // UserService 의 login 메소드를 호출하여 회원정보를 반환하는 메소드
     @PostMapping("/login")
-    public LoginResponseDTO login(LoginRequestDTO user) throws Exception {
+    public LoginResponseDTO login(@RequestBody LoginRequestDTO user) throws Exception {
         LoginResponseDTO loginResponseDTO = userService.login(user.getUserID(), user.getUserPW());
         return loginResponseDTO;
     }
