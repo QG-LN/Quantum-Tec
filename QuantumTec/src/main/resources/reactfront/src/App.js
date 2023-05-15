@@ -7,24 +7,27 @@ import Aside from './component/Pages/MainPage/asideLogin';
 import Footer from './component/footer.js';
 import Loginpage from './component/Pages/LoginPage/login.js';
 import Signpage from './component/Pages/LoginPage/sign.js';
+import MyMain from './component/Pages/MyPage/mymain';
+import PasswordChk from './component/Pages/MyPage/passwordChk';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from 'react';
 
-let truelogin=false;
+let truelogin=true;
 
 function App() {
   
   return (
    <Router>
-      <div className="App">
+      <div className="App" style={{overflow:'auto',marginTop:'4%'}}>
         <Navbar start={truelogin}/>
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />}/>
+          <Route path="/mypage" element={<MyPage />}/>
         </Routes>
       </div>
-      <Footer />
+      <Footer style={{height: "20vh"}} />
     </Router>
   );
 }
@@ -50,7 +53,7 @@ function Home() {
 
 function Login(){
   return (
-    <div className="Login" style={{ height: "61vh" }}>
+    <div className="Login" style={{ height: "62vh" }}>
       <Loginpage />
     </div>
   );
@@ -58,10 +61,21 @@ function Login(){
 
 function SignUp(){
   return (
-    <div className="SignUp" style={{ height: "80vh" }}>
+    <div className="SignUp" style={{ height: "81vh" }}>
       <Signpage/>
     </div>
   );
 }
+
+function MyPage(){
+  return (
+    <div className="MyPage" style={{ height: "82vh" }}>
+        <MyMain />
+    </div>
+  )
+}
+
+
+
 
 export default App;

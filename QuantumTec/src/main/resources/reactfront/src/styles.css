@@ -3748,8 +3748,11 @@ textarea.form-control-lg {
   --bs-navbar-toggler-border-radius: 0.375rem;
   --bs-navbar-toggler-focus-width: 0.25rem;
   --bs-navbar-toggler-transition: box-shadow 0.15s ease-in-out;
-  position: relative;
+  position: fixed;
+  width: 100%;
   display: flex;
+  top:0;
+  z-index:100;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
@@ -3766,6 +3769,7 @@ textarea.form-control-lg {
   flex-wrap: inherit;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 .navbar-brand {
   padding-top: var(--bs-navbar-brand-padding-y);
@@ -10939,6 +10943,7 @@ textarea.form-control-lg {
   padding: 20px;
   border: 1px solid #ccc;
   font-size: 15px;
+  overflow: auto;
 }
 
 .signup-form .form-group {
@@ -11008,4 +11013,66 @@ textarea.form-control-lg {
 
 .signup-form .form-group .col-9 {
   text-align: left;
+}
+
+ul > li > .astyle{
+  -ms-user-select: none; 
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  position: relative;
+  top: 25%;
+  transform: translate(-50%, -50%);
+
+}
+
+
+
+.mysection-form .passchk-form {
+  margin-top: 20%;
+}
+
+.mypagestyle {
+  margin-top:3%;
+  
+}
+
+.mypagestyle .recharts-wrapper .recharts-surface{
+  padding: 1%;
+  border: 1px solid #ccc;
+  
+}
+
+.mypagestyle .chartstyle {
+  margin : 3%;
+}
+
+.asideh2 {
+  padding-top: 15%;
+  padding-bottom: 15%;
+  background-color: #42b983;
+  color:#fff;
+}
+.asideul{
+  margin-top: 5%
+}
+.sublistyle{
+  list-style:none;
+  padding: 9%;
+}
+.footer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 230px;
+  padding-bottom: 15px;
+  border-top: 1px solid #f1f1f1;
+  box-sizing:border-box;
+}
+
+.account_main_page_title{
+  border-bottom: 2px solid #555;
+  padding : 65px 0 42px;
 }
