@@ -43,6 +43,7 @@ export default function Login(props){
                     if(data !== undefined && data !== null){
                         localStorage.setItem("userNickname", data.userNickname);
                         localStorage.setItem("userCash", data.userCash);
+                        localStorage.setItem("userID", inputId);                    // 마이페이지에서 사용하기 위해 세팅
                         props.setTruelogin(true);
                     }
                 })
