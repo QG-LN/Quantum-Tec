@@ -38,20 +38,36 @@ export default function Login(){
     // 페이지 호출 후 처음 한번만 호출될 수 있도록 [] 추가
     [])
     return (
-            <div class="login-form">
-            <h2 class='Logintitle'>로그인</h2>
-            <div class="form-group">
-                <label htmlFor="input_id" class='Logintxt'>아이디 : </label>
-                <input type="text" name="input_id" value={inputId} maxLength={20} onChange={handleInputId} />
+            <div class="login-form content">
+            <div class='title'>
+                <h2 class='Logintitle'>로그인</h2>
             </div>
-            <div class="form-group">
-                <label htmlFor="input_pw" class='Logintxt'>비밀번호 :</label>
-                <input type="password" name="input_pw" value={inputPw} minLength={8} onChange={handleInputPw}/>
-            </div>
-            <div class="form-group">
-                <button type="button" class="btn btn-primary" onClick={onClickLogin}>로그인</button>
-                <button type="button" class="btn btn-primary" onClick={OnClickSignUp}>회원가입</button>
-            </div>
+            <fieldset class="box_login">
+            <ul class="loginul">
+                <li>
+                    <div class="form-group">
+                        <div class="custom_input label">
+                            <input id="_id" placeholder="아이디" autocomplete="off" type="text" name="input_id" value={inputId} maxLength={20} onChange={handleInputId} />
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="form-group">
+                        <div class="custom_input label">
+                            <input id="_password" type="password" placeholder='비밀번호' name="input_pw" value={inputPw} minLength={8} onChange={handleInputPw}/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn_mid" onClick={onClickLogin}>로그인</button>
+                    </div>
+                    <div class="box_join">
+                        <a onClick={OnClickSignUp}>브링 업 ID 생성</a>
+                    </div>
+                </li>
+            </ul>
+            </fieldset>
             </div>
     );
 }

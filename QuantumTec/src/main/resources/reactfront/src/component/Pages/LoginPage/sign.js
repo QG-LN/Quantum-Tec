@@ -119,7 +119,7 @@ export default function Sign(){
         console.log(inputEmailCheck)
 
     }
-
+    // 주소 검색 버튼 클릭 이벤트
     const OnClickAddress = () => {
         console.log(inputAddress)
     }

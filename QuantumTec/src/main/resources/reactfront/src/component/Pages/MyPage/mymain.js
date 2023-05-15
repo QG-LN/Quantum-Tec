@@ -11,9 +11,6 @@ export default function Mypage(){
 
     //카테고리 선택에 따른 값 업데이트
     const [select, setSelect] = useState('');
-
-    //차트 데이터
-
       
 
     return(

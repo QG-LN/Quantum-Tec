@@ -1,4 +1,5 @@
 export default function Section() {
+    /* 나중에 옮겨야 할 css */
     const style ={
         top: '0.5rem',
         right: '0.5rem'

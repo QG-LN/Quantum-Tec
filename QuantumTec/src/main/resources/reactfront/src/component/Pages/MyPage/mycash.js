@@ -4,10 +4,9 @@ import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 
 export default function Mycash(){
     const [data, setData] = useState([]);
+    const [isState, setState] = useState('isMonthly');
     
-      const [isState, setState] = useState('isMonthly');
-    
-
+    //월일을 클릭 시
       useEffect(() => {
         if (isState === 'isMonthly') {
           setData([
@@ -18,6 +17,7 @@ export default function Mycash(){
             { year: 2023, month: 2, value: 500 },
             { year: 2023, month: 3, value: 600 },
           ]);
+          //년일을 클릭 시
         } else if (isState === 'isYearly') {
           setData([
             { year: 2022, value: 100 },

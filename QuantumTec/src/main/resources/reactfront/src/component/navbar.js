@@ -9,8 +9,8 @@ export default function Navbar(props) {
     truelogin=props.start;
     let username= 'test';
 
+    // 로그인 상태일때 유저 이름 받아오기
     const getUsername = () => { 
-
         const url = json;
         axios
         .get(url)
@@ -18,9 +18,10 @@ export default function Navbar(props) {
         .catch(username = 'error');
         
     };
+    // 로고 클릭시 맨 위로 이동
     const logoClick = () => {
         window.scrollTo(0, 0);
-    }
+    };
 //     const [username, setUsername] = useState("");
 
 //   useEffect(() => {

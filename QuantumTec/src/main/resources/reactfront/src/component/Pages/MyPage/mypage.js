@@ -1,6 +1,8 @@
 import { PureComponent } from 'react';
 import { BarChart, LineChart, Bar, XAxis, YAxis, Line } from "recharts";
 export default function MyMain(){
+
+  //차트 데이터 셋
     const data = [
         {name: "부서 1",
           num: 5},

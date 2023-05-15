@@ -75,14 +75,17 @@ export default function Mysection(){
 
     // 아이디 체크 버튼 클릭 이벤트
     const OnClickIdCheck = () => {
+        //아이디 글자수 확인
         if(inputId.length > 20){
             alert('아이디를 20글자 이내로 써주세요');
             console.log(inputId);
             return
         }
+        //아이디 빈공간 확인
         else if(inputId === ''){
             alert('아이디를 입력해주세요');
             return
+        //없을시 사용가능한 아이디 표시
         } else{isIdCheck = true;
             alert('사용 가능한 아이디입니다.');}
         // console.log(inputId)
@@ -91,13 +94,16 @@ export default function Mysection(){
 
     // 닉네임 체크 버튼 클릭 이벤트
     const OnClickNicknameCheck = () => {
+        //닉네임 글자수 확인
         if(inputNickname.length > 8){
             alert('닉네임을 8글자 이내로 써주세요');
             return
         }
+        //닉네임 빈공간 확인
         else if(inputNickname ===''){
             alert('닉네임을 입력해주세요');
             return
+        //없을시 사용가능한 닉네임 표시
         } else{isNickCheck = true; 
             alert('사용 가능한 닉네임입니다.');}
     }
@@ -148,6 +154,8 @@ export default function Mysection(){
         }
         
     }
+
+    //취소 버튼 누를시 마이페이지로 이동
     const OnClickCancel = () => {
         document.location.href = "/mypage";
     }
@@ -160,6 +168,8 @@ export default function Mysection(){
     },
     // 페이지 호출 후 처음 한번만 호출될 수 있도록 [] 추가
     [])
+
+    //css부분 옮길 예정
     const style_inputbox ={
         width: '55%',
     };

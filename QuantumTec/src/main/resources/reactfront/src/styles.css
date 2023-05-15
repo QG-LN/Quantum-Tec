@@ -10871,16 +10871,16 @@ textarea.form-control-lg {
 .Login {
   width: 100%;
   background-color: #fff;
+  padding: 250px 0 0;
+  overflow-x:hidden;
 }
 .login-form {
-  width: 30%;
-  margin: 10% 34% 16% 34%;
-  border: 1px solid #ccc
-  ;
 }
 
 .login-form .form-group {
-  margin-bottom: 2%;
+  position: relative;
+  display: inline-block;
+  width:100%;
 }
 
 .login-form .form-label {
@@ -10896,15 +10896,13 @@ textarea.form-control-lg {
 }
 
 .login-form .btn-primary {
-  margin-top: 5%;
+  margin-top: 10%;
   background-color: #42b983;
   color: #fff;
   font-size: 16px;
   font-weight: bold;
   border-radius: 4px;
   padding: 10px 20px;
-  margin-left: 4%;
-  margin-right: 4%;
 }
 
 .login-form h2 {
@@ -10933,6 +10931,60 @@ textarea.form-control-lg {
   background-color: #51585e;
   padding: 30px;
   color: #fff;
+  border-radius: 80px;
+}
+
+.box_login{
+  width:100%;
+  margin: 0 auto;
+}
+
+.box_login ul li+li{
+  margin-top:15px;
+}
+
+.loginul{
+  list-style:none;
+  display:block;
+  margin:0 auto;
+  width:100%;
+  max-width:393px;
+}
+
+.custom_input input[type='text'], input[type='password']{
+  width:100%;
+  height:46px;
+  max-height: 56px;
+  padding: 0 24px;
+  font-size: 14px;
+  color : #323232;
+  box-sizing: border-box;
+  border: 1px solid #b3b3b3;
+  border-radius:4px;
+}
+.box_login ul li .btn_mid{
+  width: 100%;
+  height: 56px;
+  line-height: 30px;
+  font-size: 16px;
+}
+
+.box_login .box_join {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin : 15px 0 35px;
+  padding-right : 0;
+}
+
+.box_login .box_join a {
+  display: block;
+  position: relative;
+  padding: 0 20px;
+  font-size: 14px;
+  color:#797979;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 /*회원가입 페이지*/
@@ -10941,7 +10993,6 @@ textarea.form-control-lg {
   height: 95%;
   margin: 10px auto;
   padding: 20px;
-  border: 1px solid #ccc;
   font-size: 15px;
   overflow: auto;
 }
@@ -11029,6 +11080,7 @@ ul > li > .astyle{
 
 
 
+
 .mysection-form .passchk-form {
   margin-top: 20%;
 }
@@ -11075,4 +11127,12 @@ ul > li > .astyle{
 .account_main_page_title{
   border-bottom: 2px solid #555;
   padding : 65px 0 42px;
+}
+
+.content{
+  position: relative;
+  width: 100%;
+  max-width:880px;
+  margin:0 auto;
+  box-sizing: border-box;
 }
