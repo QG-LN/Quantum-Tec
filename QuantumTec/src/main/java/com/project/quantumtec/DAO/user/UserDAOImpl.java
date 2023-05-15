@@ -7,6 +7,7 @@ import com.project.quantumtec.VO.user.UserVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.servlet.FlashMap;
 
 import java.util.List;
 
@@ -34,15 +35,22 @@ public class UserDAOImpl implements UserDAO{
         UserDTO userDTO = new UserDTO();
         userDTO.setUserID(userID);
         userDTO.setUserPW(userPW);
-
-        int userIdx = sqlSession.selectOne("UserService.getUserExist", userDTO);
-        return userIdx;
-//        if ( userIdx <=  0) {
-//            return 0;
-//        } else {
-//            return userIdx;
-//        }
+        Integer result = sqlSession.selectOne("UserService.getUserExist", userDTO);
+        return (result == null) ? 0 : result;
     }
+
+    // 사용자의 아이디를 입력받아 그 값이 존재하는지 확인하고 불린을 반환하는 메소드
+    @Override
+    public boolean isIdDuplicate(UserVO user) throws Exception {
+        return (((Integer) sqlSession.selectOne("UserService.selectCountById", user)) == null)? false : true;
+    }
+
+    // 사용자의 닉네임을 입력받아 그 값이 존재하는지 확인하고 불린을 반환하는 메소드
+    @Override
+    public boolean isNicknameDuplicate(UserVO user) throws Exception {
+        return (((Integer) sqlSession.selectOne("UserService.selectCountByNickname", user)) == null)? false : true;
+    }
+
     // 유저 인덱스를 입력받아 사용자 정보를 가져오는 함수
     @Override
     public UserVO getUserInfo(int userIdx) throws Exception {
@@ -52,5 +60,35 @@ public class UserDAOImpl implements UserDAO{
     @Override
     public LoginResponseDTO getLoginInfo(int userIdx) throws Exception {
         return sqlSession.selectOne("UserService.getLoginInfo", userIdx);
+    }
+    
+    // 사용자 정보를 입력받아 DB에 저장하는 함수
+    @Override
+    public int setUser(UserVO user) throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserID(user.getUserID());
+        userDTO.setUserPW(user.getUserPW());
+        userDTO.setUserNickname(user.getUserNickname());
+        userDTO.setUserName(user.getUserName());
+        userDTO.setUserBirth(user.getUserBirth());
+        userDTO.setUserAddress(user.getUserAddress());
+        userDTO.setUserAddressDetail(user.getUserAddressDetail());
+        userDTO.setUserPostal(user.getUserPostal());
+        userDTO.setUserEmail(user.getUserEmail());
+        userDTO.setUserRole(user.getUserRole());
+        Integer result = sqlSession.insert("UserService.setUser", userDTO);        
+        return (result == null) ? 0 : result;
+    }
+
+    @Override
+    public boolean deleteUser(int userIdx) throws Exception {
+        int deleteResult = sqlSession.delete("UserDAO.deleteUser", userIdx);
+        return deleteResult > 0;
+    }
+
+    @Override
+    public boolean updateUser(UserVO user) throws Exception {
+        int updateResult = sqlSession.update("UserDAO.updateUser", user);
+        return updateResult > 0;
     }
 }
