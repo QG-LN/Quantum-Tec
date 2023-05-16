@@ -38,4 +38,6 @@ public interface UserDAO {
 
     // 사용자 정보 수정
     public boolean updateUser(UserVO user) throws Exception;
+    // 이메일 중복 확인
+    public boolean isEmailDuplicate(UserVO user) throws Exception;
 }

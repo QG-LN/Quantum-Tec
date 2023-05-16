@@ -51,6 +51,11 @@ public class UserDAOImpl implements UserDAO{
         return (((Integer) sqlSession.selectOne("UserService.selectCountByNickname", user)) == null)? false : true;
     }
 
+    @Override
+    public boolean isEmailDuplicate(UserVO user) throws Exception {
+        return (((Integer) sqlSession.selectOne("UserService.selectCountByEmail", user)) == null)? false : true;
+    }
+
     // 유저 인덱스를 입력받아 사용자 정보를 가져오는 함수
     @Override
     public UserVO getUserInfo(int userIdx) throws Exception {
