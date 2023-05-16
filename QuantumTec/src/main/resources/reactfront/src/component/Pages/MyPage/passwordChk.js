@@ -20,10 +20,12 @@ export default function PasswordChk(){
     return(
          <div class='mysection-form'>
                 {!passwordchk ? (
-                    <div class='passchk-form'>
-                <h2>비밀번호확인</h2>
-                <input type="password" name="input_pw" value={inputPw} minLength={8} onChange={handleInputPw}/>
-                <button onClick={handleClick}>확인</button>
+                    <div class='passchk-form '>
+                        <div>
+                            <h2>비밀번호확인</h2>
+                            <input className='w-6/12' type="password" name="input_pw" value={inputPw} minLength={8} onChange={handleInputPw}/>
+                            <button onClick={handleClick}>확인</button>
+                        </div>
                 </div>
                 ):(<Mysection />)}
          </div>
