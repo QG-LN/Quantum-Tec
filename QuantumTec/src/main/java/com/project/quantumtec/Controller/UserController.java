@@ -17,7 +17,7 @@ public class UserController {
 
     // UserService 의 login 메소드를 호출하여 회원정보를 반환하는 메소드
     @PostMapping("/login")
-    public LoginResponseDTO login(LoginRequestDTO user) throws Exception {
+    public LoginResponseDTO login(@RequestBody LoginRequestDTO user) throws Exception {
         LoginResponseDTO loginResponseDTO = userService.login(user.getUserID(), user.getUserPW());
         return loginResponseDTO;
     }
@@ -59,6 +59,11 @@ public class UserController {
         return userService.checkEmailAuth(key);
     }
 
+    // 아이디, 비밀번호를 조회하여 그에 해당하는 회원정보 페이지에 출력할 회원정보를 반환하는 메소드
+    @PostMapping("/myinfo")
+    public UserVO getUserInfo(@RequestBody UserVO user) throws Exception {
+        return userService.getUserInfo(user.getUserID(), user.getUserPW());
+    }
     // UserService 의 입력받은 회원정보를 삭제하는 메소드
     @DeleteMapping("/delete")
     public boolean deleteUser(@RequestParam int userIdx) throws Exception {
