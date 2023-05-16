@@ -64,4 +64,15 @@ public class UserController {
     public UserVO getUserInfo(@RequestBody UserVO user) throws Exception {
         return userService.getUserInfo(user.getUserID(), user.getUserPW());
     }
+    // UserService 의 입력받은 회원정보를 삭제하는 메소드
+    @DeleteMapping("/delete")
+    public boolean deleteUser(@RequestParam int userIdx) throws Exception {
+        return userService.deleteUser(userIdx);
+    }
+
+    // UserService 의 입력받은 회원정보를 수정하는 메소드
+    @PutMapping("/update")
+    public boolean updateUser(@RequestBody UserVO user) throws Exception {
+        return userService.updateUser(user);
+    }   
 }

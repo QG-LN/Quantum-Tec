@@ -79,4 +79,16 @@ public class UserDAOImpl implements UserDAO{
         Integer result = sqlSession.insert("UserService.setUser", userDTO);        
         return (result == null) ? 0 : result;
     }
+
+    @Override
+    public boolean deleteUser(int userIdx) throws Exception {
+        int deleteResult = sqlSession.delete("UserDAO.deleteUser", userIdx);
+        return deleteResult > 0;
+    }
+
+    @Override
+    public boolean updateUser(UserVO user) throws Exception {
+        int updateResult = sqlSession.update("UserDAO.updateUser", user);
+        return updateResult > 0;
+    }
 }
