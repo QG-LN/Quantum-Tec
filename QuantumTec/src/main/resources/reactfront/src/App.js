@@ -15,6 +15,8 @@ import React, { useState, useEffect } from 'react';
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
+
+    truelogin = 'true';
   return (
    <Router>
       <div className="App" style={{overflow:'auto',marginTop:'4%'}}>
@@ -52,7 +54,7 @@ function Home(props) {
 
 function Login(props){
   return (
-    <div className="Login" style={{ height: "62vh" }}>
+    <div className="Login" style={{ height: "81vh" }}>
       <Loginpage start={props.start} setTruelogin={props.setTruelogin} />
     </div>
   );
