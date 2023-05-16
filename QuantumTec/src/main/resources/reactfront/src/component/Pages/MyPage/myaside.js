@@ -3,6 +3,7 @@ import '../../../styles.css';
 
 //my page에서 select값을 가져와 setSelect으로 값을 변경한다.
 export default function Myaside({select, setSelect}){
+  const [isOpen, setIsOpen] = useState(false);
     const astyle={
         textDecorationLine: 'none',
         color: 'black',
@@ -28,25 +29,20 @@ export default function Myaside({select, setSelect}){
    // 카테고리 클릭시 해당 값을 mypage에 전송
     const handleClick = (e) => {
         setSelect(e.target.text);
-        const sublist = e.target.closest('ul').querySelector('.sublist');
-        sublist.style.display = sublist.style.display === 'none' ? 'block' : 'none';
+      e.target.text === "사용자설정" ? setIsOpen(!isOpen) : setIsOpen(false);
     };
 
         return(
-            <div>
+            <div className='min-w-[200px]'>
                 <aside style={asideStyle}>
                 <div>
                     <h2 class='asideh2'>카테고리</h2>
                     <ul class='asideul' style={uiStyle}>
                                 {list.map((item, index) => (
                                 // <li class='listyle' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a></li>
-                                <li class='listyle' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a>{item === "사용자설정" && (
-                                    <ul
-                                      class='sublist'
-                                      style={{
-                                        display: "none",
-                                      }}
-                                    >
+                                <li class='listyle' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a>
+                                {isOpen && item === "사용자설정" && (
+                                    <ul class='sublist'>
                                       <li>사용자 설정 1</li>
                                       <li>사용자 설정 2</li>
                                     </ul>
