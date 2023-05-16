@@ -33,4 +33,6 @@ public interface UserDAO {
     // 닉네임 중복 확인
     public boolean isNicknameDuplicate(UserVO user) throws Exception;
 
+    // 이메일 중복 확인
+    public boolean isEmailDuplicate(UserVO user) throws Exception;
 }
