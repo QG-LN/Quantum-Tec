@@ -14,19 +14,22 @@ export default function Mypage(){
       
 
     return(
-
-         <div style={{ display: 'flex' }}> 
-            <aside style={{ flexBasis: '15%' }}>
-                <Myaside select={select} setSelect={setSelect}/>
-            </aside>
-            <section style={{ flexBasis: '85%' }}>
-                <div>
-                    {select ==='마이페이지' || select === '' ? (<MyMain />):(<div/>)}
-                    {select ==='사용자설정' ? (<PasswordChk />):(<div/>)}
-                    {select ==='결제방식' ? (<MyCash />):(<div/>)}
-                    {select ==='회원탈퇴' ? (<Dismember />):(<div/>)}
-                </div>
-            </section>
+        <div className='max-w-[1230px] m-auto pb-20 box-border'>
+            <div> 
+                <aside style={{ flexBasis: '15%' }}>
+                    <Myaside select={select} setSelect={setSelect}/>
+                </aside>
+                <section style={{ flexBasis: '85%' }}>
+                    <div>
+                        {select ==='마이페이지' || select === '' ? (<MyMain select={select} setSelect={setSelect} />):(<div/>)}
+                        {select ==='사용자설정' ? (<PasswordChk />):(<div/>)}
+                        {select ==='개인정보변경' ? (<PasswordChk />):(<div/>)}
+                        {select ==='아바타설정' ? (<PasswordChk />):(<div/>)}
+                        {select ==='결제방식' ? (<MyCash />):(<div/>)}
+                        {select ==='회원탈퇴' ? (<Dismember />):(<div/>)}
+                    </div>
+                </section>
+            </div>
          </div>
 
  )
