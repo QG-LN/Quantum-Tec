@@ -10994,7 +10994,6 @@ textarea.form-control-lg {
 
 /*회원가입 페이지*/
 .signup-form {
-  width: 35%;
   height: 95%;
   margin: 10px auto;
   padding: 12px;
@@ -11172,3 +11171,4 @@ ul > li > .astyle{
   margin:0 auto;
   box-sizing: border-box;
 }
+
