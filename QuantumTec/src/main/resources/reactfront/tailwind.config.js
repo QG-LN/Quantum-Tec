@@ -5,6 +5,9 @@ module.exports = {
     extend: {},
     minWidth:{
       '1/3': '33%',
+    },
+    width:{
+      'mypagesection': 'calc(100% - 280px)',
     }
   },
   plugins: [],
