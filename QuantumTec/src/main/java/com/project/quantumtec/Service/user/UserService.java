@@ -1,6 +1,7 @@
 package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.UserInfoDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.VO.user.UserVO;
 
@@ -21,12 +22,12 @@ public interface UserService {
     // 로그인
 //    public UserVO login(String userID, String userPW) throws Exception;
 
-    public UserVO getUserInfo(String userID, String userPW) throws Exception;
+    public UserInfoDTO getUserInfo(String userID, String userPW) throws Exception;
     // 새로운 로그인 친구
     public LoginResponseDTO login(String userID, String userPW)  throws Exception;
 
     // 회원가입
-    public UserVO signup(UserVO user) throws Exception;
+    public UserInfoDTO signup(UserVO user) throws Exception;
 
     // 아이디 중복 확인
     public boolean checkDuplicateId(UserVO user) throws Exception;
@@ -34,8 +35,11 @@ public interface UserService {
     // 닉네임 중복 확인
     public boolean checkDuplicateNickname(UserVO user) throws Exception;
 
+    // 이메일 중복 확인
+    public boolean checkDuplicateEmail(UserVO user) throws Exception;
+
     // 이메일 인증키 보내기
-    public void sendEmailAuth(UserVO user) throws Exception;
+    public boolean sendEmailAuth(UserVO user) throws Exception;
 
     // 이메일 인증키 확인
     public boolean checkEmailAuth(singupEmailCodeDTO key) throws Exception;
