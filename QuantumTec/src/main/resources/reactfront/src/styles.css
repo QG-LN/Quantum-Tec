@@ -639,7 +639,7 @@ progress {
   padding-left: calc(var(--bs-gutter-x) * 0.5);
   margin-right: auto;
   margin-left: auto;
-
+  
 }
 
 
@@ -3495,7 +3495,7 @@ textarea.form-control-lg {
   --bs-dropdown-color: #dee2e6;
   --bs-dropdown-bg: #343a40;
   --bs-dropdown-border-color: var(--bs-border-color-translucent);
-  --bs-dropdown-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --bs-dropdown-box-shadow: ;
   --bs-dropdown-link-color: #dee2e6;
   --bs-dropdown-link-hover-color: #fff;
   --bs-dropdown-divider-bg: var(--bs-border-color-translucent);
@@ -10871,16 +10871,16 @@ textarea.form-control-lg {
 .Login {
   width: 100%;
   background-color: #fff;
+  padding: 250px 0 0;
+  overflow-x:hidden;
 }
 .login-form {
-  width: 30%;
-  margin: 10% 34% 16% 34%;
-  border: 1px solid #ccc
-  ;
 }
 
 .login-form .form-group {
-  margin-bottom: 2%;
+  position: relative;
+  display: inline-block;
+  width:100%;
 }
 
 .login-form .form-label {
@@ -10896,15 +10896,13 @@ textarea.form-control-lg {
 }
 
 .login-form .btn-primary {
-  margin-top: 5%;
+  margin-top: 10%;
   background-color: #42b983;
   color: #fff;
   font-size: 16px;
   font-weight: bold;
   border-radius: 4px;
   padding: 10px 20px;
-  margin-left: 4%;
-  margin-right: 4%;
 }
 
 .login-form h2 {
@@ -10931,29 +10929,94 @@ textarea.form-control-lg {
 .Logintitle{
   margin-bottom: 5%;
   background-color: #51585e;
-  padding: 30px;
+  padding: 18px;
   color: #fff;
+  border-radius: 80px;
+}
+
+.box_login{
+  width:100%;
+  margin: 0 auto;
+}
+
+.box_login ul li+li{
+  margin-top:15px;
+}
+
+.loginul{
+  list-style:none;
+  display:block;
+  margin:0 auto;
+  width:100%;
+  max-width:393px;
+}
+
+.custom_input > input[type='text'], .custom_input > input[type='password']{
+  width:100%;
+  height:46px;
+  max-height: 56px;
+  padding: 0 24px;
+  font-size: 14px;
+  color : #323232;
+  box-sizing: border-box;
+  border: 1px solid #b3b3b3;
+  border-radius:4px;
+}
+.box_login ul li .btn_mid{
+  width: 100%;
+  height: 56px;
+  line-height: 30px;
+  font-size: 16px;
+}
+
+.box_login .box_join {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin : 15px 0 35px;
+  padding-right : 0;
+}
+
+.box_login .box_join a {
+  display: block;
+  position: relative;
+  padding: 0 20px;
+  font-size: 14px;
+  color:#797979;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.login-form .title {
+  width:60%;
+  margin: 0 auto;
 }
 
 /*회원가입 페이지*/
 .signup-form {
-  width: 35%;
   height: 95%;
   margin: 10px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
+  padding: 12px;
   font-size: 15px;
   overflow: auto;
+  min-width: 500px;
 }
 
 .signup-form .form-group {
-  margin-bottom: 1.2%;
+  margin-bottom: 1.4%;
 }
 
 .signup-form .form-label {
   font-size: 16px;
   font-weight: bold;
 
+}
+.signup-form > input[type='text']{
+  font-size:16px;
+}
+
+.sighn-form > input[type='password']{
+  font-size:16px;
 }
 
 .signup-form .form-control {
@@ -10975,13 +11038,32 @@ textarea.form-control-lg {
 .signup-form .form-group label {
   /* width: 30%; */
   margin-right: 0.5%; 
-  
+  font-size: 1.1rem;
 }
 
-.signup-form .form-group input {
+.signup-form .form-group input[type='text'] {
   width: 30%;
   text-indent: 2%;
+  height: 28px;
+  font-size: 0.8rem;
 }
+
+.signup-form .form-group input[type='password']{
+  text-indent:2%;
+  height: 28px;
+  font-size:0.8rem;
+}
+.signup-form .form-group input[type='date']{
+  text-indent:2%;
+  height: 28px;
+  font-size:1.0rem;
+}
+.signup-form .form-group input[type='email']{
+  text-indent:2%;
+  height: 28px;
+  font-size:1.0rem;
+}
+
 
 .signup-form .form-group .invalid-feedback {
   color: red;
@@ -10996,7 +11078,11 @@ textarea.form-control-lg {
   margin-left: 1%;
   margin-right: 1%;
   width:30%;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  height: 28px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+
 }
 .signup-form .input_email {
   margin-bottom : 5%;
@@ -11015,6 +11101,14 @@ textarea.form-control-lg {
   text-align: left;
 }
 
+.signup-form > .form-group > .col-9-button {
+  text-align: left;
+  display:flex;
+  flex: 0 0 auto;
+  width: 75%;
+}
+
+
 ul > li > .astyle{
   -ms-user-select: none; 
   -moz-user-select: -moz-none;
@@ -11029,9 +11123,6 @@ ul > li > .astyle{
 
 
 
-.mysection-form .passchk-form {
-  margin-top: 20%;
-}
 
 .mypagestyle {
   margin-top:3%;
@@ -11057,10 +11148,6 @@ ul > li > .astyle{
 .asideul{
   margin-top: 5%
 }
-.sublistyle{
-  list-style:none;
-  padding: 9%;
-}
 .footer {
   position: relative;
   display: flex;
@@ -11076,3 +11163,12 @@ ul > li > .astyle{
   border-bottom: 2px solid #555;
   padding : 65px 0 42px;
 }
+
+.content{
+  position: relative;
+  width: 100%;
+  max-width:880px;
+  margin:0 auto;
+  box-sizing: border-box;
+}
+
