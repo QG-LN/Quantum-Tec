@@ -170,11 +170,34 @@ export default function Sign(){
         // 이메일 형식을 만족할 경우
         if(isEmail(inputEmail)){
             const path = 'http://localhost:9090/user/signup/send-email-auth';
-            const body = { userEmail : inputEmail}
-            const data = await checkData(path,body,'POST');
-            setInputEmailDisabled(true);
-            //이메일 인증 텍스트와 인증버튼 활성화
-            setshowEmailCheck(true);
+
+            // 이메일 인증번호 전송버튼 클릭 시 이메일 중복여부도 체크
+            await fetch(path,{
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({
+                    userEmail: inputEmail,
+                })
+            })
+                .then(response => response.json())
+                .then(data =>{
+                    console.log(data);
+                    if(data === 1){
+                        alert('이메일 중복되어 있습니다.');          // 이메일 중복 알림 표시
+                        setInputEmail("");                  // 이메일 입력부분을 초기화
+                    }else{
+                        alert('인증번호가 전송되어 있습니다.');      // 인증번호 전송 여부 알림
+
+                        setInputEmailDisabled(true);
+                        //이메일 인증 텍스트와 인증버튼 활성화
+                        setshowEmailCheck(true);
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                })
         }
         else{
             alert('이메일 형식이 올바르지 않습니다.');
