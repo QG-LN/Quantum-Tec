@@ -1,5 +1,5 @@
 {
-  "name": "reactfront",
+  "name": "gamepage",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -24,7 +24,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:9090",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -42,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.2"
   }
 }

@@ -4,10 +4,9 @@ import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 
 export default function Mycash(){
     const [data, setData] = useState([]);
+    const [isState, setState] = useState('isMonthly');
     
-      const [isState, setState] = useState('isMonthly');
-    
-
+    //월일을 클릭 시
       useEffect(() => {
         if (isState === 'isMonthly') {
           setData([
@@ -18,6 +17,7 @@ export default function Mycash(){
             { year: 2023, month: 2, value: 500 },
             { year: 2023, month: 3, value: 600 },
           ]);
+          //년일을 클릭 시
         } else if (isState === 'isYearly') {
           setData([
             { year: 2022, value: 100 },
@@ -26,19 +26,22 @@ export default function Mycash(){
         }
       }, [isState]);
     return (
-        <div>
-        <LineChart
-          data={data}
-          width={500}
-          height={400}
-          margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-        >
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Line dataKey="value" />
-        </LineChart>
-        <button onClick={() => setState('isYearly')}>연도별로 보기</button>
+        <div class="mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]">
+          <h2 class='account_main_page_title '>나의 캐시</h2>
+          <div class='mt-[20px]'>
+          <LineChart
+            data={data}
+            width={500}
+            height={400}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+          >
+            <XAxis dataKey="month" />
+            <YAxis />
+            <Tooltip />
+            <Line dataKey="value" />
+          </LineChart>
+          <button onClick={() => setState('isYearly')}>연도별로 보기</button>
+          </div>
       </div>
     );
 };
