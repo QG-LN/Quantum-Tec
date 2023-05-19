@@ -104,4 +104,23 @@ public class UserDAOImpl implements UserDAO{
         userDTO.setUserEmail(userEmail);
         return sqlSession.selectOne("UserService.findId", userDTO);
     }
+
+    @Override
+    public boolean findPw(String userName, String userEmail, String userID) throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(userName);
+        userDTO.setUserEmail(userEmail);
+        userDTO.setUserID(userID);
+        return sqlSession.selectOne("UserService.findPw", userDTO) != null;
+    }
+
+    @Override
+    public boolean changePw(String userName, String userEmail, String userID, String userPW) throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(userName);
+        userDTO.setUserEmail(userEmail);
+        userDTO.setUserID(userID);
+        userDTO.setUserPW(userPW);
+        return sqlSession.update("UserService.changePw", userDTO) > 0;
+    }
 }

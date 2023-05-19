@@ -60,4 +60,14 @@
         from userInfo
         where user_name = #{userName} and user_email = #{userEmail}
     </select>
+    <select id="findPw" parameterType="UserDTO" resultType="int">
+        select user_idx
+        from userInfo
+        where user_id = #{userID} and user_name = #{userName} and user_email = #{userEmail}
+    </select>
+    <update id="changePw" parameterType="UserDTO">
+        update userInfo
+        set user_pw = #{userPW}
+        where user_id = #{userID} and user_name = #{userName} and user_email = #{userEmail}
+    </update>
 </mapper>
