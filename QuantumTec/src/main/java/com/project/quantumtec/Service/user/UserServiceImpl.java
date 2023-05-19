@@ -35,7 +35,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public LoginResponseDTO login(String userID, String userPW) throws Exception {
         int userIdx = userDAO.getUserExist(userID, userPW);
-        System.out.println("userIdx: " + userIdx);
         if (userIdx <= 0){
             return null;
         }
@@ -109,5 +108,10 @@ public class UserServiceImpl implements UserService{
     public boolean updateUser(UserVO user) throws Exception {
         // 사용자 정보를 수정함
         return userDAO.updateUser(user);
+    }
+
+    @Override
+    public String findId(String userName, String userEmail) throws Exception {
+        return userDAO.findId(userName, userEmail);
     }
 }

@@ -4,6 +4,7 @@ import com.project.quantumtec.DTO.user.LoginRequestDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.UserDTO;
 import com.project.quantumtec.VO.user.UserVO;
+import org.apache.catalina.User;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -90,5 +91,13 @@ public class UserDAOImpl implements UserDAO{
     public boolean updateUser(UserVO user) throws Exception {
         int updateResult = sqlSession.update("UserDAO.updateUser", user);
         return updateResult > 0;
+    }
+
+    @Override
+    public String findId(String userName, String userEmail) throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(userName);
+        userDTO.setUserEmail(userEmail);
+        return sqlSession.selectOne("UserService.findId", userDTO);
     }
 }
