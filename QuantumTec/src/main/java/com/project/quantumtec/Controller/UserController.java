@@ -17,7 +17,7 @@ public class UserController {
 
     // UserService 의 login 메소드를 호출하여 회원정보를 반환하는 메소드
     @PostMapping("/login")
-    public LoginResponseDTO login(LoginRequestDTO user) throws Exception {
+    public LoginResponseDTO login(@RequestBody LoginRequestDTO user) throws Exception {
         LoginResponseDTO loginResponseDTO = userService.login(user.getUserID(), user.getUserPW());
         return loginResponseDTO;
     }
@@ -45,6 +45,13 @@ public class UserController {
     public boolean checkDuplicateNickname(@RequestBody UserVO user) throws Exception {
         // true: 중복, false: 중복아님
         return userService.checkDuplicateNickname(user);
+    }
+
+    // UserService 의 입력받은 회원정보(이메일)가 중복되는지 확인하고 불린을 반환하는 메소드 (중복 true, 중복아님 false)
+    @PostMapping("/signup/checkemail")
+    //
+    public boolean checkDuplicateEmail(@RequestBody UserVO user) throws Exception {
+        return userService.checkDuplicateEmail(user);
     }
 
     // UserService 의 입력받은 회원정보(이메일)에 인증코드를 전송하는 메소드

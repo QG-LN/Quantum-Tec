@@ -4,6 +4,7 @@ import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.Utils.user.emailApi.EmailApi;
+import com.project.quantumtec.Utils.user.emailApi.EmailApiImpl;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,18 +84,17 @@ public class UserServiceImpl implements UserService{
         return userDAO.isNicknameDuplicate(user);
     }
 
-    @Override
-    public int sendEmailAuth(UserVO user) throws Exception {
-        if (!userDAO.isEmailDuplicate(user)){
-            // 이메일 인증키 생성
-            emailApi.createKey();
-            // 이메일 인증키 전송
-            emailApi.sendEmail(user.getUserEmail(),"TestTitle" , emailApi.getKey());
-            return 1;
-        }
-        else return 0;
+
+
+    public boolean checkDuplicateEmail(UserVO user) throws Exception {
+        return userDAO.isEmailDuplicate(user);
     }
 
+    @Override
+    public boolean sendEmailAuth(UserVO user) throws Exception {
+        emailApi.createKey();
+        return emailApi.sendEmail(user.getUserEmail(), "TestTitle", emailApi.getKey());
+    }
     @Override
     public boolean checkEmailAuth(singupEmailCodeDTO key) throws Exception {
         // 이메일 인증키 확인
