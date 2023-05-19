@@ -84,8 +84,8 @@ public class UserServiceImpl implements UserService{
         return userDAO.isNicknameDuplicate(user);
     }
 
-
-
+    
+    // UserVO타입으로 user.email 의 값을 수신받아 이메일 중복체크
     public boolean checkDuplicateEmail(UserVO user) throws Exception {
         return userDAO.isEmailDuplicate(user);
     }
