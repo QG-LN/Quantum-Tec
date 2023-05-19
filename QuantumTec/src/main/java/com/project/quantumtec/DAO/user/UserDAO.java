@@ -38,4 +38,7 @@ public interface UserDAO {
 
     // 사용자 정보 수정
     public boolean updateUser(UserVO user) throws Exception;
+
+    // 사용자 아이디 조회
+    public String findId(String userName, String userEmail) throws Exception;
 }

@@ -74,5 +74,12 @@ public class UserController {
     @PutMapping("/update")
     public boolean updateUser(@RequestBody UserVO user) throws Exception {
         return userService.updateUser(user);
-    }   
+    }
+
+    // 이름과 이메일을 입력받아 회원 아이디를 문자열로 반환하는 메소드
+    @PostMapping("/findid")
+    @ResponseBody
+    public String findId(@RequestBody UserVO user) throws Exception {
+        return userService.findId(user.getUserName(), user.getUserEmail());
+    }
 }
