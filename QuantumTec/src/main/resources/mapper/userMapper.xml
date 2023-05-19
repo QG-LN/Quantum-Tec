@@ -11,7 +11,7 @@
         where user_id = #{userID} and user_pw = #{userPW}
     </select>
     <select id="getUserInfo" resultType="UserInfoDTO" parameterType="int">
-        select user_id,user_pw,user_nickname,user_name,user_birth,user_address,user_address_detail,user_postal,user_email,user_role,user_cash,user_status
+        select user_id,user_nickname,user_name,user_birth,user_address,user_address_detail,user_postal,user_email,user_role,user_cash,user_status
         from userInfo, userStatus
         where userInfo.user_idx = #{userIdx} and userStatus.user_idx = #{userIdx}
     </select>
