@@ -2,6 +2,7 @@ package com.project.quantumtec.Controller;
 
 import com.project.quantumtec.DTO.user.LoginRequestDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.UserInfoDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.Service.user.UserService;
 import com.project.quantumtec.VO.user.UserVO;
@@ -24,8 +25,8 @@ public class UserController {
 
     // UserService 의 입력받은 회원정보를 DB에 저장하는 메소드
     @PostMapping("/signup")
-    public UserVO signupAdd(@RequestBody UserVO user) throws Exception {
-        UserVO checkUser = userService.signup(user);
+    public UserInfoDTO signupAdd(@RequestBody UserVO user) throws Exception {
+        UserInfoDTO checkUser = userService.signup(user);
         if(checkUser != null) {
             return checkUser;
         }else {
@@ -61,7 +62,7 @@ public class UserController {
 
     // 아이디, 비밀번호를 조회하여 그에 해당하는 회원정보 페이지에 출력할 회원정보를 반환하는 메소드
     @PostMapping("/myinfo")
-    public UserVO getUserInfo(@RequestBody UserVO user) throws Exception {
+    public UserInfoDTO getUserInfo(@RequestBody UserVO user) throws Exception {
         return userService.getUserInfo(user.getUserID(), user.getUserPW());
     }
     // UserService 의 입력받은 회원정보를 삭제하는 메소드
