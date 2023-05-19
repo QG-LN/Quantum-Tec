@@ -4,7 +4,6 @@ import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.Utils.user.emailApi.EmailApi;
-import com.project.quantumtec.Utils.user.emailApi.EmailApiImpl;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,7 +92,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public int sendEmailAuth(UserVO user) throws Exception {
-        if (userDAO.isEmailDuplicate(user)){
+        if (checkDuplicateEmail(user)){
             emailApi.createKey();
             emailApi.sendEmail(user.getUserEmail(),"TestTitle" , emailApi.getKey());
             return 1;

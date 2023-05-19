@@ -54,9 +54,10 @@ public class UserController {
     }
 
     // UserService 의 입력받은 회원정보(이메일)에 인증코드를 전송하는 메소드
+    // 중복이메일인 경우 0을 중복이메일이 아닌 경우 1
     @PostMapping("/signup/send-email-auth")
-    public void sendEmailAuth(@RequestBody UserVO user) throws Exception {
-        userService.sendEmailAuth(user);
+    public int sendEmailAuth(@RequestBody UserVO user) throws Exception {
+        return userService.sendEmailAuth(user);
     }
 
     // UserService 의 입력받은 회원정보(이메일)에 인증코드가 맞는지 확인하는 메소드
