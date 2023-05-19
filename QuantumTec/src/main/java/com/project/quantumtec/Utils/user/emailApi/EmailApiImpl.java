@@ -3,6 +3,7 @@ package com.project.quantumtec.Utils.user.emailApi;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -16,16 +17,23 @@ public class EmailApiImpl implements EmailApi{
     private JavaMailSender mailSender;
     
     private @Getter String key = null;
+   @Value("${spring.mail.username}")
+    private  String email;
     
     // 이메일 전송
-    public void sendEmail(String to, String subject, String text) throws Exception {
-        System.out.println(text);
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("mayone6063@kyungmin.ac.kr");
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
-        mailSender.send(message);
+    public boolean sendEmail(String to, String subject, String text) throws Exception {
+        if (text.equals("") || text == null) {
+            return false;
+        }
+        else{
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(email);
+            message.setTo(to);
+            message.setSubject(subject);
+            message.setText(text);
+            mailSender.send(message);
+            return true;
+        }
     }
 
     // 인증번호 생성
