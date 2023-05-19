@@ -5,7 +5,6 @@ import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.UserInfoDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.Utils.user.emailApi.EmailApi;
-import com.project.quantumtec.Utils.user.emailApi.EmailApiImpl;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,5 +116,15 @@ public class UserServiceImpl implements UserService{
     @Override
     public String findId(String userName, String userEmail) throws Exception {
         return userDAO.findId(userName, userEmail);
+    }
+
+    @Override
+    public boolean findPw(String userName, String userEmail, String userID) throws Exception {
+        return userDAO.findPw(userName, userEmail, userID);
+    }
+
+    @Override
+    public boolean changePw(String userName, String userEmail, String userID, String userPW) throws Exception {
+        return userDAO.changePw(userName, userEmail, userID, userPW);
     }
 }
