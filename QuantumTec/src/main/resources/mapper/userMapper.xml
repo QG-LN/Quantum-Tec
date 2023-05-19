@@ -10,10 +10,10 @@
         from userInfo
         where user_id = #{userID} and user_pw = #{userPW}
     </select>
-    <select id="getUserInfo" resultType="UserVO" parameterType="int">
-        select *
-        from userInfo
-        where user_idx = #{userIdx}
+    <select id="getUserInfo" resultType="UserInfoDTO" parameterType="int">
+        select user_id,user_nickname,user_name,user_birth,user_address,user_address_detail,user_postal,user_email,user_role,user_cash,user_status
+        from userInfo, userStatus
+        where userInfo.user_idx = #{userIdx} and userStatus.user_idx = #{userIdx}
     </select>
     <select id="getLoginInfo" resultType="LoginResponseDTO" parameterType="int">
         select user_nickname, user_cash
@@ -29,6 +29,11 @@
         SELECT user_idx 
         FROM userInfo 
         WHERE user_nickname = #{userNickname}
+    </select>
+    <select id="selectCountByEmail" resultType="int">
+        SELECT user_idx
+        FROM userInfo
+        WHERE user_email = #{userEmail}
     </select>
     <insert id="setUser" parameterType="UserVO">
         insert into userInfo(user_id,user_pw,user_nickname,user_name,user_birth,user_address,user_address_detail,user_postal,user_email,user_role) values(#{userID},#{userPW},#{userNickname},#{userName},#{userBirth},#{userAddress},#{userAddressDetail},#{userPostal},#{userEmail},#{userRole})
