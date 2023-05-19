@@ -83,13 +83,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public int sendEmailAuth(UserVO user) throws Exception {
-        if (userDAO.isEmailDuplicate(user)){
-            emailApi.createKey();
-            emailApi.sendEmail(user.getUserEmail(),"TestTitle" , emailApi.getKey());
-            return 1;
-        }
-        else return 0;
+    public boolean checkDuplicateEmail(UserVO user) throws Exception {
+        return userDAO.isEmailDuplicate(user);
+    }
+
+    @Override
+    public boolean sendEmailAuth(UserVO user) throws Exception {
+        emailApi.createKey();
+        return emailApi.sendEmail(user.getUserEmail(),"TestTitle" , emailApi.getKey());
     }
 
     @Override

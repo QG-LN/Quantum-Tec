@@ -8,8 +8,8 @@ package com.project.quantumtec.Utils.user.emailApi;
  * Description :
  */
 public interface EmailApi {
-    // 이메일 전송
-    public void sendEmail(String to, String subject, String text) throws Exception;
+    // 키 생성 여부를 확인하고, 이메일 전송
+    public boolean sendEmail(String to, String subject, String text) throws Exception;
 
     // 인증번호 생성
     public String createKey() throws Exception;
