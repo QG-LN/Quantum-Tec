@@ -49,7 +49,6 @@ public class UserController {
 
     // UserService 의 입력받은 회원정보(이메일)가 중복되는지 확인하고 불린을 반환하는 메소드 (중복 true, 중복아님 false)
     @PostMapping("/signup/checkemail")
-    //
     public boolean checkDuplicateEmail(@RequestBody UserVO user) throws Exception {
         return userService.checkDuplicateEmail(user);
     }
