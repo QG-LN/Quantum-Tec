@@ -84,14 +84,17 @@ public class UserServiceImpl implements UserService{
         return userDAO.isNicknameDuplicate(user);
     }
 
-    @Override
-    public void sendEmailAuth(UserVO user) throws Exception {
-        // 이메일 인증키 생성
-        emailApi.createKey();
-        // 이메일 인증키 전송
-        emailApi.sendEmail(user.getUserEmail(),"TestTitle" , emailApi.getKey());
+    
+    // UserVO타입으로 user.email 의 값을 수신받아 이메일 중복체크
+    public boolean checkDuplicateEmail(UserVO user) throws Exception {
+        return userDAO.isEmailDuplicate(user);
     }
 
+    @Override
+    public boolean sendEmailAuth(UserVO user) throws Exception {
+        emailApi.createKey();
+        return emailApi.sendEmail(user.getUserEmail(), "TestTitle", emailApi.getKey());
+    }
     @Override
     public boolean checkEmailAuth(singupEmailCodeDTO key) throws Exception {
         // 이메일 인증키 확인
