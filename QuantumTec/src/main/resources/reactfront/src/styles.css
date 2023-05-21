@@ -11188,3 +11188,34 @@ ul > ul > li > a {
   box-sizing: border-box;
 }
 
+.radioButtonStyle {
+  display:flex;
+  flex-direction: row;
+}
+
+.radioStyle {
+  font-size: 20px;
+  margin: 0px 6px 0px 6px;
+}
+
+.radioStyle [type="radio"]{
+  display: none;
+}
+
+.radioStyle span{
+ text-align: center;
+ height: 40px;
+ width: 100px;
+ display: flex;
+ align-items: center;
+  justify-content: center;
+  border:1px solid #dcdcdc;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.radioStyle [type='radio']:checked + span{
+  border: 3px solid #20c997;
+  color : #20c997;
+  font-weight: 700;
+}
