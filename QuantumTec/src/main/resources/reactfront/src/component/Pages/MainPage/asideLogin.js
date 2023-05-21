@@ -35,7 +35,7 @@ export default function AsideLogin(props) {
                 {/*로그인상태가 아닐때*/}
                 {console.log(truelogin)}
                 {!truelogin && <div class="col-sm">
-                    <div class='left pt-[70px] pl-[56px] h-[297px] mt-[14px] ml-[10px] bg-white'>
+                    <div class='left pt-[70px] pl-[56px] h-[297px]  ml-[10px] bg-white'>
                         <button type="button" class="btn btn-primary btn-lg btn-block w-[353px] inline-block h-[60px] pt-[22px] text-center bg-black rounded-none" onClick={ClickLogin} >로그인 페이지로 이동</button>
                         <div class='flex justify-center'>
                             <div class='p-1 m-1 text-gray-500 hover:text-blue-800 hover:font-bold' onClick={ClickSign}>아이디/비밀번호 찾기</div>

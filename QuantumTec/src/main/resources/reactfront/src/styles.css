@@ -11191,11 +11191,12 @@ ul > ul > li > a {
 .radioButtonStyle {
   display:flex;
   flex-direction: row;
+  
 }
 
 .radioStyle {
-  font-size: 20px;
-  margin: 0px 6px 0px 6px;
+  font-size: 16px;
+  margin: 0px 5px 0px 5px;
 }
 
 .radioStyle [type="radio"]{
@@ -11209,7 +11210,7 @@ ul > ul > li > a {
  display: flex;
  align-items: center;
   justify-content: center;
-  border:1px solid #dcdcdc;
+
   border-radius: 50%;
   box-sizing: border-box;
 }
@@ -11218,4 +11219,8 @@ ul > ul > li > a {
   border: 3px solid #20c997;
   color : #20c997;
   font-weight: 700;
+}
+
+.Home {
+  background-color: #fbfbfb;
 }

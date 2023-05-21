@@ -48,7 +48,7 @@ export default function Section() {
             </fieldset>
         </div>
         <section>
-            <div class='relative pt-[20px] pr-[30px] pb-[30px] pl-[3px] border  text-center'>
+            <div class=' bg-white relative pt-[20px] pr-[30px] pb-[30px] pl-[3px]  text-center'>
                 
                 <fieldset class='radioButtonStyle'>
                     <legend class='absolute overflow-hidden h-1 w-1 m-[-1px]'></legend>
