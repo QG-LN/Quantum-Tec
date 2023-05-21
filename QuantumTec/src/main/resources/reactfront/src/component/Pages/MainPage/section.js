@@ -1,23 +1,41 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 export default function Section() {
     const [gamelist, setgameList] = useState(["게임이름","수학게임"]);
+    const [inputCate, setInputCate] = useState("#전체");
+
+
+
+    const handleInputCate = (e) => {
+        setInputCate(e.target.value)
+    }
+
+    // 더블클릭 문제 해결을 위한 id값으로 checked 설정
+    useEffect(() => {
+        let checkresult = document.getElementById("cate");
+        checkresult.checked = true;
+      }, []);
 
     const Clickcate = (e) => {
       let index = e.target;
       console.log(index)
-      let index2 = e.target.name;
+      let index2 = index.text;
       console.log(index2)
+      console.log(inputCate)
     }
     const Clicksearch = (e) => {
     
     }
+
+
     /* 나중에 옮겨야 할 css */
     const style ={
         top: '0.5rem',
         right: '0.5rem'
     };
 
-    
+
+      
     return (
 
         <div class='w-[1320px] relative pl-24px m-auto'>
@@ -32,17 +50,29 @@ export default function Section() {
         <section>
             <div class='relative pt-[20px] pr-[30px] pb-[30px] pl-[3px] border  text-center'>
                 
-                <fieldset class=''>
+                <fieldset class='radioButtonStyle'>
                     <legend class='absolute overflow-hidden h-1 w-1 m-[-1px]'></legend>
-                        <span class='inline-block mr-[16px] ml-[17px]'><input type="radio" name='cate'  value='all' checked class='hidden' /><label for='all' onClick={Clickcate}>#전체</label></span>
-                        <span class='inline-block mr-[16px] ml-[17px]'><input type="radio" name='cate' value='1' class='hidden'/><label for='cate_1'>#수학</label></span>
-                        <span class='inline-block mr-[16px] ml-[17px]'><input type="radio" name='cate' value='2' class='hidden'/><label for='cate_2'>#국어</label></span>
-                        <span class='inline-block mr-[16px] ml-[17px]'><input type="radio" name='cate' value='3' class='hidden'/><label for='cate_3'>#과학</label></span>
-                        <span class='inline-block mr-[16px] ml-[17px]'><input type="radio" name='cate' value='4' class='hidden'/><label for='cate_4'>#사회</label></span>
-                        <span class='inline-block mr-[16px] ml-[17px]'><input type="radio" name='cate' value='5' class='hidden'/><label for='cate_5'>#영어</label></span>
-                        <span class='inline-block mr-[16px] ml-[17px]'><input type="radio" name='cate' value='6' class='hidden'/><label for='cate_6'>#일본어</label></span>
-                        <span class='inline-block mr-[16px] ml-[17px]'><input type="radio" name='cate' value='7' class='hidden'/><label for='cate_7'>#중국어</label></span>
-                        <span class='inline-block mr-[16px] ml-[17px]'><input type="radio" name='cate' value='8' class='hidden'/><label for='cate_8'>#물리</label></span>
+                            <label className='radioStyle'>
+                                <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='all'/><span onClick={ Clickcate}>#전체</span>
+                            </label>
+                            <label className='radioStyle'>
+                                <input type="radio" name='cate'id='cate' onChange={handleInputCate} value='1' /><span onClick={Clickcate}>#수학</span>
+                            </label>
+                            <label className='radioStyle'>
+                                <input type="radio" name='cate'id='cate' onChange={handleInputCate} value='2'/><span onClick={Clickcate}>#국어</span>
+                            </label>
+                            <label className='radioStyle'>
+                                <input type="radio" name='cate'id='cate' onChange={handleInputCate} value='3'/><span onClick={Clickcate}>#과학</span>
+                            </label>
+                            <label className='radioStyle'>
+                                <input type="radio" name='cate'id='cate' onChange={handleInputCate} value='4'/><span onClick={Clickcate}>#영어</span>
+                            </label>
+                            <label className='radioStyle'>
+                                <input type="radio" name='cate'id='cate' onChange={handleInputCate} value='5' /><span onClick={Clickcate}>#사회</span>
+                            </label>
+                            <label className='radioStyle'>
+                                <input type="radio" name='cate'id='cate' onChange={handleInputCate} value='6'/><span onClick={Clickcate}>#일본어</span>
+                            </label>
                 </fieldset>
             </div>        
         </section>
