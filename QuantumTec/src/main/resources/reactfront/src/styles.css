@@ -3748,6 +3748,10 @@ textarea.form-control-lg {
   --bs-navbar-toggler-border-radius: 0.375rem;
   --bs-navbar-toggler-focus-width: 0.25rem;
   --bs-navbar-toggler-transition: box-shadow 0.15s ease-in-out;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
   position: fixed;
   width: 100%;
   display: flex;
@@ -11165,6 +11169,10 @@ ul > ul > li > a {
   padding-bottom: 15px;
   border-top: 1px solid #f1f1f1;
   box-sizing:border-box;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
 }
 
 .account_main_page_title{
