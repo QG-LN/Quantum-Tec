@@ -27,10 +27,17 @@ export default function Myaside({select, setSelect}){
     const [list2, setList2] = useState(["결제방식", "회원탈퇴"])
     const [listsub, setListsub] = useState(["개인정보변경", "아바타설정"])
 
+
    // 카테고리 클릭시 해당 값을 mypage에 전송
     const handleClick = (e) => {
+      if (typeof e.target.text ==='undefined'){
+        return;
+      }else{
         setSelect(e.target.text);
-        console.log(e.target.text);
+      }
+        // console.log(e.target.list);
+        // console.log(e.target);
+        // console.log(e.target.text);
         if ( e.target.text === "사용자설정"){
            setIsOpen(!isOpen);
         }else if(e.target.text === "개인정보변경"){
@@ -49,13 +56,13 @@ export default function Myaside({select, setSelect}){
                     <ul class='asideul' style={uiStyle}>
                                 {list.map((item, index) => (
                                 // <li class='listyle' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a></li>
-                                  <li class='listyle text-xl border-b' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a>
+                                  <li class='listyle text-xl border-b' style={listStyle} key={index} onClick={handleClick} name={item}><a class='astyle' style={astyle}>{item}</a>
                                 </li>
                                ))}
                                {isOpen &&  (
                                         <ul class='sublist ml-[-30px] mt-[17px]'>
                                           {listsub.map((item, index) => (
-                                          <li name="sublist" class="pb-3 border-b text-sm mt-3" key={index} onClick={handleClick}><a>{item}</a></li>
+                                          <li name="sublist" class="pb-3 border-b text-sm mt-3 listyle" key={index} onClick={handleClick}><a>{item}</a></li>
                                           ))}
                                         </ul>
                                       )}
