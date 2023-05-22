@@ -10999,7 +10999,7 @@ textarea.form-control-lg {
 /*회원가입 페이지*/
 .signup-form {
   height: 95%;
-  margin: 10px auto;
+  margin: 0px auto;
   padding: 12px;
   font-size: 15px;
   overflow: auto;
@@ -11223,4 +11223,11 @@ ul > ul > li > a {
 
 .Home {
   background-color: #fbfbfb;
+}
+
+.nondrag {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
 }
