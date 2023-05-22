@@ -2798,7 +2798,7 @@ textarea.form-control-lg {
      -moz-user-select: none;
           user-select: none;
   border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
-  border-radius: var(--bs-btn-border-radius);
+  /* border-radius: var(--bs-btn-border-radius); */
   background-color: var(--bs-btn-bg);
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -11188,3 +11188,39 @@ ul > ul > li > a {
   box-sizing: border-box;
 }
 
+.radioButtonStyle {
+  display:flex;
+  flex-direction: row;
+  
+}
+
+.radioStyle {
+  font-size: 16px;
+  margin: 0px 5px 0px 5px;
+}
+
+.radioStyle [type="radio"]{
+  display: none;
+}
+
+.radioStyle span{
+ text-align: center;
+ height: 40px;
+ width: 100px;
+ display: flex;
+ align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.radioStyle [type='radio']:checked + span{
+  border: 3px solid #20c997;
+  color : #20c997;
+  font-weight: 700;
+}
+
+.Home {
+  background-color: #fbfbfb;
+}
