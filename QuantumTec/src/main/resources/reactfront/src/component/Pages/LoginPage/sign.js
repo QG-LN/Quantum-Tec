@@ -305,7 +305,7 @@ export default function Sign(){
 
     return (
         <div class="signup-form w-[35%] ">
-            <h2 class ='Logintitle mt-[50px]'>회원가입</h2>
+            <h2 class ='Logintitle mt-[20px] nondrag'>회원가입</h2>
             
             <div class='form-group row'>
                 <div class= 'col-3'>
@@ -314,7 +314,7 @@ export default function Sign(){
                 <div class= 'col-9'>
                     <div className='flex'>
                     <input style={style_inputbox} className='border' type='text' name='input_nickname' maxLength={8} value={inputNickname} onChange={handleInputNickname} />
-                    <button type="button" onClick={OnClickNicknameCheck} disabled={isNickDiabled}>중복확인</button>
+                    <button type="button" class='nondrag' onClick={OnClickNicknameCheck} disabled={isNickDiabled}>중복확인</button>
                     </div>
                     <div class = 'infotxt'>8자 이내로 적어주세요.</div>
                     {inputNickname.length > 8 && (
@@ -329,7 +329,7 @@ export default function Sign(){
                 <div class='col-9'>
                     <div className='flex'>
                     <input style={style_inputbox} className='border' type='text' name='input_id'maxLength={20} value={inputId} onChange={handleInputId} />
-                    <button type="button" disabled={isIdDisabled}  onClick={OnClickIdCheck}>중복확인</button>
+                    <button type="button" class='nondrag' disabled={isIdDisabled}  onClick={OnClickIdCheck}>중복확인</button>
                     </div>
                     <div class = 'infotxt'>20자 이내로 적어주세요.</div>
                     {inputId.length > 20 && (
@@ -400,7 +400,7 @@ export default function Sign(){
                 </div>
                 <div class='col-9-button'>
                     <input type='email'className='border' name='input_email' value={inputEmail} placeholder='example@google.com' style={style_inputbox} onChange={handleInputEmail} disabled={inputEmailDisabled}/>
-                    <button type="button" onClick={OnClickEmailSend} disabled={inputEmailDisabled}>인증번호 전송</button>
+                    <button type="button" class='nondrag' onClick={OnClickEmailSend} disabled={inputEmailDisabled}>인증번호 전송</button>
                 </div>
             </div>
             {showEmailCheck && <div class = "form-group row">
@@ -409,7 +409,7 @@ export default function Sign(){
                 </div>
                 <div className='flex w-75'>
                     <input type='text' className='border' name='input_email_check' value={inputEmailCheck} style={style_inputbox} onChange={handleInputEmailCheck}/>
-                    <button type="button" onClick={OnClickEmailCheck}>인증번호 확인</button>
+                    <button type="button" class='nondrag' onClick={OnClickEmailCheck}>인증번호 확인</button>
                 </div>
             </div>}
             <div class="form-group row">
@@ -418,7 +418,7 @@ export default function Sign(){
                 </div>
                 <div className='flex w-75'>
                     <input type='text' className='border' name='input_address' value={inputAddress} style={style_inputbox} onChange={handleInputAddress} readOnly/>
-                    <button type="button" onClick={OnClickAddress}>주소검색</button>
+                    <button type="button" class='nondrag' onClick={OnClickAddress}>주소검색</button>
                 </div>
             </div>
             <div class="form-group row">
@@ -449,10 +449,10 @@ export default function Sign(){
 
             <div class="form-group row">
                 <div class='col-6'>
-                    <button type="button" style={bottomBtn} onClick={OnClickSignUp}>회원가입</button>
+                    <button type="button" class='nondrag' style={bottomBtn} onClick={OnClickSignUp}>회원가입</button>
                 </div>
                 <div class='col-6'>
-                    <button type='button' style={bottomBtn} onClick={OnClickCancel}>취소</button>
+                    <button type='button' class='nondrag' style={bottomBtn} onClick={OnClickCancel}>취소</button>
                 </div>
             </div>
         </div>
