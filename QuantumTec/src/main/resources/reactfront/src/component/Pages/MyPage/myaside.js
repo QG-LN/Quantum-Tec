@@ -56,20 +56,20 @@ export default function Myaside({select, setSelect}){
                     <ul class='asideul' style={uiStyle}>
                                 {list.map((item, index) => (
                                 // <li class='listyle' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a></li>
-                                  <li class='listyle text-xl border-b' style={listStyle} key={index} onClick={handleClick} name={item}><a class='astyle' style={astyle}>{item}</a>
+                                  <li class='listyle text-xl border-b hover:cursor-pointer' style={listStyle} key={index} onClick={handleClick} name={item}><a class='astyle' style={astyle}>{item}</a>
                                 </li>
                                ))}
                                {isOpen &&  (
                                         <ul class='sublist ml-[-30px] mt-[17px]'>
                                           {listsub.map((item, index) => (
-                                          <li name="sublist" class="pb-3 border-b text-sm mt-3 listyle" key={index} onClick={handleClick}><a>{item}</a></li>
+                                          <li name="sublist" class="pb-3 border-b text-sm mt-3 listyle hover:cursor-pointer" key={index} onClick={handleClick}><a>{item}</a></li>
                                           ))}
                                         </ul>
                                       )}
                                       <hr class="mt-[-5px] opacity-100 border-4 border-green-500 rounded-md"/>
                                {list2.map((item, index) => (
                                 // <li class='listyle' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a></li>
-                                  <li class='border-b listyle text-xl' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a>
+                                  <li class='border-b listyle text-xl hover:cursor-pointer' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a>
                                 </li>
                                ))}
                                 

@@ -65,7 +65,7 @@
   --bs-body-bg: #fff;
   --bs-border-width: 1px;
   --bs-border-style: solid;
-  --bs-border-color: #dee2e6;
+  --bs-border-color: #b2b2b2;
   --bs-border-color-translucent: rgba(0, 0, 0, 0.175);
   --bs-border-radius: 0.375rem;
   --bs-border-radius-sm: 0.25rem;
@@ -10999,7 +10999,7 @@ textarea.form-control-lg {
 /*회원가입 페이지*/
 .signup-form {
   height: 95%;
-  margin: 10px auto;
+  margin: 0px auto;
   padding: 12px;
   font-size: 15px;
   overflow: auto;
@@ -11221,6 +11221,47 @@ ul > ul > li > a {
   font-weight: 700;
 }
 
+/* choosefind header부분*/
+.headerradioStyle {
+  display:flex;
+  flex-direction: row;
+  
+}
+
+.headerstyle {
+  font-size: 20px;
+  margin: 0px 5px 0px 5px;
+}
+
+.headerstyle [type="radio"]{
+  display: none;
+}
+
+.headerstyle span{
+ text-align: center;
+ height: 40px;
+ width: 150px;
+ display: flex;
+ align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.headerstyle [type='radio']:checked + span{
+  border: 3px solid #20c997;
+  color : #000;
+  font-weight: 700;
+}
+
+
 .Home {
   background-color: #fbfbfb;
+}
+
+.nondrag {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
 }
