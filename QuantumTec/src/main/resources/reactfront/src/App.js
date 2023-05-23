@@ -40,12 +40,9 @@ function Home(props) {
     <div className="Home">
           {/*위에 광고 화면과 로그인 크기 맞추기위해 설정해놓음*/}
         <div class='h-[297px] mb-[50px]' style={{ display: 'flex'}}>
-        <header style={{ flexBasis: '70%'}}>
+        <header style={{ flexBasis: '100%'}}>
           <Header />
         </header>
-        <aside style={{ flexBasis: '30%' }}>
-          <Aside start={props.start}/>
-        </aside>
       </div>
       <Section />
         </div>
