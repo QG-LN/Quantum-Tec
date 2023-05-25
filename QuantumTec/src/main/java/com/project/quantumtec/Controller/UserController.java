@@ -2,7 +2,7 @@ package com.project.quantumtec.Controller;
 
 import com.project.quantumtec.DTO.user.LoginRequestDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
-import com.project.quantumtec.DTO.user.UserInfoDTO;
+import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.Service.user.UserService;
 import com.project.quantumtec.VO.user.UserVO;
@@ -25,8 +25,8 @@ public class UserController {
 
     // UserService 의 입력받은 회원정보를 DB에 저장하는 메소드
     @PostMapping("/signup")
-    public UserInfoDTO signupAdd(@RequestBody UserVO user) throws Exception {
-        UserInfoDTO checkUser = userService.signup(user);
+    public UserInfoResponseDTO signupAdd(@RequestBody UserVO user) throws Exception {
+        UserInfoResponseDTO checkUser = userService.signup(user);
         if(checkUser != null) {
             return checkUser;
         }else {
@@ -68,7 +68,7 @@ public class UserController {
 
     // 아이디, 비밀번호를 조회하여 그에 해당하는 회원정보 페이지에 출력할 회원정보를 반환하는 메소드
     @PostMapping("/myinfo")
-    public UserInfoDTO getUserInfo(@RequestBody UserVO user) throws Exception {
+    public UserInfoResponseDTO getUserInfo(@RequestBody UserVO user) throws Exception {
         return userService.getUserInfo(user.getUserID(), user.getUserPW());
     }
     // UserService 의 입력받은 회원정보를 삭제하는 메소드
@@ -88,5 +88,17 @@ public class UserController {
     @ResponseBody
     public String findId(@RequestBody UserVO user) throws Exception {
         return userService.findId(user.getUserName(), user.getUserEmail());
+    }
+
+    // 이름과 이메일, 아이디를 입력받아 해당 정보와 일치하는 회원 존재 여부 확인 후 존재 여부를 반환하고, 임시 비밀번호를 이메일로 전송하는 메소드
+    @PostMapping("/findpw")
+    public boolean findPw(@RequestBody UserVO user) throws Exception {
+        return userService.findPw(user.getUserName(), user.getUserEmail(), user.getUserID());
+    }
+
+    // 이름과 이메일, 아이디, 비밀번호를 입력받아 해당 정보와 일치하는 회원의 비밀번호를 변경한 후, 성공적으로 초기화 되었음을 반환하는 메소드
+    @PostMapping("/changepw")
+    public boolean changePw(@RequestBody UserVO user) throws Exception {
+        return userService.changePw(user.getUserName(), user.getUserEmail(), user.getUserID(), user.getUserPW());
     }
 }
