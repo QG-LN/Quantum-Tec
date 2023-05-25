@@ -103,7 +103,7 @@ export default function GamePage() {
     setComment(e.target.value);
   }
   
-  //평가를 눌럿을떄 반영값
+  //만족도를 눌럿을떄 반영값
   const Clickgrade = (e) => {
     console.log(e.target.value);
   }
@@ -111,7 +111,9 @@ export default function GamePage() {
   const Clicksetgrade = (e) => {
     console.log(comment);
     console.log(usergrade);
-
+    alert('평가가 등록되었습니다.')
+    setComment('');
+    setUserGrade('0');
   }
 
 
