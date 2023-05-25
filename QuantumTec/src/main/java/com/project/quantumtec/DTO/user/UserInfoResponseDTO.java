@@ -3,7 +3,7 @@ package com.project.quantumtec.DTO.user;
 import lombok.Data;
 
 @Data
-public class UserInfoDTO {
+public class UserInfoResponseDTO {
     private String userID;          // 사용자 아이디
     private String userNickname;    // 사용자 닉네임
     private String userName;        // 사용자 이름
@@ -15,4 +15,5 @@ public class UserInfoDTO {
     private String userRole;            // 사용자 권한
     private String userCash;            // 사용자 캐시
     private String userStatus;           // 사용자 상태
+    private String userGender;          // 사용자 성별
 }
