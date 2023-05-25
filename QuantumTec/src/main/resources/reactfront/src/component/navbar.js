@@ -20,8 +20,10 @@ export default function Navbar(props) {
     };
     // 로고 클릭시 맨 위로 이동
     const logoClick = () => {
-        window.scrollTo(0, 0);
+        document.location.href = "/";
     };
+
+
 //     const [username, setUsername] = useState("");
 
 //   useEffect(() => {
@@ -41,13 +43,17 @@ export default function Navbar(props) {
     const ClickLogin = () => {
         document.location.href = "/login";
       }
+    const ClickMyPage = () => {
+        document.location.href = "/mypage";
+      }
+    
       
            return (
             <div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container px-4 px-lg-5">
                         {/*로고(클릭시 메인화면)*/}
-                        <a class="navbar-brand" onClick={logoClick}>로고 위치(상표)</a>
+                        <a class="navbar-brand hover:cursor-pointer" onClick={logoClick}>로고 위치(상표)</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                              {/*카테고리*/}
@@ -65,22 +71,25 @@ export default function Navbar(props) {
                                 </li>
                             </ul>
                             {/*우측 상단에 넣을수 있는 자리(필요시 로그인버튼을 간소화할떄 쓸 위치)*/}
-                            <form class="d-flex">
+   
+
+                        </div>
+                        <form class="d-flex">
                                 
                                 {getUsername()}
                                 {!truelogin && <button class="btn btn-outline-dark" type="button" onClick={ClickLogin} >
                                 <i class="loginbtn me-1"></i>
-                                    로그인
+                                <span>
+                                    로그인</span>
                                 </button>}
-                                {truelogin && <button class="btn btn-outline-dark" type="submit">
+                                {truelogin && <button class="btn btn-outline-dark" onClick={ClickMyPage} type="submit">
                                 <i class="userbtn me-1"></i>
                                     {username}
                                 </button>}
-                            </form>       
-
-                        </div>
-                    </div>
+                            </form> 
+                    </div>   
                 </nav>
             </div>
         );
-    }
+    
+}
