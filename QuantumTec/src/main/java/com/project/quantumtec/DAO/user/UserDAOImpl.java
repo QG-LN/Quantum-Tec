@@ -2,9 +2,8 @@ package com.project.quantumtec.DAO.user;
 
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.UserDTO;
-import com.project.quantumtec.DTO.user.UserInfoDTO;
+import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.VO.user.UserVO;
-import org.apache.catalina.User;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -58,7 +57,7 @@ public class UserDAOImpl implements UserDAO{
 
     // 유저 인덱스를 입력받아 사용자 정보를 가져오는 함수
     @Override
-    public UserInfoDTO getUserInfo(int userIdx) throws Exception {
+    public UserInfoResponseDTO getUserInfo(int userIdx) throws Exception {
         return sqlSession.selectOne("UserService.getUserInfo", userIdx);
     }
 
