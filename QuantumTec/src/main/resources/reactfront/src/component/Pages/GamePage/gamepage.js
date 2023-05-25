@@ -41,7 +41,7 @@ const commentlist = [
   commentDate: "2021/02/14",
   commentUp: "17",
   commentDown: "16",
-  commentSub: "내용추가",
+  commentSub: <div>내용추가<br/>아 드럽네요</div>,
 },
 {
   commentimg: "http://help.nexon.com/image/gameicon/cs_maple1.png",
@@ -50,7 +50,7 @@ const commentlist = [
   commentDate: "2021/05/36",
   commentUp: "17",
   commentDown: "16",
-  commentSub: "내용추가",
+  commentSub: '아ㅣsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddㅇddddddddddddddddddddddddㅇddddddddddddddddㅇdddddddddddddddddddddddddddddddddd',
 },
 ]
 

@@ -64,7 +64,7 @@ export default function Gamecomment(props) {
                   </a>
                 </dt>
                 {select == index &&
-                <dd className="text-left text-xl border-b border-black"><div class='pl-5'>{cmt.commentSub}</div>
+                <dd className="text-left text-xl border-b bg-slate-100 border-black"><p class='ml-[20%] w-[570px] break-all bg-slate-100'>{cmt.commentSub}</p>
                 </dd>
                 }
                 </>
