@@ -2,7 +2,7 @@ package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
-import com.project.quantumtec.DTO.user.UserInfoDTO;
+import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.Utils.user.emailApi.EmailApi;
 import com.project.quantumtec.VO.user.UserVO;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserInfoDTO getUserInfo(String userID, String userPW) throws Exception {
+    public UserInfoResponseDTO getUserInfo(String userID, String userPW) throws Exception {
         int checkUser = userDAO.getUserExist(userID, userPW);
 
         if(checkUser >= 1) {
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserInfoDTO signup(UserVO user) throws Exception {
+    public UserInfoResponseDTO signup(UserVO user) throws Exception {
         // 0: 회원가입 실패, 1: 회원가입 성공
         int checkSignUp = userDAO.setUser(user);
 
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean sendEmailAuth(UserVO user) throws Exception {
         emailApi.createKey();
-        return emailApi.sendEmail(user.getUserEmail(), "TestTitle", emailApi.getKey());
+        return emailApi.sendKeyEmail(user.getUserEmail(), "TestTitle", emailApi.getKey());
     }
     @Override
     public boolean checkEmailAuth(singupEmailCodeDTO key) throws Exception {
@@ -120,7 +120,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean findPw(String userName, String userEmail, String userID) throws Exception {
-        return userDAO.findPw(userName, userEmail, userID);
+        if (userDAO.findPw(userName, userEmail, userID)){
+            String tempPW = emailApi.createRandomPW(10);
+            changePw(userName, userEmail, userID, tempPW);
+            return emailApi.sendPwEmail(userEmail, "임시 비밀번호가 생성되었습니다", tempPW);
+        }
+        else return false;
     }
 
     @Override

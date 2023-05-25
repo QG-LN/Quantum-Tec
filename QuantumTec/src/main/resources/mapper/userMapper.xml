@@ -10,8 +10,8 @@
         from userInfo
         where user_id = #{userID} and user_pw = #{userPW}
     </select>
-    <select id="getUserInfo" resultType="UserInfoDTO" parameterType="int">
-        select user_id,user_nickname,user_name,user_birth,user_address,user_address_detail,user_postal,user_email,user_role,user_cash,user_status
+    <select id="getUserInfo" resultType="UserInfoResponseDTO" parameterType="int">
+        select user_id,user_nickname,user_name,user_birth,user_address,user_address_detail,user_gender,user_postal,user_email,user_role,user_cash,user_status,user_gender
         from userInfo, userStatus
         where userInfo.user_idx = #{userIdx} and userStatus.user_idx = #{userIdx}
     </select>
@@ -36,7 +36,7 @@
         WHERE user_email = #{userEmail}
     </select>
     <insert id="setUser" parameterType="UserVO">
-        insert into userInfo(user_id,user_pw,user_nickname,user_name,user_birth,user_address,user_address_detail,user_postal,user_email,user_role) values(#{userID},#{userPW},#{userNickname},#{userName},#{userBirth},#{userAddress},#{userAddressDetail},#{userPostal},#{userEmail},#{userRole})
+        insert into userInfo(user_id,user_pw,user_nickname,user_name,user_birth,user_address,user_address_detail,user_gender,user_postal,user_email,user_role) values(#{userID},#{userPW},#{userNickname},#{userName},#{userBirth},#{userAddress},#{userAddressDetail},#{userGender},#{userPostal},#{userEmail},#{userRole})
     </insert>
     <delete id="deleteUser" parameterType="int">
         delete from userInfo
@@ -50,6 +50,7 @@
             user_birth = #{userBirth},
             user_address = #{userAddress},
             user_address_detail = #{userAddressDetail},
+            user_gender = #{userGender},
             user_postal = #{userPostal},
             user_email = #{userEmail},
             user_role = #{userRole}

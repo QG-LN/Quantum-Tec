@@ -1,7 +1,7 @@
 package com.project.quantumtec.DAO.user;
 
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
-import com.project.quantumtec.DTO.user.UserInfoDTO;
+import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.VO.user.UserVO;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public interface UserDAO {
     public int getUserExist(String userID, String userPW) throws Exception;
 
     // 사용자 정보 가져오기
-    public UserInfoDTO getUserInfo(int userIdx) throws Exception;
+    public UserInfoResponseDTO getUserInfo(int userIdx) throws Exception;
 
     // 로그인 정보 가져오기
     public LoginResponseDTO getLoginInfo(int userIdx) throws Exception;

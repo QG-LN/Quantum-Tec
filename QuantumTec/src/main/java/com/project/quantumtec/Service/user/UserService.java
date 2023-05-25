@@ -1,7 +1,7 @@
 package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
-import com.project.quantumtec.DTO.user.UserInfoDTO;
+import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.VO.user.UserVO;
 
@@ -22,12 +22,12 @@ public interface UserService {
     // 로그인
 //    public UserVO login(String userID, String userPW) throws Exception;
 
-    public UserInfoDTO getUserInfo(String userID, String userPW) throws Exception;
+    public UserInfoResponseDTO getUserInfo(String userID, String userPW) throws Exception;
     // 새로운 로그인 친구
     public LoginResponseDTO login(String userID, String userPW)  throws Exception;
 
     // 회원가입
-    public UserInfoDTO signup(UserVO user) throws Exception;
+    public UserInfoResponseDTO signup(UserVO user) throws Exception;
 
     // 아이디 중복 확인
     public boolean checkDuplicateId(UserVO user) throws Exception;
@@ -53,7 +53,7 @@ public interface UserService {
     // 사용자 아이디 찾기
     public String findId(String userName, String userEmail) throws Exception;
 
-    // 비밀번호 초기화를 위한 사용자 정보 확인
+    // 임시 비밀번호 전송을 위한 사용자 정보 확인후 이메일로 전송
     public boolean findPw(String userName, String userEmail, String userID) throws Exception;
 
     // 이름과 이메일, 아이디, 비밀번호를 입력받아 해당 정보와 일치하는 회원의 비밀번호를 변경한 후, 성공적으로 초기화 되었음을 반환하는 메소드
