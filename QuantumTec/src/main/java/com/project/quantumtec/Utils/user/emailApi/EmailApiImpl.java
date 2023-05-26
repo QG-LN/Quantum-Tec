@@ -2,22 +2,30 @@ package com.project.quantumtec.Utils.user.emailApi;
 
 import java.util.Random;
 
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.util.Date;
 
 import lombok.Getter;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @Service
 public class EmailApiImpl implements EmailApi{
 
     @Autowired
     private JavaMailSender mailSender;
-    
+
+    @Autowired
+    private TemplateEngine templateEngine;
+
+
     private @Getter String key = null;
 
    @Value("${spring.mail.username}")
@@ -58,15 +66,26 @@ public class EmailApiImpl implements EmailApi{
 
     @Override
     public boolean sendPwEmail(String to, String subject, String text) throws Exception {
+
         if (text.equals("") || text == null) {
             return false;
         }
         else{
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(email);
-            message.setTo(to);
-            message.setSubject(subject);
-            message.setText("임시 비밀번호 : " + text);
+
+            MimeMessage message = mailSender.createMimeMessage();
+            String newPassword = text;
+
+            Context context = new Context();
+            context.setVariable("newPassword", newPassword);
+
+            // src/main/resources/templates/html/emailTemplate에 있는 ChangePassword를 사용
+            String htmlContent = templateEngine.process("html/emailTemplate/ChangePassword.html", context);
+
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(email);                       // 수신자 이메일 주소 설정
+            helper.setTo(to);
+            helper.setSubject("Password 변경 안내");     // 타이틀
+            helper.setText(htmlContent, true);
             mailSender.send(message);
             return true;
         }
