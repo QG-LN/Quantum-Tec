@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 
 export default function Choosefind(props) {
-  const [isOpen, setIsOpen] = useState(false);
   const [inputId, setInputId] = useState('');
   const [inputName, setInputName] = useState('');
   const [inputEmail, setInputEmail] = useState('');
@@ -20,7 +19,7 @@ export default function Choosefind(props) {
     const [findId,setFindId] = useState('');
     const [findPw,setFindPw] = useState('');
 
-  const handleInputName = (e) => {
+    const handleInputName = (e) => {
     setInputName(e.target.value);
   }
   const handleInputEmail = (e) => {
@@ -39,7 +38,8 @@ export default function Choosefind(props) {
   }
 
     const handleClose = () => {
-        setIsOpen(false);
+        // setIsOpen(false);
+        props.setModalOpen(false);
     };
     async function checkData(path, body , methodType){
         try {
@@ -171,20 +171,13 @@ export default function Choosefind(props) {
         alert('인증번호가 재전송되었습니다.');
     }
 
-   // 아이디 임시 
-
+   // 아이디 임시
   const auth = '1234';
-  useEffect(() => {
-    if (isOpen) {
-        return;
-    }
-
-    setIsOpen(props.setModalOpen);
-  }, [props.setModalOpen]);
 
   return (
     <>
-      <Modal show={isOpen} onHide={handleClose}>
+      {/*  modalOpen값에 따라 활성/비활성화 */}
+      <Modal show={props.modalOpen} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title><fieldset class='headerradioStyle'>
                     <legend class='absolute overflow-hidden h-1 w-1 m-[-1px]'></legend>

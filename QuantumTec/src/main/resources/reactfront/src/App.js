@@ -9,6 +9,7 @@ import Loginpage from './component/Pages/LoginPage/login.js';
 import Signpage from './component/Pages/LoginPage/sign.js';
 import MyMain from './component/Pages/MyPage/mymain';
 import PasswordChk from './component/Pages/MyPage/passwordChk';
+import GamePage from './component/Pages/GamePage/gamepage.js';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/login" element={<Login start={truelogin} setTruelogin={setTruelogin} />} />
           <Route path="/signup" element={<SignUp />}/>
           <Route path="/mypage" element={<MyPage />}/>
+          <Route path="/gamepage" element={<GamePage />}/>
         </Routes>
       </div>
       <Footer style={{height: "20vh"}} />
