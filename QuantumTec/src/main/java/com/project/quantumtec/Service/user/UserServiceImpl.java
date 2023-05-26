@@ -2,6 +2,7 @@ package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.Utils.user.emailApi.EmailApi;
 import com.project.quantumtec.VO.user.UserVO;
@@ -34,7 +35,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public LoginResponseDTO login(String userID, String userPW) throws Exception {
         int userIdx = userDAO.getUserExist(userID, userPW);
-        System.out.println("userIdx: " + userIdx);
         if (userIdx <= 0){
             return null;
         }
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserVO getUserInfo(String userID, String userPW) throws Exception {
+    public UserInfoResponseDTO getUserInfo(String userID, String userPW) throws Exception {
         int checkUser = userDAO.getUserExist(userID, userPW);
 
         if(checkUser >= 1) {
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserVO signup(UserVO user) throws Exception {
+    public UserInfoResponseDTO signup(UserVO user) throws Exception {
         // 0: 회원가입 실패, 1: 회원가입 성공
         int checkSignUp = userDAO.setUser(user);
 
@@ -91,13 +91,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public int sendEmailAuth(UserVO user) throws Exception {
-        if (checkDuplicateEmail(user)){
-            emailApi.createKey();
-            emailApi.sendEmail(user.getUserEmail(),"TestTitle" , emailApi.getKey());
-            return 1;
-        }
-        else return 0;
+    public boolean sendEmailAuth(UserVO user) throws Exception {
+        emailApi.createKey();
+        return emailApi.sendKeyEmail(user.getUserEmail(), "TestTitle", emailApi.getKey());
     }
     @Override
     public boolean checkEmailAuth(singupEmailCodeDTO key) throws Exception {
@@ -115,5 +111,25 @@ public class UserServiceImpl implements UserService{
     public boolean updateUser(UserVO user) throws Exception {
         // 사용자 정보를 수정함
         return userDAO.updateUser(user);
+    }
+
+    @Override
+    public String findId(String userName, String userEmail) throws Exception {
+        return userDAO.findId(userName, userEmail);
+    }
+
+    @Override
+    public boolean findPw(String userName, String userEmail, String userID) throws Exception {
+        if (userDAO.findPw(userName, userEmail, userID)){
+            String tempPW = emailApi.createRandomPW(10);
+            changePw(userName, userEmail, userID, tempPW);
+            return emailApi.sendPwEmail(userEmail, "임시 비밀번호가 생성되었습니다", tempPW);
+        }
+        else return false;
+    }
+
+    @Override
+    public boolean changePw(String userName, String userEmail, String userID, String userPW) throws Exception {
+        return userDAO.changePw(userName, userEmail, userID, userPW);
     }
 }
