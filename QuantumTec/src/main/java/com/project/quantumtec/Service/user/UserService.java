@@ -38,7 +38,7 @@ public interface UserService {
     // 이메일 중복 확인
     public boolean checkDuplicateEmail(UserVO user) throws Exception;
 
-    // 이메일 중복을 확인하고 인증키 보내기
+    // 이메일 인증키 보내기
     public boolean sendEmailAuth(UserVO user) throws Exception;
 
     // 이메일 인증키 확인
