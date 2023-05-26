@@ -54,8 +54,9 @@ public class UserController {
         return userService.checkDuplicateEmail(user);
     }
 
-    // UserService 의 입력받은 회원정보(이메일)에 인증코드를 전송하는 메소드
-    // 중복이메일인 경우 0을 중복이메일이 아닌 경우 1
+    /**
+     * 입력받은 이메일에 인증코드를 전송하고 전송여부에 따라 true/false 값을 전달
+     * */
     @PostMapping("/signup/send-email-auth")
     public boolean sendEmailAuth(@RequestBody UserVO user) throws Exception {
         return userService.sendEmailAuth(user);
