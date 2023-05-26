@@ -15,8 +15,6 @@ export default function Login(props){
     const handleInputPw = (e) => {
         setInputPw(e.target.value)
     }
-
-
  
 	// login 버튼 클릭 이벤트
     const onClickLogin = () => {
@@ -73,35 +71,18 @@ export default function Login(props){
     const OnClickSignUp = () => {
         document.location.href = "/signup";
     }
-    // const falsemodal = () => {
-    //     setModalOpen(false);
-    //     // console.log(modalOpen);
-    // }
-    const showmodal = () => {
-        console.log(modalOpen);
-        if(modalOpen === true){
+
+    const showModal = () => {
+        if(modalOpen){
             setModalOpen(false);
         }else{
             setModalOpen(true);
         }
-        // console.log(modalOpen);
     }
-    useEffect(() => {
-        console.log(modalOpen)
-      }, [modalOpen]);
- 
-	// 페이지 렌더링 후 가장 처음 호출되는 함수
-    // useEffect(() => {
-    //     axios.post('/user/login')
-    //     .then(res => console.log(res))
-    //     .catch()
-    // },
-    // // 페이지 호출 후 처음 한번만 호출될 수 있도록 [] 추가
-    // [])
     return (
             <div class="login-form content">
             <div class='title'>
-                <h2 class='Logintitle nondrag'>로그인</h2>
+                <h2 class='Logintitle'>로그인</h2>
             </div>
             <fieldset class="box_login">
             <ul class="loginul">
@@ -124,8 +105,8 @@ export default function Login(props){
                         <button type="button" class="btn btn-primary btn_mid" onClick={onClickLogin}>로그인</button>
                     </div>
                     <div class='flex justify-center'>
-                            <div class='p-1 m-1 text-gray-500 hover:text-blue-800 hover:font-bold hover:cursor-pointer' onClick={() => {showmodal();}}>아이디/비밀번호 찾기</div>
-                            {modalOpen && <Choosefind setModalOpen={modalOpen}/>}
+                            <div class='p-1 m-1 text-gray-500 hover:text-blue-800 hover:font-bold hover:cursor-pointer' onClick={showModal}>아이디/비밀번호 찾기</div>
+                            {modalOpen && <Choosefind setModalOpen={setModalOpen} modalOpen ={modalOpen}/>}
                             <div class='p-1 m-1 text-gray-500 hover:text-blue-800 hover:font-bold hover:cursor-pointer' onClick={OnClickSignUp}>회원가입</div>
                     </div>
                 </li>

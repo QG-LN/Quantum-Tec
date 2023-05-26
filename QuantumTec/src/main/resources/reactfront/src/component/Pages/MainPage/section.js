@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import Gamelist from './gamelist.js';
+import Gamepage from '../GamePage/gamepage.js';
 export default function Section() {
     const [gamelist, setgameList] = useState(["게임이름","수학게임"]);
     const [inputCate, setInputCate] = useState("#전체");
@@ -33,7 +34,7 @@ export default function Section() {
             "name": "수학게임",
             "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
             "description": "수학게임입니다.",
-            "link": "https://www.naver.com/"
+            "link": "/gamepage"
             },
         {
             "id": 2,
