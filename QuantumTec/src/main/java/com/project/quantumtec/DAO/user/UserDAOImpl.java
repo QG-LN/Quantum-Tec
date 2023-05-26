@@ -1,13 +1,12 @@
 package com.project.quantumtec.DAO.user;
 
-import com.project.quantumtec.DTO.user.LoginRequestDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.UserDTO;
+import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.VO.user.UserVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.servlet.FlashMap;
 
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class UserDAOImpl implements UserDAO{
 
     // 유저 인덱스를 입력받아 사용자 정보를 가져오는 함수
     @Override
-    public UserVO getUserInfo(int userIdx) throws Exception {
+    public UserInfoResponseDTO getUserInfo(int userIdx) throws Exception {
         return sqlSession.selectOne("UserService.getUserInfo", userIdx);
     }
 
@@ -95,5 +94,32 @@ public class UserDAOImpl implements UserDAO{
     public boolean updateUser(UserVO user) throws Exception {
         int updateResult = sqlSession.update("UserDAO.updateUser", user);
         return updateResult > 0;
+    }
+
+    @Override
+    public String findId(String userName, String userEmail) throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(userName);
+        userDTO.setUserEmail(userEmail);
+        return sqlSession.selectOne("UserService.findId", userDTO);
+    }
+
+    @Override
+    public boolean findPw(String userName, String userEmail, String userID) throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(userName);
+        userDTO.setUserEmail(userEmail);
+        userDTO.setUserID(userID);
+        return sqlSession.selectOne("UserService.findPw", userDTO) != null;
+    }
+
+    @Override
+    public boolean changePw(String userName, String userEmail, String userID, String userPW) throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(userName);
+        userDTO.setUserEmail(userEmail);
+        userDTO.setUserID(userID);
+        userDTO.setUserPW(userPW);
+        return sqlSession.update("UserService.changePw", userDTO) > 0;
     }
 }
