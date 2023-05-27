@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
+import {axiosRequest} from '../../../module/networkUtils';
 
 export default function Choosefind(props) {
   const [inputId, setInputId] = useState('');
@@ -14,10 +15,7 @@ export default function Choosefind(props) {
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
     const [trueId,settrueId] = useState(false);
-    const [truePw, settruePw] = useState(false);
-
     const [findId,setFindId] = useState('');
-    const [findPw,setFindPw] = useState('');
 
     // 아이디 임시
     // const auth = '1234';
@@ -46,57 +44,14 @@ export default function Choosefind(props) {
     };
 
 
-    /**
-     * 
-     * @param path  데이터 전송 경로
-     * @param body  전송 데이터
-     * @param methodType post/get
-     * @param returnType 반환 형식
-     * @return {Promise<*|null>}
-     */
-    async function checkData(path, body , methodType, returnType){
-        returnType = returnType == undefined ? "json" : returnType;
-        try {
-            const response = await fetch(path, {
-                method: methodType,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            });
-
-            // response 객체가 반환될때까지 기다린후 데이터가 전달되면 json 데이터를 반환
-            let data = "";
-
-            switch (returnType){
-                case "json":
-                    data = await response.json();
-                    break;
-                case "string" :
-                    data = await response.text();
-                    break;
-            }
-
-            // 데이터가 null이나 undefined가 아닐 경우 데이터를 반환
-            if (data !== null && data !== undefined) {
-                return data;
-            } else {
-                return null;
-            }
-        } catch (error) {
-            console.log(error);
-            return null;
-        }
-    }
 
     //확인 버튼 클릭 이벤트
     const onClickIdFind = async () => {
         // 인증번호를 체크하고 그에 맞게 처리
         const path = 'http://localhost:9090/user/signup/check-email-auth';
         const body = { key : inputEmailCheck}
-        const data = await checkData(path,body,'POST',"json");
-        console.log(inputEmailCheck);
-        if(data){
+        const authData = await axiosRequest(path,body,'POST',"json");
+        if(authData){
             if(inputName === '') {
                 alert('이름을 입력해주세요');
                 return
@@ -116,11 +71,11 @@ export default function Choosefind(props) {
                     userName : inputName,
                     userEmail : inputEmail
                 }
-                const data = await checkData(path,body,'POST',"string");    // 아이디 가져오기
+                const findIdData = await axiosRequest(path,body,'POST',"string");    // 아이디 가져오기
 
                 // 성공적으로 아이디를 가져왔다면
-                if(data!= null){
-                    setFindId(data);
+                if(findIdData!= null){
+                    setFindId(findIdData);
                     settrueId(true);
                 }else{
                     alert("아이디를 가져오는데 실패하였습니다.");
@@ -134,9 +89,9 @@ export default function Choosefind(props) {
         // 인증번호를 체크하고 그에 맞게 처리
         const path = 'http://localhost:9090/user/signup/check-email-auth';
         const body = { key : inputEmailCheck}
-        const data = await checkData(path,body,'POST',"json");
-        console.log(inputEmailCheck);
-        if(data){
+        const authData  = await axiosRequest(path,body,'POST',"json");
+
+        if(authData){
             if(inputName === '') {
                 alert('이름을 입력해주세요');
                 return
@@ -164,11 +119,9 @@ export default function Choosefind(props) {
                     userID : inputId,
                     userEmail : inputEmail,
                 }
-                const data = await checkData(path,body,'POST',"string");    // 아이디 가져오기
+                const findPwData  = await axiosRequest(path,body,'POST',"string");    // 아이디 가져오기
 
-                if(data != null){
-                    // setFindPw(data);
-                    // settruePw(true);
+                if(findPwData  != null){
                     alert('비밀번호를 이메일로 보내드렸습니다.');
                     props.setModalOpen(false);  // 비밀번호 전송완료시 현재 모탈 창을 종료
                 }
@@ -198,25 +151,25 @@ export default function Choosefind(props) {
 
     // 이메일 인증 버튼 클릭 이벤트
     const OnClickEmailSend = async () => {
-        // 이메일 형식을 만족할 경우
-        if(isEmail(inputEmail)){
+        try{
+            if(!isEmail((inputEmail))){
+                alert('이메일 형식이 올바르지 않습니다.');
+                return;
+            }
             const path = 'http://localhost:9090/user/signup/send-email-auth';
             const body = { userEmail : inputEmail}
-            const data = await checkData(path,body,'POST',"json");
-
+            const data = await axiosRequest(path,body,'POST',"json");
             if(data != null){   // 인증번호 전송에 성공하였을 경우
                 alert('인증번호가 전송되었습니다.');
+                setshowEmailCheck(true);                    //인증번호 전송 표시
+                setInputEmailDisabled(true);                //이메일 인증 텍스트와 인증버튼 활성화
                 auth = data;
-                setInputEmailDisabled(true);
-                //이메일 인증 텍스트와 인증버튼 활성화
-                setshowEmailCheck(true);
-                //인증번호 전송 표시
             }else{
                 alert('인증번호 전송에 실패하였습니다.');
             }
-        }
-        else{
-            alert('이메일 형식이 올바르지 않습니다.');
+        }catch(e){
+            console.log(e);
+            alert('인증번호 전송에 실패하였습니다.');
         }
     }
 
@@ -224,7 +177,7 @@ export default function Choosefind(props) {
     const OnClickEmailReSend = async () => {
         const path = 'http://localhost:9090/user/signup/send-email-auth';
         const body = { userEmail : inputEmail}
-        const data = await checkData(path,body,'POST');
+        const data = await axiosRequest(path,body,'POST');
         alert('인증번호가 재전송되었습니다.');
         if(data != null){
             auth = data;
