@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Mysection from './mysection';
 import '../../../styles.css';
+import {axiosRequest} from '../../../module/networkUtils';
 
 export default function PasswordChk(){
     const [inputPw, setInputPw] = useState('')
@@ -12,10 +13,22 @@ export default function PasswordChk(){
     }
 
     //확인 버튼 눌럿을시 비밀번호 확인
-    const handleClick = () => {
-        if (inputPw === '1234'){
-            chkPassword(!passwordchk);
+    const handleClick = async () => {
+        const path = 'http://localhost:9090/user/login';
+        const body = {
+            userID: localStorage.getItem('userID'),
+            userPW: inputPw,
         };
+        const data = await axiosRequest(path,body,'POST','json');
+
+        // 값이 존재한다면 즉, 로그인이 성공적으로 진행된다면,
+        if(data != null){
+            chkPassword(!passwordchk);
+        }
+
+        // if (inputPw === '1234'){
+        //     chkPassword(!passwordchk);
+        // };
     }
     return(
          <div class='mysection-form mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]'>
