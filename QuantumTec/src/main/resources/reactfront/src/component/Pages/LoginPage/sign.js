@@ -376,13 +376,13 @@ export default function Sign(){
                 </div>
                 <div class='col-9 flex'>
                     <div  className='w-36 text-right' >
-                        <input className='mr-4 ml-4' type='radio' name='input_gender' value='male' onChange={handleInputGender} checked/>남자
+                        <input className='mr-4 ml-4' type='radio' name='input_gender' value='m' onChange={handleInputGender} checked/>남자
                     </div>
                     <div  className='w-36 text-center'>
-                        <input className='mr-4 ml-4' type='radio' name='input_gender' value='famale' onChange={handleInputGender} />여자
+                        <input className='mr-4 ml-4' type='radio' name='input_gender' value='f' onChange={handleInputGender} />여자
                     </div>
                     <div  className='w-36 text-left' >
-                            <input className='mr-4 ml-4' type='radio' name='input_gender' value='default' onChange={handleInputGender} />비공개
+                            <input className='mr-4 ml-4' type='radio' name='input_gender' value='p' onChange={handleInputGender} />비공개
                     </div>
                 </div>
             </div>
