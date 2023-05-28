@@ -25,6 +25,7 @@ export async function axiosRequest(path, body, methodType, returnType) {
         const response = await axios(config);
 
         switch (returnType){
+            case "boolean":
             case "json":
                 data = response.data;
                 break;
