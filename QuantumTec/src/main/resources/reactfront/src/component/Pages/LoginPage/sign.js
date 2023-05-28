@@ -14,7 +14,7 @@ export default function Sign(){
     const [inputAddress, setInputAddress] = useState('')
     const [inputAddressDetail, setInputAddressDetail] = useState('')
     const [inputRole, setInputRole] = useState('user');    // 기본 설정이 user
-    const [inputGender, setInputGender] = useState('men'); // 기본 설정이 men
+    const [inputGender, setInputGender] = useState('m'); // 기본 설정이 men
     const [showEmailCheck, setshowEmailCheck] = useState(false)
     const [inputPostAddress, setInputPostAddress] = useState('')
     const [isNickDiabled, setIsNickDisabled] = useState(false);
