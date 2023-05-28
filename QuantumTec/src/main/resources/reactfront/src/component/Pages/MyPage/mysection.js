@@ -1,33 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-// import { isDisabled } from '@testing-library/user-event/dist/utils';
+import {axiosRequest} from '../../../module/networkUtils';
 
-export default function Mysection(){
-
+export default function Mysection(props){
     // 값 불러올 때에는 useState에 입력하면 됨
-    const [inputName, setInputName] = useState('')
-    const [inputBirth, setInputBirth] = useState('')
-    const [inputNickname, setInputNickname] = useState('')
-    const [inputId, setInputId] = useState('')
-    const [inputPw, setInputPw] = useState('')
-    const [inputPwCheck, setInputPwCheck] = useState('')
-    const [inputEmail, setInputEmail] = useState('')
-    const [inputEmailCheck, setInputEmailCheck] = useState('')
-    const [inputAddress, setInputAddress] = useState('')
-    const [inputAddressDetail, setInputAddressDetail] = useState('')
-    const [inputRole, setInputRole] = useState('')
-    const [inputGender, setInputGender] = useState('men');
-    const [showEmailCheck, setshowEmailCheck] = useState(false)
-    const [inputPostAddress, setInputPostAddress] = useState('')
-    const [isNickDiabled, setIsNickDisabled] = useState(false);
-    const [isIdDisabled, setIsIdDisabled] = useState(false);
-    let [isNickCheck] = useState(false);
-    let [isIdCheck] = useState(false);
+    const [inputName, setInputName] = useState('');                             // 사용자 이름
+    const [inputBirth, setInputBirth] = useState('');                           // 사용자 생일
+    const [inputNickname, setInputNickname] = useState('');                     // 사용자 닉네임
+    const [inputId, setInputId] = useState('')                                  // 사용자 아이디
+    const [inputPw, setInputPw] = useState('')                                  // 사용자 비밀번호
+    const [inputPwCheck, setInputPwCheck] = useState('')                        // 사용자 비밀번호 체크
+    const [inputEmail, setInputEmail] = useState('')                            // 사용자 이메일
+    const [inputEmailCheck, setInputEmailCheck] = useState('')                  // 사용자 이메일 인증번호
+    const [inputAddress, setInputAddress] = useState('')                        // 사용자 주소
+    const [inputAddressDetail, setInputAddressDetail] = useState('')            // 사용자 상세주소
+    const [inputRole, setInputRole] = useState('user')                          // 사용자 역할
+    const [inputGender, setInputGender] = useState('m');                        // 사용자 성별
+    const [showEmailCheck, setshowEmailCheck] = useState(false)                 // 이메일 인증번호 입력란 표시여부
+    const [inputPostAddress, setInputPostAddress] = useState('')                // 사용자 우편 번호
+    const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false);      // 사용자 닉네임 체크여부
+    const [isIdDisabled, setIsIdDisabled] = useState(false);                    // 사용자 아이디 체크여부
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
-    
 
+    const data = props.userData;
+    useEffect(()=>{
+        // 로그인 되어 있는 유저의 정보를 불러와 각 입력란에 입력
+        if(data != null){
+            setInputNickname(data.userNickname);
+            setInputId(data.userID);
+            setInputName(data.userName);
+            setInputGender(data.userGender);
+            setInputBirth(data.userBirth);
+            setInputEmail(data.userEmail);
+            setInputAddress(data.userAddress);
+            setInputPostAddress(data.userPostal);
+            setInputAddressDetail(data.userAddressDetail);
+            setInputRole(data.userRole);
+        }
+    },[]);
 
 	// input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
     const handleInputName = (e) => {
@@ -68,7 +79,7 @@ export default function Mysection(){
     }
     const handleInputNickname = (e) => {
         setInputNickname(e.target.value)
-        setIsNickDisabled(inputName.length > 8);
+        setIsNicknameDuplicate(inputName.length > 8);
     }
     const handleInputPostAddress = (e) => {
         setInputPostAddress(e.target.value)
@@ -90,8 +101,10 @@ export default function Mysection(){
             alert('아이디를 입력해주세요');
             return
         //없을시 사용가능한 아이디 표시
-        } else{isIdCheck = true;
-            alert('사용 가능한 아이디입니다.');}
+        } else{
+            setIsIdDisabled(true);
+            alert('사용 가능한 아이디입니다.');
+        }
         // console.log(inputId)
         // console.log(isIdCheck);
     }
@@ -108,8 +121,10 @@ export default function Mysection(){
             alert('닉네임을 입력해주세요');
             return
         //없을시 사용가능한 닉네임 표시
-        } else{isNickCheck = true; 
-            alert('사용 가능한 닉네임입니다.');}
+        } else{
+            setIsNicknameDuplicate(true);
+            alert('사용 가능한 닉네임입니다.');
+        }
     }
     //이메일 형식 확인
     const isEmail = (inputEmail) => {
@@ -139,22 +154,55 @@ export default function Mysection(){
         console.log(inputAddress)
     }
 
-    // signup 버튼 클릭 이벤트
-    const OnClickSave = () => {
-        console.log(inputName, inputBirth, inputId, inputPw, inputPwCheck, inputEmail, inputAddress, inputAddressDetail, inputRole)
+    // 회원 수정 이벤트
+    const OnClickSave = async () => {
+        // 닉네임 수정이 없을 경우
+        if(inputNickname === data.userNickname) setIsNicknameDuplicate(true);
+        
+        // 이메일 수정이 없을 경우 true 값을 부여해주어야함
+
+
         if(inputName.length > 20){
             alert('이름을 20글자 이내로 써주세요');
             return
-        }
-        else if (inputPw !== inputPwCheck) {
+        }else if (inputPw !== inputPwCheck) {
             alert('비밀번호가 일치하지 않습니다.')
             return
         }else if(inputPw.length < 8){
             alert('비밀번호를 8글자 이상으로 써주세요');
             return
-        }else if(inputPw === inputPwCheck && inputName.length <= 20 && inputId.length <= 20 && inputPw.length >= 8 && isNickCheck === true && isIdCheck === true){
-            alert('회원 정보가 수정되었습니다.')
-            return
+        }else if(isNicknameDuplicate === true){
+            const path = 'http://localhost:9090/user/update';
+            const body = {
+                userID: inputId,
+                userPW : inputPw,
+                userNickname: inputNickname,
+                userName: inputName,
+                userBirth: inputBirth,
+                userEmail: inputEmail,
+                userAddress: inputAddress,
+                userAddressDetail : inputAddressDetail,
+                userPostal : inputPostAddress,
+                userRole: inputRole,
+                userGender : inputGender
+            };
+            const checkSave = await axiosRequest(path,body,'put','boolean');
+            if(checkSave != null){
+                if(checkSave) {
+                    alert('회원 정보가 수정되었습니다.');
+                    document.location.href='/mypage';
+                }
+                else {
+                    alert('회원정보 수정에 실패하였습니다.');
+                    setInputPw('');
+                    setInputPwCheck('');
+                }
+            }else{
+                // 서버와 연결실패/데이터 전송 실패등 오류 발생시
+                alert('회원정보 수정에 실패하였습니다.');
+                setInputPw('');
+                setInputPwCheck('');
+            }
         }
         
     }
@@ -163,15 +211,6 @@ export default function Mysection(){
     const OnClickCancel = () => {
         document.location.href = "/mypage";
     }
- 
-	// 페이지 렌더링 후 가장 처음 호출되는 함수
-    useEffect(() => {
-        axios.get('/user_inform/login')
-        .then(res => console.log(res))
-        .catch()
-    },
-    // 페이지 호출 후 처음 한번만 호출될 수 있도록 [] 추가
-    [])
 
     //css부분 옮길 예정
     const style_inputbox ={
@@ -186,7 +225,6 @@ export default function Mysection(){
         fontSize: '1.2rem',
     }
 
-
     return (
         <div class="signup-form container mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]">
             <h2 class='account_main_page_title '>회원 정보 수정</h2>
@@ -198,7 +236,7 @@ export default function Mysection(){
                 <div class= 'col-9'>
                     <div className='flex'>
                     <input style={style_inputbox} className='border' type='text' name='input_nickname' maxLength={8} value={inputNickname} onChange={handleInputNickname} />
-                    <button type="button" onClick={OnClickNicknameCheck} disabled={isNickDiabled}>중복확인</button>
+                    <button type="button" onClick={OnClickNicknameCheck} disabled={isNicknameDuplicate}>중복확인</button>
                     </div>
                     <div class = 'infotxt'>8자 이내로 적어주세요.</div>
                     {inputNickname.length > 8 && (
@@ -260,13 +298,13 @@ export default function Mysection(){
                 </div>
                 <div class='col-9 flex'>
                     <div  className='w-36 text-right' >
-                        <input className='mr-4 ml-4' type='radio' name='input_gender' value='male' onChange={handleInputGender} checked/>남자
+                        <input className='mr-4 ml-4' type='radio' name='input_gender' value='m' checked={inputGender === 'm'} onChange={handleInputGender}/>남자
                     </div>
                     <div  className='w-36 text-center'>
-                        <input className='mr-4 ml-4' type='radio' name='input_gender' value='famale' onChange={handleInputGender} />여자
+                        <input className='mr-4 ml-4' type='radio' name='input_gender' value='f' checked={inputGender === 'f'} onChange={handleInputGender} />여자
                     </div>
                     <div  className='w-36 text-left' >
-                            <input className='mr-4 ml-4' type='radio' name='input_gender' value='default' onChange={handleInputGender} />비공개
+                            <input className='mr-4 ml-4' type='radio' name='input_gender' value='p' checked={inputGender === 'p'}  onChange={handleInputGender} />비공개
                     </div>
                 </div>
             </div>
@@ -324,10 +362,10 @@ export default function Mysection(){
 
             <div class="sign-button mb-2 row">
                 <div class='col-6' style={{textAlign:'right'}} >
-                    <input type='radio' name='input_role' value='user' onChange={handleInputRole} checked/>사용자
+                    <input type='radio' name='input_role' value='user' checked={inputRole === 'user'} onChange={handleInputRole}/>사용자
                 </div>
                 <div class='col-6' style={{textAlign:'left'}}>
-                    <input type='radio' name='input_role' value='developer' onChange={handleInputRole} />공급자
+                    <input type='radio' name='input_role' value='developer' checked={inputRole === 'developer'} onChange={handleInputRole} />공급자
                 </div>
             </div>
 
