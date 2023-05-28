@@ -14,7 +14,7 @@ export default function PasswordChk(){
     //확인 버튼 눌럿을시 비밀번호 확인
     const handleClick = () => {
         if (inputPw === '1234'){
-        chkPassword(!passwordchk);
+            chkPassword(!passwordchk);
         };
     }
     return(

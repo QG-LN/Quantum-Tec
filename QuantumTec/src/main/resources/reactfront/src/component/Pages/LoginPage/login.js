@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Choosefind from './choosefind.js';
+import {axiosRequest} from '../../../module/networkUtils';
 
 export default function Login(props){
     const [inputId, setInputId] = useState('')
@@ -17,7 +18,7 @@ export default function Login(props){
     }
  
 	// login 버튼 클릭 이벤트
-    const onClickLogin = () => {
+    const onClickLogin = async () => {
         if(inputId ===''){
             alert('아이디를 입력해주세요');
         }else if(inputPw === ''){
@@ -25,47 +26,35 @@ export default function Login(props){
         }else if(inputPw < 8 ){
             alert('비밀번호는 8자리 이상이어야 합니다');
         }else{
-            // 아이디와 비밀번호를 /user/login에 전달
-            fetch('http://localhost:9090/user/login',{
-                method: 'POST',
-                headers: {                                              //  Json형식으로 전달하겠다는 선언
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({                          // back단에 JSON형식으로 데이터 전달
+            try{
+                const path = 'http://localhost:9090/user/login';
+                const body = {
                     userID: inputId,
                     userPW: inputPw,
-                }),
-            })
-                .then(res => res.json())
-                .then(data  =>{
-                    // 값이 만약 존재할 경우 로컬 스토리지에 유저닉네임과 유저 캐시를 저장
-                    // 로그인을 true로 변경
-                    // 현재 페이지 위치를 메인페이지로 이동
-                    if(data !== undefined && data !== null){
-                        localStorage.setItem("userNickname", data.userNickname);
-                        localStorage.setItem("userCash", data.userCash);
-                        localStorage.setItem("userID", inputId);                    // 마이페이지에서 사용하기 위해 세팅
-                        props.setTruelogin(true);
-                    }
-                })
-                .catch(err => {
-                    // 로그인 오류 발생 시 오류 구문을 출력하고, ID/PW의 값을 초기화
+                };
+                const data = await axiosRequest(path,body,'POST','json');
+
+                console.log(data);
+                if(data !== null){
+                    localStorage.setItem("userNickname", data.userNickname);
+                    localStorage.setItem("userCash", data.userCash);
+                    localStorage.setItem("userID", inputId);                    // 마이페이지에서 사용하기 위해 세팅
+                    localStorage.setItem("truelogin","true");
+                    document.location.href = "/";
+                    props.setTruelogin(true);
+                }else{
                     alert('로그인에 실패하였습니다.');
                     setInputId("");
                     setInputPw("");
-                    console.log(err);
-                });
-
+                }
+            }catch (e){
+                console.log(e);
+                alert('로그인에 실패하였습니다.');
+                setInputId("");
+                setInputPw("");
+            }
         }
     }
-
-    // props.start가 true 즉, props.setTruelogin(true);값이 적용이 완료되었을 경우
-    useEffect(() => {
-        if(props.start){
-            localStorage.setItem("truelogin","true");
-            document.location.href = "/";
-        }
-    }, [props.start]);
 
     // signup 버튼 클릭 이벤트
     const OnClickSignUp = () => {
