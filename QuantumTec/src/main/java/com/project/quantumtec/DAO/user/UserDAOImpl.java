@@ -86,13 +86,13 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public boolean deleteUser(int userIdx) throws Exception {
-        int deleteResult = sqlSession.delete("UserDAO.deleteUser", userIdx);
+        int deleteResult = sqlSession.delete("UserService.deleteUser", userIdx);
         return deleteResult > 0;
     }
 
     @Override
     public boolean updateUser(UserVO user) throws Exception {
-        int updateResult = sqlSession.update("UserDAO.updateUser", user);
+        int updateResult = sqlSession.update("UserService.updateUser", user);
         return updateResult > 0;
     }
 
