@@ -6,7 +6,9 @@ import '../App.js';
 import json from './b.json';
 
 export default function Navbar(props) {
+    let userpaidCash=0;
     let userCash = 0;
+    let userCheck = 8;
     let truelogin = false;
     // 로그인 상태일때 유저 이름 받아오기
     truelogin=props.start;
@@ -110,29 +112,33 @@ export default function Navbar(props) {
                                     </div>
                                     <img class='w-8 h-8 rounded-full' src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' />
                                 </a>
-                                <div class='LogInfo hidden w-[366px] h-[270px] absolute bg-gray-800 top-[38px] right-0 z-40 overflow-hidden'>
-                                        <div class="info_t p-1">
-                                            <ul class='flex mt-5'>
-                                                <li class="thum"><img src="https://resource.cyphers.co.kr/ui/img/character/ico_64px_44.png" alt=""/>
-                                                
-                                                </li>
-                                                <li class='text-gray-400 ml-3'>
-                                                    <p class='mb-0 ml-2 text-left font-bold'>
-                                                        <strong>
-                                                            {username}
-                                                        </strong>
-                                                    </p>
-                                                    <p class='mb-0 ml-2 text-left'>내 레벨 : <span id="level"></span></p>
-                                                    <p class='mb-0 ml-2 text-left'>내 캐쉬 : <a href="/mypage"><span class='text-gray-400'>{userCash}원</span></a> <a href="#" class="bg-yellow-400 rounded-md  hover:text-white" id="boxTeraCharge">충전</a></p>
-                                                </li>
-                                            </ul>
-                                                <div class="info_m text-gray-400 mt-8">버그 및 불편사항은 고객센터에 남겨주세요.</div>
+                                <div class='LogInfo hidden w-[366px] h-[300px] absolute bg-gray-800 top-[38px] right-0 z-40 overflow-hidden'>
+                                            <div class="info_t p-1">
+                                                <ul class='flex mt-4'>
+                                                    <li class="thum"><img class='w-24 h-24 rounded-full' src="https://resource.cyphers.co.kr/ui/img/character/ico_64px_44.png" alt=""/>
+                                                    
+                                                    </li>
+                                                    <li class='text-gray-400 ml-3'>
+                                                        <p class='mb-0 ml-2 text-left font-bold'>
+                                                            <strong>
+                                                                {username}
+                                                            </strong>
+                                                        </p>
+                                                        <p class='mb-0 ml-2 text-left'>출석일수 : <span>{userCheck}일</span></p>
+                                                        <p class='mb-0 ml-2 text-left'>보유재화 : <span>{userCash}원</span></p>
+                                                        <p class='mb-0 ml-2 text-left'>유료재화 : <a href="/mypage"><span class='text-gray-400'>{userpaidCash}원</span></a> <a href="#" class="bg-yellow-400 rounded-md  hover:text-white" id="boxTeraCharge">충전</a></p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        <hr class='border-white mb-0'/>
+                                        <div class="info_b text-center bg-gray-900">
+                                            <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' href="/mypage">내정보관리</a>
+                                            <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' href="/mypage">아바타관리</a>
                                         </div>
-                                    <hr class='border-white mb-0'/>
-                                    <div class="info_b text-center bg-gray-900">
-                                        <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' href="/mypage">마이 페이지</a>
-                                        <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' href="#" onclick="NgbLogin.Logout();return false;">로그아웃</a>
-                                    </div>
+                                        <hr class='border-white mb-0 mt-0'/>
+                                        <div class='text-center bg-gray-900'>
+                                            <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' href="#" onclick="NgbLogin.Logout();return false;">로그아웃</a>
+                                        </div>
                                     </div>
                                 </div>}
                             </form> 
