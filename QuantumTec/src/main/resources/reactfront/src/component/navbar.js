@@ -72,11 +72,11 @@ export default function Navbar(props) {
       
            return (
             <div>
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light ">
                     <div class="block w-[100%] relative">
                         {/*로고(클릭시 메인화면)*/}
                         <a class="navbar-brand hover:cursor-pointer" onClick={logoClick}>로고 위치(상표)</a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <button class="d-flex top-0 left-0 ml-10 absolute navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span style={{width:'20px', height:'20px'}} class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                              {/*카테고리*/}
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 navbar-nav-right absolute top-0 left-0">
