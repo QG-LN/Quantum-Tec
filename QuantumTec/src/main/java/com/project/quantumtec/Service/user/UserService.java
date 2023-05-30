@@ -1,6 +1,7 @@
 package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.UserDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.VO.user.UserVO;
@@ -27,7 +28,7 @@ public interface UserService {
     public LoginResponseDTO login(String userID, String userPW)  throws Exception;
 
     // 회원가입
-    public UserInfoResponseDTO signup(UserVO user) throws Exception;
+    public UserInfoResponseDTO signup(UserDTO user) throws Exception;
 
     // 아이디 중복 확인
     public boolean checkDuplicateId(UserVO user) throws Exception;

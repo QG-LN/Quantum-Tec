@@ -1,9 +1,6 @@
 package com.project.quantumtec.Controller;
 
-import com.project.quantumtec.DTO.user.LoginRequestDTO;
-import com.project.quantumtec.DTO.user.LoginResponseDTO;
-import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
-import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
+import com.project.quantumtec.DTO.user.*;
 import com.project.quantumtec.Service.user.UserService;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +22,7 @@ public class UserController {
 
     // UserService 의 입력받은 회원정보를 DB에 저장하는 메소드
     @PostMapping("/signup")
-    public UserInfoResponseDTO signupAdd(@RequestBody UserVO user) throws Exception {
+    public UserInfoResponseDTO signupAdd(@RequestBody UserDTO user) throws Exception {
         UserInfoResponseDTO checkUser = userService.signup(user);
         if(checkUser != null) {
             return checkUser;

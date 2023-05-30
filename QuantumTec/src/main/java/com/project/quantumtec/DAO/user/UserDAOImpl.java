@@ -96,20 +96,9 @@ public class UserDAOImpl implements UserDAO{
 
     // 사용자 정보를 입력받아 DB에 저장하는 함수
     @Override
-    public int setUser(UserVO user) throws Exception {
+    public int setUser(UserDTO user) throws Exception {
         try {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setUserID(user.getUserID());
-            userDTO.setUserPW(user.getUserPW());
-            userDTO.setUserNickname(user.getUserNickname());
-            userDTO.setUserName(user.getUserName());
-            userDTO.setUserBirth(user.getUserBirth());
-            userDTO.setUserAddress(user.getUserAddress());
-            userDTO.setUserAddressDetail(user.getUserAddressDetail());
-            userDTO.setUserPostal(user.getUserPostal());
-            userDTO.setUserEmail(user.getUserEmail());
-            userDTO.setUserRole(user.getUserRole());
-            Integer result = sqlSession.insert("UserService.setUser", userDTO);
+            Integer result = sqlSession.insert("UserService.setUser", user);
             return (result == null) ? 0 : result;
         } catch (Exception e) {
             return 0;

@@ -2,6 +2,7 @@ package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.UserDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.Utils.user.emailApi.EmailApi;
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserInfoResponseDTO signup(UserVO user) throws Exception {
+    public UserInfoResponseDTO signup(UserDTO user) throws Exception {
         // 0: 회원가입 실패, 1: 회원가입 성공
         int checkSignUp = userDAO.setUser(user);
 
