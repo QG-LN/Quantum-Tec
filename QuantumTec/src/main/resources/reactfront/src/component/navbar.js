@@ -113,7 +113,7 @@ export default function Navbar() {
                                             </div>
                                         <hr class='border-white mb-0'/>
                                         <div class="info_b text-center bg-gray-900">
-                                            <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' href="#">내정보관리</a>
+                                            <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' href="/mypage">내정보관리</a>
                                             <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' href="#">아바타관리</a>
                                         </div>
                                         <hr class='border-white mb-0 mt-0'/>
