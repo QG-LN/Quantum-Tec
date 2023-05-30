@@ -5,36 +5,45 @@ import {axiosRequest} from '../../../module/networkUtils';
 const ITEMS_PER_PAGE = 10; // 페이지 당 아이템 수
 
 function Board() {
-    /////////////////////////// 수정 부탁
+
+    // 페에지네이션 첫 시작 페이지 넘버
     const [startPage, setStartPage] = useState(1);
+    // 게시글 리스트
     const [Posts, setPosts] = useState([]);
+    // 현재 페이지 넘버
     const [currentPage, setCurrentPage] = useState(1);
+
+    /////////////////////////// 수정 부탁
+    // 게시글 리스트 불러오기 currentpage가 바뀔 때마다 실행
     useEffect(() => {
         axios.get(`/api/boards?page=${currentPage}&size=${ITEMS_PER_PAGE}`)
             .then(response => setPosts(response.data))
             .catch(error => console.error(error));
     }, [currentPage]);
+    ////////////////////////////
     
+    // 페이지네이션 함수
     const handlePageChange = (pageNumber) => {
         setPosts([]);
         setCurrentPage(pageNumber);
     };
+    // 페이지네이션 다음 버튼 함수
     const handlePageUp = () => {
         setPosts([]);
         console.log(currentPage);
         let page = ((Math.floor((currentPage-1)/10))+1)*10+1;
-        console.log(page);
         setStartPage(page);
         setCurrentPage(page);
     };
+    // 페이지네이션 이전 버튼 함수
     const handlePageDown = () => {
         setPosts([]);
         let page = (Math.floor((currentPage-1)/10))*10;
-        console.log(page)
         setStartPage(page-9);
         setCurrentPage(page);
     };
-    ////////////////////////////
+
+    // 드롭다운 메뉴 버튼 함수
     const handleDropdown = (e) => {
         const ul = e.target.nextSibling;
         if(ul.style.display === "block")
@@ -42,6 +51,8 @@ function Board() {
         else
             ul.style.display = "block";
     }
+
+    // 게시글 리스트 더미 파일
     if (Posts.length === 0){
         for (let i = 0 + (10 * (currentPage -1)); i < 10 * currentPage; i++) {
             const newPost = {
@@ -56,6 +67,8 @@ function Board() {
             Posts.push(newPost);
         }
     }
+
+    // 총 게시글 카운트 더미 파일
     Posts.totalItems = 110;
       return (
         <div className="container">
