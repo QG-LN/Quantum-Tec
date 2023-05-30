@@ -18,6 +18,16 @@ export default function GameImage(props) {
 
     //이미지를 클릭할시
     const OnClickimg = (e) => {
+        //클릭한 이미지를 제외한 이미지 border 삭제 및 밝기 조절
+        const img = document.querySelectorAll('.imgButtonStyle label img');
+        img.forEach((e) => {
+            e.style.border = 'none';
+            e.style.filter = 'brightness(100%)';
+        });
+        //화면 테두리 및 밝기 조절
+        e.target.style.border = '2px solid #ff0000';
+        e.target.style.filter = 'brightness(50%)';
+
         setSelectImg(e.target.src);
     }
 

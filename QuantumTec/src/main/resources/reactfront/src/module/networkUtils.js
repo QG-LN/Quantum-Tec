@@ -24,18 +24,17 @@ export async function axiosRequest(path, body, methodType, returnType) {
         // response 객체가 반환될때까지 기다린후 데이터가 전달되면 json 데이터를 반환
         const response = await axios(config);
 
-        switch (returnType) {
-            case 'boolean':
-            case 'json':
+        switch (returnType){
+            case "boolean":
+            case "json":
                 data = response.data;
                 break;
-            case 'string' :
+            case "string" :
                 data = response.data.toString();
                 break;
         }
-
-        // 데이터가 없거나 null 이거나 undefined 이거나 ''이면 null 반환
-        return data !== null && data !== undefined && data !== '' ? data : null;
+        
+        return data !== null && data !== undefined ? data : null;
     } catch (error) {
         console.log(error);
         return null;

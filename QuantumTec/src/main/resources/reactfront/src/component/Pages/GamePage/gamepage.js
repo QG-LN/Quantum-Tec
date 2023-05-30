@@ -119,15 +119,15 @@ export default function GamePage() {
 
 
     return (
-        <div class='container'>
+        <div class='m-auto w-[1200px]'>
             <div>
-                <h2 class='text-left'>게임이름</h2>
-                <div class='text-left'>{categray_0}&gt;{categray_1}&gt;{categray_2}</div>
+                <h2 class='text-left mt-4'>게임이름</h2>
+                <div class='text-left mt-2 mb-3'>{categray_0}&gt;{categray_1}&gt;{categray_2}</div>
                 <div class='flex'>
-                    <section class='basis-3/5 h-[535px] mr-5' >
+                    <section class='basis-3/4 h-[535px] mr-5' >
                         <GPImage img={images}/>
                     </section>
-                    <aside class='basis-2/5 ml-5'>
+                    <aside class='basis-1/4 ml-5'>
                         <GPInfo gameinfo={gameinfo} gamegrade={gamegrade} gamedate={gamedate} developer={developer} categorylist={Categorylist} img={images[0].url} />
                     </aside>
                 </div>

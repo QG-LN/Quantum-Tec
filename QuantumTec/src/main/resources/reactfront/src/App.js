@@ -20,7 +20,7 @@ function App() {
     truelogin = '';
   return (
    <Router>
-      <div className="App" style={{overflow:'auto',marginTop:'4%'}}>
+      <div className="App" style={{overflow:'auto'}}>
         <Navbar start={truelogin}/>
         <Routes>
           <Route path="/" exact element={<Home start={truelogin}/>} />
