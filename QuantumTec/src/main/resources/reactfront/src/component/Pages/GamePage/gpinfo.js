@@ -3,10 +3,10 @@ export default function GameInfo(props) {
     
     return(
         <div class=' h-[535px]'>
-        <img className='w-[518px] h-[222px]' src={props.img} alt='게임배너이미지' />
+        <img className='w-[435px] h-[181px]' src={props.img} alt='게임배너이미지' />
 
-        <div class='h-[150px] mt-2'><p class='text-left'>{props.gameinfo}</p></div>
-        <table class='table-auto text-left w-[518px] h-[160px]'>
+        <div class='h-[130px] mt-2'><p class='text-left'>{props.gameinfo}</p></div>
+        <table class='table-auto text-left w-[435px] h-[140px]'>
           <colgroup>
                 <col class='w-[30%]'/>
                 <col class='w-[70%]'/>
