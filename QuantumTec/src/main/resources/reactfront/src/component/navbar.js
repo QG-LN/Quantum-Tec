@@ -1,14 +1,26 @@
 import '../App.css';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import '../App.js';
 // import React, { useState, useEffect } from "react";
 import json from './b.json';
+
 export default function Navbar(props) {
+    let userCash = 0;
     let truelogin = false;
     // 로그인 상태일때 유저 이름 받아오기
     truelogin=props.start;
     let username= 'test';
+    truelogin=true;
 
+    const handleLogInfo = (e) => {
+        console.log(e.currentTarget)
+        //class이름이 LogInfo인 div태그 속성을 hidden에서 block으로 변경
+        if (e.currentTarget.nextSibling.style.display === 'block')
+            e.currentTarget.nextSibling.style.display = 'none';
+        else
+            e.currentTarget.nextSibling.style.display = 'block';
+    }
     // 로그인 상태일때 유저 이름 받아오기
     const getUsername = () => { 
         const url = json;
@@ -18,6 +30,14 @@ export default function Navbar(props) {
         .catch(username = 'error');
         
     };
+    const getMyCash = () => {
+        const url = json;
+        axios
+        .get(url)
+        .then(res => userCash = (res.data.userCash))
+        .catch(userCash = '0');
+    };
+
     // 로고 클릭시 맨 위로 이동
     const logoClick = () => {
         document.location.href = "/";
@@ -51,13 +71,13 @@ export default function Navbar(props) {
            return (
             <div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="container px-4 px-lg-5">
+                    <div class="block w-[100%] relative">
                         {/*로고(클릭시 메인화면)*/}
                         <a class="navbar-brand hover:cursor-pointer" onClick={logoClick}>로고 위치(상표)</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                              {/*카테고리*/}
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 navbar-nav-right">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 navbar-nav-right absolute top-0 left-0">
                                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                                 <li class="nav-item dropdown">
@@ -74,18 +94,47 @@ export default function Navbar(props) {
    
 
                         </div>
-                        <form class="d-flex">
+                        <form class="log_info d-flex justify-end absolute top-0 right-0 mr-10 ">
                                 
                                 {getUsername()}
-                                {!truelogin && <button class="btn btn-outline-dark" type="button" onClick={ClickLogin} >
+                                {getMyCash()}
+                                {!truelogin && <button class="btn-outline-dark border-2 hover:bg-green-500 hover:text-white rounded-md pr-1" type="button" onClick={ClickLogin} >
                                 <i class="loginbtn me-1"></i>
                                 <span>
                                     로그인</span>
                                 </button>}
-                                {truelogin && <button class="btn btn-outline-dark" onClick={ClickMyPage} type="submit">
-                                <i class="userbtn me-1"></i>
-                                    {username}
-                                </button>}
+                                {truelogin && <div><a class='flex openLogInfo' href='javascript:void(0)' onClick={handleLogInfo}>
+                                    <div class='flex'>
+                                    <div class='mr-1'>{username}</div>
+                                    <div class='mr-5'> : {userCash}</div>
+                                    </div>
+                                    <img class='w-8 h-8 rounded-full' src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' />
+                                </a>
+                                <div class='LogInfo hidden w-[366px] h-[270px] absolute bg-gray-800 top-[38px] right-0 z-40 overflow-hidden'>
+                                        <div class="info_t p-1">
+                                            <ul class='flex mt-5'>
+                                                <li class="thum"><img src="https://resource.cyphers.co.kr/ui/img/character/ico_64px_44.png" alt=""/>
+                                                
+                                                </li>
+                                                <li class='text-gray-400 ml-3'>
+                                                    <p class='mb-0 ml-2 text-left font-bold'>
+                                                        <strong>
+                                                            {username}
+                                                        </strong>
+                                                    </p>
+                                                    <p class='mb-0 ml-2 text-left'>내 레벨 : <span id="level"></span></p>
+                                                    <p class='mb-0 ml-2 text-left'>내 캐쉬 : <a href="/mypage"><span class='text-gray-400'>{userCash}원</span></a> <a href="#" class="bg-yellow-400 rounded-md  hover:text-white" id="boxTeraCharge">충전</a></p>
+                                                </li>
+                                            </ul>
+                                                <div class="info_m text-gray-400 mt-8">버그 및 불편사항은 고객센터에 남겨주세요.</div>
+                                        </div>
+                                    <hr class='border-white mb-0'/>
+                                    <div class="info_b text-center bg-gray-900">
+                                        <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' href="/mypage">마이 페이지</a>
+                                        <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' href="#" onclick="NgbLogin.Logout();return false;">로그아웃</a>
+                                    </div>
+                                    </div>
+                                </div>}
                             </form> 
                     </div>   
                 </nav>
