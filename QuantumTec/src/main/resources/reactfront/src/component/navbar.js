@@ -45,7 +45,12 @@ export default function Navbar() {
     // 로그인 버튼 클릭시 로그인 페이지로 이동
     const ClickLogin = () => {
         document.location.href = "/login";
-      }
+    }
+
+    const clickLogout = () => {
+        localStorage.clear();
+        document.location.href = "/";
+    }
     const ClickMyPage = () => {
         document.location.href = "/mypage";
       }
@@ -118,7 +123,7 @@ export default function Navbar() {
                                         </div>
                                         <hr class='border-white mb-0 mt-0'/>
                                         <div class='text-center bg-gray-900'>
-                                            <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' href="#" onclick="NgbLogin.Logout();return false;">로그아웃</a>
+                                            <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg' onClick={clickLogout}>로그아웃</a>
                                         </div>
                                     </div>
                                 </div>}
