@@ -34,8 +34,8 @@ export default function Post() {
                     writer: "댓글 작성자",
                     createdDate: "2023-05-30 17:59:41",
                     content: "댓글내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용",
-                    upvote: 55,
-                    downvote: 3
+                    upvote: 555,
+                    downvote: 333
                 };
                 comments.push(newComment);
             }
@@ -66,7 +66,7 @@ export default function Post() {
             </div>
             <hr />
             <p className='text-start ms-3 mb-[50px] me-3'>{post.content}</p>
-            <hr className='mb-2 text-green-700 border-4 opacity-50' />
+            <hr className='mb-4 text-green-700 border-4 opacity-50' />
             <div className='m-0 row justify-content-between'>
                 <div className='col-auto w-[100px]'>
                     <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' className="rounded w-[100px]" alt="..."></img>
@@ -75,7 +75,7 @@ export default function Post() {
                     <textarea className="form-control" placeholder="댓글 입력하여주세요." id="floatingTextarea2" style={{height: '100px'}}></textarea>
                     <label className='ms-[10px]' for="floatingTextarea2">댓글</label>
                 </div>
-                <hr className='mt-3 text-green-700 border-3 opacity-50' />
+                <hr className='mt-4 text-green-700 border-3 opacity-50' />
             </div>
             <div>
                 {comments.map(comment => (
@@ -93,11 +93,11 @@ export default function Post() {
                             <div className='col-7 text-start'>{comment.content}</div>
                             <div className='row justify-content-around col-2 text-end p-0 ps-4'>
                                 <div className='row text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-2'>
-                                    <div className='col-auto text-start p-0 ps-2 pe-2'>👍</div>
+                                    <div className='col-auto text-start p-0 ps-2 pe-1'>👍</div>
                                     <div className='col text-center p-0'>{comment.upvote}</div>
                                 </div>
                                 <div className='row text-end text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-3'>
-                                    <div className='col-auto text-start p-0 ps-2 pe-2'>👎</div>
+                                    <div className='col-auto text-start p-0 ps-2 pe-1'>👎</div>
                                     <div className='col text-center p-0'>{comment.downvote}</div>
                                 </div>
                             </div>
