@@ -11,6 +11,7 @@ import MyMain from './component/Pages/MyPage/mymain';
 import PasswordChk from './component/Pages/MyPage/passwordChk';
 import GamePage from './component/Pages/GamePage/gamepage.js';
 import BoardPage from './component/Pages/BoardPage/board.js';
+import PostPage from './component/Pages/BoardPage/post.js';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
@@ -29,7 +30,8 @@ function App() {
           <Route path="/signup" element={<SignUp />}/>
           <Route path="/mypage" element={<MyPage />}/>
           <Route path="/gamepage" element={<GamePage />}/>
-          <Route path="/board" element={<BoardPage />}/>
+          <Route path="/board" element={<Board />}/>
+          <Route path="/post/:id" element={<Post />}/>
         </Routes>
       </div>
       <Footer style={{height: "20vh"}} />
@@ -76,10 +78,17 @@ function MyPage(){
     </div>
   )
 }
-function BoardsPage(){
+function Board(){
   return (
-    <div className="BoardsPage" style={{ height: "82vh" }}>
+    <div className="Board" style={{ height: "82vh" }}>
         <BoardPage />
+    </div>
+  )
+}
+function Post(){
+  return (
+    <div className="Post" style={{ height: "82vh" }}>
+        <PostPage />
     </div>
   )
 }

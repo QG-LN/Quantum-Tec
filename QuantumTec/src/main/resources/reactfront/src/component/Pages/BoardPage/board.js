@@ -3,7 +3,7 @@ import axios from 'axios';
 import {axiosRequest} from '../../../module/networkUtils';
 
 const ITEMS_PER_PAGE = 10; // 페이지 당 아이템 수
-function Board() {
+export default function Board() {
     const tableBody = useRef(null);
     // 페에지네이션 첫 시작 페이지 넘버
     const [startPage, setStartPage] = useState(1);
@@ -51,7 +51,7 @@ function Board() {
         let tempHTML = "";
         for(let i = 0; i < Posts.length; i++){
             tempHTML += `
-                <tr key=${Posts[i].id} onClick='location.href = "/post?id=${Posts[i].id}"'>
+                <tr key=${Posts[i].id} onClick='location.href = "/post/${Posts[i].id}"'>
                     <td>${Posts[i].id}</td>
                     <td>${Posts[i].board}</td>
                     <td>${Posts[i].title}</td>
@@ -201,5 +201,3 @@ function Board() {
         </div>
     );
 }
-
-export default Board;
