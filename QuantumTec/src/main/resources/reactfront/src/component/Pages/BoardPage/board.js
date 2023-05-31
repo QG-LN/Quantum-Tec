@@ -1,25 +1,73 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import {axiosRequest} from '../../../module/networkUtils';
 
 const ITEMS_PER_PAGE = 10; // 페이지 당 아이템 수
-
 function Board() {
-
+    const tableBody = useRef(null);
     // 페에지네이션 첫 시작 페이지 넘버
     const [startPage, setStartPage] = useState(1);
     // 게시글 리스트
     const [Posts, setPosts] = useState([]);
+    // 카테고리 리스트
+    const [Categories, setCategories] = useState([]);
     // 현재 페이지 넘버
     const [currentPage, setCurrentPage] = useState(1);
-
+    
     /////////////////////////// 수정 부탁
-    // 게시글 리스트 불러오기 currentpage가 바뀔 때마다 실행
+
+    // 카테고리 리스트 불러오기
+    const getCategory = async () => {
+        try{
+            const path = 'http://localhost:9090/board/category';
+            const data = await axiosRequest(path,{},'GET','json');
+            setCategories(data);
+        }catch (e){
+            console.log(e);
+        }
+    }
+    // 게시글 리스트 불러오기
     useEffect(() => {
         axios.get(`/api/boards?page=${currentPage}&size=${ITEMS_PER_PAGE}`)
             .then(response => setPosts(response.data))
             .catch(error => console.error(error));
+        
+        // 게시글 리스트 더미 파일
+        if (Posts.length === 0){
+            for (let i = 0 + (10 * (currentPage -1)); i < 10 * currentPage; i++) {
+                const newPost = {
+                    id: i + 1,
+                    board: "게시판 제목",
+                    title: "게시물 제목",
+                    writer: "글쓴이",
+                    createdDate: "2023-05-30",
+                    view: 10,
+                    upvote: 5
+                };
+                Posts.push(newPost);
+            }
+        }
+        tableBody.current.innerHTML = "";
+        let tempHTML = "";
+        for(let i = 0; i < Posts.length; i++){
+            tempHTML += `
+                <tr key=${Posts[i].id} onClick='location.href = "/post?id=${Posts[i].id}"'>
+                    <td>${Posts[i].id}</td>
+                    <td>${Posts[i].board}</td>
+                    <td>${Posts[i].title}</td>
+                    <td>${Posts[i].writer}</td>
+                    <td>${Posts[i].createdDate}</td>
+                    <td>${Posts[i].view}</td>
+                    <td>${Posts[i].upvote}</td>
+                </tr>`
+        }
+        tableBody.current.innerHTML = tempHTML;
     }, [currentPage]);
+
+    // 카테고리 리스트 불러오기
+    useEffect(() => {
+        getCategory();
+    }, []);
     ////////////////////////////
     
     // 페이지네이션 함수
@@ -30,7 +78,6 @@ function Board() {
     // 페이지네이션 다음 버튼 함수
     const handlePageUp = () => {
         setPosts([]);
-        console.log(currentPage);
         let page = ((Math.floor((currentPage-1)/10))+1)*10+1;
         setStartPage(page);
         setCurrentPage(page);
@@ -52,21 +99,10 @@ function Board() {
             ul.style.display = "block";
     }
 
-    // 게시글 리스트 더미 파일
-    if (Posts.length === 0){
-        for (let i = 0 + (10 * (currentPage -1)); i < 10 * currentPage; i++) {
-            const newPost = {
-                id: i + 1,
-                board: "게시판 제목",
-                title: "게시물 제목",
-                writer: "글쓴이",
-                createdDate: "2023-05-30",
-                view: 10,
-                upvote: 5
-            };
-            Posts.push(newPost);
-        }
+    const test = (e) => {
+        document.location.href = "/post?id=" + e.target.parentNode.childNodes[0].innerText;
     }
+
 
     // 총 게시글 카운트 더미 파일
     Posts.totalItems = 110;
@@ -129,18 +165,8 @@ function Board() {
                         <th className="w-[7%]">추천수</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {Posts.map(post => (
-                        <tr key={post.id}>
-                            <td>{post.id}</td>
-                            <td>{post.board}</td>
-                            <td>{post.title}</td>
-                            <td>{post.writer}</td>
-                            <td>{post.createdDate}</td>
-                            <td>{post.view}</td>
-                            <td>{post.upvote}</td>
-                        </tr>
-                    ))}
+                <tbody ref={tableBody}>
+                    
                 </tbody>
             </table>
             <nav aria-label="Page navigation example">
