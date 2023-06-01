@@ -42,14 +42,21 @@ export default function Post() {
         }
     }, []);
 
+    const clickUpvote = () => {
+        alert("추천하였습니다.");
+    }
+    const clickDownvote = () => {
+        alert("비추천하였습니다.");
+    }
+
     // if (!post) {
     //     return <div>Loading...</div>;  // 데이터를 불러오는 동안에는 Loading 메시지를 보여줍니다.
     // }
     return (
         <div className="container">
-            <h1 className='text-start mt-5 ms-3'>{post.board}</h1>
+            <h1 className='text-start mt-5 ms-3 user-select-none'>{post.board}</h1>
             <hr className='' />
-            <div className='p-0 m-0 ms-3'>
+            <div className='p-0 m-0 ms-3 user-select-none'>
                 <h4 className='text-start'>{post.title}</h4>
                 <div className='row justify-content-around g-2 ms-0'>
                     <div className='row justify-content-start col'>
@@ -83,20 +90,20 @@ export default function Post() {
                         <FontAwesomeIcon icon={faWrench} style={{color: "#aaa",}} className='position-absolute top-0 end-7' />
                         <FontAwesomeIcon icon={faX} style={{color: "#aaa",}} className='position-absolute top-0 end-2' />
                         <div className='row align-items-center p-0 m-0 ms-3'>
-                            <div className='col-1 m-0 p-0 me-3'>
+                            <div className='col-1 m-0 p-0 me-3 user-select-none'>
                                 <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' className="rounded w-[70px]" alt="..."></img>
                             </div>
-                            <div className='col-2 text-start ps-0'>
+                            <div className='col-2 text-start ps-0 user-select-none'>
                                 <div className='text-start ps-0'>{comment.writer}</div>
                                 <div className='text-start pe-0 text-sm fw-light'>{comment.createdDate}</div>
                             </div>
                             <div className='col-7 text-start'>{comment.content}</div>
-                            <div className='row justify-content-around col-2 text-end p-0 ps-4'>
-                                <div className='row text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-2'>
+                            <div className='row justify-content-around col-2 text-end p-0 ps-4 user-select-none'>
+                                <div className='row text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-2' onClick={clickUpvote} style={{cursor:"pointer"}}>
                                     <div className='col-auto text-start p-0 ps-2 pe-1'>👍</div>
                                     <div className='col text-center p-0'>{comment.upvote}</div>
                                 </div>
-                                <div className='row text-end text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-3'>
+                                <div className='row text-end text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-3' onClick={clickDownvote} style={{cursor:"pointer"}}>
                                     <div className='col-auto text-start p-0 ps-2 pe-1'>👎</div>
                                     <div className='col text-center p-0'>{comment.downvote}</div>
                                 </div>
