@@ -12,6 +12,9 @@ export default function Post() {
     const [page, setPage] = useState(1)
     const [ref, inView] = useInView()
     const [loading, setLoading] = useState(false)
+    
+    // 더미
+    const maxContentLength = 15;
 
     useEffect(() => {
         setLoading(true)
@@ -32,7 +35,7 @@ export default function Post() {
         };
         setPost(newPost);
         for(let i = 1 + ((page-1)*10); i < 11 + ((page-1)*10); i++){
-            if(i > 15) break;
+            if(i > maxContentLength) break;
             const newComment = {
                 id: i + 1,
                 writer: "댓글 작성자",
@@ -58,6 +61,15 @@ export default function Post() {
     }
     const clickDownvote = () => {
         alert("비추천하였습니다.");
+    }
+
+    // 드롭다운 메뉴 버튼 함수
+    const handleDropdown = (e) => {
+        const ul = e.target.nextSibling;
+        if(ul.style.display === "block")
+            ul.style.display = "none";
+        else
+            ul.style.display = "block";
     }
 
     // if (!post) {
@@ -87,10 +99,11 @@ export default function Post() {
             <hr />
             {/* 게시글 내용 */}
             <p className='text-start ms-3 mb-[50px] me-3'>{post.content}</p>
-            {/* 게시글 추천, 비 추천 */}
-            <div className='position-relative w-[100%] h-[150px]'>
-                <div className='border border-success opacity-100 w-[350px] h-[120px] position-absolute top-50 start-50 translate-middle rounded'>
-                    <div className='row justify-content-around text-end p-3 user-select-none'>
+            {/* 버튼 박스 */}
+            <div className='position-relative w-[100%] h-[200px]'>
+                <div className='position-absolute top-50 start-50 translate-middle rounded-top'>
+                    {/* 추천, 비추천 버튼 */}
+                    <div className='border border-success opacity-100 w-[350px] h-[120px] row justify-content-around text-end p-3 user-select-none m-0'>
                         <div className='row col-6'>
                             <div className='col text-center fs-3 text-green-700 p-3'>{post.upvote}</div>
                             <div className='col-auto bg-gray-100 border border-2 rounded-4 p-2 m-0' onClick={clickUpvote} style={{cursor:"pointer"}}>
@@ -104,11 +117,25 @@ export default function Post() {
                             <div className='col text-center fs-3 p-3'>{post.downvote}</div>
                         </div>
                     </div>
+                    {/* 이전글, 목록보기, 다음글 버튼 */}
+                    <div className='w-[350px] h-[40px] border border-success rounded-bottom bg-success user-select-none'>
+                        <div className='row justify-content-between text-white ps-3 pe-3 pt-[5px]'>
+                            <div className='col-auto' style={{cursor:"pointer"}}>
+                                이전글
+                            </div>
+                            <div className='col-auto' style={{cursor:"pointer"}}>
+                                목록보기
+                            </div>
+                            <div className='col-auto' style={{cursor:"pointer"}}>
+                                다음글
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             {/* 댓글 입력 */}
-            <hr className='mb-4 text-green-700 border-4 opacity-50' />
-            <div className='m-0 row justify-content-between'>
+            <hr className='text-green-700 border-4 opacity-50 m-0' />
+            <div className='m-0 row justify-content-between bg-gray-100 pt-4 pb-4 '>
                 <div className='col-auto w-[100px]'>
                     <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' className="rounded w-[100px]" alt="..."></img>
                 </div>
@@ -116,8 +143,26 @@ export default function Post() {
                     <textarea className="form-control" placeholder="댓글 입력하여주세요." id="floatingTextarea2" style={{height: '100px'}}></textarea>
                     <label className='ms-[10px]' for="floatingTextarea2">댓글</label>
                 </div>
-                <hr className='mt-4 text-green-700 border-3 opacity-50' />
             </div>
+            <hr className='text-green-700 border-4 opacity-50 m-0 mb-4' />
+            {/* 댓글 수 */}
+            <div className='row justify-content-start'>
+                <div className='text-start col-auto align-middle pe-0'>
+                    전체 댓글 <span className='text-red-500 fw-bold'>{maxContentLength}</span>개
+                </div>
+                {/* 댓글 정렬 메뉴 */}
+                <div class="dropdown col-auto">
+                    <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle pt-0 pb-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        등록순
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item active" href="#">등록순</a></li>
+                        <li><a class="dropdown-item" href="#">최신순</a></li>
+                        <li><a class="dropdown-item" href="#">추천순</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr className='text-green-700 border-4 opacity-50 mt-2' />
             {/* 댓글 */}
             <div>
                 {comments.map((comment, idx) => (
