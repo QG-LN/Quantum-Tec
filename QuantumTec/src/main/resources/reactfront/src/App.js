@@ -87,7 +87,7 @@ function Board(){
 }
 function Post(){
   return (
-    <div className="Post" style={{ height: "82vh" }}>
+    <div className="Post">
         <PostPage />
     </div>
   )
