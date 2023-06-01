@@ -3,14 +3,18 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { faX, faWrench } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useInView } from "react-intersection-observer"
 
 export default function Post() {
     const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
     const { id } = useParams();  // react-router-dom을 사용하여 URL 파라미터에서 게시글 ID를 얻습니다.
-
+    const [page, setPage] = useState(1)
+    const [ref, inView] = useInView()
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
+        setLoading(true)
         axios.get(`/api/post/${id}`)
             .then(response => setPost(response.data))
             .catch(error => console.error(error));
@@ -27,20 +31,27 @@ export default function Post() {
             content: "게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용"
         };
         setPost(newPost);
-        if (comments.length === 0){
-            for(let i = 0; i < 10; i++){
-                const newComment = {
-                    id: i + 1,
-                    writer: "댓글 작성자",
-                    createdDate: "2023-05-30 17:59:41",
-                    content: "댓글내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용",
-                    upvote: 555,
-                    downvote: 333
-                };
-                comments.push(newComment);
-            }
+        for(let i = 1 + ((page-1)*10); i < 11 + ((page-1)*10); i++){
+            if(i > 15) break;
+            const newComment = {
+                id: i + 1,
+                writer: "댓글 작성자",
+                createdDate: "2023-05-30 17:59:41",
+                content: "댓글내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용",
+                upvote: 555,
+                downvote: 333
+            };
+            comments.push(newComment);
         }
-    }, []);
+        setLoading(false)
+    }, [page]);
+    
+    useEffect(() => {
+        // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면
+        if (inView && !loading) {
+            setPage(page + 1)
+        }
+    }, [inView, loading])
 
     const clickUpvote = () => {
         alert("추천하였습니다.");
@@ -109,8 +120,10 @@ export default function Post() {
             </div>
             {/* 댓글 */}
             <div>
-                {comments.map(comment => (
-                    <div className='position-relative pt-2 pb-2'>
+                {comments.map((comment, idx) => (
+                    <div key={idx} className='position-relative pt-2 pb-2' ref={idx === comments.length - 1 ? ref : null}>
+                        {/* ref={idx === comments.length - 1 ? ref : null} */}
+                        {/* 마지막 댓글에 사용자가 보고있는지 판단하는 코드를 추가 한 것임 */}
                         <FontAwesomeIcon icon={faWrench} style={{color: "#aaa",}} className='position-absolute top-0 end-7' />
                         <FontAwesomeIcon icon={faX} style={{color: "#aaa",}} className='position-absolute top-0 end-2' />
                         <div className='row align-items-center p-0 m-0 ms-3'>
