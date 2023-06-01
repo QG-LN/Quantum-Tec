@@ -153,7 +153,7 @@ export default function Board() {
                 </div>
             </div>
             <hr />
-            <table className="table table-striped mt-0 pt-0">
+            <table className="table table-striped mt-0 pt-0 table-hover">
                 <thead>
                     <tr>
                         <th className="w-[5%]">번호</th>
