@@ -54,9 +54,11 @@ export default function Post() {
     // }
     return (
         <div className="container">
+            {/* 게시글 */}
             <h1 className='text-start mt-5 ms-3 user-select-none'>{post.board}</h1>
             <hr className='' />
             <div className='p-0 m-0 ms-3 user-select-none'>
+                {/* 게시글 정보 */}
                 <h4 className='text-start'>{post.title}</h4>
                 <div className='row justify-content-around g-2 ms-0'>
                     <div className='row justify-content-start col'>
@@ -72,7 +74,28 @@ export default function Post() {
                 </div>
             </div>
             <hr />
+            {/* 게시글 내용 */}
             <p className='text-start ms-3 mb-[50px] me-3'>{post.content}</p>
+            {/* 게시글 추천, 비 추천 */}
+            <div className='position-relative w-[100%] h-[150px]'>
+                <div className='border border-success opacity-100 w-[350px] h-[120px] position-absolute top-50 start-50 translate-middle rounded'>
+                    <div className='row justify-content-around text-end p-3 user-select-none'>
+                        <div className='row col-6'>
+                            <div className='col text-center fs-3 text-green-700 p-3'>{post.upvote}</div>
+                            <div className='col-auto bg-gray-100 border border-2 rounded-4 p-2 m-0' onClick={clickUpvote} style={{cursor:"pointer"}}>
+                                <div className='text-center fs-1'>👍</div>
+                            </div>
+                        </div>
+                        <div className='row col-6'>
+                            <div className='col-auto bg-gray-100 border border-2 rounded-4 p-2 m-0' onClick={clickDownvote} style={{cursor:"pointer"}}>
+                                <div className='text-center fs-1'>👎</div>
+                            </div>
+                            <div className='col text-center fs-3 p-3'>{post.downvote}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* 댓글 입력 */}
             <hr className='mb-4 text-green-700 border-4 opacity-50' />
             <div className='m-0 row justify-content-between'>
                 <div className='col-auto w-[100px]'>
@@ -84,6 +107,7 @@ export default function Post() {
                 </div>
                 <hr className='mt-4 text-green-700 border-3 opacity-50' />
             </div>
+            {/* 댓글 */}
             <div>
                 {comments.map(comment => (
                     <div className='position-relative pt-2 pb-2'>
