@@ -33,25 +33,23 @@ export default function Board() {
             .catch(error => console.error(error));
         
         // 게시글 리스트 더미 파일
-        if (Posts.length === 0){
-            for (let i = 0 + (10 * (currentPage -1)); i < 10 * currentPage; i++) {
-                const newPost = {
-                    id: i + 1,
-                    board: "게시판 제목",
-                    title: "게시물 제목",
-                    writer: "글쓴이",
-                    createdDate: "2023-05-30",
-                    view: 10,
-                    upvote: 5
-                };
-                Posts.push(newPost);
-            }
+        for (let i = 0 + (10 * (currentPage -1)); i < 10 * currentPage; i++) {
+            const newPost = {
+                id: i + 1,
+                board: "게시판 제목",
+                title: "게시물 제목",
+                writer: "글쓴이",
+                createdDate: "2023-05-30",
+                view: 10,
+                upvote: 5
+            };
+            Posts.push(newPost);
         }
         tableBody.current.innerHTML = "";
         let tempHTML = "";
         for(let i = 0; i < Posts.length; i++){
             tempHTML += `
-                <tr key=${Posts[i].id} onClick='location.href = "/post/${Posts[i].id}"'>
+                <tr key=${Posts[i].id} style='cursor:pointer' onClick='location.href = "/post/${Posts[i].id}"'>
                     <td>${Posts[i].id}</td>
                     <td>${Posts[i].board}</td>
                     <td>${Posts[i].title}</td>
@@ -155,7 +153,7 @@ export default function Board() {
             <hr />
             <table className="table table-striped mt-0 pt-0 table-hover">
                 <thead>
-                    <tr>
+                    <tr className="user-select-none">
                         <th className="w-[5%]">번호</th>
                         <th className="w-[10%]">게시판</th>
                         <th className="w-[46%]">제목</th>
