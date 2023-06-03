@@ -114,10 +114,10 @@ export default function Board() {
                         <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                             전체
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item active" href="#">자유게시판</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <ul class="dropdown-menu w-[100%]" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item active" href="#">전체</a></li>
+                            <li><a class="dropdown-item" href="#">게시판 1</a></li>
+                            <li><a class="dropdown-item" href="#">게시판 2</a></li>
                         </ul>
                     </div>
                     <div class="dropdown col-auto">
@@ -125,9 +125,8 @@ export default function Board() {
                             최신순
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">최신순</a></li>
+                            <li><a class="dropdown-item" href="#">오래된순</a></li>
                         </ul>
                     </div>
                 </div>
@@ -139,6 +138,7 @@ export default function Board() {
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="#">제목</a></li>
                             <li><a class="dropdown-item" href="#">작성자</a></li>
+                            <li><a class="dropdown-item" href="#">제목 + 작성자</a></li>
                         </ul>
                     </div>
                     <div class="col-auto">
@@ -151,9 +151,9 @@ export default function Board() {
                 </div>
             </div>
             <hr />
-            <table className="table table-striped mt-0 pt-0 table-hover">
+            <table className="table table-striped mt-0 pt-0 table-hover user-select-none">
                 <thead>
-                    <tr className="user-select-none">
+                    <tr>
                         <th className="w-[5%]">번호</th>
                         <th className="w-[10%]">게시판</th>
                         <th className="w-[46%]">제목</th>
