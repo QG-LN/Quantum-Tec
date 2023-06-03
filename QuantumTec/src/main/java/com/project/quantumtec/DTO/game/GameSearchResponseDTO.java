@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class GameSearchResponseDTO {
-    private int gameID; // 게임 아이디
+    private int gameIndex; // 게임 아이디
     private String gameName; // 게임 이름
     private String gamePrice; // 게임 가격
-    private String[] gameGenre; // 게임 장르
+    private String gameCartegoryName; // 게임 장르
     private String gameImage; // 게임 이미지
 }
