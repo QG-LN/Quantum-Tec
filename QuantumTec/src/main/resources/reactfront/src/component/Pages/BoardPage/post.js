@@ -62,6 +62,13 @@ export default function Post() {
     const clickDownvote = () => {
         alert("비추천하였습니다.");
     }
+    const clickCommentUpvote = (e) => {
+        alert(`${e.target.parentNode.parentNode.parentNode.id} 추천하였습니다.`);
+        console.log(e.target.parentNode.parentNode.parentNode);
+    }
+    const clickCommentDownvote = (e) => {
+        alert(`${e} 비추천하였습니다.`);
+    }
 
     // 드롭다운 메뉴 버튼 함수
     const handleDropdown = (e) => {
@@ -166,7 +173,7 @@ export default function Post() {
             {/* 댓글 */}
             <div>
                 {comments.map((comment, idx) => (
-                    <div key={idx} className='position-relative pt-2 pb-2' ref={idx === comments.length - 1 ? ref : null}>
+                    <div key={idx} id={comment.id} className='position-relative pt-2 pb-2' ref={idx === comments.length - 1 ? ref : null}>
                         {/* ref={idx === comments.length - 1 ? ref : null} */}
                         {/* 마지막 댓글에 사용자가 보고있는지 판단하는 코드를 추가 한 것임 */}
                         <FontAwesomeIcon icon={faWrench} style={{color: "#aaa",}} className='position-absolute top-0 end-7' />
@@ -181,11 +188,11 @@ export default function Post() {
                             </div>
                             <div className='col-7 text-start'>{comment.content}</div>
                             <div className='row justify-content-around col-2 text-end p-0 ps-4 user-select-none'>
-                                <div className='row text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-2' onClick={clickUpvote} style={{cursor:"pointer"}}>
+                                <div className='row text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-2' onClick={clickCommentUpvote} style={{cursor:"pointer"}}>
                                     <div className='col-auto text-start p-0 ps-2 pe-1'>👍</div>
                                     <div className='col text-center p-0'>{comment.upvote}</div>
                                 </div>
-                                <div className='row text-end text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-3' onClick={clickDownvote} style={{cursor:"pointer"}}>
+                                <div className='row text-end text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-3' onClick={clickCommentDownvote} style={{cursor:"pointer"}}>
                                     <div className='col-auto text-start p-0 ps-2 pe-1'>👎</div>
                                     <div className='col text-center p-0'>{comment.downvote}</div>
                                 </div>
