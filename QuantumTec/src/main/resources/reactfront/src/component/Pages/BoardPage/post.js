@@ -14,6 +14,7 @@ export default function Post() {
     const [loading, setLoading] = useState(false)
     
     // 더미
+    // 백엔드 통신 추가해야함.
     const maxContentLength = 15;
 
     useEffect(() => {
@@ -120,6 +121,21 @@ export default function Post() {
             ul.style.display = "block";
     }
 
+    // 목록보기로 돌아가는 함수
+    const clickPostListPage = () => {
+        document.location.href = "/board";
+    }
+
+    // 이전 글로 이동하는 함수
+    const clickPrevPost = () => {
+        // 구현 필요
+    }
+
+    // 다음 글로 이동하는 함수
+    const clickNextPost = () => {
+        // 구현 필요
+    }
+
     // if (!post) {
     //     return <div>Loading...</div>;  // 데이터를 불러오는 동안에는 Loading 메시지를 보여줍니다.
     // }
@@ -168,13 +184,13 @@ export default function Post() {
                     {/* 이전글, 목록보기, 다음글 버튼 */}
                     <div className='w-[350px] h-[40px] border border-success rounded-bottom bg-success user-select-none'>
                         <div className='row justify-content-between text-white ps-3 pe-3 pt-[5px]'>
-                            <div className='col-auto' style={{cursor:"pointer"}}>
+                            <div className='col-auto' style={{cursor:"pointer"}} onClick={clickPrevPost}>
                                 이전글
                             </div>
-                            <div className='col-auto' style={{cursor:"pointer"}}>
+                            <div className='col-auto' style={{cursor:"pointer"}} onClick={clickPostListPage}>
                                 목록보기
                             </div>
-                            <div className='col-auto' style={{cursor:"pointer"}}>
+                            <div className='col-auto' style={{cursor:"pointer"}} onClick={clickNextPost}>
                                 다음글
                             </div>
                         </div>
