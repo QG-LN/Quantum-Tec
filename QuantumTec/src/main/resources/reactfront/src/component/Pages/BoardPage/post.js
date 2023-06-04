@@ -136,6 +136,25 @@ export default function Post() {
         // 구현 필요
     }
 
+    // 댓글 작성하는 함수
+    const enterComment = (e) => {
+        if(e.key === "Enter"){
+            // 줄바꿈 방지
+            e.preventDefault();
+            // 구현 필요
+            axios.get(`/api/comment/add`,{
+                params: {
+                    postIndex: id,
+                    comment_author: "댓글 작성자",  // 수정 필요
+                    comment_content: e.target.value,
+                }
+            })
+            .then(response => setPost(response.data))
+            .catch(error => console.error(error));
+            alert("댓글 작성");
+        }
+    }
+
     // if (!post) {
     //     return <div>Loading...</div>;  // 데이터를 불러오는 동안에는 Loading 메시지를 보여줍니다.
     // }
@@ -204,7 +223,7 @@ export default function Post() {
                     <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' className="rounded w-[100px]" alt="..."></img>
                 </div>
                 <div className="form-floating col">
-                    <textarea className="form-control" placeholder="댓글 입력하여주세요." id="floatingTextarea2" style={{height: '100px'}}></textarea>
+                    <textarea className="form-control" placeholder="댓글 입력하여주세요." id="floatingTextarea2" style={{height: '100px'}} onKeyDown={enterComment}></textarea>
                     <label className='ms-[10px]' for="floatingTextarea2">댓글</label>
                 </div>
             </div>
