@@ -131,22 +131,8 @@ export default function Board() {
                     </div>
                 </div>
                 <div class="row justify-content-end g-3 mt-1 col-6">
-                    <div class="dropdown col-auto">
-                        <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            제목
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">제목</a></li>
-                            <li><a class="dropdown-item" href="#">작성자</a></li>
-                            <li><a class="dropdown-item" href="#">제목 + 작성자</a></li>
-                        </ul>
-                    </div>
                     <div class="col-auto">
-                        <label for="inputSearch" class="visually-hidden">검색어</label>
-                        <input type="text" class="form-control" id="inputSearch" placeholder="검색어"></input>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary mb-3">검색</button>
+                        <button type="submit" class="btn btn-success mb-3">글쓰기</button>
                     </div>
                 </div>
             </div>
@@ -167,10 +153,27 @@ export default function Board() {
                     
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example">
-                <ul className="pagination nav justify-content-center mb-5">
-
-                    
+            <nav aria-label="Page navigation example mb-5">
+                <div className="row justify-content-center">
+                    <div class="dropdown col-auto">
+                        <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            제목
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">제목</a></li>
+                            <li><a class="dropdown-item" href="#">작성자</a></li>
+                            <li><a class="dropdown-item" href="#">제목 + 작성자</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputSearch" class="visually-hidden">검색어</label>
+                        <input type="text" class="form-control" id="inputSearch" placeholder="검색어"></input>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-success mb-3">검색</button>
+                    </div>
+                </div>
+                <ul className="pagination nav justify-content-center">
                     {startPage !== 1 && 
                         <li key="<" className="page-item nav-item">
                             <button className="page-link nav-item" onClick={() => handlePageDown()}>
