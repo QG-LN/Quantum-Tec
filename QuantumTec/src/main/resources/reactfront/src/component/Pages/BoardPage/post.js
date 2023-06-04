@@ -18,9 +18,21 @@ export default function Post() {
 
     useEffect(() => {
         setLoading(true)
-        axios.get(`/api/post/${id}`)
-            .then(response => setPost(response.data))
-            .catch(error => console.error(error));
+        axios.get(`/api/post`,{
+            params: {
+                postIndex: id,
+            }
+        })
+        .then(response => setPost(response.data))
+        .catch(error => console.error(error));
+        axios.get(`/api/comment`,{
+            params: {
+                postIndex: id,
+                page: page,
+            }
+        })
+        .then(response => setPost(comments.concat(response.data)))
+        .catch(error => console.error(error));
         
         const newPost = {
             id: id,
@@ -57,17 +69,46 @@ export default function Post() {
     }, [inView, loading])
 
     const clickUpvote = () => {
-        alert("추천하였습니다.");
+        // 유저 중복 안되게 하는 코드 필요
+        axios.get(`/api/post/upvote`,{
+            params: {
+                postIndex: id,
+            }
+        })
+        .then(response => (response.data)?alert("추천하였습니다."):alert("추천하지 못했습니다."))
+        .catch(error => console.error(error));
     }
     const clickDownvote = () => {
-        alert("비추천하였습니다.");
+        // 유저 중복 안되게 하는 코드 필요
+        axios.get(`/api/post/downvote`,{
+            params: {
+                postIndex: id,
+            }
+        })
+        .then(response => (response.data)?alert("비추천하였습니다."):alert("비추천하지 못했습니다."))
+        .catch(error => console.error(error));
     }
     const clickCommentUpvote = (e) => {
-        alert(`${e.target.parentNode.parentNode.parentNode.id} 추천하였습니다.`);
-        console.log(e.target.parentNode.parentNode.parentNode);
+        // 유저 중복 안되게 하는 코드 필요
+        axios.get(`/api/comment/upvote`,{
+            params: {
+                postIndex: id,
+                commentIndex: e.target.parentNode.parentNode.parentNode.id,
+            }
+        })
+        .then(response => (response.data)?alert("추천하였습니다."):alert("추천하지 못했습니다."))
+        .catch(error => console.error(error));
     }
     const clickCommentDownvote = (e) => {
-        alert(`${e} 비추천하였습니다.`);
+        // 유저 중복 안되게 하는 코드 필요
+        axios.get(`/api/comment/downvote`,{
+            params: {
+                postIndex: id,
+                commentIndex: e.target.parentNode.parentNode.parentNode.id,
+            }
+        })
+        .then(response => (response.data)?alert("비추천하였습니다."):alert("비추천하지 못했습니다."))
+        .catch(error => console.error(error));
     }
 
     // 드롭다운 메뉴 버튼 함수
