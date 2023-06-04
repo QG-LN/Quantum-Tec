@@ -101,6 +101,11 @@ export default function Board() {
         document.location.href = "/post?id=" + e.target.parentNode.childNodes[0].innerText;
     }
 
+    // 게시글 글쓰기 버튼 함수
+    const handleWrite = () => {
+        document.location.href = "/write";
+    }
+
 
     // 총 게시글 카운트 더미 파일
     Posts.totalItems = 110;
@@ -132,7 +137,7 @@ export default function Board() {
                 </div>
                 <div class="row justify-content-end g-3 mt-1 col-6">
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-success mb-3">글쓰기</button>
+                        <button type="submit" class="btn btn-success mb-3" onClick={handleWrite}>글쓰기</button>
                     </div>
                 </div>
             </div>
