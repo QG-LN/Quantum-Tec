@@ -12,6 +12,7 @@ import PasswordChk from './component/Pages/MyPage/passwordChk';
 import GamePage from './component/Pages/GamePage/gamepage.js';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import Sidebar from './component/Pages/MainPage/sidebar';
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시

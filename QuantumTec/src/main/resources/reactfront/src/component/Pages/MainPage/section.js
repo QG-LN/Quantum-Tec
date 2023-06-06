@@ -6,6 +6,7 @@ export default function Section() {
     const [gamelist, setgameList] = useState(["게임이름","수학게임"]);
     const [inputCate, setInputCate] = useState("#전체");
 
+
     const handleInputCate = (e) => {
         setInputCate(e.target.value)
     }
@@ -23,9 +24,13 @@ export default function Section() {
       console.log(index2)
       console.log(inputCate)
     }
-    const Clicksearch = (e) => {
-    
+    const Clicksearch = () => {
+        // document.querySelectorAll("국어").forEach(element => {
+        //     element.style.display = "none";
+        //   });
+        
     }
+
 
     const games =[
         {
@@ -71,22 +76,20 @@ export default function Section() {
     
     ]
 
-
-
-
-
-      
+    
     return (
 
         <div class='w-[1320px] relative pl-24px m-auto'>
         <h2 class='h-[28px] text-[#17191d] text-[24px] text-left mb-4 font-bold'>전체 게임</h2>
-        <div class='absolute top-[-10px] right-[24px]'>
+        <div class='absolute top-[-10px] right-[0px]'>
             <fieldset>
                 <input class='w-[302px] h-[44px] pr-[3px] pl-[3px] mr-0 border-b-2' type='text' placeholder='게임명 검색'></input>
-                <button type='button' class='absolute w-[44px] h-[44px]' onClick={Clicksearch}>
-                    <span class='inline-block w-[20px] h-[20px] bg-black'></span>검색</button>
+                <button type='button' class='absolute right-0 w-[44px] h-[44px]' onClick={Clicksearch}>
+                    <span class='inline-block w-[40px] h-[40px] rounded-full bg-green-400'></span></button>
             </fieldset>
         </div>
+        <div>
+    </div>
         <section>
             <div class=' bg-white relative pt-[20px] pr-[30px] pb-[30px] pl-[3px]  text-center'>
                 
