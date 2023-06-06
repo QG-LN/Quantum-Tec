@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="GameService">
     <select id="getGameSearchList" resultType="map">
-        SELECT g.GAME_INDEX, g.GAME_NAME,
-               (SELECT GROUP_CONCAT(cn.GAME_CATEGORY_NAME SEPARATOR ',') 
+        SELECT g.GAME_INDEX, g.GAME_NAME, g.GAME_PRICE
+               (SELECT GROUP_CONCAT(cn.GAME_CATEGORY_NAME SEPARATOR ',') AS GAME_CATEGORY_NAME, g.GAME_IMAGE
                 FROM GAME_CATEGORY_LINK_TB c, GAME_CATEGORY_TB cn 
                 WHERE cn.GAME_CATEGORY_ID = c.GAME_CATEGORY_ID AND c.GAME_INDEX = g.GAME_INDEX) AS GAME_CATEGORY_NAME, 
                g.GAME_PRICE, g.GAME_IMAGE_LOCATION 
