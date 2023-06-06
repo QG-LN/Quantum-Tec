@@ -2,12 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="GameService">
     <select id="getGameSearchList" resultType="map">
-        <!-- 파라미터(시작인덱스,끝인덱스,게임가격,게임이름,카테고리) -->
-        <!-- 게임이름은 '' 비어있으면 모든 게임을 출력 -->
-        <!-- 카테고리는 '' 비어있으면 모든 카테고리를 출력 -->
-        <!-- 카테고리는 'test1'과 같이 하나만 입력 가능 -->
-        <!-- 카테고리는 'test1,test2,test3'과 같이 여러개 입력 가능 -->
-        CALL GetMainPageGameInfo(#{startIndex}, #{endIndex}, #{gamePrice}, #{gameName}, #{gameCategoryName})
+        SELECT g.GAME_INDEX, g.GAME_NAME,
+               (SELECT GROUP_CONCAT(cn.GAME_CATEGORY_NAME SEPARATOR ',') 
+                FROM GAME_CATEGORY_LINK_TB c, GAME_CATEGORY_TB cn 
+                WHERE cn.GAME_CATEGORY_ID = c.GAME_CATEGORY_ID AND c.GAME_INDEX = g.GAME_INDEX) AS GAME_CATEGORY_NAME, 
+               g.GAME_PRICE, g.GAME_IMAGE_LOCATION 
+        FROM GAME_INFO_TB g
+        INNER JOIN GAME_CATEGORY_LINK_TB c ON g.GAME_INDEX = c.GAME_INDEX
+        INNER JOIN GAME_CATEGORY_TB cn ON c.GAME_CATEGORY_ID = cn.GAME_CATEGORY_ID
+        WHERE g.GAME_NAME LIKE CONCAT('%', #{gameName}, '%') 
+        <if test="gamePrice != null">
+            AND g.GAME_PRICE BETWEEN 0 AND #{gamePrice}
+        </if>
+        <if test="gameCategoryName != null">
+            AND cn.GAME_CATEGORY_NAME = #{gameCategoryName}
+        </if>
+        ORDER BY g.GAME_INDEX DESC
+        LIMIT #{startIndex}, #{endIndex};
     </select>
     <select id="getGameInfo" resultType="GameDTO" parameterType="int">
         <!-- Mayone의 솜씨를 기다립니다 -->
