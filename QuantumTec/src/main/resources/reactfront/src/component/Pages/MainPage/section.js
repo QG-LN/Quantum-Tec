@@ -3,26 +3,18 @@ import { useEffect } from 'react';
 import Gamelist from './gamelist.js';
 import axios from 'axios';
 import Gamepage from '../GamePage/gamepage.js';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 
 
 export default function Section() {
     const [gamelist, setgameList] = useState(["게임이름","수학게임"]);
     const [inputCate, setInputCate] = useState("#전체");
-    const [game, setGame] = useState({});
     const [items, setItems] = useState([])
     const [page, setPage] = useState(1)
-    const { id } = useParams();
-    const { cate } = useParams();
-    const { name } = useParams();
-    const { img } = useParams();
-    const { description } = useParams();
-    const { link } = useParams();
     const [loading, setLoading] = useState(false)
   
     const [ref, inView] = useInView()
-
 
     const maxContentLength = 8;
 
@@ -36,132 +28,32 @@ export default function Section() {
         setLoading(true)
         axios.get("api/games",{
             params: {
-                id: id,
-                cate: cate,
-                name: name,
-                img: img,
-                description: description,
-                link: link
+                id: '0',
+                cate: '',
+                name: '',
+                img: '',
+                description: '',
+                link: ''
             }
         })
         .then(response => setItems(prevItems => 
             {prevItems.concat(response.data);
-            
-            // const temporaryData = [{
-            //     "id": 0,
-            //     "cate": 1, 
-            //     "name": "수학게임0",
-            //     "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-            //     "description": "수학게임입니다.",
-            //     "link": "/gamepage"
-            //     },
-            // {
-            //     "id": 1,
-            //     "cate": 2,
-            //     "name": "국어게임1",
-            //     "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-            //     "description": "국어게임입니다.",
-            //     "link": "https://www.naver.com/"
-            //     },
-            // {
-            //     "id": 2,
-            //     "cate": 1,
-            //     "name": "수학게임2",
-            //     "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-            //     "description": "수학게임입니다.",
-            //     "link": "https://www.naver.com/"
-            //     },
-            // {
-            //     "id": 3,
-            //     "cate": 2,
-            //     "name": "국어게임3",
-            //     "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-            //     "description": "국어게임입니다.",
-            //     "link": "https://www.naver.com/"
-            //     },
-            // {
-            //     "id": 4,
-            //     "cate": 4,
-            //     "name": "사회게임4",
-            //     "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-            //     "description": "사회게임입니다.",
-            //     "link": "https://www.naver.com/"
-            //     },
-            // {
-            //     "id": 5,
-            //     "cate": 4,
-            //     "name": "사회게임5",
-            //     "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-            //     "description": "사회게임입니다.",
-            //     "link": "https://www.naver.com/"
-            //     },
-            // {
-            //     "id": 6,
-            //     "cate": 4,
-            //     "name": "사회게임6",
-            //     "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-            //     "description": "사회게임입니다.",
-            //     "link": "https://www.naver.com/"
-            //     },
-            // {
-            //     "id": 7,
-            //     "cate": 4,
-            //     "name": "사회게임7",
-            //     "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-            //     "description": "사회게임입니다.",
-            //     "link": "https://www.naver.com/"
-            //     },
-            // {
-            //     "id": 8,
-            //     "cate": 4,
-            //     "name": "사회게임8",
-            //     "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-            //     "description": "사회게임입니다.",
-            //     "link": "https://www.naver.com/"
-            // },
-            // {
-            //     "id": 9,
-            //     "cate": 4,
-            //     "name": "사회게임9",
-            //     "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-            //     "description": "사회게임입니다.",
-            //     "link": "https://www.naver.com/"
-            // }];
-            // console.log(response.data);
-            // setItems(prevItems => prevItems.concat(temporaryData));
         }))
         .catch(error => {console.error(error);})
-
-        for (let i = 0 + (8 * (page -1)); i < 8 * page; i++) {
+        const temp= [];
+        for (let i = 0 + (maxContentLength * (page -1)); i < maxContentLength * page; i++) {
             const newItem ={
                  id: 0,
                 cate: 1, 
-                name: "수학게임0",
+                name: "수학게임"+i,
                  img: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
                  description: "수학게임입니다.",
                  link: "/gamepage"
                  };
-            items.push(newItem);
-
+            temp.push(newItem);
         }
         console.log("로딩 전")
-
-        // setItems(items.concat(newItem))
-        // setItems(prevItems => prevItems.concat(newItem));
-        // for(let i = 0; i < items.length; i++){
-        //     if(i > maxContentLength) break;
-        //     const newGame = {
-        //         id: items[i].id,
-        //         cate: items[i].cate,
-        //         name: items[i].name,
-        //         img: items[i].img,
-        //         description: items[i].description,
-        //         link: items[i].link
-        //     };
-        //     // items.push(newGame);
-        //     setItems(prevItems => prevItems.concat(newGame));
-        //     console.log(items[i].name)
-        // }
+        setItems(items.concat(temp))
         setLoading(false)
     },[page]);
 
@@ -189,8 +81,7 @@ export default function Section() {
     const Clicksearch = () => {
         // document.querySelectorAll("국어").forEach(element => {
         //     element.style.display = "none";
-        //   });
-        
+        //   });        
     }
  
 
@@ -240,11 +131,11 @@ export default function Section() {
             </div>        
         </section>
       
+      {loading ? <div>로딩중</div> : 
         <section class="py-5">
             <div class="container grid grid-cols-4 gap-[20px] px-4 px-lg-5 mt-5">
-
                 {items.map((game,idx) => (
-                    <div key={idx} id={game.id} className='row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4' ref={idx === items.length - 1 ? ref : null}>
+                    <div key={idx} id={game.id} className='row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4' ref={idx === items.length - 1 ? ref : null} >
                         {console.log(game.name)}
                         <Gamelist
                         name={game.name}
@@ -256,9 +147,10 @@ export default function Section() {
                     </div>
                 ))}
 
-                    {console.log("로딩 후")}
-            </div>
-      </section>
+                            {console.log("로딩 후")}
+                    </div>
+            </section>
+        }
         </div>
     );
 }
