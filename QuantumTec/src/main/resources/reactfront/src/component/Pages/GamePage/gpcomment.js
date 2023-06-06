@@ -50,7 +50,8 @@ export default function Gamecomment(props) {
             </dt>
             {comment.map((cmt, index) => (
               <>
-                <dt value={index} className="text-left  h-[70px] border-b border-black" onClick={handleClick} >
+                {/*index+1 주지않으면 처음 로딩때 펴진상태로 시작*/}
+                <dt value={index+1} className="text-left  h-[70px] border-b border-black" onClick={handleClick} >
                 <a href="javascript:void(0)" className=" pl-5 flex h-full">
                   <div class='w-[20%]'>
                     <img src={cmt.commentimg} class='mt-[10px] w-[50px] h-[50px]'></img>
@@ -63,7 +64,7 @@ export default function Gamecomment(props) {
                   </div>
                   </a>
                 </dt>
-                {select == index &&
+                {select == index+1 &&
                 <dd className="text-left text-xl border-b bg-slate-100 border-black"><p class='ml-[20%] w-[570px] break-all bg-slate-100'>{cmt.commentSub}</p>
                 </dd>
                 }
