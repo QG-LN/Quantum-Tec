@@ -10,6 +10,9 @@ import Signpage from './component/Pages/LoginPage/sign.js';
 import MyMain from './component/Pages/MyPage/mymain';
 import PasswordChk from './component/Pages/MyPage/passwordChk';
 import GamePage from './component/Pages/GamePage/gamepage.js';
+import BoardPage from './component/Pages/BoardPage/board.js';
+import PostPage from './component/Pages/BoardPage/post.js';
+import WritePage from './component/Pages/BoardPage/write.js';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
@@ -28,6 +31,9 @@ function App() {
           <Route path="/signup" element={<SignUp />}/>
           <Route path="/mypage" element={<MyPage />}/>
           <Route path="/gamepage" element={<GamePage />}/>
+          <Route path="/board" element={<Board />}/>
+          <Route path="/post/:id" element={<Post />}/>
+          <Route path="/write" element={<Write />}/>
         </Routes>
       </div>
       <Footer style={{height: "20vh"}} />
@@ -71,6 +77,27 @@ function MyPage(){
   return (
     <div className="MyPage" style={{ height: "82vh" }}>
         <MyMain />
+    </div>
+  )
+}
+function Board(){
+  return (
+    <div className="Board" style={{ height: "90vh" }}>
+        <BoardPage />
+    </div>
+  )
+}
+function Post(){
+  return (
+    <div className="Post">
+        <PostPage />
+    </div>
+  )
+}
+function Write(){
+  return (
+    <div className="Write">
+        <WritePage />
     </div>
   )
 }
