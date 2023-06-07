@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class GameDAOImpl implements GameDAO{
@@ -16,14 +15,12 @@ public class GameDAOImpl implements GameDAO{
     @Autowired
     private SqlSession sqlSession;
     @Override
-    public GameSearchResponseDTO[] getGameSearchList(GameSearchRequestDTO game) {
+    public List<GameSearchResponseDTO> getGameSearchList(GameSearchRequestDTO game){
         try{
-            List<Map<String, Object>> dtos = sqlSession.selectList("GameService.getGameSearchList", game);
-            return dtos.toArray(new GameSearchResponseDTO[dtos.size()]);
+            return sqlSession.selectList("GameService.getGameSearchList", game);
         } catch (Exception e) {
             return null;
         }
-
     }
 
     @Override
