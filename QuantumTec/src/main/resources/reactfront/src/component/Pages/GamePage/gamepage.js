@@ -121,7 +121,7 @@ export default function GamePage() {
     return (
         <div class='m-auto w-[1200px]'>
             <div>
-                <h2 class='text-left mt-4'>게임이름</h2>
+                <h2 class='text-left mt-20'>게임이름</h2>
                 <div class='text-left mt-2 mb-3'>{categray_0}&gt;{categray_1}&gt;{categray_2}</div>
                 <div class='flex'>
                     <section class='basis-3/4 h-[535px] mr-5' >

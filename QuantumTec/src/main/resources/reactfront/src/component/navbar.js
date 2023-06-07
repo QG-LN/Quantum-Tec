@@ -67,6 +67,26 @@ export default function Navbar() {
                     <div class="block w-[100%] relative">
                         {/*로고(클릭시 메인화면)*/}
                         <a class="navbar-brand hover:cursor-pointer" onClick={logoClick}>로고 위치(상표)</a>
+                        <button class="d-flex top-0 left-0 ml-10 absolute navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span style={{width:'20px', height:'20px'}} class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                             {/*카테고리*/}
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 navbar-nav-right absolute top-0 left-0">
+                                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="#!">All Products</a></li>
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>
+                                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            {/*우측 상단에 넣을수 있는 자리(필요시 로그인버튼을 간소화할떄 쓸 위치)*/}
+   
+
+                        </div>
                         <form class="log_info d-flex justify-end absolute top-0 right-0 mr-10 ">
                                 
                                 {/*{getUsername()}*/}

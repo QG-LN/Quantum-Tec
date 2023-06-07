@@ -11020,7 +11020,7 @@ textarea.form-control-lg {
 /*회원가입 페이지*/
 .signup-form {
   height: 95%;
-  margin: 0px auto;
+  margin: 40px auto;
   padding: 12px;
   font-size: 15px;
   overflow: auto;

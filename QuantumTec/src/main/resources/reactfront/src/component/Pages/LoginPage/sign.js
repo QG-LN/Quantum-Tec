@@ -304,7 +304,7 @@ export default function Sign(){
 
 
     return (
-        <div class="signup-form w-[35%] ">
+        <div class="signup-form w-[35%]">
             <h2 class ='Logintitle mt-[20px] nondrag'>회원가입</h2>
             
             <div class='form-group row'>
