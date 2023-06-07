@@ -16,18 +16,18 @@
         where userInfo.user_idx = #{userIdx} and userStatus.user_idx = #{userIdx}
     </select>
     <select id="getLoginInfo" resultType="LoginResponseDTO" parameterType="int">
-        select user_nickname, user_cash
-        from userInfo ui, userStatus us
+        select user_nickname,STATUS_UPDATED_AT, user_cash, user_free_cash
+        from USER_INFO_TB ui, USER_STATUS_TB us
         where ui.user_idx = #{userIdx} and us.user_idx = #{userIdx}
     </select>
     <select id="selectCountById" resultType="int">
-        SELECT user_idx 
-        FROM userInfo 
+        SELECT user_idx
+        FROM userInfo
         WHERE user_id = #{userID}
     </select>
     <select id="selectCountByNickname" resultType="int">
-        SELECT user_idx 
-        FROM userInfo 
+        SELECT user_idx
+        FROM userInfo
         WHERE user_nickname = #{userNickname}
     </select>
     <select id="selectCountByEmail" resultType="int">
