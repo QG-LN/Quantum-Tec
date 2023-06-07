@@ -10,9 +10,11 @@ import Signpage from './component/Pages/LoginPage/sign.js';
 import MyMain from './component/Pages/MyPage/mymain';
 import PasswordChk from './component/Pages/MyPage/passwordChk';
 import GamePage from './component/Pages/GamePage/gamepage.js';
+import AvatarMain from './component/Pages/AvatarShopPage/avatarMain';
+import AvatarSide from './component/Pages/AvatarShopPage/avatarSide';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-
+import styled from "styled-components";
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
@@ -28,6 +30,7 @@ function App() {
           <Route path="/signup" element={<SignUp />}/>
           <Route path="/mypage" element={<MyPage />}/>
           <Route path="/gamepage" element={<GamePage />}/>
+          <Route path="/avatarshop" element={<AvatarMainPage />}/>
         </Routes>
       </div>
       <Footer style={{height: "20vh"}} />
@@ -75,7 +78,28 @@ function MyPage(){
   )
 }
 
+function AvatarMainPage(){
+  return (
+    <div className="AvatarMainPage container mt-[46px]" style={{ height: "82vh" }}>
+      <div className="row justify-content-center h-[100%]">
+        <div className="col-3 ps-0 pe-0">
+          <ScrollContainer>
+            <AvatarSide />
+          </ScrollContainer>
+        </div>
+        <div className="col-9 ps-0 pe-0">
+          <AvatarMain />
+        </div>
+      </div>
+    </div>
+  )
+}
 
+const ScrollContainer = styled.div`
+  height: 82vh;
+  overflow-y: auto;
+  background-color: var(--bs-gray-200)
+  `;
 
 
 export default App;
