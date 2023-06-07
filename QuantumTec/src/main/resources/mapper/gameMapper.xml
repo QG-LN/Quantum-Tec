@@ -17,7 +17,7 @@
         <if test="gameCategoryName != null">
             AND cn.GAME_CATEGORY_NAME = #{gameCategoryName}
         </if>
-        ORDER BY g.GAME_INDEX ASC
+        ORDER BY g.GAME_VERSION_UPDATE_DATE DESC
         LIMIT #{startIndex}, #{endIndex};
     </select>
     <select id="getGameInfo" resultType="GameDTO" parameterType="int">
