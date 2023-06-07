@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/")
 public class MainController
@@ -19,13 +21,13 @@ public class MainController
 
     // // 게임 이름, 장르, 가격을 입력받아 게임리스트를 가져오는 메소드
     @PostMapping("/search")
-    public GameSearchResponseDTO[] search(@RequestBody GameSearchRequestDTO game) throws Exception {
+    public List<GameSearchResponseDTO> search(@RequestBody GameSearchRequestDTO game) throws Exception {
         return gameService.getGameSearchList(game);
     }
 
     // 게임 ID를 받아서 게임 정보 가져오는 메소드
     @PostMapping("/gameinfo")
-    public GameDTO gameInfo(@RequestBody int gameID) throws Exception {
+    public GameDTO gameInfo(@RequestBody int gameID){
         return gameService.getGameInfo(gameID);
     }
 
