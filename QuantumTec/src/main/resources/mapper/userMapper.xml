@@ -3,72 +3,72 @@
 <mapper namespace="UserService">
     <select id="getUserListAll" resultType="UserVO">
         select *
-        from userInfo
+        from USER_INFO_TB
     </select>
     <select id="getUserExist" resultType="int" parameterType="UserDTO">
-        select user_idx
-        from userInfo
-        where user_id = #{userID} and user_pw = #{userPW}
+        select USER_INDEX
+        from USER_INFO_TB
+        where USER_ID = #{userID} and USER_PW = #{userPW}
     </select>
     <select id="getUserInfo" resultType="UserInfoResponseDTO" parameterType="int">
-        select user_id,user_nickname,user_name,user_birth,user_address,user_address_detail,user_gender,user_postal,user_email,user_role,user_cash,user_status,user_gender
-        from userInfo, userStatus
-        where userInfo.user_idx = #{userIdx} and userStatus.user_idx = #{userIdx}
+        select USER_ID,USER_NICKNAME,USER_NAME,USER_BIRTH,USER_ADDRESS,USER_ADDRESS_DETAIL,USER_GENDER,USER_POSTAL,USER_EMAIL,USER_ROLE,USER_CASH,USER_STATUS
+        from USER_INFO_TB, USER_STATUS_TB
+        where USER_INFO_TB.USER_INDEX = #{userIdx} and USER_STATUS_TB.USER_INDEX = #{userIdx}
     </select>
     <select id="getLoginInfo" resultType="LoginResponseDTO" parameterType="int">
-        select user_nickname,STATUS_UPDATED_AT, user_cash, user_free_cash
+        select USER_NICKNAME, USER_CASH
         from USER_INFO_TB ui, USER_STATUS_TB us
-        where ui.user_idx = #{userIdx} and us.user_idx = #{userIdx}
+        where ui.USER_INDEX = #{userIdx} and us.USER_INDEX = #{userIdx}
     </select>
     <select id="selectCountById" resultType="int">
-        SELECT user_idx
-        FROM userInfo
-        WHERE user_id = #{userID}
+        SELECT USER_INDEX
+        FROM USER_INFO_TB
+        WHERE USER_ID = #{userID}
     </select>
     <select id="selectCountByNickname" resultType="int">
-        SELECT user_idx
-        FROM userInfo
-        WHERE user_nickname = #{userNickname}
+        SELECT USER_INDEX
+        FROM USER_INFO_TB
+        WHERE USER_NICKNAME = #{userNickname}
     </select>
     <select id="selectCountByEmail" resultType="int">
-        SELECT user_idx
-        FROM userInfo
-        WHERE user_email = #{userEmail}
+        SELECT USER_INDEX
+        FROM USER_INFO_TB
+        WHERE USER_EMAIL = #{userEmail}
     </select>
     <insert id="setUser" parameterType="UserVO">
-        insert into userInfo(user_id,user_pw,user_nickname,user_name,user_birth,user_address,user_address_detail,user_gender,user_postal,user_email,user_role) values(#{userID},#{userPW},#{userNickname},#{userName},#{userBirth},#{userAddress},#{userAddressDetail},#{userGender},#{userPostal},#{userEmail},#{userRole})
+        insert into USER_INFO_TB(USER_ID,USER_PW,USER_NICKNAME,USER_NAME,USER_BIRTH,USER_ADDRESS,USER_ADDRESS_DETAIL,USER_GENDER,USER_POSTAL,USER_EMAIL,USER_ROLE) values(#{userID},#{userPW},#{userNickname},#{userName},#{userBirth},#{userAddress},#{userAddressDetail},#{userGender},#{userPostal},#{userEmail},#{userRole})
     </insert>
     <delete id="deleteUser" parameterType="int">
-        delete from userInfo
-        where user_idx = #{userIdx}
+        delete from USER_INFO_TB
+        where USER_INDEX = #{userIdx}
     </delete>
     <update id="updateUser" parameterType="UserVO">
-        update userInfo
-        set user_pw = #{userPW},
-            user_nickname = #{userNickname},
-            user_name = #{userName},
-            user_birth = #{userBirth},
-            user_address = #{userAddress},
-            user_address_detail = #{userAddressDetail},
-            user_gender = #{userGender},
-            user_postal = #{userPostal},
-            user_email = #{userEmail},
-            user_role = #{userRole}
-        where user_id = #{userID}
+        update USER_INFO_TB
+        set USER_PW = #{userPW},
+            USER_NICKNAME = #{userNickname},
+            USER_NAME = #{userName},
+            USER_BIRTH = #{userBirth},
+            USER_ADDRESS = #{userAddress},
+            USER_ADDRESS_DETAIL = #{userAddressDetail},
+            USER_GENDER = #{userGender},
+            USER_POSTAL = #{userPostal},
+            USER_EMAIL = #{userEmail},
+            USER_ROLE = #{userRole}
+        where USER_ID = #{userID}
     </update>
     <select id="findId" parameterType="UserDTO" resultType="String">
-        select user_id
-        from userInfo
-        where user_name = #{userName} and user_email = #{userEmail}
+        select USER_ID
+        from USER_INFO_TB
+        where USER_NAME = #{userName} and USER_EMAIL = #{userEmail}
     </select>
     <select id="findPw" parameterType="UserDTO" resultType="int">
-        select user_idx
-        from userInfo
-        where user_id = #{userID} and user_name = #{userName} and user_email = #{userEmail}
+        select USER_INDEX
+        from USER_INFO_TB
+        where USER_ID = #{userID} and USER_NAME = #{userName} and USER_EMAIL = #{userEmail}
     </select>
     <update id="changePw" parameterType="UserDTO">
-        update userInfo
-        set user_pw = #{userPW}
-        where user_id = #{userID} and user_name = #{userName} and user_email = #{userEmail}
+        update USER_INFO_TB
+        set USER_PW = #{userPW}
+        where USER_ID = #{userID} and USER_NAME = #{userName} and USER_EMAIL = #{userEmail}
     </update>
 </mapper>
