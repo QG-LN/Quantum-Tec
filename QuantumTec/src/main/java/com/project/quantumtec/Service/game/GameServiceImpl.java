@@ -7,13 +7,15 @@ import com.project.quantumtec.DTO.game.GameSearchResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("GameServiceImpl")
 public class GameServiceImpl implements GameService{
 
     @Autowired
     private GameDAO gameDAO;
     @Override
-    public GameSearchResponseDTO[] getGameSearchList(GameSearchRequestDTO game) {
+    public List<GameSearchResponseDTO> getGameSearchList(GameSearchRequestDTO game){
         return gameDAO.getGameSearchList(game);
     }
 
