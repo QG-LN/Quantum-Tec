@@ -132,6 +132,7 @@ export default function Board() {
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="#">최신순</a></li>
                             <li><a class="dropdown-item" href="#">오래된순</a></li>
+                            <li><a className="dropdown-item" href="#">별점순</a></li>
                         </ul>
                     </div>
                 </div>
