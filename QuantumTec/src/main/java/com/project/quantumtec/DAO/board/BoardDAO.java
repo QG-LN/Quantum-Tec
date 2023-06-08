@@ -40,8 +40,8 @@ public interface BoardDAO {
     public boolean deleteComment(BoardCommentDeleteRequestDTO request);
 
     // 댓글 추천
-    public boolean upvoteComment(BoardCommenVoteRequestDTO request);
+    public boolean upvoteComment(BoardCommentVoteRequestDTO request);
 
     // 댓글 비추천
-    public boolean downvoteComment(BoardCommenVoteRequestDTO request);
+    public boolean downvoteComment(BoardCommentVoteRequestDTO request);
 }

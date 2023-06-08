@@ -98,13 +98,13 @@ public class BoardController {
 
     // 댓글 추천
     @PostMapping("/commentUpvote")
-    public boolean upvoteComment(@RequestBody BoardCommenVoteRequestDTO request) throws Exception {
+    public boolean upvoteComment(@RequestBody BoardCommentVoteRequestDTO request) throws Exception {
         return boardService.upvoteComment(request);
     }
 
     // 댓글 비추천
     @PostMapping("/commentDownvote")
-    public boolean downvoteComment(@RequestBody BoardCommenVoteRequestDTO request) throws Exception {
+    public boolean downvoteComment(@RequestBody BoardCommentVoteRequestDTO request) throws Exception {
         return boardService.downvoteComment(request);
     }
 

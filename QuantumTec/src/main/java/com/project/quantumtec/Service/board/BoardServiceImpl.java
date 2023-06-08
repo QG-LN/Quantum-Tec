@@ -75,12 +75,12 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public boolean upvoteComment(BoardCommenVoteRequestDTO request) {
+    public boolean upvoteComment(BoardCommentVoteRequestDTO request) {
         return false;
     }
 
     @Override
-    public boolean downvoteComment(BoardCommenVoteRequestDTO request) {
+    public boolean downvoteComment(BoardCommentVoteRequestDTO request) {
         return false;
     }
 
