@@ -1,19 +1,19 @@
 package com.project.quantumtec.Service.board;
 
 import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.CommentListDTO;
-import com.project.quantumtec.DTO.Response.board.ListDTO;
-import com.project.quantumtec.DTO.Response.board.ViewDTO;
+import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 
 
 import java.util.List;
 
 public interface BoardService {
     // 게시물 리스트 불러오기 (검색 포함)
-    public List<ListDTO> getPostSearchList(com.project.quantumtec.DTO.Request.board.ListDTO request);
+    public List<ListResponseDTO> getPostSearchList(ListDTO request);
 
     // 게시물 조회
-    public ViewDTO getPost(com.project.quantumtec.DTO.Request.board.ViewDTO request);
+    public ViewResponseDTO getPost(com.project.quantumtec.DTO.Request.board.ViewDTO request);
 
     // 게시물 작성
     public boolean writePost(WriteDTO request);
@@ -30,8 +30,14 @@ public interface BoardService {
     // 게시물 싫어요
     public boolean downvotePost(VoteDTO request);
 
+    // 다음 게시글 존재 여부 파악 후 있으면 가져오고 없으면 null 반환
+    public ViewResponseDTO getNextPost(NavigateView request); // 다음 게시글
+
+    // 이전 게시글 존재 여부 파악 후 있으면 가져오고 없으면 null 반환
+    public ViewResponseDTO getPrevPost(NavigateView request); // 이전 게시글
+
     // 댓글 리스트
-    public List<CommentListDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request);
+    public List<CommentListResponseDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request);
 
     // 댓글 작성
     public boolean writeComment(CommentWriteDTO request);
