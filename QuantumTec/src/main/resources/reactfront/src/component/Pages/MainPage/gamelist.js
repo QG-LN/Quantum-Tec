@@ -1,6 +1,5 @@
 export default function Gamelist(props) {
     const gamelist = props.name;
-    console.log('1'+props)
     const gamelink = () => {
         window.open(props.link);
     }
