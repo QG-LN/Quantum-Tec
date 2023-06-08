@@ -2,9 +2,9 @@ package com.project.quantumtec.Controller;
 
 
 import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.CommentListDTO;
-import com.project.quantumtec.DTO.Response.board.ListDTO;
-import com.project.quantumtec.DTO.Response.board.ViewDTO;
+import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 import com.project.quantumtec.Service.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,13 +23,13 @@ public class BoardController {
 
     // 게시물 리스트 조회
     @PostMapping("/list")
-    public List<ListDTO> getPostSearchList(@RequestBody com.project.quantumtec.DTO.Request.board.ListDTO request) throws Exception {
+    public List<ListResponseDTO> getPostSearchList(@RequestBody com.project.quantumtec.DTO.Request.board.ListDTO request) throws Exception {
         return boardService.getPostSearchList(request);
     }
 
     // 게시물 조회
     @PostMapping("/view")
-    public ViewDTO getPost(@RequestBody com.project.quantumtec.DTO.Request.board.ViewDTO request) throws Exception {
+    public ViewResponseDTO getPost(@RequestBody com.project.quantumtec.DTO.Request.board.ViewDTO request) throws Exception {
         return boardService.getPost(request);
     }
 
@@ -63,21 +63,22 @@ public class BoardController {
         return boardService.downvotePost(request);
     }
 
-//    // 다음 게시글
-//    @PostMapping("/next")
-//    public BoardViewResponseDTO getNextPost(@RequestBody BoardViewRequestDTO request) throws Exception {
-//        return boardService.getPost(request);
-//    }
-//
-//    // 이전 게시글
-//    @PostMapping("/prev")
-//    public BoardViewResponseDTO getPrevPost(@RequestBody BoardViewRequestDTO request) throws Exception {
-//        return boardService.getPost(request);
-//    }
+    // 다음 게시글 불러오기
+    @PostMapping("/next")
+    public ViewResponseDTO getNextPost(@RequestBody NavigateView request) throws Exception {
+
+        return boardService.getNextPost(request);
+    }
+
+    // 이전 게시글 불러오기
+    @PostMapping("/prev")
+    public ViewResponseDTO getPrevPost(@RequestBody NavigateView request) throws Exception {
+        return boardService.getPrevPost(request);
+    }
 
     // 댓글 불러오기
     @PostMapping("/commentList")
-    public List<CommentListDTO> getCommentList(@RequestBody com.project.quantumtec.DTO.Request.board.CommentListDTO request) throws Exception {
+    public List<CommentListResponseDTO> getCommentList(@RequestBody com.project.quantumtec.DTO.Request.board.CommentListDTO request) throws Exception {
         return boardService.getCommentList(request);
     }
 

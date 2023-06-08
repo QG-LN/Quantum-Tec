@@ -2,9 +2,9 @@ package com.project.quantumtec.Service.board;
 
 import com.project.quantumtec.DAO.board.BoardDAO;
 import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.CommentListDTO;
-import com.project.quantumtec.DTO.Response.board.ListDTO;
-import com.project.quantumtec.DTO.Response.board.ViewDTO;
+import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class BoardServiceImpl implements BoardService{
     private BoardDAO boardDAO;
 
     @Override
-    public List<ListDTO> getPostSearchList(com.project.quantumtec.DTO.Request.board.ListDTO request) {
+    public List<ListResponseDTO> getPostSearchList(ListDTO request) {
         int itemNum = 10; // 한 페이지 당 게시글 수
         request.setStartIndex((request.getPageNum()-1)*itemNum); // 페이지에 따른 시작 게시글 인덱스 계산
         request.setEndIndex(itemNum); // 한 페이지 당 게시글 수
@@ -25,7 +25,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public ViewDTO getPost(com.project.quantumtec.DTO.Request.board.ViewDTO request) {
+    public ViewResponseDTO getPost(com.project.quantumtec.DTO.Request.board.ViewDTO request) {
         return boardDAO.getPost(request);
     }
 
@@ -54,8 +54,38 @@ public class BoardServiceImpl implements BoardService{
         return boardDAO.downvotePost(request);
     }
 
+    // 다음 게시글 인덱스를 가져오고, 존재할 경우 해당 게시글 조회
     @Override
-    public List<CommentListDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request) {
+    public ViewResponseDTO getNextPost(NavigateView request) {
+        int nextPostIndex = boardDAO.getNextPost(request); // 다음 게시글 인덱스 가져오기
+        if (nextPostIndex > 0){ // 다음 게시글 존재하면
+            ViewDTO view = new ViewDTO();
+            view.setPostIndex(nextPostIndex); // 다음 게시글 인덱스 삽입
+            view.setUserIndex(request.getUserIndex()); // 유저 인덱스 삽입
+            return boardDAO.getPost(view); // 게시글 조회
+        }
+        else {
+            return null;
+        }
+    }
+
+    // 이전 게시글 인덱스를 가져오고, 존재할 경우 해당 게시글 조회
+    @Override
+    public ViewResponseDTO getPrevPost(NavigateView request) {
+        int prevPostIndex = boardDAO.getPrevPost(request); // 이전 게시글 인덱스 가져오기
+        if (prevPostIndex > 0){ // 이전 게시글 존재하면
+            ViewDTO view = new ViewDTO();
+            view.setPostIndex(prevPostIndex); // 이전 게시글 인덱스 삽입
+            view.setUserIndex(request.getUserIndex()); // 유저 인덱스 삽입
+            return boardDAO.getPost(view); // 게시글 조회
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<CommentListResponseDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request) {
         int itemNum = 15; // 한 페이지(로딩 단위) 당 표시할 댓글 수
         request.setStartIndex((request.getPageNum()-1)*itemNum); // 페이지 (로딩 단위)에 따른 시작 댓글 인덱스 계산
         request.setEndIndex(itemNum); // 한 페이지(로딩 단위) 당 댓글 수
@@ -64,27 +94,25 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public boolean writeComment(CommentWriteDTO request) {
-        return false;
+        return boardDAO.writeComment(request);
     }
 
     @Override
     public boolean modifyComment(CommentModifyDTO request) {
-        return false;
+        return boardDAO.modifyComment(request);
     }
 
     @Override
-    public boolean deleteComment(CommentDeleteDTO request) {
-        return false;
-    }
+    public boolean deleteComment(CommentDeleteDTO request) { return boardDAO.deleteComment(request); }
 
     @Override
     public boolean upvoteComment(CommentVoteDTO request) {
-        return false;
+        return boardDAO.upvoteComment(request);
     }
 
     @Override
     public boolean downvoteComment(CommentVoteDTO request) {
-        return false;
+        return boardDAO.downvoteComment(request);
     }
 
 }

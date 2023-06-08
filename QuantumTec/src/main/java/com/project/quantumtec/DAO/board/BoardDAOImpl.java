@@ -1,9 +1,9 @@
 package com.project.quantumtec.DAO.board;
 
 import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.CommentListDTO;
-import com.project.quantumtec.DTO.Response.board.ListDTO;
-import com.project.quantumtec.DTO.Response.board.ViewDTO;
+import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,7 +16,7 @@ public class BoardDAOImpl implements BoardDAO {
     private SqlSession sqlSession;
 
     @Override
-    public List<ListDTO> getPostSearchList(com.project.quantumtec.DTO.Request.board.ListDTO request) {
+    public List<ListResponseDTO> getPostSearchList(com.project.quantumtec.DTO.Request.board.ListDTO request) {
         try {
             // 게시물 리스트 불러오기 (검색 포함)
             return sqlSession.selectList("BoardService.getPostSearchList", request);
@@ -26,7 +26,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public ViewDTO getPost(com.project.quantumtec.DTO.Request.board.ViewDTO request) {
+    public ViewResponseDTO getPost(com.project.quantumtec.DTO.Request.board.ViewDTO request) {
         try {
             // 게시물 조회
             return sqlSession.selectOne("BoardService.getPost", request);
@@ -100,7 +100,27 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public List<CommentListDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request) {
+    public int getNextPost(NavigateView request) {
+        try{
+            // 다음 게시물 번호 불러오기
+            return sqlSession.selectOne("BoardService.getNextPost", request);
+        }catch (Exception e){
+            return 0;
+        }
+    }
+
+    @Override
+    public int getPrevPost(NavigateView request) {
+        try{
+            // 이전 게시물 번호 불러오기
+            return sqlSession.selectOne("BoardService.getPrevPost", request);
+        }catch (Exception e){
+            return 0;
+        }
+    }
+
+    @Override
+    public List<CommentListResponseDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request) {
         try {
             // 댓글 리스트 불러오기 (정렬 데이터 포함)
             return sqlSession.selectList("BoardService.getCommentList", request);
