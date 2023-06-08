@@ -108,26 +108,65 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     public boolean writeComment(BoardCommentWriteRequestDTO request) {
-        return false;
+        try {
+            // 댓글 작성
+            return sqlSession.insert("BoardService.writeComment", request) > 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean modifyComment(BoardCommentModifyRequestDTO request) {
-        return false;
+        try {
+            // 댓글 작성
+            return sqlSession.insert("BoardService.modifyComment", request) > 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean deleteComment(BoardCommentDeleteRequestDTO request) {
-        return false;
+        try {
+            // 댓글 작성
+            return sqlSession.insert("BoardService.deleteComment", request) > 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean upvoteComment(BoardCommenVoteRequestDTO request) {
-        return false;
+        try{
+            // 댓글 추천
+            if (sqlSession.selectOne("BoardService.checkCommentUpvote", request) != null) { // 이미 추천했을 경우
+                return false;
+            } else if (sqlSession.selectOne("BoardService.checkCommentDownvote", request) != null) { // 이미 비추천했을 경우
+                sqlSession.delete("BoardService.deleteCommentDownvote", request);
+                return sqlSession.update("BoardService.upvoteComment", request) > 0;
+            }else {
+                return sqlSession.update("BoardService.upvoteComment", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean downvoteComment(BoardCommenVoteRequestDTO request) {
-        return false;
+        try{
+            // 댓글 비추천
+            if (sqlSession.selectOne("BoardService.checkCommentDownvote", request) != null) { // 이미 비추천했을 경우
+                return false;
+            } else if (sqlSession.selectOne("BoardService.checkCommentUpvote", request) != null) { // 이미 추천했을 경우
+                sqlSession.delete("BoardService.deleteCommentUpvote", request);
+                return sqlSession.update("BoardService.downvoteComment", request) > 0;
+            }else {
+                return sqlSession.update("BoardService.downvoteComment", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
