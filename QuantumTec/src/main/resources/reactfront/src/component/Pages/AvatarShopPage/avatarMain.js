@@ -33,7 +33,7 @@ export default function AvatarMain() {
         setAvatarCategory(avatarCategory.concat(tempArray))
     }, []);
     return (
-        <div className='bg-gray-200'>
+        <div className=''>
             <div className='p-2 pt-5 me-0 user-wrap'>
                 <img className="rounded mx-auto d-block w-[60%] user-image" src='https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?resize=476%2C280&ssl=1' alt="..." />
                 <div className='user-text text-white'>
