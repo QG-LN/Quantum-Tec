@@ -4,7 +4,23 @@
     <select id="getPostSearchList" resultType="BoardListResponseDTO">
         -- 정연매직을 기다립니다 --
     </select>
-    <select id="getPost" resultType="BoardViewResponseDTO">
+    <select id="getPost" resultType="ViewResponseDTO">
         -- 정연매직을 기다립니다 --
+    </select>
+    <select id="getNextPost" resultType="int">
+        select *
+        from GAME_INFO_TB
+        where GAME_INDEX > #{postIndex}
+        order by GAME_INDEX asc
+            limit 0,1;
+        -- 여기서 현재 보고있는 게시판 종류에 해당하는 다음 게시글로 받아와야 하는 조건도 추가해주세욥 --
+    </select>
+    <select id="getPrevPost" resultType="int">
+        select *
+        from GAME_INFO_TB
+        where GAME_INDEX < #{postIndex}
+        order by GAME_INDEX desc
+            limit 0,1;
+        -- 여기서 현재 보고있는 게시판 종류에 해당하는 이전 게시글로 받아와야 하는 조건도 추가해주세욥 --
     </select>
 </mapper>
