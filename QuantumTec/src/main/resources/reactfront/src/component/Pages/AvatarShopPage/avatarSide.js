@@ -31,9 +31,10 @@ export default function AvatarSide() {
     }, []);
     return (
         <div className='h-[100%]'>
-            <div className='w-[100%] p-2 me-0'>
+            <div className='w-[70%] m-[15%] me-0'>
                 <img className="rounded " src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' alt="..." />
             </div>
+            <hr />
             {avatarCategory.map((category) => (
             <div className='d-flex align-items-center'>
                 <div className='w-[15%] m-2 me-0'>
