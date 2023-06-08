@@ -100,7 +100,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public int getNextPost(NavigateView request) {
+    public int getNextPost(NavigateViewDTO request) {
         try{
             // 다음 게시물 번호 불러오기
             return sqlSession.selectOne("BoardService.getNextPost", request);
@@ -110,7 +110,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public int getPrevPost(NavigateView request) {
+    public int getPrevPost(NavigateViewDTO request) {
         try{
             // 이전 게시물 번호 불러오기
             return sqlSession.selectOne("BoardService.getPrevPost", request);

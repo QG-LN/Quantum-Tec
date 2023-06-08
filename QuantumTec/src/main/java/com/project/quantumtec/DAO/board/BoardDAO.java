@@ -31,10 +31,10 @@ public interface BoardDAO {
     public boolean downvotePost(VoteDTO request);
 
     // 다음 게시글 존재 여부(갯수) 반환
-    public int getNextPost(NavigateView request); // 다음 게시글
+    public int getNextPost(NavigateViewDTO request); // 다음 게시글
 
     // 이전 게시글 존재 여부(갯수) 반환
-    public int getPrevPost(NavigateView request); // 이전 게시글
+    public int getPrevPost(NavigateViewDTO request); // 이전 게시글
 
     // 댓글 리스트
     public List<CommentListResponseDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request);
