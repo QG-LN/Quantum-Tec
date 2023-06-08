@@ -3,7 +3,7 @@ package com.project.quantumtec.DTO.board;
 import lombok.Data;
 
 @Data
-public class BoardDownvoteRequestDTO {
+public class BoardVoteRequestDTO {
 
 
     private int postIndex; // 게시글 번호
