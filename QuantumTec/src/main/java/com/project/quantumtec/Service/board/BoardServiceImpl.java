@@ -1,7 +1,6 @@
 package com.project.quantumtec.Service.board;
 
 import com.project.quantumtec.DAO.board.BoardDAO;
-import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.DTO.board.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,12 +42,12 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public boolean upvotePost(BoardUpvoteRequestDTO request) {
+    public boolean upvotePost(BoardVoteRequestDTO request) {
         return boardDAO.upvotePost(request);
     }
 
     @Override
-    public boolean downvotePost(BoardDownvoteRequestDTO request) {
+    public boolean downvotePost(BoardVoteRequestDTO request) {
         return boardDAO.downvotePost(request);
     }
 
@@ -58,6 +57,31 @@ public class BoardServiceImpl implements BoardService{
         request.setStartIndex((request.getPageNum()-1)*itemNum); // 페이지 (로딩 단위)에 따른 시작 댓글 인덱스 계산
         request.setEndIndex(itemNum); // 한 페이지(로딩 단위) 당 댓글 수
         return boardDAO.getCommentList(request);
+    }
+
+    @Override
+    public boolean writeComment(BoardCommentWriteRequestDTO request) {
+        return false;
+    }
+
+    @Override
+    public boolean modifyComment(BoardCommentModifyRequestDTO request) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteComment(BoardCommentDeleteRequestDTO request) {
+        return false;
+    }
+
+    @Override
+    public boolean upvoteComment(BoardCommenVoteRequestDTO request) {
+        return false;
+    }
+
+    @Override
+    public boolean downvoteComment(BoardCommenVoteRequestDTO request) {
+        return false;
     }
 
 }

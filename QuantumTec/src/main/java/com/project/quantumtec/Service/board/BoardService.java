@@ -22,11 +22,26 @@ public interface BoardService {
     public boolean deletePost(BoardDeleteRequestDTO request);
 
     // 게시물 좋아요
-    public boolean upvotePost(BoardUpvoteRequestDTO request);
+    public boolean upvotePost(BoardVoteRequestDTO request);
 
     // 게시물 싫어요
-    public boolean downvotePost(BoardDownvoteRequestDTO request);
+    public boolean downvotePost(BoardVoteRequestDTO request);
 
     // 댓글 리스트
     public List<BoardCommentListResponseDTO> getCommentList(BoardCommentListRequestDTO request);
+
+    // 댓글 작성
+    public boolean writeComment(BoardCommentWriteRequestDTO request);
+
+    // 댓글 수정
+    public boolean modifyComment(BoardCommentModifyRequestDTO request);
+
+    // 댓글 삭제
+    public boolean deleteComment(BoardCommentDeleteRequestDTO request);
+
+    // 댓글 추천
+    public boolean upvoteComment(BoardCommenVoteRequestDTO request);
+
+    // 댓글 비추천
+    public boolean downvoteComment(BoardCommenVoteRequestDTO request);
 }

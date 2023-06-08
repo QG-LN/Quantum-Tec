@@ -50,13 +50,13 @@ public class BoardController {
 
     // 게시물 추천
     @PostMapping("/upvote")
-    public boolean upvotePost(@RequestBody BoardUpvoteRequestDTO request) throws Exception {
+    public boolean upvotePost(@RequestBody BoardVoteRequestDTO request) throws Exception {
         return boardService.upvotePost(request);
     }
 
     // 게시물 비추천
     @PostMapping("/downvote")
-    public boolean downvotePost(@RequestBody BoardDownvoteRequestDTO request) throws Exception {
+    public boolean downvotePost(@RequestBody BoardVoteRequestDTO request) throws Exception {
         return boardService.downvotePost(request);
     }
 
@@ -73,10 +73,41 @@ public class BoardController {
 //    }
 
     // 댓글 불러오기
-    @PostMapping("/comment")
+    @PostMapping("/commentList")
     public List<BoardCommentListResponseDTO> getCommentList(@RequestBody BoardCommentListRequestDTO request) throws Exception {
         return boardService.getCommentList(request);
     }
+
+    // 댓글 작성
+    @PostMapping("/commentWrite")
+    public boolean writeComment(@RequestBody BoardCommentWriteRequestDTO request) throws Exception {
+        return boardService.writeComment(request);
+    }
+
+    // 댓글 수정
+    @PostMapping("/commentModify")
+    public boolean modifyComment(@RequestBody BoardCommentModifyRequestDTO request) throws Exception {
+        return boardService.modifyComment(request);
+    }
+
+    // 댓글 삭제
+    @PostMapping("/commentDelete")
+    public boolean deleteComment(@RequestBody BoardCommentDeleteRequestDTO request) throws Exception {
+        return boardService.deleteComment(request);
+    }
+
+    // 댓글 추천
+    @PostMapping("/commentUpvote")
+    public boolean upvoteComment(@RequestBody BoardCommenVoteRequestDTO request) throws Exception {
+        return boardService.upvoteComment(request);
+    }
+
+    // 댓글 비추천
+    @PostMapping("/commentDownvote")
+    public boolean downvoteComment(@RequestBody BoardCommenVoteRequestDTO request) throws Exception {
+        return boardService.downvoteComment(request);
+    }
+
 
 }
 
