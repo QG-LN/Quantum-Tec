@@ -13,10 +13,10 @@ public class BoardDAOImpl implements BoardDAO {
     private SqlSession sqlSession;
 
     @Override
-    public List<BoardListResponseDTO> getPostSearchList(BoardListRequestDTO board) {
+    public List<BoardListResponseDTO> getPostSearchList(BoardListRequestDTO request) {
         try {
             // 게시물 리스트 불러오기 (검색 포함)
-            return sqlSession.selectList("BoardService.getPostSearchList", board);
+            return sqlSession.selectList("BoardService.getPostSearchList", request);
         } catch (Exception e) {
             return null;
         }
@@ -93,6 +93,16 @@ public class BoardDAOImpl implements BoardDAO {
             }
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Override
+    public List<BoardCommentListResponseDTO> getCommentList(BoardCommentListRequestDTO request) {
+        try {
+            // 댓글 리스트 불러오기 (정렬 데이터 포함)
+            return sqlSession.selectList("BoardService.getCommentList", request);
+        } catch (Exception e) {
+            return null;
         }
     }
 }

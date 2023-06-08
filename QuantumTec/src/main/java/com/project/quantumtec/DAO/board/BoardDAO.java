@@ -27,4 +27,7 @@ public interface BoardDAO {
     // 게시물 비추천
     public boolean downvotePost(BoardDownvoteRequestDTO request);
 
+    // 댓글 리스트
+    public List<BoardCommentListResponseDTO> getCommentList(BoardCommentListRequestDTO request);
+
 }

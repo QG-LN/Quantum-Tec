@@ -72,5 +72,11 @@ public class BoardController {
 //        return boardService.getPost(request);
 //    }
 
+    // 댓글 불러오기
+    @PostMapping("/comment")
+    public List<BoardCommentListResponseDTO> getCommentList(@RequestBody BoardCommentListRequestDTO request) throws Exception {
+        return boardService.getCommentList(request);
+    }
+
 }
 

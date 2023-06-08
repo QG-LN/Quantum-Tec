@@ -26,4 +26,7 @@ public interface BoardService {
 
     // 게시물 싫어요
     public boolean downvotePost(BoardDownvoteRequestDTO request);
+
+    // 댓글 리스트
+    public List<BoardCommentListResponseDTO> getCommentList(BoardCommentListRequestDTO request);
 }
