@@ -1,9 +1,9 @@
-package com.project.quantumtec.DTO.board;
+package com.project.quantumtec.DTO.Response.board;
 
 import lombok.Data;
 
 @Data
-public class BoardListResponseDTO {
+public class ListDTO { // 게시글 리스트를 담는 Response DTO
 
     private int postIndex;           // 게시글 인덱스
     private int boardTitle;          //게시판 제목
