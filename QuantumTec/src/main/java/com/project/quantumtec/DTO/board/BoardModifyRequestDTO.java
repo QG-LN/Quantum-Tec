@@ -1,5 +1,8 @@
 package com.project.quantumtec.DTO.board;
 
+import lombok.Data;
+
+@Data
 public class BoardModifyRequestDTO {
     private int boardIndex; // 게시판 번호
     private int postIndex; // 게시글 번호
