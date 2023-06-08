@@ -63,7 +63,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean upvotePost(BoardUpvoteRequestDTO request) {
+    public boolean upvotePost(BoardVoteRequestDTO request) {
         try {
             // 게시물 추천
             if (sqlSession.selectOne("BoardService.checkUpvote", request) != null) { // 이미 추천했을 경우
@@ -80,7 +80,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean downvotePost(BoardDownvoteRequestDTO request) {
+    public boolean downvotePost(BoardVoteRequestDTO request) {
         try {
             // 게시물 비추천
             if (sqlSession.selectOne("BoardService.checkDownvote", request) != null) { // 이미 비추천했을 경우
@@ -104,5 +104,30 @@ public class BoardDAOImpl implements BoardDAO {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public boolean writeComment(BoardCommentWriteRequestDTO request) {
+        return false;
+    }
+
+    @Override
+    public boolean modifyComment(BoardCommentModifyRequestDTO request) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteComment(BoardCommentDeleteRequestDTO request) {
+        return false;
+    }
+
+    @Override
+    public boolean upvoteComment(BoardCommenVoteRequestDTO request) {
+        return false;
+    }
+
+    @Override
+    public boolean downvoteComment(BoardCommenVoteRequestDTO request) {
+        return false;
     }
 }
