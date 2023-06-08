@@ -16,6 +16,10 @@
     text-align:center;
 }
 
+.shop-category:hover {
+	background-color: var(--bs-gray-300);
+	cursor: pointer;
+}
 
 
 @media (min-width: 500px) {
