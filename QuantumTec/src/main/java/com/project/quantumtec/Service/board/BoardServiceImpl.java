@@ -56,7 +56,7 @@ public class BoardServiceImpl implements BoardService{
 
     // 다음 게시글 인덱스를 가져오고, 존재할 경우 해당 게시글 조회
     @Override
-    public ViewResponseDTO getNextPost(NavigateView request) {
+    public ViewResponseDTO getNextPost(NavigateViewDTO request) {
         int nextPostIndex = boardDAO.getNextPost(request); // 다음 게시글 인덱스 가져오기
         if (nextPostIndex > 0){ // 다음 게시글 존재하면
             ViewDTO view = new ViewDTO();
@@ -71,7 +71,7 @@ public class BoardServiceImpl implements BoardService{
 
     // 이전 게시글 인덱스를 가져오고, 존재할 경우 해당 게시글 조회
     @Override
-    public ViewResponseDTO getPrevPost(NavigateView request) {
+    public ViewResponseDTO getPrevPost(NavigateViewDTO request) {
         int prevPostIndex = boardDAO.getPrevPost(request); // 이전 게시글 인덱스 가져오기
         if (prevPostIndex > 0){ // 이전 게시글 존재하면
             ViewDTO view = new ViewDTO();

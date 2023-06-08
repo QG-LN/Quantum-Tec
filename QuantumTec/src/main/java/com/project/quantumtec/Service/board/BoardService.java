@@ -31,10 +31,10 @@ public interface BoardService {
     public boolean downvotePost(VoteDTO request);
 
     // 다음 게시글 존재 여부 파악 후 있으면 가져오고 없으면 null 반환
-    public ViewResponseDTO getNextPost(NavigateView request); // 다음 게시글
+    public ViewResponseDTO getNextPost(NavigateViewDTO request); // 다음 게시글
 
     // 이전 게시글 존재 여부 파악 후 있으면 가져오고 없으면 null 반환
-    public ViewResponseDTO getPrevPost(NavigateView request); // 이전 게시글
+    public ViewResponseDTO getPrevPost(NavigateViewDTO request); // 이전 게시글
 
     // 댓글 리스트
     public List<CommentListResponseDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request);
