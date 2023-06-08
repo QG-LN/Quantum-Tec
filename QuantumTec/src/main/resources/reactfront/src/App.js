@@ -12,6 +12,7 @@ import PasswordChk from './component/Pages/MyPage/passwordChk';
 import GamePage from './component/Pages/GamePage/gamepage.js';
 import AvatarMain from './component/Pages/AvatarShopPage/avatarMain';
 import AvatarSide from './component/Pages/AvatarShopPage/avatarSide';
+import AvatarCategory from './component/Pages/AvatarShopPage/avatarCategory';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
@@ -79,17 +80,24 @@ function MyPage(){
 }
 
 function AvatarMainPage(){
+  const [page, setPage] = useState("추천");
+  const handlePage = (e) => {
+    setPage(e.target.id);
+    console.log(page)
+  }
+
+
   return (
     <div className="AvatarMainPage container mt-[46px]" style={{ height: "82vh" }}>
       <div className="row justify-content-center h-[100%]">
         <div className="col-3 ps-0 pe-0">
           <ScrollContainer>
-            <AvatarSide />
+            <AvatarSide onClick={handlePage}/>
           </ScrollContainer>
         </div>
         <div className="col-9 ps-0 pe-0">
           <ScrollContainer>
-            <AvatarMain />
+            {page === "추천"?<AvatarMain />:<AvatarCategory key={page} categoryName={page} />}
           </ScrollContainer>
         </div>
       </div>
