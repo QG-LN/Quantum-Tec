@@ -18,18 +18,18 @@ export default function AvatarMain() {
         }
         setHatList(hatList.concat(tempArray));
         tempArray = []
-        tempArray.push({ id: 1, name: '모자 아이템' });
-        tempArray.push({ id: 2, name: '악세서리 아이템' });
-        tempArray.push({ id: 3, name: '머리카락 아이템' });
-        tempArray.push({ id: 4, name: '이너 아이템' });
-        tempArray.push({ id: 5, name: '아웃터 아이템' });
-        tempArray.push({ id: 6, name: '바지 아이템' });
-        tempArray.push({ id: 7, name: '치마 아이템' });
-        tempArray.push({ id: 8, name: '원피스 아이템' });
-        tempArray.push({ id: 9, name: '신발 아이템' });
-        tempArray.push({ id: 10, name: '구두 아이템' });
-        tempArray.push({ id: 11, name: '배경 아이템' });
-        tempArray.push({ id: 12, name: '가구 아이템' });
+        tempArray.push({ id: 1, name: '모자' });
+        tempArray.push({ id: 2, name: '악세서리' });
+        tempArray.push({ id: 3, name: '머리카락' });
+        tempArray.push({ id: 4, name: '이너' });
+        tempArray.push({ id: 5, name: '아웃터' });
+        tempArray.push({ id: 6, name: '바지' });
+        tempArray.push({ id: 7, name: '치마' });
+        tempArray.push({ id: 8, name: '원피스' });
+        tempArray.push({ id: 9, name: '신발' });
+        tempArray.push({ id: 10, name: '구두' });
+        tempArray.push({ id: 11, name: '배경' });
+        tempArray.push({ id: 12, name: '가구' });
         setAvatarCategory(avatarCategory.concat(tempArray))
     }, []);
     return (
@@ -44,7 +44,7 @@ export default function AvatarMain() {
             {avatarCategory.map((item) => (
                 <div className='mt-2 mb-5'>
                     <div className='d-flex align-items-center'>
-                        <h5 className={item.name.length > 6 ? 'w-[20%]' : 'w-[18%]'}>모든 {item.name}</h5>
+                        <h5 className={item.name.length > 2 ? 'w-[20%]' : 'w-[18%]'}>모든 {item.name} 아이템</h5>
                         <button type="button" class="btn btn-secondary btn-sm">모두 보기 (22)</button>
                         <hr className='flex-fill mx-3'/>
                     </div>
