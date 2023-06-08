@@ -1,35 +1,30 @@
 package com.project.quantumtec.DAO.board;
 
-import com.project.quantumtec.DTO.board.BoardListRequestDTO;
-import com.project.quantumtec.DTO.board.BoardListResponseDTO;
-import com.project.quantumtec.DTO.board.BoardViewRequestDTO;
-import com.project.quantumtec.DTO.board.BoardViewResponseDTO;
+import com.project.quantumtec.DTO.board.*;
 
 
 import java.util.List;
 
 public interface BoardDAO {
     // 게시물 리스트 불러오기 (검색 포함)
-    public List<BoardListResponseDTO> getPostSearchList(BoardListRequestDTO board);
+    public List<BoardListResponseDTO> getPostSearchList(BoardListRequestDTO request);
 
     // 게시물 조회
-    public BoardViewResponseDTO getPost(BoardViewRequestDTO board);
+    public BoardViewResponseDTO getPost(BoardViewRequestDTO request);
 
     // 게시물 작성
+    public boolean writePost(BoardWriteRequestDTO request);
 
     // 게시물 수정
+    public boolean modifyPost(BoardModifyRequestDTO request);
 
     // 게시물 삭제
+    public boolean deletePost(BoardDeleteRequestDTO request);
 
     // 게시물 추천
+    public boolean upvotePost(BoardUpvoteRequestDTO request);
 
     // 게시물 비추천
-
-    // 다음 게시글
-
-    // 이전 게시글
-
-    // 게시글 목록
-
+    public boolean downvotePost(BoardDownvoteRequestDTO request);
 
 }
