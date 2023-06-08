@@ -98,32 +98,32 @@ export default function Section() {
                     <fieldset class='radioButtonStyle'>
                         <legend class='absolute overflow-hidden h-1 w-1 m-[-1px]'></legend>
                         <label className='radioStyle hover:cursor-pointer'>
-                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='0'/><span
-                            onClick={Clickcate}>#전체</span>
+                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='0' checked={inputCate === '0'}/>
+                            <span onClick={Clickcate}>#전체</span>
                         </label>
                         <label className='radioStyle hover:cursor-pointer'>
-                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='1'/><span
-                            onClick={Clickcate}>#수학</span>
+                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='1' checked={inputCate === '1'}/>
+                            <span onClick={Clickcate}>#수학</span>
                         </label>
                         <label className='radioStyle hover:cursor-pointer'>
-                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='2'/><span
-                            onClick={Clickcate}>#국어</span>
+                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='2' checked={inputCate === '2'}/>
+                            <span onClick={Clickcate}>#국어</span>
                         </label>
                         <label className='radioStyle hover:cursor-pointer'>
-                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='3'/><span
-                            onClick={Clickcate}>#과학</span>
+                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='3' checked={inputCate === '3'}/>
+                            <span onClick={Clickcate}>#과학</span>
                         </label>
                         <label className='radioStyle hover:cursor-pointer'>
-                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='4'/><span
-                            onClick={Clickcate}>#영어</span>
+                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='4' checked={inputCate === '4'}/>
+                            <span onClick={Clickcate}>#영어</span>
                         </label>
                         <label className='radioStyle hover:cursor-pointer'>
-                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='5'/><span
-                            onClick={Clickcate}>#사회</span>
+                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='5' checked={inputCate === '5'}/>
+                            <span onClick={Clickcate}>#사회</span>
                         </label>
                         <label className='radioStyle hover:cursor-pointer'>
-                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='6'/><span
-                            onClick={Clickcate}>#일본어</span>
+                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='6' checked={inputCate === '6'}/>
+                            <span onClick={Clickcate}>#일본어</span>
                         </label>
                     </fieldset>
                 </div>
