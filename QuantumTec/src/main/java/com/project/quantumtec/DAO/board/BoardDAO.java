@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface BoardDAO {
     // 게시물 리스트 불러오기 (검색 포함)
-    public List<ListResponseDTO> getPostSearchList(com.project.quantumtec.DTO.Request.board.ListDTO request);
+    public List<ListResponseDTO> getPostSearchList(ListDTO request);
 
     // 게시물 조회
-    public ViewResponseDTO getPost(com.project.quantumtec.DTO.Request.board.ViewDTO request);
+    public ViewResponseDTO getPost(ViewDTO request);
 
     // 게시물 작성
     public boolean writePost(WriteDTO request);

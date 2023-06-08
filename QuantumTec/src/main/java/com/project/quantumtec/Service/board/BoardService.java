@@ -13,7 +13,7 @@ public interface BoardService {
     public List<ListResponseDTO> getPostSearchList(ListDTO request);
 
     // 게시물 조회
-    public ViewResponseDTO getPost(com.project.quantumtec.DTO.Request.board.ViewDTO request);
+    public ViewResponseDTO getPost(ViewDTO request);
 
     // 게시물 작성
     public boolean writePost(WriteDTO request);

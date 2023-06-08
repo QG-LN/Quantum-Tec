@@ -23,13 +23,13 @@ public class BoardController {
 
     // 게시물 리스트 조회
     @PostMapping("/list")
-    public List<ListResponseDTO> getPostSearchList(@RequestBody com.project.quantumtec.DTO.Request.board.ListDTO request) throws Exception {
+    public List<ListResponseDTO> getPostSearchList(@RequestBody ListDTO request) throws Exception {
         return boardService.getPostSearchList(request);
     }
 
     // 게시물 조회
     @PostMapping("/view")
-    public ViewResponseDTO getPost(@RequestBody com.project.quantumtec.DTO.Request.board.ViewDTO request) throws Exception {
+    public ViewResponseDTO getPost(@RequestBody ViewDTO request) throws Exception {
         return boardService.getPost(request);
     }
 
