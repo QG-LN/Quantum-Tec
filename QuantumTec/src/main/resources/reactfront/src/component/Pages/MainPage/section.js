@@ -15,10 +15,16 @@ export default function Section() {
     const [ref, inView] = useInView()                                 // 스크롤이 끝에 도달했는지 여부
     const [loading, setLoading] = useState(false)           // 로딩중인지 여부
 
+    const [search, setSearch] = useState("");               // 검색어
+
     const defaultImage = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"; // 이미지가 없을 경우 기본 이미지
 
     const handleInputCate = (e) => {
         setInputCate(e.target.value)
+    }
+
+    const handleSearch = (e) => {
+        setSearch(e.target.value)
     }
 
 
@@ -26,9 +32,10 @@ export default function Section() {
     function getGameList(){
         const path = 'http://localhost:9090/search';
         let category = inputCate === "전체" ? "" : inputCate;
+        let searchWord = search;
         const body = {
             pageNum         : page,
-            gameName        : "",
+            gameName        : searchWord,
             gameCategoryName: category,
             gamePrice       : 0
         };
@@ -84,12 +91,12 @@ export default function Section() {
 
     // 카테고리가 바뀌었을 때마다 게임 목록을 새로 받아옴
     useEffect(() => {
+        setItems([]);
         if(page !== 1) {            // 페이지가 1이 아닐 경우 페이지를 1로 초기화하여 page useEffect를 실행
             setPage(1);
         }else{                      // 페이지가 1일 경우 기존 게임 목록을 삭제하고 새로 받아옴
             getGameList();
         }
-        setItems([]);
     },[inputCate]);
 
 
@@ -97,7 +104,13 @@ export default function Section() {
     const Clickcate = (e) => {
         let index = e.target;
     }
-    const Clicksearch = () => {
+    const onClickSearch = () => {
+        setItems([]);
+        if(page !== 1) {            // 페이지가 1이 아닐 경우 페이지를 1로 초기화하여 page useEffect를 실행
+            setPage(1);
+        }else{                      // 페이지가 1일 경우 기존 게임 목록을 삭제하고 새로 받아옴
+            getGameList();
+        }
     }
 
     return (
@@ -107,8 +120,8 @@ export default function Section() {
             <div class='absolute top-[-10px] right-[0px]'>
                 <fieldset>
                     <input class='w-[302px] h-[44px] pr-[3px] pl-[3px] mr-0 border-b-2' type='text'
-                           placeholder='게임명 검색'></input>
-                    <button type='button' class='absolute right-0 w-[44px] h-[44px]' onClick={Clicksearch}>
+                           placeholder='게임명 검색'onChange={handleSearch} value={search}></input>
+                    <button type='button' class='absolute right-0 w-[44px] h-[44px]' onClick={onClickSearch}>
                         <span class='inline-block w-[40px] h-[40px] rounded-full bg-green-400'></span></button>
                 </fieldset>
             </div>
