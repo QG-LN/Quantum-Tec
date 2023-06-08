@@ -59,23 +59,22 @@ export default function Navbar() {
 
 
     return (
-        <div>
+        <div class="fixed top-0 left-0 w-[100%] z-50">
             <Sidebar width={300}>
                 <Contact/>
             </Sidebar>
             <nav className="navbar navbar-expand-lg navbar-light bg-light" style={{zIndex: '3'}}>
-                <div class="block w-[100%] relative">
+                <div class="block w-[100%] relative mt-1">
                     {/*로고(클릭시 메인화면)*/}
                     <a class="navbar-brand hover:cursor-pointer" onClick={logoClick}>로고 위치(상표)</a>
                     <form class="log_info d-flex justify-end absolute top-0 right-0 mr-10 ">
-
                         {/*{getUsername()}*/}
                         {/*{getMyCash()}*/}
                         {!truelogin && <button
-                            class="btn-outline-dark border-2 hover:bg-green-500 hover:text-white rounded-md pr-1"
+                            class="btn-outline-dark border-2 border-black hover:bg-green-500 hover:border-green-600 hover:text-white rounded-full mt-[-3px] px-2 py-1 pr-1"
                             type="button" onClick={ClickLogin}>
-                            <i class="loginbtn me-1"></i>
-                            <span>
+                            <i class="loginbtn"></i>
+                            <span class='font-bold'>
                                     로그인</span>
                         </button>}
                         {truelogin &&
