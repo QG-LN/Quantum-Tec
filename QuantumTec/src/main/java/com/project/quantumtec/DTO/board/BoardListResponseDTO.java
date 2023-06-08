@@ -1,5 +1,8 @@
 package com.project.quantumtec.DTO.board;
 
+import lombok.Data;
+
+@Data
 public class BoardListResponseDTO {
 
     private int postIndex;           // 게시글 인덱스
