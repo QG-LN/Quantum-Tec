@@ -17,6 +17,10 @@ public class GameDAOImpl implements GameDAO{
     @Override
     public List<GameSearchResponseDTO> getGameSearchList(GameSearchRequestDTO game){
         try{
+            // 만약 카테고리가 빈값으로 넘어왔을 경우 null로 변환
+            if(game.getGameCategoryName().equals("")){
+                game.setGameCategoryName(null);
+            }
             return sqlSession.selectList("GameService.getGameSearchList", game);
         } catch (Exception e) {
             return null;
