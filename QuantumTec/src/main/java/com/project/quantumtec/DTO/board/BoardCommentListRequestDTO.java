@@ -7,6 +7,9 @@ import lombok.Getter;
 
 @Data
 public class BoardCommentListRequestDTO {
+    private int pageNum;                   // 페이지(로딩 단위)
+    private int startIndex;             // 페이지(로딩 단위) 당 시작 댓글 번호
+    private int endIndex;                // 페이지(로딩 단위) 당 표시할 댓글 수
     private int postIndex; // 게시글 번호
     private SortType sortType; // 정렬 기준
 
