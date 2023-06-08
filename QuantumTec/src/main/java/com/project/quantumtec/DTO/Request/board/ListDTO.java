@@ -1,4 +1,4 @@
-package com.project.quantumtec.DTO.board;
+package com.project.quantumtec.DTO.Request.board;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 
 @Data
-public class BoardListRequestDTO {
+public class ListDTO { // 게시글 리스트 요청 DTO
     private int pageNum;                   // 페이지
     private int startIndex;             // 페이지 당 시작 게시글 번호
     private int endIndex;                // 페이지 당 표시할 게시글 수

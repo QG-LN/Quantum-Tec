@@ -1,6 +1,9 @@
 package com.project.quantumtec.DAO.board;
 
-import com.project.quantumtec.DTO.board.*;
+import com.project.quantumtec.DTO.Request.board.*;
+import com.project.quantumtec.DTO.Response.board.CommentListDTO;
+import com.project.quantumtec.DTO.Response.board.ListDTO;
+import com.project.quantumtec.DTO.Response.board.ViewDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,7 +16,7 @@ public class BoardDAOImpl implements BoardDAO {
     private SqlSession sqlSession;
 
     @Override
-    public List<BoardListResponseDTO> getPostSearchList(BoardListRequestDTO request) {
+    public List<ListDTO> getPostSearchList(com.project.quantumtec.DTO.Request.board.ListDTO request) {
         try {
             // 게시물 리스트 불러오기 (검색 포함)
             return sqlSession.selectList("BoardService.getPostSearchList", request);
@@ -23,7 +26,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public BoardViewResponseDTO getPost(BoardViewRequestDTO request) {
+    public ViewDTO getPost(com.project.quantumtec.DTO.Request.board.ViewDTO request) {
         try {
             // 게시물 조회
             return sqlSession.selectOne("BoardService.getPost", request);
@@ -33,7 +36,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean writePost(BoardWriteRequestDTO request) {
+    public boolean writePost(WriteDTO request) {
         try {
             // 게시물 작성
             return sqlSession.insert("BoardService.writePost", request) > 0;
@@ -43,7 +46,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean modifyPost(BoardModifyRequestDTO request) {
+    public boolean modifyPost(ModifyDTO request) {
         try {
             // 게시물 수정
             return sqlSession.update("BoardService.modifyPost", request) > 0;
@@ -53,7 +56,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean deletePost(BoardDeleteRequestDTO request) {
+    public boolean deletePost(DeleteDTO request) {
         try {
             // 게시물 삭제
             return sqlSession.delete("BoardService.deletePost", request) > 0;
@@ -63,7 +66,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean upvotePost(BoardVoteRequestDTO request) {
+    public boolean upvotePost(VoteDTO request) {
         try {
             // 게시물 추천
             if (sqlSession.selectOne("BoardService.checkUpvote", request) != null) { // 이미 추천했을 경우
@@ -80,7 +83,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean downvotePost(BoardVoteRequestDTO request) {
+    public boolean downvotePost(VoteDTO request) {
         try {
             // 게시물 비추천
             if (sqlSession.selectOne("BoardService.checkDownvote", request) != null) { // 이미 비추천했을 경우
@@ -97,7 +100,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public List<BoardCommentListResponseDTO> getCommentList(BoardCommentListRequestDTO request) {
+    public List<CommentListDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request) {
         try {
             // 댓글 리스트 불러오기 (정렬 데이터 포함)
             return sqlSession.selectList("BoardService.getCommentList", request);
@@ -107,7 +110,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean writeComment(BoardCommentWriteRequestDTO request) {
+    public boolean writeComment(CommentWriteDTO request) {
         try {
             // 댓글 작성
             return sqlSession.insert("BoardService.writeComment", request) > 0;
@@ -117,7 +120,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean modifyComment(BoardCommentModifyRequestDTO request) {
+    public boolean modifyComment(CommentModifyDTO request) {
         try {
             // 댓글 작성
             return sqlSession.insert("BoardService.modifyComment", request) > 0;
@@ -127,7 +130,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean deleteComment(BoardCommentDeleteRequestDTO request) {
+    public boolean deleteComment(CommentDeleteDTO request) {
         try {
             // 댓글 작성
             return sqlSession.insert("BoardService.deleteComment", request) > 0;
@@ -137,7 +140,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean upvoteComment(BoardCommentVoteRequestDTO request) {
+    public boolean upvoteComment(CommentVoteDTO request) {
         try{
             // 댓글 추천
             if (sqlSession.selectOne("BoardService.checkCommentUpvote", request) != null) { // 이미 추천했을 경우
@@ -154,7 +157,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean downvoteComment(BoardCommentVoteRequestDTO request) {
+    public boolean downvoteComment(CommentVoteDTO request) {
         try{
             // 댓글 비추천
             if (sqlSession.selectOne("BoardService.checkCommentDownvote", request) != null) { // 이미 비추천했을 경우

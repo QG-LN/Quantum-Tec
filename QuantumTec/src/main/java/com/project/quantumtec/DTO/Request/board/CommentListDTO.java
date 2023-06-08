@@ -1,4 +1,4 @@
-package com.project.quantumtec.DTO.board;
+package com.project.quantumtec.DTO.Request.board;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 
 @Data
-public class BoardCommentListRequestDTO {
+public class CommentListDTO { // 댓글 리스트 요청 DTO
     private int pageNum;                   // 페이지(로딩 단위)
     private int startIndex;             // 페이지(로딩 단위) 당 시작 댓글 번호
     private int endIndex;                // 페이지(로딩 단위) 당 표시할 댓글 수
@@ -29,8 +29,8 @@ public class BoardCommentListRequestDTO {
 
         // 역 직렬화
         @JsonCreator
-        public static BoardListRequestDTO.SortType from(String value) {
-            for (BoardListRequestDTO.SortType sortType1 : BoardListRequestDTO.SortType.values()) {
+        public static ListDTO.SortType from(String value) {
+            for (ListDTO.SortType sortType1 : ListDTO.SortType.values()) {
                 if (sortType1.getValue().equals(value)) {
                     return sortType1;
                 }
