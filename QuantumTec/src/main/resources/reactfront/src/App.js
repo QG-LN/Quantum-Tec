@@ -88,7 +88,9 @@ function AvatarMainPage(){
           </ScrollContainer>
         </div>
         <div className="col-9 ps-0 pe-0">
-          <AvatarMain />
+          <ScrollContainer>
+            <AvatarMain />
+          </ScrollContainer>
         </div>
       </div>
     </div>
