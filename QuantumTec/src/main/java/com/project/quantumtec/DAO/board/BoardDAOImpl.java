@@ -16,7 +16,7 @@ public class BoardDAOImpl implements BoardDAO {
     private SqlSession sqlSession;
 
     @Override
-    public List<ListResponseDTO> getPostSearchList(com.project.quantumtec.DTO.Request.board.ListDTO request) {
+    public List<ListResponseDTO> getPostSearchList(ListDTO request) {
         try {
             // 게시물 리스트 불러오기 (검색 포함)
             return sqlSession.selectList("BoardService.getPostSearchList", request);
@@ -26,7 +26,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public ViewResponseDTO getPost(com.project.quantumtec.DTO.Request.board.ViewDTO request) {
+    public ViewResponseDTO getPost(ViewDTO request) {
         try {
             // 게시물 조회
             return sqlSession.selectOne("BoardService.getPost", request);

@@ -25,7 +25,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public ViewResponseDTO getPost(com.project.quantumtec.DTO.Request.board.ViewDTO request) {
+    public ViewResponseDTO getPost(ViewDTO request) {
         return boardDAO.getPost(request);
     }
 
