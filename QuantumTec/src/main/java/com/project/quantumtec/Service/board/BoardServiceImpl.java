@@ -2,10 +2,7 @@ package com.project.quantumtec.Service.board;
 
 import com.project.quantumtec.DAO.board.BoardDAO;
 import com.project.quantumtec.DAO.user.UserDAO;
-import com.project.quantumtec.DTO.board.BoardListRequestDTO;
-import com.project.quantumtec.DTO.board.BoardListResponseDTO;
-import com.project.quantumtec.DTO.board.BoardViewRequestDTO;
-import com.project.quantumtec.DTO.board.BoardViewResponseDTO;
+import com.project.quantumtec.DTO.board.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +15,41 @@ public class BoardServiceImpl implements BoardService{
     private BoardDAO boardDAO;
 
     @Override
-    public List<BoardListResponseDTO> getPostSearchList(BoardListRequestDTO board) {
+    public List<BoardListResponseDTO> getPostSearchList(BoardListRequestDTO request) {
         int itemNum = 10; // 한 페이지 당 게시글 수
-        board.setStartIndex((board.getPageNum()-1)*itemNum); // 페이지에 따른 시작 게시글 인덱스 계산
-        board.setEndIndex(itemNum); // 한 페이지 당 게시글 수
-        return boardDAO.getPostSearchList(board);
+        request.setStartIndex((request.getPageNum()-1)*itemNum); // 페이지에 따른 시작 게시글 인덱스 계산
+        request.setEndIndex(itemNum); // 한 페이지 당 게시글 수
+        return boardDAO.getPostSearchList(request);
     }
 
     @Override
-    public BoardViewResponseDTO getPost(BoardViewRequestDTO board) {
-        return boardDAO.getPost(board);
+    public BoardViewResponseDTO getPost(BoardViewRequestDTO request) {
+        return boardDAO.getPost(request);
     }
+
+    @Override
+    public boolean writePost(BoardWriteRequestDTO request) {
+        return boardDAO.writePost(request);
+    }
+
+    @Override
+    public boolean modifyPost(BoardModifyRequestDTO request) {
+        return boardDAO.modifyPost(request);
+    }
+
+    @Override
+    public boolean deletePost(BoardDeleteRequestDTO request) {
+        return boardDAO.deletePost(request);
+    }
+
+    @Override
+    public boolean upvotePost(BoardUpvoteRequestDTO request) {
+        return boardDAO.upvotePost(request);
+    }
+
+    @Override
+    public boolean downvotePost(BoardDownvoteRequestDTO request) {
+        return boardDAO.downvotePost(request);
+    }
+
 }
