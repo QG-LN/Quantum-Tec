@@ -84,10 +84,7 @@ export default function Navbar() {
                                     <div class='mr-1'>{userNickname}</div>
                                     <div class='mr-5'> : {userFreeCash}</div>
                                 </div>
-                                {/*<img class='w-8 h-8 rounded-full' src={userIconAddress} />*/}
-                                {/*아래 코드는 임시 코드*/}
-                                <img className='w-8 h-8 rounded-full'
-                                     src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'/>
+                                <img class='w-8 h-8 rounded-full' src={userIconAddress} />
                             </a>
                                 <div
                                     class='LogInfo hidden w-[366px] h-[300px] absolute bg-gray-800 top-[38px] right-0 z-40 overflow-hidden'>
