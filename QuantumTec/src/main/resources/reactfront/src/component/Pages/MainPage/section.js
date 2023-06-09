@@ -57,7 +57,7 @@ export default function Section() {
                                 name       : res[i].gameName,
                                 img        : res[i].gameImage,
                                 description: "수학게임입니다.",
-                                link       : "/game/"+ res[i].gameIndex+"/"+res[i].gameName+"/"
+                                link       : `/game/${res[i].gameIndex}/${res[i].gameName}/`
                             };
                             temp.push(newItem);
                         }
