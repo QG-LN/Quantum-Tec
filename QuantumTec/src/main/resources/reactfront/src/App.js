@@ -88,7 +88,7 @@ function AvatarMainPage(){
 
 
   return (
-    <div className="AvatarMainPage container mt-[46px]" style={{ height: "82vh" }}>
+    <div className="AvatarMainPage container" style={{ height: "95vh" }}>
       <div className="row justify-content-center h-[100%]">
         <div className="col-3 ps-0 pe-0">
           <ScrollContainer>
@@ -106,7 +106,7 @@ function AvatarMainPage(){
 }
 
 const ScrollContainer = styled.div`
-  height: 82vh;
+  height: 95vh;
   overflow-y: auto;
   background-color: var(--bs-gray-200)
   `;
