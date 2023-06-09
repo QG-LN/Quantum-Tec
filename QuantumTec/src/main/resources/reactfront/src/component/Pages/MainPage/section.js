@@ -56,7 +56,7 @@ export default function Section() {
                                 name       : res[i].gameName,
                                 img        : res[i].gameImage,
                                 description: "수학게임입니다.",
-                                link       : "/gamepage"                // 임시로 동일하게 게임 페이지를 설정
+                                link       : "/game/"+ res[i].gameIndex                // 임시로 동일하게 게임 페이지를 설정
                             };
                             temp.push(newItem);
                         }

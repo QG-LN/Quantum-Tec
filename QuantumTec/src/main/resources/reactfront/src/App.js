@@ -31,7 +31,7 @@ function App() {
           <Route path="/login" element={<Login start={truelogin} setTruelogin={setTruelogin} />} />
           <Route path="/signup" element={<SignUp />}/>
           <Route path="/mypage" element={<MyPage />}/>
-          <Route path="/gamepage" element={<GamePage />}/>
+          <Route path="/game/:id" element={<GamePage />}/>
           <Route path="/board" element={<Board />}/>
           <Route path="/post/:id" element={<Post />}/>
           <Route path="/write" element={<Write />}/>
