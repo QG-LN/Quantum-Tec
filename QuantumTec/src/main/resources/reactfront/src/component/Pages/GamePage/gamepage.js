@@ -3,6 +3,7 @@ import GPImage from './gpimage.js';
 import GPInfo from './gpinfo.js';
 import Buyplaybanner from './buyplaybanner.js';
 import GPcomment from './gpcomment.js'
+import {useParams} from "react-router-dom";
 
 //상위 이미지 리스트
 const images = [
@@ -87,6 +88,8 @@ export default function GamePage() {
     const categray_0 = '카테고리1';
     const categray_1 = '카테고리2';
     const categray_2 = '카테고리3';
+
+    const {id} = useParams();
 
 
 //평점
