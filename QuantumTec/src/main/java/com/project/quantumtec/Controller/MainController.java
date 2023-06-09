@@ -32,11 +32,4 @@ public class MainController
         return gameService.getGameSearchList(game);
     }
 
-    // 게임 ID를 받아서 게임 정보 가져오는 메소드
-    @PostMapping("/gameinfo")
-    public GameDTO gameInfo(@RequestBody int gameID){
-        return gameService.getGameInfo(gameID);
-    }
-
-
 }
