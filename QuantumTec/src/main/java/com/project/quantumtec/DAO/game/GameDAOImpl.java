@@ -1,6 +1,7 @@
 package com.project.quantumtec.DAO.game;
 
 import com.project.quantumtec.DTO.game.GameDTO;
+import com.project.quantumtec.DTO.game.GameSearchDTO;
 import com.project.quantumtec.DTO.game.GameSearchRequestDTO;
 import com.project.quantumtec.DTO.game.GameSearchResponseDTO;
 import org.apache.ibatis.session.SqlSession;
@@ -28,9 +29,9 @@ public class GameDAOImpl implements GameDAO{
     }
 
     @Override
-    public GameDTO getGameInfo(int gameID) {
+    public GameDTO getGameInfo(GameSearchDTO gameSearchDTO) {
         try {
-            return sqlSession.selectOne("GameService.getGameInfo", gameID);
+            return sqlSession.selectOne("GameService.getGameInfo", gameSearchDTO);
         } catch (Exception e) {
             return null;
         }
