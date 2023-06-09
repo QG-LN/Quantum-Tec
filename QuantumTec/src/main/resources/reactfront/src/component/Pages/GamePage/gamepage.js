@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import GPImage from './gpimage.js';
 import GPInfo from './gpinfo.js';
 import Buyplaybanner from './buyplaybanner.js';
 import GPcomment from './gpcomment.js'
 import {useParams} from "react-router-dom";
+import axios from "axios";
 
+// <img src='../../../../static/images/test.png' className='w-[140px] h-[140px]'/>
 //상위 이미지 리스트
 const images = [
   {
@@ -80,7 +82,7 @@ const Relatedgame=[
 
 export default function GamePage() {
     //구매상태 초기값
-    const [buystate] = useState(true);
+    const [buyStatus, setBuyStatus] = useState(false);
 
     const [comment, setComment] = useState('');
     const [activeImage, setActiveImage] = useState(0);
@@ -89,8 +91,63 @@ export default function GamePage() {
     const categray_1 = '카테고리2';
     const categray_2 = '카테고리3';
 
-    const {id} = useParams();
+    const {id, gameName} = useParams();                                       // url에서 게임번호와 이름을 가져옴
+    const [gameCategory, setGameCategory] = useState('');          // 게임의 카테고리를 저장할 state
+    const [gamePrice, setGamePrice] = useState(0);                 // 게임의 가격을 저장할 state
+    const [gameDescription, setGameDescription] = useState('');    // 게임의 설명을 저장할 state
+    const [gameReleaseDate, setGameReleaseDate] = useState('');    // 게임의 출시일을 저장할 state
+    const [gameUpdateDate, setGameUpdateDate] = useState('');      // 게임의 업데이트일을 저장할 state
+    const [gameDeveloper, setGameDeveloper] = useState('');        // 게임의 개발사를 저장할 state
+    const [gameGrade, setGameGrade] = useState(0);                 // 게임의 평점을 저장할 state
+    const [gameImagePath, setGameImagePath] = useState('');        // 게임의 이미지 경로를 저장할 state
+    const [gameMainImage, setGameMainImage] = useState('');        // 게임의 메인 이미지를 저장할 state
+    const [gameImageList, setGameImageList] = useState([]);        // 게임의 이미지를 저장할 state
+    const [gameFlatForm, setGameFlatForm] = useState('');          // 게임의 플랫폼을 저장할 state
+    const [gameGenre, setGameGenre] = useState([]);                // 게임의 장르를 저장할 state
 
+    const imagePath = 'http://localhost:9090/image/game';                      // 이미지 경로
+
+    useEffect(() => {
+        // // 로그인이 안되어있으면 구매버튼만 출력
+        // let checkLogin = localStorage.getItem("truelogin");
+        // if (checkLogin !== "true") {
+        //     setBuyStatus(false);
+        // }else if(checkLogin === "true" ){
+        //
+        // }
+
+        const path = `http://localhost:9090/game/info?id=${id}&name=${gameName}`
+        axios.get(path)
+            .then(response =>  {
+                setGameCategory(response.data.gameCategoryName);
+                setGamePrice(response.data.gamePrice);
+                setGameDescription(response.data.gameDescription);
+                setGameReleaseDate(response.data.gameReleaseDate);
+                setGameUpdateDate(response.data.gameVersionUpdateDate);
+                setGameDeveloper(response.data.gameDeveloper);
+                // setGameGrade(response.data.gameGrade);
+                // setGameImagePath(response.data.gameImage);
+                setGameMainImage(imagePath + "/test.png");  // 임시로 이미지 넣어둠
+                setGameFlatForm(response.data.gameFlatForm);
+                setGameGenre(response.data.gameGenre);
+
+            }).catch(error => {
+            // 오류발생시 실행
+            }).then(() => {
+                // 항상 실행
+            });
+
+        axios.get(imagePath + "/list/test")
+            .then(response =>  {
+                setGameImageList(response.data);
+                console.log(response)
+            }).catch(error => {
+                // 오류발생시 실행
+            }).then(() => {
+                // 항상 실행
+            });
+
+    },[])
 
 //평점
     const handleInputGrade = (e) => {
@@ -124,25 +181,32 @@ export default function GamePage() {
     return (
         <div class='m-auto w-[1200px]'>
             <div>
-                <h2 class='text-left mt-20'>게임이름</h2>
-                <div class='text-left mt-2 mb-3'>{categray_0}&gt;{categray_1}&gt;{categray_2}</div>
+                <h2 class='text-left mt-20'>{gameName}</h2>
+                {/*<div class='text-left mt-2 mb-3'>{categray_0}&gt;{categray_1}&gt;{categray_2}</div>*/}
+                {/*현재 카테고리가 한개이므로 한개만 설정*/}
+                <div class='text-left mt-2 mb-3'>{gameCategory}</div>
                 <div class='flex'>
                     <section class='basis-3/4 h-[535px] mr-5' >
                         <GPImage img={images}/>
                     </section>
                     <aside class='basis-1/4 ml-5'>
-                        <GPInfo gameinfo={gameinfo} gamegrade={gamegrade} gamedate={gamedate} developer={developer} categorylist={Categorylist} img={images[0].url} />
+                        <GPInfo gameinfo={gameDescription}
+                                gamegrade={gameGrade}
+                                gamedate={gameReleaseDate}
+                                developer={gameDeveloper}
+                                categorylist={gameGenre}
+                                img={gameMainImage} />
                     </aside>
                 </div>
             </div>
             <div class='mt-10'>
-                <Buyplaybanner gamename={gamename} gameprice={gameprice} buystate={buystate}/>
+                <Buyplaybanner gamename={gameName} gameprice={gamePrice} buystate={buyStatus}/>
             </div>
-            {buystate &&
+            {buyStatus &&
                 <div>
                     <h3 class='text-left ml-16 mb-5'>게임 이름에 대한 평가</h3>
                     <div class='ml-16 flex'>
-                        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9aAVl5QQCGWBdIwuGs2ybjGoAuiwAWflMh5imVUnvk3SbYbDXelzOpCCJEHlJ67IIU5k&usqp=CAU' class='w-[140px] h-[140px]'></img>
+                        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9aAVl5QQCGWBdIwuGs2ybjGoAuiwAWflMh5imVUnvk3SbYbDXelzOpCCJEHlJ67IIU5k&usqp=CAU' class='w-[140px] h-[140px]'/>
                         <div class='ml-[80px]'>
                             <textarea name='comment' class='border' rows='10' cols='119'placeholder='평가를 작성해 주세요' onChange={HandleSetComment} value={comment}></textarea>
                             <div>
