@@ -10,7 +10,7 @@ public class GameDTO {
     private String gameReleaseDate; // 게임 출시일
     private String gamePrice; // 게임 가격
     private String gameDescription; // 게임 정보
-    private String gameCartegoryName; // 게임 장르
+    private String gameCategoryName; // 게임 장르
     private String gameImageLocation; // 게임 이미지
     private String gameFlatForm; // 게임 플랫폼
     private String gameVersionUpdateDate; // 게임 업데이트일
