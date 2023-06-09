@@ -50,13 +50,14 @@ export default function Section() {
                     for (let i = 0; i < res.length; i++) {
                         if (res[i] !== null) {
                             if (res[i].gameImage == null) res[i].gameImage = defaultImage;
+                            res[i].gameName = res[i].gameName.replace(" ", "_");
                             const newItem = {
                                 id         : res[i].gameIndex,
                                 cate       : res[i].gameCategoryName,
                                 name       : res[i].gameName,
                                 img        : res[i].gameImage,
                                 description: "수학게임입니다.",
-                                link       : "/game/"+ res[i].gameIndex                // 임시로 동일하게 게임 페이지를 설정
+                                link       : "/game/"+ res[i].gameIndex+"/"+res[i].gameName+"/"
                             };
                             temp.push(newItem);
                         }
