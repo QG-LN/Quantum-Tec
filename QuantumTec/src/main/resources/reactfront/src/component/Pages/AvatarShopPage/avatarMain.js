@@ -40,6 +40,14 @@ export default function AvatarMain() {
                     <h5>포인트 상점 아이템으로 자신만의 모습을 표현해보세요</h5>
                 </div>
             </div>
+            <div className='row justify-content-end me-4'>
+                <div className='w-[30%] col-auto'>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" placeholder="검색할 아이템을 입력하세요" aria-label="검색할 아이템을 입력하세요" aria-describedby="button-addon2" />
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
+                    </div>
+                </div>
+            </div>
             {avatarCategory.map((item) => (
                 <div className='mt-2 mb-5'>
                     <div className='d-flex align-items-center'>
