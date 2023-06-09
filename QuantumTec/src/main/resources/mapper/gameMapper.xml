@@ -20,7 +20,7 @@
         ORDER BY g.GAME_VERSION_UPDATE_DATE DESC
         LIMIT #{startIndex}, #{endIndex};
     </select>
-    <select id="getGameInfo" resultType="GameDTO" parameterType="int">
+    <select id="getGameInfo" resultType="GameDTO" parameterType="GameSearchDTO">
         SELECT g.GAME_INDEX, g.GAME_NAME, g.DEVELOPER_INDEX, g.GAME_RELEASE_DATE, g.GAME_PRICE, g.GAME_DESCRIPTION,
                 g.GAME_IMAGE_LOCATION, g.GAME_PLATFORM, g.GAME_VERSION_UPDATE_DATE, g.GAME_VERSION,
                 (SELECT GROUP_CONCAT(cn.GAME_CATEGORY_NAME SEPARATOR ',') AS GAME_CATEGORY_NAME
@@ -30,6 +30,6 @@
         FROM GAME_INFO_TB g
         INNER JOIN GAME_CATEGORY_LINK_TB c ON g.GAME_INDEX = c.GAME_INDEX
         INNER JOIN GAME_CATEGORY_TB cn ON c.GAME_CATEGORY_ID = cn.GAME_CATEGORY_ID
-        WHERE g.GAME_INDEX = #{gameIndex};
+        WHERE g.GAME_INDEX = #{gameIndex} and g.GAME_NAME = #{gameName};
     </select>
 </mapper>
