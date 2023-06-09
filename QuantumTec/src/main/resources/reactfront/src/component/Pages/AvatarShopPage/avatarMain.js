@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "./css.scss";
 export default function AvatarMain() {
     const [avatarCategory, setAvatarCategory] = useState([]); // 카테고리 목록
     const [hatList, setHatList] = useState([]);
