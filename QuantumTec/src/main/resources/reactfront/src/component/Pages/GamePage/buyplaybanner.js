@@ -13,9 +13,9 @@ export default function Buyplaybanner(props) {
       <div>
         {/* 구매전 */}
           {!props.buystate && 
-            <div class='w-[1300px] h-[160px] bg-slate-200 table'>
-              <div class='table-cell align-middle'>
-                  <div class='flex'>
+            <div class='w-[1300px] h-[160px] bg-slate-200'>
+              <div class='align-middle h-[100%]'>
+                  <div class='flex h-[100%]'>
                     <h2 class='m-auto w-[30%] text-2xl border-none'>{props.gamename} 구매하기</h2>
                     <div class='m-auto w-[30%] border-none'>원화표시 : {props.gameprice}원(\)
                     </div>
