@@ -14,7 +14,7 @@ export default function AvatarMain(props) {
             });
         let tempArray = [];
         for(let i = 0; i < 5; i++) {
-            tempArray.push({ id: i, name: '모자' });
+            tempArray.push({ id: i, name: `아이템${i+1}` });
         }
         setHatList(hatList.concat(tempArray));
         tempArray = []
@@ -53,12 +53,12 @@ export default function AvatarMain(props) {
                 <div className='mt-2 mb-5'>
                     <div className='d-flex align-items-center'>
                         <h5 className={item.name.length > 2 ? 'w-[20%]' : 'w-[18%]'}>모든 {item.name} 아이템</h5>
-                        <button type="button" class="btn btn-secondary btn-sm">모두 보기 (22)</button>
+                        <button type="button" class="btn btn-secondary btn-sm">모두 보기 (20)</button>
                         <hr className='flex-fill mx-3'/>
                     </div>
                     <div className='ms-4 mt-4 d-flex flex-wrap align-items-center'>
                         {hatList.map((item) => (
-                            <AvatarItem />
+                            <AvatarItem item={item}/>
                         ))}
                     </div>
                 </div>
