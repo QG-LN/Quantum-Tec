@@ -10,7 +10,7 @@ export default function AvatarSearch(props) {
 
         tempArray = [];
         for(let i = 0; i < 20; i++) {
-            tempArray.push({ id: i, name: '모자' });
+            tempArray.push({ id: i, name: props.searchName });
         }
         setItemList(itemList.concat(tempArray))
     }, []);
@@ -23,12 +23,21 @@ export default function AvatarSearch(props) {
                     <h5>포인트 상점 아이템으로 자신만의 모습을 표현해보세요</h5>
                 </div>
             </div>
-            <h3 className='my-5'>
-                {avatarCategory}의 검색 결과입니다.
-            </h3>
+            <div className='row justify-content-end me-4'>
+                <div className='w-[30%] col-auto'>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" placeholder="검색할 아이템을 입력하세요" aria-label="검색할 아이템을 입력하세요" aria-describedby="avatar-search-button" value={avatarCategory}/>
+                        <button class="btn btn-outline-secondary" type="button" id="avatar-search-button" onClick={props.onClick}>검색</button>
+                    </div>
+                </div>
+            </div>
+            <div className='d-flex align-items-center ms-4 mt-4'>
+                <h5 className=''>모든 {avatarCategory} 아이템 (20)</h5>
+                <hr className='flex-fill mx-3'/>
+            </div>
             <div className='ms-2 mt-4 d-flex flex-wrap align-items-center'>
                 {itemList.map((item) => (
-                    <AvatarItem />
+                    <AvatarItem item={item}/>
                 ))}
             </div>
         </div>
