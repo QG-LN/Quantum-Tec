@@ -50,6 +50,13 @@
         INSERT INTO POST_INFO_TB(BOARD_INDEX, POST_TITLE, POST_CONTENT, POST_AUTHOR_INDEX)
         VALUES(#{boardIndex}, #{title}, #{content}, #{userIndex});
     </insert>
+    <update id="modifyPost" parameterType="ModifyDTO">
+        UPDATE POST_INFO_TB
+        SET POST_TITLE = #{title}, POST_CONTENT = #{content}
+        WHERE POST_INDEX = #{postIndex}
+            AND POST_AUTHOR_INDEX = #{userIndex}
+            AND BOARD_INDEX = #{boardIndex};
+    </update>
     <!-- <select id="getNextPost" resultType="int">
         select *
         from GAME_INFO_TB
