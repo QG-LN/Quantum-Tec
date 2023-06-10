@@ -11,7 +11,7 @@ let sum = gametimeNumbers.reduce((total, num) => total + num, 0);
 let percentages = gametimeNumbers.map(num => (num / sum) * 100);
 
     return (
-      <div className="flex flex-col relative h-[158px] rounded-2xl bg-gray-600 box-border  pt-[30px] pr-[30px] pl-[30px] m-[1.5%] shadow-md">
+      <div className="flex flex-col relative h-[158px] rounded-2xl border bg-white box-border  pt-[30px] pr-[30px] pl-[30px] m-[1.5%] shadow-md">
         <div className="progressBar">
           <div className="progressBar">
             <ProgressBar>
@@ -22,7 +22,7 @@ let percentages = gametimeNumbers.map(num => (num / sum) * 100);
             </ProgressBar>
           </div>
         </div>
-        <ul className="text-white inline mt-[18px] text-left">
+        <ul className="text-black inline mt-[18px] text-left">
         
           {gameName.map((game, index) => {
             return(

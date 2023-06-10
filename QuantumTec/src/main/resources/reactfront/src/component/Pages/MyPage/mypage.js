@@ -18,7 +18,7 @@ export default function MyMain({select, setSelect}){
   let userAvatarNum = localStorage.getItem("userAvatarNum");
 
   //최대 게임 시간을 가진 4개의 게임 가져오기
-  let gametime = ["6","5","3","4"];
+  let gametime = ["6","5","3","4","2"];
     // Step 1: 게임 시간 값 받아오기
   let gametimeNumbers = gametime.map(Number);
   // Step 2: 가져온 값 다 합치기
@@ -47,6 +47,10 @@ export default function MyMain({select, setSelect}){
     {
         url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
         alt: "Image 4",
+      },
+      {
+        url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+        alt: "Image 5",
       }
   ];
   //date time dateplaytimes timeplaytimes 값 초기화
@@ -134,7 +138,7 @@ export default function MyMain({select, setSelect}){
         <h2 class="account_main_page_title ">마이페이지</h2>
         <div class=" mt-[20px]">
           <div className="flex">
-            <div className="flex flex-col relative justify-center h-[158px] w-[40%] rounded-2xl bg-gray-600 box-border  pt-[22px] pr-[30px] pb-[22px] pl-[30px]">
+            {/* <div className="flex flex-col relative justify-center h-[158px] w-[40%] rounded-2xl bg-gray-600 box-border  pt-[22px] pr-[30px] pb-[22px] pl-[30px]">
               <span className=" absolute left-[5px] top-[50%] w-[100px] h-[100px] translate-y-[-50%]"></span>
               <div className="flex">
                 <div className="block text-white text-left">
@@ -148,22 +152,22 @@ export default function MyMain({select, setSelect}){
                   <div className="mt-2">아바타 개수 {userAvatarNum}</div>
                 </div>
               </div>
-            </div>
-            <div className="flex flex-col relative justify-center h-[158px] w-[60%] rounded-2xl bg-gray-600 box-border ml-[10%] pt-[22px] pr-[30px] pb-[22px] pl-[30px]">
+            </div> */}
+            <div className="flex flex-col relative justify-center h-[220px] w-[100%] rounded-2xl bg-gray-600 box-border pt-[22px] pr-[30px] pb-[22px] pl-[30px]">
               <span className=" absolute left-[5px] top-[50%] w-[100px] h-[100px] translate-y-[-50%]"></span>
               <div className="flex">
-                <div className="block text-white text-left">
-                  <div className=" text-3xl font-bold">{userPlayNum}</div>
-                  <div className="mt-2 text-xl">플레이한 게임</div>
-                  <div className="mt-2 text-sm">총 게임 : {userGameNum}</div>
+                <div className="block text-white text-left mt-4">
+                  <div className=" text-6xl font-bold mb-3">{userPlayNum}</div>
+                  <div className="mt-2 text-2xl font-bold">플레이한 게임</div>
+                  <div className="mt-2 text-lg">총 게임 : {userGameNum}</div>
                 </div>
-                <div className="block text-white text-left ml-4 mt-2">
+                <div className="block text-white text-left ml-6 mt-2">
                   <div class=" w-[200px]">
                     <div className="image-slider flex">
                       <fieldset class="imgButtonStyle flex">
                         <legend class="absolute overflow-hidden h-1 w-1 m-[-1px] "></legend>
                         {images.map((image, index) => (
-                          <label className="hover:cursor-pointer w-[60px] h-[90px] ml-2">
+                          <label className="hover:cursor-pointer w-[120px] h-[180px] ml-2">
                             <input
                               type="radio"
                               class="hidden"
@@ -172,10 +176,10 @@ export default function MyMain({select, setSelect}){
                               value={index}
                             />
                             <img
-                              class="max-w-none w-[60px] h-[90px] "
+                              class="max-w-none w-[120px] h-[180px] rounded-xl"
                               src={image.url}
                             ></img>
-                            <div class='ml-3.5 p-0.5 mt-[-4%] pd-1 bg-white/60 text-black text-center absolute rounded-md '>{parseInt(percentages[index])+"%"}</div>
+                            <div class='ml-10 p-0.5 mt-[-4%] pd-1 text-lg bg-white/60 text-black text-center absolute rounded-md '>{parseInt(percentages[index])+"%"}</div>
                           </label>
                         ))}
                       </fieldset>
