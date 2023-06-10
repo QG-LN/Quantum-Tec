@@ -4,6 +4,7 @@ import AvatarItem from './avatarItem';
 export default function AvatarSearch(props) {
     const [avatarCategory, setAvatarCategory] = useState(""); // 카테고리 목록
     const [itemList, setItemList] = useState([]); // 아이템 목록
+    const [searchValue, setSearchValue] = useState(props.searchName); // 검색어
     useEffect(() => {
         let tempArray = [];
         setAvatarCategory(props.searchName)
@@ -26,7 +27,7 @@ export default function AvatarSearch(props) {
             <div className='row justify-content-end me-4'>
                 <div className='w-[30%] col-auto'>
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" placeholder="검색할 아이템을 입력하세요" aria-label="검색할 아이템을 입력하세요" aria-describedby="avatar-search-button" value={avatarCategory}/>
+                        <input type="text" class="form-control" placeholder="검색할 아이템을 입력하세요" aria-label="검색할 아이템을 입력하세요" aria-describedby="avatar-search-button" value={searchValue} onChange={(e) => setSearchValue(e.target.value)}/>
                         <button class="btn btn-outline-secondary" type="button" id="avatar-search-button" onClick={props.onClick}>검색</button>
                     </div>
                 </div>

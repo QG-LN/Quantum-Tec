@@ -127,7 +127,7 @@ function AvatarMainPage(){
         </div>
         <div className="col-9 ps-0 pe-0">
           <ScrollContainer>
-            {page === "추천"?<AvatarMain onClick={handlePage} />:category.indexOf(page) !== -1?<AvatarCategory key={page} categoryName={page} />:<AvatarSearch key={page} searchName={page} />}
+            {page === "추천"?<AvatarMain onClick={handlePage} />:category.indexOf(page) !== -1?<AvatarCategory key={page} categoryName={page} />:<AvatarSearch key={page} searchName={page} onClick={handlePage} />}
           </ScrollContainer>
         </div>
       </div>
