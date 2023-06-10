@@ -1,8 +1,11 @@
 package com.project.quantumtec.DTO.Request.board;
 
+import lombok.Data;
+
+@Data
 public class CommentModifyDTO { // 댓글 수정 요청 DTO
-    private int post_index; // 게시글 번호
-    private int comment_index; // 댓글 번호
-    private int user_index; // 유저 번호
-    private String comment_content; // 댓글 내용
+    private int postIndex; // 게시글 번호
+    private int commentIndex; // 댓글 번호
+    private int userIndex; // 유저 번호
+    private String commentContent; // 댓글 내용
 }
