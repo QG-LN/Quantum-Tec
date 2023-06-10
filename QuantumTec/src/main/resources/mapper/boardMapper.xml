@@ -62,6 +62,45 @@
         WHERE POST_INDEX = #{postIndex}
             AND POST_AUTHOR_INDEX = #{userIndex};
     </delete>
+    <select id="checkVote" resultType="String">
+        SELECT POST_VOTE_CHECK FROM POST_VOTE_TB
+        WHERE POST_INDEX = #{postIndex}
+            AND USER_INDEX = #{userIndex};
+    </select>
+    <update id="updateUpvotePost" parameterType="VoteDTO">
+        UPDATE POST_VOTE_TB
+        SET POST_VOTE_CHECK = "up"
+        WHERE POST_INDEX = #{postIndex}
+            AND USER_INDEX = #{userIndex};
+        UPDATE POST_INFO_TB
+        SET POST_UPVOTES = POST_UPVOTES + 1
+        , POST_DOWNVOTES = POST_DOWNVOTES - 1
+        WHERE POST_INDEX = #{postIndex};
+    </update>
+    <insert id="insertUpvotePost" parameterType="VoteDTO">
+        INSERT INTO POST_VOTE_TB(POST_INDEX, USER_INDEX, POST_VOTE_CHECK)
+        VALUES(#{postIndex}, #{userIndex}, "up");
+        UPDATE POST_INFO_TB
+        SET POST_UPVOTES = POST_UPVOTES + 1
+        WHERE POST_INDEX = #{postIndex};
+    </insert>
+    <update id="updateDownvotePost" parameterType="VoteDTO">
+        UPDATE POST_VOTE_TB
+        SET POST_VOTE_CHECK = "down"
+        WHERE POST_INDEX = #{postIndex}
+            AND USER_INDEX = #{userIndex};
+        UPDATE POST_INFO_TB
+        SET POST_UPVOTES = POST_UPVOTES - 1
+        , POST_DOWNVOTES = POST_DOWNVOTES + 1
+        WHERE POST_INDEX = #{postIndex};
+    </update>
+    <insert id="insertDownvotePost" parameterType="VoteDTO">
+        INSERT INTO POST_VOTE_TB(POST_INDEX, USER_INDEX, POST_VOTE_CHECK)
+        VALUES(#{postIndex}, #{userIndex}, "down");
+        UPDATE POST_INFO_TB
+        SET POST_DOWNVOTES = POST_DOWNVOTES + 1
+        WHERE POST_INDEX = #{postIndex};
+    </insert>
     <!-- <select id="getNextPost" resultType="int">
         select *
         from GAME_INFO_TB
