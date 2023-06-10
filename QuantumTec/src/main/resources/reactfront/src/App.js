@@ -83,7 +83,7 @@ function MyPage(){
 
 function AvatarMainPage(){
   const [page, setPage] = useState("추천");
-  const [category, setCategory] = useState(["추찬"]);
+  const [category, setCategory] = useState(["추천"]);
   useEffect(() => {
     axios.get('http://localhost:8080/api/avatar/category')
       .then((response) => {
@@ -108,11 +108,12 @@ function AvatarMainPage(){
     setCategory(category.concat(tempArray));
   }, []);
   const handlePage = (e) => {
-    if(e.target.id === "")
+    if(e.target.id === "" && e.target.id !== "avatar-search-button")
       setPage(e.target.parentNode.parentNode.id)
-    else
+    else if(e.target.id !== "" && e.target.id !== "avatar-search-button")
       setPage(e.target.id);
-    //console.log(page)
+    else
+      setPage(e.target.previousElementSibling.value);
   }
 
 
@@ -126,7 +127,7 @@ function AvatarMainPage(){
         </div>
         <div className="col-9 ps-0 pe-0">
           <ScrollContainer>
-            {page === "추천"?<AvatarMain />:category.indexOf(page)?<AvatarCategory key={page} categoryName={page} />:<AvatarSearch key={page} searchName={page} />}
+            {page === "추천"?<AvatarMain onClick={handlePage} />:category.indexOf(page) !== -1?<AvatarCategory key={page} categoryName={page} />:<AvatarSearch key={page} searchName={page} />}
           </ScrollContainer>
         </div>
       </div>
