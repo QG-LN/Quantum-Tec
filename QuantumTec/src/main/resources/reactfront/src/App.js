@@ -108,8 +108,11 @@ function AvatarMainPage(){
     setCategory(category.concat(tempArray));
   }, []);
   const handlePage = (e) => {
-    setPage(e.target.id);
-    console.log(page)
+    if(e.target.id === "")
+      setPage(e.target.parentNode.parentNode.id)
+    else
+      setPage(e.target.id);
+    //console.log(page)
   }
 
 
