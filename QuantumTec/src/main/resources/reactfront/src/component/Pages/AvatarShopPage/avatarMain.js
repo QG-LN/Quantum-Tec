@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import AvatarItem from './avatarItem';
 export default function AvatarMain(props) {
     const [avatarCategory, setAvatarCategory] = useState([]); // 카테고리 목록
     const [hatList, setHatList] = useState([]);
@@ -57,20 +58,7 @@ export default function AvatarMain(props) {
                     </div>
                     <div className='ms-4 mt-4 d-flex flex-wrap align-items-center'>
                         {hatList.map((item) => (
-                            <div class="card w-[18.5%] ms-2" aria-hidden="true">
-                                <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" class="card-img-top" alt="..."/>
-                                <div class="text-start m-3">
-                                    <h5 class="card-title placeholder-glow">
-                                    <div class="placeholder col-5"></div>
-                                    </h5>
-                                    <h6 class="card-text placeholder-glow">
-                                        <div class="placeholder col-7"></div>
-                                    </h6>
-                                    <h6 class="card-text placeholder-glow text-end">
-                                        <div class="placeholder col-5"></div>
-                                    </h6>
-                                </div>
-                            </div>
+                            <AvatarItem />
                         ))}
                     </div>
                 </div>

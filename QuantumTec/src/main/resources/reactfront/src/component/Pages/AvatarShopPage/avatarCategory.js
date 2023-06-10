@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AvatarItem from './avatarItem';
 
 export default function AvatarCategory(props) {
     const [avatarCategory, setAvatarCategory] = useState(""); // 카테고리 목록
@@ -23,20 +24,7 @@ export default function AvatarCategory(props) {
             </h3>
             <div className='ms-2 mt-4 d-flex flex-wrap align-items-center'>
                 {itemList.map((item) => (
-                    <div class="card w-[18.5%] ms-2 mb-4" aria-hidden="true">
-                        <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" class="card-img-top" alt="..."/>
-                        <div class="text-start m-3">
-                            <h5 class="card-title placeholder-glow">
-                            <div class="placeholder col-5"></div>
-                            </h5>
-                            <h6 class="card-text placeholder-glow">
-                                <div class="placeholder col-7"></div>
-                            </h6>
-                            <h6 class="card-text placeholder-glow text-end">
-                                <div class="placeholder col-5"></div>
-                            </h6>
-                        </div>
-                    </div>
+                    <AvatarItem />
                 ))}
             </div>
         </div>
