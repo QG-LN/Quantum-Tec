@@ -6,33 +6,32 @@ import GPcomment from './gpcomment.js'
 import {useParams} from "react-router-dom";
 import axios from "axios";
 
-// <img src='../../../../static/images/test.png' className='w-[140px] h-[140px]'/>
 //상위 이미지 리스트
 const images = [
-  {
-    url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-    alt: "Image 1",
-  },
-  {
-    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3yuRUfWCK4tYmm8Q4pD1VW51-9Tisqhix9Q&usqp=CAU",
-    alt: "Image 2",
-  },
-  {
-    url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-    alt: "Image 3",
-  },
-  {
-      url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-      alt: "Image 4",
-    },
-    {
-      url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-      alt: "Image 5",
-    },
-    {
-      url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-      alt: "Image 6",
-    },
+  // {
+  //   url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+  //   alt: "Image 1",
+  // },
+  // {
+  //   url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3yuRUfWCK4tYmm8Q4pD1VW51-9Tisqhix9Q&usqp=CAU",
+  //   alt: "Image 2",
+  // },
+  // {
+  //   url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+  //   alt: "Image 3",
+  // },
+  // {
+  //     url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+  //     alt: "Image 4",
+  //   },
+  //   {
+  //     url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+  //     alt: "Image 5",
+  //   },
+  //   {
+  //     url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+  //     alt: "Image 6",
+  //   },
 ];
 
 // 댓글 리스트
@@ -82,7 +81,7 @@ const Relatedgame=[
 
 export default function GamePage() {
     //구매상태 초기값
-    const [buyStatus, setBuyStatus] = useState(false);
+    const [buyStatus, setBuyStatus] = useState(true);
 
     const [comment, setComment] = useState('');
     const [activeImage, setActiveImage] = useState(0);
@@ -92,6 +91,7 @@ export default function GamePage() {
     const categray_2 = '카테고리3';
 
     const {id, gameName} = useParams();                                       // url에서 게임번호와 이름을 가져옴
+
     const [gameCategory, setGameCategory] = useState('');          // 게임의 카테고리를 저장할 state
     const [gamePrice, setGamePrice] = useState(0);                 // 게임의 가격을 저장할 state
     const [gameDescription, setGameDescription] = useState('');    // 게임의 설명을 저장할 state
@@ -133,19 +133,22 @@ export default function GamePage() {
 
             }).catch(error => {
             // 오류발생시 실행
-            }).then(() => {
-                // 항상 실행
-            });
+            })
 
         axios.get(imagePath + "/list/test")
             .then(response =>  {
                 setGameImageList(response.data);
-                console.log(response)
+                console.log(imagePath+ response.data[0]);
+
+                for(let i = 0; i < response.data.length; i++){
+                    images.push({
+                        src: imagePath + "/" + response.data[i],
+                        alt : '게임이미지'+i
+                    });
+                }
             }).catch(error => {
                 // 오류발생시 실행
-            }).then(() => {
-                // 항상 실행
-            });
+            })
 
     },[])
 
@@ -187,7 +190,7 @@ export default function GamePage() {
                 <div class='text-left mt-2 mb-3'>{gameCategory}</div>
                 <div class='flex'>
                     <section class='basis-3/4 h-[535px] mr-5' >
-                        <GPImage img={images}/>
+                        <GPImage imgList={gameImageList} imgPath = {imagePath} />
                     </section>
                     <aside class='basis-1/4 ml-5'>
                         <GPInfo gameinfo={gameDescription}
