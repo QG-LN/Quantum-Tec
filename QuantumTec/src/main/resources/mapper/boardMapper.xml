@@ -38,10 +38,15 @@
         </choose>
         LIMIT #{startIndex}, #{endIndex};
     </select>
-    <!-- <select id="getPost" resultType="ViewResponseDTO">
-    
+    <select id="getPost" resultType="ViewResponseDTO">
+        SELECT BOARD_NAME AS BOARD_TITLE, POST_TITLE, USER_NAME AS POST_AUTHOR, POST_CREATED_DATE AS POST_DATE,
+            POST_VIEWS AS POST_VIEW, POST_UPVOTES, POST_DOWNVOTES, POST_CONTENT
+        FROM POST_INFO_TB P, USER_INFO_TB U, BOARD_LIST_TB B
+        WHERE P.POST_AUTHOR_INDEX = U.USER_INDEX
+            AND P.BOARD_INDEX = B.BOARD_INDEX
+            AND P.POST_INDEX = #{postIndex};
     </select>
-    <select id="getNextPost" resultType="int">
+    <!-- <select id="getNextPost" resultType="int">
         select *
         from GAME_INFO_TB
         where GAME_INDEX > #{postIndex}
