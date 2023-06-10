@@ -116,25 +116,6 @@ export default function GamePage() {
         //
         // }
 
-        const path = `http://localhost:9090/game/info?id=${id}&name=${gameName}`
-        axios.get(path)
-            .then(response =>  {
-                setGameCategory(response.data.gameCategoryName);
-                setGamePrice(response.data.gamePrice);
-                setGameDescription(response.data.gameDescription);
-                setGameReleaseDate(response.data.gameReleaseDate);
-                setGameUpdateDate(response.data.gameVersionUpdateDate);
-                setGameDeveloper(response.data.gameDeveloper);
-                // setGameGrade(response.data.gameGrade);
-                // setGameImagePath(response.data.gameImage);
-                setGameMainImage(imagePath + "/test.png");  // 임시로 이미지 넣어둠
-                setGameFlatForm(response.data.gameFlatForm);
-                setGameGenre(response.data.gameGenre);
-
-            }).catch(error => {
-            // 오류발생시 실행
-            })
-
         axios.get(imagePath + "/list/test")
             .then(response =>  {
                 setGameImageList(response.data);
@@ -150,7 +131,29 @@ export default function GamePage() {
                 // 오류발생시 실행
             })
 
+        const path = `http://localhost:9090/game/info?id=${id}&name=${gameName}`
+        axios.get(path)
+            .then(response =>  {
+                setGameCategory(response.data.gameCategoryName);
+                setGamePrice(response.data.gamePrice);
+                setGameDescription(response.data.gameDescription);
+                setGameReleaseDate(response.data.gameReleaseDate);
+                setGameUpdateDate(response.data.gameVersionUpdateDate);
+                setGameDeveloper(response.data.gameDeveloper);
+                // setGameGrade(response.data.gameGrade);
+                // setGameImagePath(response.data.gameImage);
+                setGameFlatForm(response.data.gameFlatForm);
+                setGameGenre(response.data.gameGenre);
+
+            }).catch(error => {
+            // 오류발생시 실행
+            })
+
     },[])
+
+    useEffect(() => {
+        setGameMainImage(imagePath + "/" + gameImageList[0]);  //
+    },[gameImageList])
 
 //평점
     const handleInputGrade = (e) => {
@@ -181,6 +184,7 @@ export default function GamePage() {
 
 
 
+
     return (
         <div class='m-auto w-[1200px]'>
             <div>
@@ -190,15 +194,17 @@ export default function GamePage() {
                 <div class='text-left mt-2 mb-3'>{gameCategory}</div>
                 <div class='flex'>
                     <section class='basis-3/4 h-[535px] mr-5' >
-                        <GPImage imgList={gameImageList} imgPath = {imagePath} />
+                        <GPImage imgList={gameImageList} imgPath={imagePath}/>
                     </section>
                     <aside class='basis-1/4 ml-5'>
-                        <GPInfo gameinfo={gameDescription}
-                                gamegrade={gameGrade}
-                                gamedate={gameReleaseDate}
-                                developer={gameDeveloper}
-                                categorylist={gameGenre}
-                                img={gameMainImage} />
+                        { gameImageList.length > 0 &&
+                            <GPInfo gameinfo={gameDescription}
+                                    gamegrade={gameGrade}
+                                    gamedate={gameReleaseDate}
+                                    developer={gameDeveloper}
+                                    categorylist={gameGenre}
+                                    img={gameMainImage} />
+                        }
                     </aside>
                 </div>
             </div>
