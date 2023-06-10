@@ -15,36 +15,53 @@ export default function AvatarItem(props) {
         <div class="card w-[18.5%] ms-2 placeholder-glow mb-4" aria-hidden="true">
             <Modal show={show} onHide={handleClose} centered={true}>
                 <Modal.Header>
-                    <Modal.Title>구매</Modal.Title>
+                    <Modal.Title className='w-[100%]'>
+                        <div className='row justify-content-between'>
+                            <div className='col-2'>
+                                구매
+                            </div>
+                            <div className='col-6 row justify-content-between'>
+                                <h3 class="card-text placeholder-glow col-6">
+                                    <div class="placeholder col-12"></div>
+                                </h3>
+                                <h3 class="card-text placeholder-glow col-6">
+                                    <div class="placeholder col-12"></div>
+                                </h3>
+                            </div>
+                        </div>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='row justify-content-between'>
-                        <div className='placeholder-glow col-5 ms-3'>
+                        <div className='placeholder-glow col-5'>
                             <div class="placeholder ratio ratio-1x1 rounded"></div>
                         </div>
-                        <div className='col-6'>
+                        <div className='col-7'>
                             {props.item.name}
-                            <h5 class="card-text placeholder-glow">
-                                <div class="placeholder col-5"></div>
-                            </h5>
-                            <h5 class="card-text placeholder-glow">
+                            <h6 class="card-text placeholder-glow">
+                                <div class="placeholder col-5"></div> 제작
+                            </h6>
+                            <h6 class="card-text placeholder-glow">
                                 <div class="placeholder col-8"></div>
-                            </h5>
-                            <h5 class="card-text placeholder-glow">
+                            </h6>
+                            <h6 class="card-text placeholder-glow">
                                 <div class="placeholder col-2"></div>
                                 <div class="placeholder ms-2 col-5"></div>
-                            </h5>
+                            </h6>
                             <br/>
                             <br/>
-                            <h5 class="card-text placeholder-glow">
+                            <h6 class="card-text placeholder-glow">
                                 <div class="placeholder col-4"></div>
-                            </h5>
+                            </h6>
                         </div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn_close" variant="success" onClick={handleClose}>
-                        구매
+                        10,000 freecash
+                    </Button>
+                    <Button className="btn_close" variant="success" onClick={handleClose}>
+                        1,000 cash
                     </Button>
                     <Button className="btn_close" variant="secondary" onClick={handleClose}>
                         닫기
