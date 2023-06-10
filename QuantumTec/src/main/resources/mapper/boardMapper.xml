@@ -126,6 +126,10 @@
         </choose>
         LIMIT #{startIndex}, #{endIndex};
     </select>
+    <insert id="writeComment" parameterType="CommentWriteDTO">
+        INSERT INTO COMMENT_INFO_TB(POST_INDEX, COMMENT_CONTENT, COMMENT_AUTHOR_INDEX)
+        VALUES(#{postIndex}, #{commentContent}, #{userIndex});
+    </insert>
     <!-- <select id="getNextPost" resultType="int">
         select *
         from GAME_INFO_TB
