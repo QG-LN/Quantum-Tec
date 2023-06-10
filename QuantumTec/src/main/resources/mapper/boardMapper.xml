@@ -1,11 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BoardService">
-    <select id="getPostSearchList" resultType="BoardListResponseDTO">
-        -- 정연매직을 기다립니다 --
+    <select id="getPostSearchList" resultType="ListResponseDTO">
+        SELECT POST_INDEX, BOARD_NAME, POST_TITLE, 
+            USER_NAME AS POST_AUTHOR, POST_CREATED_DATE AS POST_DATE,
+            POST_VIEWS AS POST_VIEW, POST_UPVOTES
+        FROM POST_INFO_TB P, USER_INFO_TB U, BOARD_LIST_TB B
+        WHERE P.POST_AUTHOR_INDEX = U.USER_INDEX
+            AND P.BOARD_INDEX = B.BOARD_INDEX
+            AND P.BOARD_INDEX = #{boardIndex}
+            <choose>
+                <when test="searchType == 'title'">
+                    AND P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%')
+                </when>
+                <when test="searchType == 'author'">
+                    AND U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%')
+                </when>
+                <when test="searchType == 'title_author'">
+                    AND (P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%') OR U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%'))
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+        <choose>
+            <when test="sortType.getValue() == 'latest'">
+                ORDER BY POST_CREATED_DATE DESC
+            </when>
+            <when test="sortType.getValue()  == 'past'">
+                ORDER BY POST_CREATED_DATE ASC
+            </when>
+            <when test="sortType.getValue()  == 'upvote'">
+                ORDER BY POST_UPVOTES DESC
+            </when>
+            <otherwise>
+                ORDER BY POST_CREATED_DATE DESC
+            </otherwise>
+        </choose>
+        LIMIT #{startIndex}, #{endIndex};
     </select>
-    <select id="getPost" resultType="ViewResponseDTO">
-        -- 정연매직을 기다립니다 --
+    <!-- <select id="getPost" resultType="ViewResponseDTO">
+    
     </select>
     <select id="getNextPost" resultType="int">
         select *
@@ -13,7 +47,7 @@
         where GAME_INDEX > #{postIndex}
         order by GAME_INDEX asc
             limit 0,1;
-        -- 여기서 현재 보고있는 게시판 종류에 해당하는 다음 게시글로 받아와야 하는 조건도 추가해주세욥 --
+         여기서 현재 보고있는 게시판 종류에 해당하는 다음 게시글로 받아와야 하는 조건도 추가해주세욥
     </select>
     <select id="getPrevPost" resultType="int">
         select *
@@ -21,6 +55,6 @@
         where GAME_INDEX < #{postIndex}
         order by GAME_INDEX desc
             limit 0,1;
-        -- 여기서 현재 보고있는 게시판 종류에 해당하는 이전 게시글로 받아와야 하는 조건도 추가해주세욥 --
-    </select>
+        여기서 현재 보고있는 게시판 종류에 해당하는 이전 게시글로 받아와야 하는 조건도 추가해주세욥
+    </select> -->
 </mapper>
