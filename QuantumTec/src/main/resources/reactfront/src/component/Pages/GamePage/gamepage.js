@@ -108,13 +108,24 @@ export default function GamePage() {
     const imagePath = 'http://localhost:9090/image/game';                      // 이미지 경로
 
     useEffect(() => {
-        // // 로그인이 안되어있으면 구매버튼만 출력
-        // let checkLogin = localStorage.getItem("truelogin");
-        // if (checkLogin !== "true") {
-        //     setBuyStatus(false);
-        // }else if(checkLogin === "true" ){
-        //
-        // }
+        // 로그인이 안되어있으면 구매버튼만 출력
+        let checkLogin = localStorage.getItem("truelogin");
+        let userId = localStorage.getItem("userID");
+        if (checkLogin !== "true") {
+            setBuyStatus(false);
+        }else{
+            axios.get(`http://localhost:9090/user/buy?userId=${userId}&gameIndex=${id}`)
+                .then(response => {
+                    if(response.data === true) {
+                        setBuyStatus(true);
+                    }else {
+                        setBuyStatus(false);
+                    }
+                }).catch(error => {
+                    // 오류발생시 실행
+                })
+            setBuyStatus(false);    // 임시로 구매표시 세팅
+        }
 
         axios.get(imagePath + "/list/test")
             .then(response =>  {
@@ -134,6 +145,7 @@ export default function GamePage() {
         const path = `http://localhost:9090/game/info?id=${id}&name=${gameName}`
         axios.get(path)
             .then(response =>  {
+                console.log(response)
                 setGameCategory(response.data.gameCategoryName);
                 setGamePrice(response.data.gamePrice);
                 setGameDescription(response.data.gameDescription);
