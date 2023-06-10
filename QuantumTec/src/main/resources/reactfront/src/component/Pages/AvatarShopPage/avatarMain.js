@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AvatarItem from './avatarItem';
+
 export default function AvatarMain(props) {
     const [avatarCategory, setAvatarCategory] = useState([]); // 카테고리 목록
     const [hatList, setHatList] = useState([]);
+    
     useEffect(() => {
         axios.get('http://localhost:8080/api/avatar/hat')
             .then((response) => {
@@ -41,6 +43,7 @@ export default function AvatarMain(props) {
                     <h5>포인트 상점 아이템으로 자신만의 모습을 표현해보세요</h5>
                 </div>
             </div>
+            
             <div className='row justify-content-end me-4'>
                 <div className='w-[30%] col-auto'>
                     <div class="input-group input-group-sm">
