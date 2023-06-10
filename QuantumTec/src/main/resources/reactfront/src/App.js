@@ -13,9 +13,11 @@ import GamePage from './component/Pages/GamePage/gamepage.js';
 import AvatarMain from './component/Pages/AvatarShopPage/avatarMain';
 import AvatarSide from './component/Pages/AvatarShopPage/avatarSide';
 import AvatarCategory from './component/Pages/AvatarShopPage/avatarCategory';
+import AvatarSearch from './component/Pages/AvatarShopPage/avatarSearch';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
+import axios from 'axios';
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
@@ -81,6 +83,30 @@ function MyPage(){
 
 function AvatarMainPage(){
   const [page, setPage] = useState("추천");
+  const [category, setCategory] = useState(["추찬"]);
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/avatar/hat')
+      .then((response) => {
+        setCategory(category.concat(response.data));
+    })
+      .catch((error) => {
+          console.log(error);
+    });
+    const tempArray = []
+    tempArray.push('모자');
+    tempArray.push('악세서리');
+    tempArray.push('머리카락');
+    tempArray.push('이너');
+    tempArray.push('아웃터');
+    tempArray.push('바지');
+    tempArray.push('치마');
+    tempArray.push('원피스');
+    tempArray.push('신발');
+    tempArray.push('구두');
+    tempArray.push('배경');
+    tempArray.push('가구');
+    setCategory(category.concat(tempArray));
+  }, []);
   const handlePage = (e) => {
     setPage(e.target.id);
     console.log(page)
@@ -97,7 +123,7 @@ function AvatarMainPage(){
         </div>
         <div className="col-9 ps-0 pe-0">
           <ScrollContainer>
-            {page === "추천"?<AvatarMain />:<AvatarCategory key={page} categoryName={page} />}
+            {page === "추천"?<AvatarMain />:category.indexOf(page)?<AvatarCategory key={page} categoryName={page} />:<AvatarSearch key={page} searchName={page} />}
           </ScrollContainer>
         </div>
       </div>
