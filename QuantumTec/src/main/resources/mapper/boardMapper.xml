@@ -101,6 +101,31 @@
         SET POST_DOWNVOTES = POST_DOWNVOTES + 1
         WHERE POST_INDEX = #{postIndex};
     </insert>
+    <select id="getCommentList" resultType="CommentListResponseDTO">
+        SELECT COMMENT_INDEX, COMMENT_CONTENT, COMMENT_CREATED_DATE AS COMMENT_DATE,
+            USER_NAME AS COMMENT_WRITER, COMMENT_UPVOTES AS COMMENT_UPVOTE, COMMENT_DOWNVOTES AS COMMENT_DOWNVOTE, COMMENT_RATING
+        FROM COMMENT_INFO_TB C, USER_INFO_TB U
+        WHERE C.COMMENT_AUTHOR_INDEX = U.USER_INDEX
+            AND C.POST_INDEX = #{postIndex}
+        <choose>
+            <when test="sortType.getValue() == 'date'">
+                ORDER BY COMMENT_CREATED_DATE DESC
+            </when>
+            <when test="sortType.getValue()  == 'upvote'">
+                ORDER BY COMMENT_UPVOTES DESC
+            </when>
+            <when test="sortType.getValue()  == 'downvote'">
+                ORDER BY COMMENT_DOWNVOTES DESC
+            </when>
+            <when test="sortType.getValue()  == 'rating'">
+                ORDER BY COMMENT_RATING DESC
+            </when>
+            <otherwise>
+                ORDER BY COMMENT_CREATED_DATE DESC
+            </otherwise>
+        </choose>
+        LIMIT #{startIndex}, #{endIndex};
+    </select>
     <!-- <select id="getNextPost" resultType="int">
         select *
         from GAME_INFO_TB

@@ -86,7 +86,7 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public List<CommentListResponseDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request) {
-        int itemNum = 15; // 한 페이지(로딩 단위) 당 표시할 댓글 수
+        int itemNum = 10; // 한 페이지(로딩 단위) 당 표시할 댓글 수
         request.setStartIndex((request.getPageNum()-1)*itemNum); // 페이지 (로딩 단위)에 따른 시작 댓글 인덱스 계산
         request.setEndIndex(itemNum); // 한 페이지(로딩 단위) 당 댓글 수
         return boardDAO.getCommentList(request);
