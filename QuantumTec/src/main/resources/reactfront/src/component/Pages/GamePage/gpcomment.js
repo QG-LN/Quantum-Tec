@@ -35,7 +35,7 @@ export default function Gamecomment(props) {
           <dl className="mt-[13px] border-t border-slate-800">
             <dt className="text-left h-[70px] border-b border-black" >
               <div>
-                <a href="javascript:void(0)" className=" pl-5 flex h-full">
+                <a href="javascript:void(0)" className=" pl-5 flex h-full no-underline text-black">
                   <div class='w-[20%]'>
                     <img src='https://developer.android.com/static/images/cluster-illustrations/controllers.svg?hl=ko' class='mt-[10px] w-[50px] h-[50px]'></img>
                   </div>
@@ -52,7 +52,7 @@ export default function Gamecomment(props) {
               <>
                 {/*index+1 주지않으면 처음 로딩때 펴진상태로 시작*/}
                 <dt value={index+1} className="text-left  h-[70px] border-b border-black" onClick={handleClick} >
-                <a href="javascript:void(0)" className=" pl-5 flex h-full">
+                <a href="javascript:void(0)" className=" pl-5 flex h-full no-underline text-black">
                   <div class='w-[20%]'>
                     <img src={cmt.commentimg} class='mt-[10px] w-[50px] h-[50px]'></img>
                   </div>
