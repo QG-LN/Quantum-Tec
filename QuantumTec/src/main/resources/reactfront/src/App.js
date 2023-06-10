@@ -85,7 +85,7 @@ function AvatarMainPage(){
   const [page, setPage] = useState("추천");
   const [category, setCategory] = useState(["추찬"]);
   useEffect(() => {
-    axios.get('http://localhost:8080/api/avatar/hat')
+    axios.get('http://localhost:8080/api/avatar/category')
       .then((response) => {
         setCategory(category.concat(response.data));
     })
