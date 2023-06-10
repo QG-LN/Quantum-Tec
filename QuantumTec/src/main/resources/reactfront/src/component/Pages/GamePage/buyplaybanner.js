@@ -16,10 +16,10 @@ export default function Buyplaybanner(props) {
             <div class='w-[1300px] h-[160px] bg-slate-200 table'>
               <div class='table-cell align-middle'>
                   <div class='flex'>
-                    <h2 class='m-auto w-[30%] text-2xl'>{props.gamename} 구매하기</h2>
-                    <div class='m-auto w-[30%]'>원화표시 : {props.gameprice}원(\)
+                    <h2 class='m-auto w-[30%] text-2xl border-none'>{props.gamename} 구매하기</h2>
+                    <div class='m-auto w-[30%] border-none'>원화표시 : {props.gameprice}원(\)
                     </div>
-                    <div class='m-auto w-[40%]'>
+                    <div class='m-auto w-[40%] border-none'>
                       <div>
                         <input type='button' class='mb-2 rounded-md bg-green-500 hover:bg-green-700 text-white font-bold w-[60%] h-[70px] text-2xl' value='구매' onClick={gameBuy}></input>
                       </div>
@@ -39,8 +39,8 @@ export default function Buyplaybanner(props) {
           <div class='w-[1300px] h-[100px] table'>
               <div class='table-cell align-middle'>
                   <div class='flex'>
-                    <h2 class='m-auto w-[60%] text-2xl'>{props.gamename} 최근 플레이 이력, 플레이타임</h2>
-                    <div class='m-auto w-[40%]'>
+                    <h2 class='m-auto w-[60%] text-2xl border-none'>{props.gamename} 최근 플레이 이력, 플레이타임</h2>
+                    <div class='m-auto w-[40%] border-none'>
                       <div>
                         <input type='button' class='rounded-md bg-green-500 hover:bg-green-700 text-white font-bold w-[60%] h-[70px] text-2xl' value='플레이' onClick={gamePlay}></input>
                       </div>
