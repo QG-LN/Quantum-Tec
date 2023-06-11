@@ -7,8 +7,10 @@
             POST_VIEWS AS POST_VIEW, POST_UPVOTES
         FROM POST_INFO_TB P, USER_INFO_TB U, BOARD_LIST_TB B
         WHERE P.POST_AUTHOR_INDEX = U.USER_INDEX
+            <if test="boardIndex != 0">
+                AND P.BOARD_INDEX = #{boardIndex}
+            </if>
             AND P.BOARD_INDEX = B.BOARD_INDEX
-            AND P.BOARD_INDEX = #{boardIndex}
             <choose>
                 <when test="searchType == 'title'">
                     AND P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%')
