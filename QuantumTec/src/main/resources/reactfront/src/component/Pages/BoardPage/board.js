@@ -121,8 +121,9 @@ export default function Board() {
                         </button>
                         <ul class="dropdown-menu w-[100%]" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item active" href="#">전체</a></li>
-                            <li><a class="dropdown-item" href="#">게시판 1</a></li>
-                            <li><a class="dropdown-item" href="#">게시판 2</a></li>
+                            <li><a class="dropdown-item" href="#">자유게시판</a></li>
+                            <li><a class="dropdown-item" href="#">튜터링</a></li>
+                            <li><a class="dropdown-item" href="#">공지사항</a></li>
                         </ul>
                     </div>
                     <div class="dropdown col-auto">
