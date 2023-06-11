@@ -17,7 +17,6 @@ export default function Section() {
 
     const [search, setSearch] = useState("");               // 검색어
 
-    const defaultImage = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"; // 이미지가 없을 경우 기본 이미지
     const searchIcon = 'http://localhost:9090/image/game/default_icon_search.png'; // 검색 아이콘
 
 
@@ -44,6 +43,7 @@ export default function Section() {
         };
         axiosRequest(path, body, 'post', 'list')
             .then(res => {
+                console.log(res);
                 setGamelist(res);            // 서버에서 받아온 게임 목록 저장
                 if (res.length !== 0) {      // 받아온 게임 목록이 있을 경우
                     const temp = [];        // 새로 받아온 게임 목록을 임시로 저장할 배열
@@ -52,15 +52,14 @@ export default function Section() {
                     * */
                     for (let i = 0; i < res.length; i++) {
                         if (res[i] !== null) {
-                            if (res[i].gameImage == null) res[i].gameImage = defaultImage;
+                            // if (res[i].gameImageLocation == null) res[i].gameImageLocation = defaultImage;
                             const gameNameOriginal = res[i].gameName;
                             res[i].gameName = res[i].gameName.replaceAll(" ", "_");
-                            console.log(res[i].gameName)
                             const newItem = {
                                 id         : res[i].gameIndex,
                                 cate       : res[i].gameCategoryName,
                                 name       : gameNameOriginal,
-                                img        : res[i].gameImage,
+                                img        : res[i].gameImageLocation,
                                 description: "수학게임입니다.",
                                 link       : `/game/${res[i].gameIndex}/${res[i].gameName}/`
                             };
