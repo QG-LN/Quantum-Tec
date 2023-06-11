@@ -53,11 +53,13 @@ export default function Section() {
                     for (let i = 0; i < res.length; i++) {
                         if (res[i] !== null) {
                             if (res[i].gameImage == null) res[i].gameImage = defaultImage;
-                            res[i].gameName = res[i].gameName.replace(" ", "_");
+                            const gameNameOriginal = res[i].gameName;
+                            res[i].gameName = res[i].gameName.replaceAll(" ", "_");
+                            console.log(res[i].gameName)
                             const newItem = {
                                 id         : res[i].gameIndex,
                                 cate       : res[i].gameCategoryName,
-                                name       : res[i].gameName,
+                                name       : gameNameOriginal,
                                 img        : res[i].gameImage,
                                 description: "수학게임입니다.",
                                 link       : `/game/${res[i].gameIndex}/${res[i].gameName}/`
