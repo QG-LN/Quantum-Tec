@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { faX, faWrench } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useInView } from "react-intersection-observer"
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 export default function Post() {
     const [post, setPost] = useState({});
@@ -13,6 +15,15 @@ export default function Post() {
     const [ref, inView] = useInView()
     const [loading, setLoading] = useState(false)
     
+    //modal
+    const [show, setShow] = useState(false);
+    
+    const handleClose = () => {
+        setShow(false);
+    }
+    const handleShow = (e) => {
+        setShow(true);
+    }
     // 더미
     // 백엔드 통신 추가해야함.
     const maxContentLength = 15;
@@ -53,7 +64,7 @@ export default function Post() {
                 id: i + 1,
                 writer: "댓글 작성자",
                 createdDate: "2023-05-30 17:59:41",
-                content: "댓글내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 글 내용댓글 내용댓글 내용댓글 내용",
+                content: "댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용",
                 upvote: 555,
                 downvote: 333
             };
@@ -160,10 +171,34 @@ export default function Post() {
     // }
     return (
         <div className="container">
+            {/* 수정 또는 삭제를 위한 팝업창 */}
+            <Modal show={show} onHide={handleClose} centered={true}>
+                <Modal.Header>
+                    <Modal.Title className='w-[100%]'>
+                        게시글 삭제
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='mx-3'>
+                        <h6 class="card-text placeholder-glow">
+                            정말로 <div class="placeholder col-5"></div> 게시글을 삭제하시겠습니까?
+                        </h6>
+                        게시글 삭제시 복구가 불가능합니다.
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className="btn_close" variant="danger" onClick={handleClose}>
+                        삭제
+                    </Button>
+                    <Button className="btn_close" variant="secondary" onClick={handleClose}>
+                        닫기
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             {/* 게시글 */}
-            <h1 className='text-start mt-5 ms-3 user-select-none'>{post.board}</h1>
+            <h1 className='text-start mt-[10vh] ms-3 user-select-none'>{post.board}</h1>
             <hr className='' />
-            <div className='p-0 m-0 ms-3 user-select-none'>
+            <div className='p-0 m-0 ms-3 user-select-none position-relative'>
                 {/* 게시글 정보 */}
                 <h4 className='text-start'>{post.title}</h4>
                 <div className='row justify-content-around g-2 ms-0'>
@@ -178,6 +213,9 @@ export default function Post() {
                         <div className='col-auto'>추천 {post.downvote}</div>
                     </div>
                 </div>
+
+                <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' id='modify' onClick={console.log("수정 버튼 클릭")} />
+                <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-2' id='delete' onClick={handleShow} />
             </div>
             <hr />
             {/* 게시글 내용 */}
