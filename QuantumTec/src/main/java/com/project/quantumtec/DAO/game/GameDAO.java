@@ -1,9 +1,6 @@
 package com.project.quantumtec.DAO.game;
 
-import com.project.quantumtec.DTO.game.GameDTO;
-import com.project.quantumtec.DTO.game.GameSearchDTO;
-import com.project.quantumtec.DTO.game.GameSearchRequestDTO;
-import com.project.quantumtec.DTO.game.GameSearchResponseDTO;
+import com.project.quantumtec.DTO.game.*;
 
 import java.util.List;
 
@@ -12,5 +9,5 @@ public interface GameDAO {
     public List<GameSearchResponseDTO> getGameSearchList(GameSearchRequestDTO game);
 
     // 게임 정보 가져오기
-    public GameDTO getGameInfo(GameSearchDTO gameSearchDTO);
+    public GameDetailsInfoDTO getGameInfo(GameSearchDTO gameSearchDTO);
 }

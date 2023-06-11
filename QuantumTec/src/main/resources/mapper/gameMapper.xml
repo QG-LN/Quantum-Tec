@@ -20,7 +20,7 @@
         ORDER BY g.GAME_VERSION_UPDATE_DATE DESC
         LIMIT #{startIndex}, #{endIndex};
     </select>
-    <select id="getGameInfo" resultType="GameDTO" parameterType="GameSearchDTO">
+    <select id="getGameInfo" resultType="GameDetailsInfoDTO" parameterType="GameSearchDTO">
         SELECT g.GAME_INDEX, g.GAME_NAME, g.DEVELOPER_INDEX, g.GAME_RELEASE_DATE, g.GAME_PRICE, g.GAME_DESCRIPTION,
                 g.GAME_IMAGE_LOCATION, g.GAME_PLATFORM, g.GAME_VERSION_UPDATE_DATE, g.GAME_VERSION,
                 (SELECT GROUP_CONCAT(cn.GAME_CATEGORY_NAME SEPARATOR ',') AS GAME_CATEGORY_NAME
