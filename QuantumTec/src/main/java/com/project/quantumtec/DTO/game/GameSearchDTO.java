@@ -14,4 +14,5 @@ public class GameSearchDTO {
 
     private int gameIndex;       // 게임 Index
     private String gameName;    // 게임 이름
+    private String userId;      // 유저 ID
 }
