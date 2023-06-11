@@ -46,6 +46,11 @@
             AND P.BOARD_INDEX = B.BOARD_INDEX
             AND P.POST_INDEX = #{postIndex};
     </select>
+    <update id="updatePostView" parameterType="ViewDTO">
+        UPDATE POST_INFO_TB
+        SET POST_VIEWS = POST_VIEWS + 1
+        WHERE POST_INDEX = #{postIndex};
+    </update>
     <insert id="writePost" parameterType="WriteDTO">
         INSERT INTO POST_INFO_TB(BOARD_INDEX, POST_TITLE, POST_CONTENT, POST_AUTHOR_INDEX)
         VALUES(#{boardIndex}, #{title}, #{content}, #{userIndex});
