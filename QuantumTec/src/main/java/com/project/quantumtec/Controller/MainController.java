@@ -1,6 +1,5 @@
 package com.project.quantumtec.Controller;
 
-import com.project.quantumtec.DTO.game.GameDTO;
 import com.project.quantumtec.DTO.game.GameSearchRequestDTO;
 import com.project.quantumtec.DTO.game.GameSearchResponseDTO;
 import com.project.quantumtec.Service.game.GameService;
