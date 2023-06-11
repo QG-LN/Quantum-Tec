@@ -91,4 +91,36 @@
         ORDER BY g.GAME_VERSION_UPDATE_DATE DESC
         LIMIT #{startIndex}, #{endIndex};
     </select>
+
+    <!-- 게임 댓글 정보 불러오기 -->
+    <!-- 
+        1. 작성자ID
+        2. 작성자이름
+        4. 댓글제목
+        5. 댓글내용
+        6. 게시일
+        7. 추천수
+        8. 비추천수
+        9. 게임 만족도
+    -->
+    <select id="getGameCommentList" resultType="GameCommentDTO">
+        SELECT 
+            U.USER_ID, 
+            U.USER_NAME, 
+            <!-- G.GAME_COMMENT_TITLE,  -->
+            G.COMMENT_CONTENT, 
+            G.COMMENT_CREATED_DATE, 
+            G.COMMENT_UPVOTES, 
+            G.COMMENT_DOWNVOTES, 
+            G.COMMENT_RATING
+        FROM 
+            GAME_COMMENT_TB G, USER_INFO_TB U
+        WHERE 
+            G.COMMENT_AUTHOR_INDEX = U.USER_INDEX AND
+            G.GAME_INDEX = #{gameIndex}
+        ORDER BY 
+            G.GAME_COMMENT_DATE DESC
+        LIMIT 
+            #{startIndex}, #{endIndex};
+    </select>
 </mapper>
