@@ -1,26 +1,224 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BoardService">
-    <select id="getPostSearchList" resultType="BoardListResponseDTO">
-        -- 정연매직을 기다립니다 --
+    <select id="getPostSearchList" resultType="ListResponseDTO">
+        SELECT POST_INDEX, BOARD_NAME, POST_TITLE, 
+            USER_NAME AS POST_AUTHOR, POST_CREATED_DATE AS POST_DATE,
+            POST_VIEWS AS POST_VIEW, POST_UPVOTES
+        FROM POST_INFO_TB P, USER_INFO_TB U, BOARD_LIST_TB B
+        WHERE P.POST_AUTHOR_INDEX = U.USER_INDEX
+            AND P.BOARD_INDEX = B.BOARD_INDEX
+            AND P.BOARD_INDEX = #{boardIndex}
+            <choose>
+                <when test="searchType == 'title'">
+                    AND P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%')
+                </when>
+                <when test="searchType == 'author'">
+                    AND U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%')
+                </when>
+                <when test="searchType == 'title_author'">
+                    AND (P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%') OR U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%'))
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+        <choose>
+            <when test="sortType.getValue() == 'latest'">
+                ORDER BY POST_CREATED_DATE DESC
+            </when>
+            <when test="sortType.getValue()  == 'past'">
+                ORDER BY POST_CREATED_DATE ASC
+            </when>
+            <when test="sortType.getValue()  == 'upvote'">
+                ORDER BY POST_UPVOTES DESC
+            </when>
+            <otherwise>
+                ORDER BY POST_CREATED_DATE DESC
+            </otherwise>
+        </choose>
+        LIMIT #{startIndex}, #{endIndex};
     </select>
     <select id="getPost" resultType="ViewResponseDTO">
-        -- 정연매직을 기다립니다 --
+        SELECT BOARD_NAME AS BOARD_TITLE, POST_TITLE, USER_NAME AS POST_AUTHOR, POST_CREATED_DATE AS POST_DATE,
+            POST_VIEWS AS POST_VIEW, POST_UPVOTES, POST_DOWNVOTES, POST_CONTENT
+        FROM POST_INFO_TB P, USER_INFO_TB U, BOARD_LIST_TB B
+        WHERE P.POST_AUTHOR_INDEX = U.USER_INDEX
+            AND P.BOARD_INDEX = B.BOARD_INDEX
+            AND P.POST_INDEX = #{postIndex};
     </select>
+    <insert id="writePost" parameterType="WriteDTO">
+        INSERT INTO POST_INFO_TB(BOARD_INDEX, POST_TITLE, POST_CONTENT, POST_AUTHOR_INDEX)
+        VALUES(#{boardIndex}, #{title}, #{content}, #{userIndex});
+    </insert>
+    <update id="modifyPost" parameterType="ModifyDTO">
+        UPDATE POST_INFO_TB
+        SET POST_TITLE = #{title}, POST_CONTENT = #{content}
+        WHERE POST_INDEX = #{postIndex}
+            AND POST_AUTHOR_INDEX = #{userIndex}
+            AND BOARD_INDEX = #{boardIndex};
+    </update>
+    <delete id="deletePost" parameterType="DeleteDTO">
+        DELETE FROM POST_INFO_TB
+        WHERE POST_INDEX = #{postIndex}
+            AND POST_AUTHOR_INDEX = #{userIndex};
+    </delete>
+    <select id="checkVote" resultType="String">
+        SELECT POST_VOTE_CHECK FROM POST_VOTE_TB
+        WHERE POST_INDEX = #{postIndex}
+            AND USER_INDEX = #{userIndex};
+    </select>
+    <update id="updateUpvotePost" parameterType="VoteDTO">
+        UPDATE POST_VOTE_TB
+        SET POST_VOTE_CHECK = "up"
+        WHERE POST_INDEX = #{postIndex}
+            AND USER_INDEX = #{userIndex};
+        UPDATE POST_INFO_TB
+        SET POST_UPVOTES = POST_UPVOTES + 1
+        , POST_DOWNVOTES = POST_DOWNVOTES - 1
+        WHERE POST_INDEX = #{postIndex};
+    </update>
+    <insert id="insertUpvotePost" parameterType="VoteDTO">
+        INSERT INTO POST_VOTE_TB(POST_INDEX, USER_INDEX, POST_VOTE_CHECK)
+        VALUES(#{postIndex}, #{userIndex}, "up");
+        UPDATE POST_INFO_TB
+        SET POST_UPVOTES = POST_UPVOTES + 1
+        WHERE POST_INDEX = #{postIndex};
+    </insert>
+    <update id="updateDownvotePost" parameterType="VoteDTO">
+        UPDATE POST_VOTE_TB
+        SET POST_VOTE_CHECK = "down"
+        WHERE POST_INDEX = #{postIndex}
+            AND USER_INDEX = #{userIndex};
+        UPDATE POST_INFO_TB
+        SET POST_UPVOTES = POST_UPVOTES - 1
+        , POST_DOWNVOTES = POST_DOWNVOTES + 1
+        WHERE POST_INDEX = #{postIndex};
+    </update>
+    <insert id="insertDownvotePost" parameterType="VoteDTO">
+        INSERT INTO POST_VOTE_TB(POST_INDEX, USER_INDEX, POST_VOTE_CHECK)
+        VALUES(#{postIndex}, #{userIndex}, "down");
+        UPDATE POST_INFO_TB
+        SET POST_DOWNVOTES = POST_DOWNVOTES + 1
+        WHERE POST_INDEX = #{postIndex};
+    </insert>
+    <select id="getCommentList" resultType="CommentListResponseDTO">
+        SELECT COMMENT_INDEX, COMMENT_CONTENT, COMMENT_CREATED_DATE AS COMMENT_DATE,
+            USER_NAME AS COMMENT_WRITER, COMMENT_UPVOTES AS COMMENT_UPVOTE, COMMENT_DOWNVOTES AS COMMENT_DOWNVOTE, COMMENT_RATING
+        FROM COMMENT_INFO_TB C, USER_INFO_TB U
+        WHERE C.COMMENT_AUTHOR_INDEX = U.USER_INDEX
+            AND C.POST_INDEX = #{postIndex}
+        <choose>
+            <when test="sortType.getValue() == 'date'">
+                ORDER BY COMMENT_CREATED_DATE DESC
+            </when>
+            <when test="sortType.getValue()  == 'upvote'">
+                ORDER BY COMMENT_UPVOTES DESC
+            </when>
+            <when test="sortType.getValue()  == 'downvote'">
+                ORDER BY COMMENT_DOWNVOTES DESC
+            </when>
+            <when test="sortType.getValue()  == 'rating'">
+                ORDER BY COMMENT_RATING DESC
+            </when>
+            <otherwise>
+                ORDER BY COMMENT_CREATED_DATE DESC
+            </otherwise>
+        </choose>
+        LIMIT #{startIndex}, #{endIndex};
+    </select>
+    <insert id="writeComment" parameterType="CommentWriteDTO">
+        INSERT INTO COMMENT_INFO_TB(POST_INDEX, COMMENT_CONTENT, COMMENT_AUTHOR_INDEX)
+        VALUES(#{postIndex}, #{commentContent}, #{userIndex});
+    </insert>
+    <update id="modifyComment" parameterType="CommentModifyDTO">
+        UPDATE COMMENT_INFO_TB
+        SET COMMENT_CONTENT = #{commentContent}
+        WHERE COMMENT_INDEX = #{commentIndex}
+            AND COMMENT_AUTHOR_INDEX = #{userIndex}
+            AND POST_INDEX = #{postIndex};
+    </update>
+    <delete id="deleteComment" parameterType="CommentDeleteDTO">
+        DELETE FROM COMMENT_INFO_TB
+        WHERE COMMENT_INDEX = #{commentIndex}
+            AND COMMENT_AUTHOR_INDEX = #{userIndex}
+            AND POST_INDEX = #{postIndex};
+    </delete>
+    <select id="checkCommentVote" resultType="String">
+        SELECT COMMENT_VOTE_CHECK FROM COMMENT_VOTE_TB
+        WHERE COMMENT_INDEX = #{commentIndex}
+            AND USER_INDEX = #{userIndex}
+            AND POST_INDEX = #{postIndex};
+    </select>
+    <update id="updateUpvoteComment" parameterType="CommentVoteDTO">
+        UPDATE COMMENT_VOTE_TB
+        SET COMMENT_VOTE_CHECK = "up"
+        WHERE COMMENT_INDEX = #{commentIndex}
+            AND USER_INDEX = #{userIndex}
+            AND POST_INDEX = #{postIndex};
+        UPDATE COMMENT_INFO_TB
+        SET COMMENT_UPVOTES = COMMENT_UPVOTES + 1
+        , COMMENT_DOWNVOTES = COMMENT_DOWNVOTES - 1
+        WHERE COMMENT_INDEX = #{commentIndex}
+            AND POST_INDEX = #{postIndex};
+    </update>
+    <insert id="insertUpvoteComment" parameterType="CommentVoteDTO">
+        INSERT INTO COMMENT_VOTE_TB(COMMENT_INDEX, USER_INDEX, COMMENT_VOTE_CHECK, POST_INDEX)
+        VALUES(#{commentIndex}, #{userIndex}, "up", #{postIndex});
+        UPDATE COMMENT_INFO_TB
+        SET COMMENT_UPVOTES = COMMENT_UPVOTES + 1
+        WHERE COMMENT_INDEX = #{commentIndex}
+            AND POST_INDEX = #{postIndex};
+    </insert>
+    <update id="updateDownvoteComment" parameterType="CommentVoteDTO">
+        UPDATE COMMENT_VOTE_TB
+        SET COMMENT_VOTE_CHECK = "down"
+        WHERE COMMENT_INDEX = #{commentIndex}
+            AND USER_INDEX = #{userIndex}
+            AND POST_INDEX = #{postIndex};
+        UPDATE COMMENT_INFO_TB
+        SET COMMENT_UPVOTES = COMMENT_UPVOTES - 1
+        , COMMENT_DOWNVOTES = COMMENT_DOWNVOTES + 1
+        WHERE COMMENT_INDEX = #{commentIndex}
+            AND POST_INDEX = #{postIndex};
+    </update>
+    <insert id="insertDownvoteComment" parameterType="CommentVoteDTO">
+        INSERT INTO COMMENT_VOTE_TB(COMMENT_INDEX, USER_INDEX, COMMENT_VOTE_CHECK, POST_INDEX)
+        VALUES(#{commentIndex}, #{userIndex}, "down", #{postIndex});
+        UPDATE COMMENT_INFO_TB
+        SET COMMENT_DOWNVOTES = COMMENT_DOWNVOTES + 1
+        WHERE COMMENT_INDEX = #{commentIndex}
+            AND POST_INDEX = #{postIndex};
+    </insert>
+
+    <!-- 현재 보고있는 게시판의 다음 postIndex 불러오는 쿼리 -->
+    <!-- boardIndex
+        1 = 자유게시판
+        2 = 튜터링
+        3 = 공지사항-->
     <select id="getNextPost" resultType="int">
-        select *
-        from GAME_INFO_TB
-        where GAME_INDEX > #{postIndex}
-        order by GAME_INDEX asc
-            limit 0,1;
-        -- 여기서 현재 보고있는 게시판 종류에 해당하는 다음 게시글로 받아와야 하는 조건도 추가해주세욥 --
+        SELECT POST_INDEX
+        FROM POST_INFO_TB
+        WHERE
+            <if test="boardIndex != 0">
+                BOARD_INDEX = #{boardIndex}
+                AND 
+            </if>
+            POST_INDEX &gt; #{postIndex}
+        ORDER BY POST_INDEX ASC
+        LIMIT 1;
     </select>
+
+    <!-- 현재 보고있는 게시판의 이전 postIndex 불러오는 쿼리 -->
     <select id="getPrevPost" resultType="int">
-        select *
-        from GAME_INFO_TB
-        where GAME_INDEX < #{postIndex}
-        order by GAME_INDEX desc
-            limit 0,1;
-        -- 여기서 현재 보고있는 게시판 종류에 해당하는 이전 게시글로 받아와야 하는 조건도 추가해주세욥 --
+        SELECT POST_INDEX
+        FROM POST_INFO_TB
+        WHERE
+            <if test="boardIndex != 0">
+                BOARD_INDEX = #{boardIndex}
+                AND 
+            </if>
+            POST_INDEX &lt; #{postIndex}
+        ORDER BY POST_INDEX DESC
+        LIMIT 1;
     </select>
 </mapper>
