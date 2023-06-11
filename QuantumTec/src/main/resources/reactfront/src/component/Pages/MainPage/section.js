@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {useEffect} from 'react';
 import Gamelist from './gamelist.js';
 import axios from 'axios';
@@ -19,6 +19,8 @@ export default function Section() {
 
     const defaultImage = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"; // 이미지가 없을 경우 기본 이미지
     const searchIcon = 'http://localhost:9090/image/game/default_icon_search.png'; // 검색 아이콘
+
+
 
     const handleInputCate = (e) => {
         setInputCate(e.target.value)
@@ -78,6 +80,7 @@ export default function Section() {
     useEffect(() => {
         setLoading(true);
 
+        console.log(page);
         getGameList();
 
         setLoading(false);
@@ -87,15 +90,32 @@ export default function Section() {
         // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면
         if (inView && !loading) {
             if(gamelist.length !==0)  setPage(page + 1);
-            console.log('0');
         }
     }, [inView, loading])
 
+
+
+    /**
+     * 최초 렌더링을 제외한 렌더링에서만 실행되는 useEffect
+     * 기존 useEffect와 동일하게 작동
+     * */
+    const useDidMountEffect = (func, deps) => {
+        const didMount = useRef(false);
+
+        useEffect(() => {
+            if (didMount.current) func();
+            else didMount.current = true;
+        }, deps);
+    };
+
+
     // 카테고리가 바뀌었을 때마다 게임 목록을 새로 받아옴
-    useEffect(() => {
+    useDidMountEffect(() => {
         setItems([]);
         if(page !== 1) {            // 페이지가 1이 아닐 경우 페이지를 1로 초기화하여 page useEffect를 실행
             setPage(1);
+        }else{                      // 페이지가 1일 경우 기존 게임 목록을 삭제하고 새로 받아옴
+            getGameList();
         }
     },[inputCate]);
 
