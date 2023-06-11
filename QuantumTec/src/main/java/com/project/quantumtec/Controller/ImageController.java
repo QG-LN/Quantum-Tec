@@ -45,19 +45,17 @@ public class ImageController {
     public String  getImageList(@PathVariable(value = "path") String imagePath){
         try {
             List<String> imagePaths = new ArrayList<>();
-            imagePath = imagePath.replace("_", "/");            // _을 /로 변경
+            imagePath = imagePath.replaceAll("_", "/");            // _을 /로 변경
             String path = "static/images/" + imagePath;
             File dir = new File("src/main/resources/" + path);
             File[] fileList = dir.listFiles();
             if (fileList != null) {
                 for (File file : fileList) {
                     if (file.isFile()) {
-                        imagePaths.add(imagePath + "_" +file.getName());
-                        System.out.println(imagePath + "_" +file.getName());
+                        imagePaths.add(file.getName());
                     }
                 }
             }
-
 
             // 이미지 파일 경로 배열을 JSON으로 변환
             ObjectMapper objectMapper = new ObjectMapper();
