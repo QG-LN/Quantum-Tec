@@ -96,8 +96,6 @@ export default function Section() {
         setItems([]);
         if(page !== 1) {            // 페이지가 1이 아닐 경우 페이지를 1로 초기화하여 page useEffect를 실행
             setPage(1);
-        }else{                      // 페이지가 1일 경우 기존 게임 목록을 삭제하고 새로 받아옴
-            getGameList();
         }
     },[inputCate]);
 
