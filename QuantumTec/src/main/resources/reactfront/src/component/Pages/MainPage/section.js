@@ -18,6 +18,7 @@ export default function Section() {
     const [search, setSearch] = useState("");               // 검색어
 
     const defaultImage = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"; // 이미지가 없을 경우 기본 이미지
+    const searchIcon = 'http://localhost:9090/image/game/default_icon_search.png'; // 검색 아이콘
 
     const handleInputCate = (e) => {
         setInputCate(e.target.value)
@@ -123,7 +124,9 @@ export default function Section() {
                     <input class='w-[302px] h-[44px] pr-[3px] pl-[3px] mr-0 border-b-2' type='text'
                            placeholder='게임명 검색'onChange={handleSearch} value={search}></input>
                     <button type='button' class='absolute right-0 w-[44px] h-[44px]' onClick={onClickSearch}>
-                        <span class='inline-block w-[40px] h-[40px] rounded-full bg-green-400'></span></button>
+                        <span class='inline-block w-[40px] h-[40px] rounded-full'>
+                            <img class='w-[20px] h-[20px] m-[10px]' src={searchIcon} alt='search'/>
+                        </span></button>
                 </fieldset>
             </div>
             <div>
