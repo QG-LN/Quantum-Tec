@@ -30,6 +30,7 @@ public class GameDAOImpl implements GameDAO{
         try {
             return sqlSession.selectOne("GameService.getGameInfo", gameSearchDTO);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
 
