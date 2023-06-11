@@ -6,34 +6,6 @@ import GPcomment from './gpcomment.js'
 import {useParams} from "react-router-dom";
 import axios from "axios";
 
-//상위 이미지 리스트
-const images = [
-  // {
-  //   url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-  //   alt: "Image 1",
-  // },
-  // {
-  //   url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3yuRUfWCK4tYmm8Q4pD1VW51-9Tisqhix9Q&usqp=CAU",
-  //   alt: "Image 2",
-  // },
-  // {
-  //   url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-  //   alt: "Image 3",
-  // },
-  // {
-  //     url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-  //     alt: "Image 4",
-  //   },
-  //   {
-  //     url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-  //     alt: "Image 5",
-  //   },
-  //   {
-  //     url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-  //     alt: "Image 6",
-  //   },
-];
-
 // 댓글 리스트
 const commentlist = [
 {
@@ -92,24 +64,30 @@ export default function GamePage() {
 
     const {id, gameName} = useParams();                                                // url에서 게임번호와 이름을 가져옴
 
-    const [gameCategory, setGameCategory] = useState('');                   // 게임의 카테고리를 저장할 state
+    const [userGamePlayEndTime, setUserGamePlayEndTime] = useState('');    // 유저의 최근 플레이 시간을 저장할 state
+    const [userGamePlayTotalPlayTime, setUserGamePlayTotalPlayTime] = useState('');                 // 유저의 총 플레이 시간을 저장할 state
+
+    const [developerName, setDeveloperName] = useState('');                 // 게임의 개발자를 저장할 state
+    const [gameReleaseDate, setGameReleaseDate] = useState('');             // 게임의 출시일을 저장할 state
     const [gamePrice, setGamePrice] = useState(0);                          // 게임의 가격을 저장할 state
     const [gameDescription, setGameDescription] = useState('');             // 게임의 설명을 저장할 state
+    const [gameImageLocation, setGameImageLocation] = useState('');         // 게임의 이미지 경로를 저장할 state
     const [gameShortDescription, setGameShortDescription] = useState('');   // 게임의 짧은 설명을 저장할 state
-    const [gameReleaseDate, setGameReleaseDate] = useState('');             // 게임의 출시일을 저장할 state
-    const [gameUpdateDate, setGameUpdateDate] = useState('');               // 게임의 업데이트일을 저장할 state
-    const [gameDeveloper, setGameDeveloper] = useState('');                 // 게임의 개발자를 저장할 state
-    const [gameGrade, setGameGrade] = useState(0);                          // 게임의 평점을 저장할 state
-    const [gameImagePath, setGameImagePath] = useState('');                 // 게임의 이미지 경로를 저장할 state
+    const [gamePlatForm, setGamePlatForm] = useState('');                   // 게임의 플랫폼을 저장할 state
+    const [gameVersionUpdateDate, setGameVersionUpdateDate] = useState(''); // 게임의 업데이트일을 저장할 state
+    const [gameVersion, setGameVersion] = useState('');                     // 게임의 버전을 저장할 state
+    const [gameCategoryName, setGameCategoryName] = useState('');           // 게임의 카테고리를 저장할 state
+    const [gameRating, setGameRating] = useState(0);                         // 게임의 평점을 저장할 state
+
+
+
     const [gameMainImage, setGameMainImage] = useState('');                 // 게임의 메인 이미지를 저장할 state
     const [gameImageList, setGameImageList] = useState([]);                 // 게임의 이미지를 저장할 state
-    const [gameFlatForm, setGameFlatForm] = useState('');                   // 게임의 플랫폼을 저장할 state
     const [gameGenre, setGameGenre] = useState([]);                         // 게임의 장르를 저장할 state
 
-    const [userGamePlayRecentPlayDate, setUserGamePlayRecentPlayDate] = useState('');    // 유저의 최근 플레이 시간을 저장할 state
-    const [userTotalPlayTime, setUserGamePlayTotalPlayTime] = useState('');                 // 유저의 총 플레이 시간을 저장할 state
 
     const imagePath = 'http://localhost:9090/image/game';                      // 이미지 경로
+    const imageListPath = 'http://localhost:9090/image/game/list';              // 이미지 리스트 경로
 
     useEffect(() => {
         // 로그인이 안되어있으면 구매버튼만 출력
@@ -118,69 +96,53 @@ export default function GamePage() {
         if (checkLogin !== "true") {
             setBuyStatus(false);
         }
-        // else{
-        //     axios.get(`http://localhost:9090/user/buy?userId=${userId}&gameIndex=${id}`)
-        //         .then(response => {
-        //             if(response.data === true) {
-        //                 setBuyStatus(true);
-        //             }else {
-        //                 setBuyStatus(false);
-        //             }
-        //         }).catch(error => {
-        //             // 오류발생시 실행
-        //         })
-        //     setBuyStatus(true);    // 임시로 구매표시 세팅
-        // }
-
-        axios.get(imagePath + "/list/test")
-            .then(response =>  {
-                setGameImageList(response.data);
-                console.log(imagePath+ response.data[0]);
-
-                for(let i = 0; i < response.data.length; i++){
-                    images.push({
-                        src: imagePath + "/" + response.data[i],
-                        alt : '게임이미지'+i
-                    });
-                }
-            }).catch(error => {
-                // 오류발생시 실행
-            })
 
         const path = `http://localhost:9090/game/info?id=${id}&name=${gameName}&userId=${userId}`;
         axios.get(path)
             .then(response =>  {
-                console.log(response)
-                // 게임 정보 저장
-                setGameCategory(response.data.gameCategoryName);
-                setGamePrice(response.data.gamePrice);
-                setGameDescription(response.data.gameDescription);
-                setGameShortDescription(response.data.gameShortDescription);
-                setGameReleaseDate(response.data.gameReleaseDate);
-                setGameUpdateDate(response.data.gameVersionUpdateDate);
-                setGameDeveloper(response.data.gameDeveloper);
-                // setGameGrade(response.data.gameGrade);
-                // setGameImagePath(response.data.gameImage);
-                setGameFlatForm(response.data.gameFlatForm);
-                setGameGenre(response.data.gameGenre);
-                
-                // 유저의 플레이 정보 저장
-                setUserGamePlayRecentPlayDate(response.data.userRecentPlayTime);
-                setUserGamePlayTotalPlayTime(response.data.userGamePlayTotalPlayTime);
+                if(response !== null){
+                    console.log(response.data.gameCategoryName);
+                    // 게임 정보 저장
+                    setDeveloperName(response.data.developerName);
+                    setGameReleaseDate(response.data.gameReleaseDate);
+                    setGamePrice(response.data.gamePrice);
+                    setGameDescription(response.data.gameDescription);
+                    setGameShortDescription(response.data.gameShortDescription);
+                    setGameImageLocation(response.data.gameImageLocation);
+                    setGamePlatForm(response.data.gamePlatForm);
+                    setGameVersionUpdateDate(response.data.gameVersionUpdateDate);
+                    setGameVersion(response.data.gameVersion);
+                    setGameCategoryName(response.data.gameCategoryName);
+                    setGameRating(response.data.gameRating.toFixed(1));
 
-                // 유저의 총 플레이 시간이 null이 아니라면 [즉 게임을 구매한 상태라면]
-                if(userTotalPlayTime.equals("") === false) {
-                    setBuyStatus(true);     // 구매상태 true
+                    // 유저의 플레이 정보 저장
+                    setUserGamePlayEndTime(response.data.userGamePlayEndTime);
+                    setUserGamePlayTotalPlayTime(response.data.userGamePlayTotalPlayTime);
                 }
 
+                // 유저의 총 플레이 시간이 null이 아니라면 [즉 게임을 구매한 상태라면]
+                if(userGamePlayTotalPlayTime.equals("") === false) {
+                    setBuyStatus(true);     // 구매상태 true
+                }
                 }).catch(error => {
                 // 오류발생시 실행
                 })
 
+
     },[])
 
     useEffect(() => {
-        setGameMainImage(imagePath + "/" + gameImageList[0]);  //
+        axios.get(imageListPath + "/games_" + gameImageLocation)
+            .then(response =>  {
+                setGameImageList(response.data);
+            }).catch(error => {
+            // 오류발생시 실행
+        })
+    },[gameImageLocation])
+
+    useEffect(() => {
+        const mainImagePath = `games/${gameImageLocation}/${gameImageList[0]}`.replaceAll('/','_');
+        setGameMainImage(`${imagePath}/${mainImagePath}`);
     },[gameImageList])
 
 //평점
@@ -196,7 +158,7 @@ export default function GamePage() {
   const HandleSetComment = (e) => {
     setComment(e.target.value);
   }
-  
+
   //만족도를 눌럿을떄 반영값
   const Clickgrade = (e) => {
     console.log(e.target.value);
@@ -216,20 +178,21 @@ export default function GamePage() {
     return (
         <div class='m-auto w-[1200px]'>
             <div>
-                <h2 class='text-left mt-20'>{gameName}</h2>
+                <h2 class='text-left mt-20'>{gameName.replaceAll('_',' ')}</h2>
                 {/*<div class='text-left mt-2 mb-3'>{categray_0}&gt;{categray_1}&gt;{categray_2}</div>*/}
                 {/*현재 카테고리가 한개이므로 한개만 설정*/}
-                <div class='text-left mt-2 mb-3'>{gameCategory}</div>
+                <div class='text-left mt-2 mb-3'>{gameCategoryName}</div>
                 <div class='flex'>
                     <section class='basis-3/4 h-[535px] mr-5' >
-                        <GPImage imgList={gameImageList} imgPath={imagePath}/>
+                        <GPImage imgPath={imagePath + "/games_" + gameImageLocation}
+                                 imgList={gameImageList}/>
                     </section>
                     <aside class='basis-1/4 ml-5'>
                         { gameImageList.length > 0 &&
-                            <GPInfo gameinfo={gameDescription}
-                                    gamegrade={gameGrade}
+                            <GPInfo gameinfo={gameShortDescription}
+                                    gamegrade={gameRating}
                                     gamedate={gameReleaseDate}
-                                    developer={gameDeveloper}
+                                    developer={developerName}
                                     categorylist={gameGenre}
                                     img={gameMainImage} />
                         }
@@ -237,7 +200,11 @@ export default function GamePage() {
                 </div>
             </div>
             <div class='mt-10'>
-                <Buyplaybanner gamename={gameName} gameprice={gamePrice} buystate={buyStatus}/>
+                <Buyplaybanner gamename={gameName.replaceAll('_',' ')}
+                               gameprice={gamePrice}
+                               buystate={buyStatus}
+                               gameId = {id}
+                />
             </div>
             {buyStatus &&
                 <div>

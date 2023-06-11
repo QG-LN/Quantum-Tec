@@ -6,10 +6,7 @@ export default function GameImage(props) {
     const imgList = props.imgList;
     const imgPath = props.imgPath;
 
-    console.log(imgList)
-
-    //
-
+    console.log(imgPath + "_" + imgList[0]);
     //큰 이미지 화면 초기값 설정
     const [selectImg, setSelectImg] = useState();
 
@@ -19,7 +16,7 @@ export default function GameImage(props) {
     }
 
     useEffect(() => {
-        setSelectImg(imgPath + "/" + imgList[0]);
+        setSelectImg(imgPath + "_" + imgList[0]);
     },[props.imgList])
 
 
@@ -57,7 +54,7 @@ export default function GameImage(props) {
                                     onChange ={handleInputImg}
                                     value={index}
                                 />
-                                <img class='max-w-none w-[160px] h-[90px]' src={imgPath + "/" + image} onClick={OnClickimg}/>
+                                <img class='max-w-none w-[160px] h-[90px]' src={imgPath + "_" + image} onClick={OnClickimg}/>
                             </label>
                         ))}
                     </fieldset>
