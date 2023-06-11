@@ -11163,9 +11163,7 @@ ul > ul > li > a {
 }
 
 .mypagestyle .recharts-wrapper .recharts-surface{
-  padding: 1%;
-  border: 1px solid #ccc;
-  
+  margin:0 auto;  
 }
 
 .mypagestyle .chartstyle {
