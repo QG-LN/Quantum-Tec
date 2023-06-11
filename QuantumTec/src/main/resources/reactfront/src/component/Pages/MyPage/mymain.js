@@ -24,6 +24,7 @@ export default function Mypage(){
                         {select ==='마이페이지' || select === '' ? (<MyMain select={select} setSelect={setSelect} />):(<div/>)}
                         {select ==='사용자설정' ? (<PasswordChk />):(<div/>)}
                         {select ==='개인정보변경' ? (<PasswordChk />):(<div/>)}
+                        {/*아바타 페이지 연결해주세요. 연결 후 삭제 플리즈 */}
                         {select ==='아바타설정' ? (<PasswordChk />):(<div/>)}
                         {select ==='결제방식' ? (<MyCash />):(<div/>)}
                         {select ==='회원탈퇴' ? (<Dismember />):(<div/>)}
