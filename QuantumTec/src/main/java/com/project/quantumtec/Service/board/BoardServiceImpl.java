@@ -56,31 +56,25 @@ public class BoardServiceImpl implements BoardService{
 
     // 다음 게시글 인덱스를 가져오고, 존재할 경우 해당 게시글 조회
     @Override
-    public ViewResponseDTO getNextPost(NavigateViewDTO request) {
+    public int getNextPost(NavigateViewDTO request) {
         int nextPostIndex = boardDAO.getNextPost(request); // 다음 게시글 인덱스 가져오기
         if (nextPostIndex > 0){ // 다음 게시글 존재하면
-            ViewDTO view = new ViewDTO();
-            view.setPostIndex(nextPostIndex); // 다음 게시글 인덱스 삽입
-            view.setUserIndex(request.getUserIndex()); // 유저 인덱스 삽입
-            return boardDAO.getPost(view); // 게시글 조회
+            return nextPostIndex;
         }
         else {
-            return null;
+            return 0;
         }
     }
 
     // 이전 게시글 인덱스를 가져오고, 존재할 경우 해당 게시글 조회
     @Override
-    public ViewResponseDTO getPrevPost(NavigateViewDTO request) {
+    public int getPrevPost(NavigateViewDTO request) {
         int prevPostIndex = boardDAO.getPrevPost(request); // 이전 게시글 인덱스 가져오기
         if (prevPostIndex > 0){ // 이전 게시글 존재하면
-            ViewDTO view = new ViewDTO();
-            view.setPostIndex(prevPostIndex); // 이전 게시글 인덱스 삽입
-            view.setUserIndex(request.getUserIndex()); // 유저 인덱스 삽입
-            return boardDAO.getPost(view); // 게시글 조회
+            return prevPostIndex;
         }
         else {
-            return null;
+            return 0;
         }
     }
 
