@@ -1,5 +1,8 @@
 package com.project.quantumtec.DTO.Response.board;
 
+import lombok.Data;
+
+@Data
 public class ViewResponseDTO {
     private String boardTitle;          //게시판 제목
     private String postTitle;           // 게시글 제목
