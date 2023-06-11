@@ -44,7 +44,11 @@
             </if>
         ; -->
         SELECT
-            g.DEVELOPER_INDEX,
+            (
+                select USER_NAME
+                from USER_INFO_TB u
+                where g.DEVELOPER_INDEX = u.USER_INDEX
+            ) as DEVELOPER_NAME,
             g.GAME_RELEASE_DATE,
             g.GAME_PRICE,
             g.GAME_DESCRIPTION,
@@ -64,29 +68,29 @@
                 FROM GAME_COMMENT_INFO_TB
                 WHERE GAME_INDEX = g.GAME_INDEX
             ) AS GAME_RATING
-            <if test="userID != null">,
-                UP.USERGAMEPLAY_PLAY_END_TIME,
+            <if test="userId != null">
+               ,UP.USERGAMEPLAY_PLAY_END_TIME,
                 UP.USERGAMEPLAY_TOTAL_PLAY_TIME
             </if>
         FROM
             GAME_INFO_TB g
-        <if test="userID != null">
+        <if test="userId != null">
             JOIN
                 USER_GAME_PLAY_TB UP ON g.GAME_INDEX = UP.GAME_INDEX
             JOIN
                 USER_INFO_TB U ON U.USER_INDEX = UP.USER_INDEX
         </if>
         WHERE
-            g.GAME_INDEX = #{gameIndex} AND
-            g.GAME_NAME = #{gameName} AND
-        <if test="userID != null">
-            U.USER_ID = #{userID};
+            g.GAME_INDEX = #{gameIndex}
+            AND g.GAME_NAME = #{gameName}
+        <if test="userId != null">
+            AND U.USER_ID = #{userId};
         </if>
 
     </select>
 
     <!-- 카테고리에 따른 관련 게임정보 불러오기(이미지,이름,가격,id) -->
-    <select id="getGameCategoryList" resultType="GameDTO">
+    <select id="getGameCategoryList" resultType="GameDetailsInfoDTO">
         SELECT g.GAME_INDEX, g.GAME_NAME, g.GAME_PRICE, g.GAME_IMAGE_LOCATION
         FROM GAME_INFO_TB g
         INNER JOIN GAME_CATEGORY_LINK_TB c ON g.GAME_INDEX = c.GAME_INDEX
