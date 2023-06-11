@@ -65,14 +65,13 @@ public class BoardController {
 
     // 다음 게시글 불러오기
     @PostMapping("/next")
-    public ViewResponseDTO getNextPost(@RequestBody NavigateViewDTO request) throws Exception {
-
+    public int getNextPost(@RequestBody NavigateViewDTO request) throws Exception {
         return boardService.getNextPost(request);
     }
 
     // 이전 게시글 불러오기
     @PostMapping("/prev")
-    public ViewResponseDTO getPrevPost(@RequestBody NavigateViewDTO request) throws Exception {
+    public int getPrevPost(@RequestBody NavigateViewDTO request) throws Exception {
         return boardService.getPrevPost(request);
     }
 
