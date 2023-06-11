@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BoardService">
     <select id="getPostSearchList" resultType="ListResponseDTO">
-        SELECT POST_INDEX, BOARD_NAME, POST_TITLE, 
+        SELECT POST_INDEX, BOARD_NAME, POST_TITLE,
             USER_NAME AS POST_AUTHOR, POST_CREATED_DATE AS POST_DATE,
             POST_VIEWS AS POST_VIEW, POST_UPVOTES
         FROM POST_INFO_TB P, USER_INFO_TB U, BOARD_LIST_TB B
@@ -12,13 +12,13 @@
             </if>
             AND P.BOARD_INDEX = B.BOARD_INDEX
             <choose>
-                <when test="searchType == 'title'">
+                <when test="searchType.getValue() == 'title'">
                     AND P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%')
                 </when>
-                <when test="searchType == 'author'">
+                <when test="searchType.getValue() == 'author'">
                     AND U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%')
                 </when>
-                <when test="searchType == 'title_author'">
+                <when test="searchType.getValue() == 'title_author'">
                     AND (P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%') OR U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%'))
                 </when>
                 <otherwise>
@@ -65,11 +65,11 @@
             AND BOARD_INDEX = #{boardIndex};
     </update>
     <delete id="deletePost" parameterType="DeleteDTO">
+        DELETE FROM POST_VOTE_TB
+        WHERE POST_INDEX = #{postIndex};
         DELETE FROM POST_INFO_TB
         WHERE POST_INDEX = #{postIndex}
             AND POST_AUTHOR_INDEX = #{userIndex};
-        DELETE FROM POST_VOTE_TB
-        WHERE POST_INDEX = #{postIndex};
     </delete>
     <select id="checkVote" resultType="String">
         SELECT POST_VOTE_CHECK FROM POST_VOTE_TB
@@ -147,13 +147,13 @@
             AND POST_INDEX = #{postIndex};
     </update>
     <delete id="deleteComment" parameterType="CommentDeleteDTO">
+        DELETE FROM COMMENT_VOTE_TB
+        WHERE COMMENT_INDEX = #{commentIndex}
+          AND USER_INDEX = #{userIndex}
+          AND POST_INDEX = #{postIndex};
         DELETE FROM COMMENT_INFO_TB
         WHERE COMMENT_INDEX = #{commentIndex}
             AND COMMENT_AUTHOR_INDEX = #{userIndex}
-            AND POST_INDEX = #{postIndex};
-        DELETE FROM COMMENT_VOTE_TB
-        WHERE COMMENT_INDEX = #{commentIndex}
-            AND USER_INDEX = #{userIndex}
             AND POST_INDEX = #{postIndex};
     </delete>
     <select id="checkCommentVote" resultType="String">
@@ -214,7 +214,7 @@
         WHERE
             <if test="boardIndex != 0">
                 BOARD_INDEX = #{boardIndex}
-                AND 
+                AND
             </if>
             POST_INDEX &gt; #{postIndex}
         ORDER BY POST_INDEX ASC
@@ -228,7 +228,7 @@
         WHERE
             <if test="boardIndex != 0">
                 BOARD_INDEX = #{boardIndex}
-                AND 
+                AND
             </if>
             POST_INDEX &lt; #{postIndex}
         ORDER BY POST_INDEX DESC
