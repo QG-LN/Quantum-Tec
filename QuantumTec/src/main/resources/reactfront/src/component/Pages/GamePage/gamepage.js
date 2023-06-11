@@ -81,7 +81,7 @@ const Relatedgame=[
 
 export default function GamePage() {
     //구매상태 초기값
-    const [buyStatus, setBuyStatus] = useState(true);
+    const [buyStatus, setBuyStatus] = useState(true);                       // 구매상태를 저장할 state
 
     const [comment, setComment] = useState('');
     const [activeImage, setActiveImage] = useState(0);
@@ -90,42 +90,47 @@ export default function GamePage() {
     const categray_1 = '카테고리2';
     const categray_2 = '카테고리3';
 
-    const {id, gameName} = useParams();                                       // url에서 게임번호와 이름을 가져옴
+    const {id, gameName} = useParams();                                                // url에서 게임번호와 이름을 가져옴
 
-    const [gameCategory, setGameCategory] = useState('');          // 게임의 카테고리를 저장할 state
-    const [gamePrice, setGamePrice] = useState(0);                 // 게임의 가격을 저장할 state
-    const [gameDescription, setGameDescription] = useState('');    // 게임의 설명을 저장할 state
-    const [gameReleaseDate, setGameReleaseDate] = useState('');    // 게임의 출시일을 저장할 state
-    const [gameUpdateDate, setGameUpdateDate] = useState('');      // 게임의 업데이트일을 저장할 state
-    const [gameDeveloper, setGameDeveloper] = useState('');        // 게임의 개발사를 저장할 state
-    const [gameGrade, setGameGrade] = useState(0);                 // 게임의 평점을 저장할 state
-    const [gameImagePath, setGameImagePath] = useState('');        // 게임의 이미지 경로를 저장할 state
-    const [gameMainImage, setGameMainImage] = useState('');        // 게임의 메인 이미지를 저장할 state
-    const [gameImageList, setGameImageList] = useState([]);        // 게임의 이미지를 저장할 state
-    const [gameFlatForm, setGameFlatForm] = useState('');          // 게임의 플랫폼을 저장할 state
-    const [gameGenre, setGameGenre] = useState([]);                // 게임의 장르를 저장할 state
+    const [gameCategory, setGameCategory] = useState('');                   // 게임의 카테고리를 저장할 state
+    const [gamePrice, setGamePrice] = useState(0);                          // 게임의 가격을 저장할 state
+    const [gameDescription, setGameDescription] = useState('');             // 게임의 설명을 저장할 state
+    const [gameShortDescription, setGameShortDescription] = useState('');   // 게임의 짧은 설명을 저장할 state
+    const [gameReleaseDate, setGameReleaseDate] = useState('');             // 게임의 출시일을 저장할 state
+    const [gameUpdateDate, setGameUpdateDate] = useState('');               // 게임의 업데이트일을 저장할 state
+    const [gameDeveloper, setGameDeveloper] = useState('');                 // 게임의 개발자를 저장할 state
+    const [gameGrade, setGameGrade] = useState(0);                          // 게임의 평점을 저장할 state
+    const [gameImagePath, setGameImagePath] = useState('');                 // 게임의 이미지 경로를 저장할 state
+    const [gameMainImage, setGameMainImage] = useState('');                 // 게임의 메인 이미지를 저장할 state
+    const [gameImageList, setGameImageList] = useState([]);                 // 게임의 이미지를 저장할 state
+    const [gameFlatForm, setGameFlatForm] = useState('');                   // 게임의 플랫폼을 저장할 state
+    const [gameGenre, setGameGenre] = useState([]);                         // 게임의 장르를 저장할 state
+
+    const [userGamePlayRecentPlayDate, setUserGamePlayRecentPlayDate] = useState('');    // 유저의 최근 플레이 시간을 저장할 state
+    const [userTotalPlayTime, setUserGamePlayTotalPlayTime] = useState('');                 // 유저의 총 플레이 시간을 저장할 state
 
     const imagePath = 'http://localhost:9090/image/game';                      // 이미지 경로
 
     useEffect(() => {
         // 로그인이 안되어있으면 구매버튼만 출력
         let checkLogin = localStorage.getItem("truelogin");
-        let userId = localStorage.getItem("userID");
+        let userId = localStorage.getItem("userID") || "";          // 로그인이 되어있으면 userId를 가져옴
         if (checkLogin !== "true") {
             setBuyStatus(false);
-        }else{
-            axios.get(`http://localhost:9090/user/buy?userId=${userId}&gameIndex=${id}`)
-                .then(response => {
-                    if(response.data === true) {
-                        setBuyStatus(true);
-                    }else {
-                        setBuyStatus(false);
-                    }
-                }).catch(error => {
-                    // 오류발생시 실행
-                })
-            setBuyStatus(false);    // 임시로 구매표시 세팅
         }
+        // else{
+        //     axios.get(`http://localhost:9090/user/buy?userId=${userId}&gameIndex=${id}`)
+        //         .then(response => {
+        //             if(response.data === true) {
+        //                 setBuyStatus(true);
+        //             }else {
+        //                 setBuyStatus(false);
+        //             }
+        //         }).catch(error => {
+        //             // 오류발생시 실행
+        //         })
+        //     setBuyStatus(true);    // 임시로 구매표시 세팅
+        // }
 
         axios.get(imagePath + "/list/test")
             .then(response =>  {
@@ -142,13 +147,15 @@ export default function GamePage() {
                 // 오류발생시 실행
             })
 
-        const path = `http://localhost:9090/game/info?id=${id}&name=${gameName}`
+        const path = `http://localhost:9090/game/info?id=${id}&name=${gameName}&userId=${userId}`;
         axios.get(path)
             .then(response =>  {
                 console.log(response)
+                // 게임 정보 저장
                 setGameCategory(response.data.gameCategoryName);
                 setGamePrice(response.data.gamePrice);
                 setGameDescription(response.data.gameDescription);
+                setGameShortDescription(response.data.gameShortDescription);
                 setGameReleaseDate(response.data.gameReleaseDate);
                 setGameUpdateDate(response.data.gameVersionUpdateDate);
                 setGameDeveloper(response.data.gameDeveloper);
@@ -156,10 +163,19 @@ export default function GamePage() {
                 // setGameImagePath(response.data.gameImage);
                 setGameFlatForm(response.data.gameFlatForm);
                 setGameGenre(response.data.gameGenre);
+                
+                // 유저의 플레이 정보 저장
+                setUserGamePlayRecentPlayDate(response.data.userRecentPlayTime);
+                setUserGamePlayTotalPlayTime(response.data.userGamePlayTotalPlayTime);
 
-            }).catch(error => {
-            // 오류발생시 실행
-            })
+                // 유저의 총 플레이 시간이 null이 아니라면 [즉 게임을 구매한 상태라면]
+                if(userTotalPlayTime.equals("") === false) {
+                    setBuyStatus(true);     // 구매상태 true
+                }
+
+                }).catch(error => {
+                // 오류발생시 실행
+                })
 
     },[])
 
