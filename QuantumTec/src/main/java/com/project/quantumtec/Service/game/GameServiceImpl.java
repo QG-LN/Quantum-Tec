@@ -1,10 +1,7 @@
 package com.project.quantumtec.Service.game;
 
 import com.project.quantumtec.DAO.game.GameDAO;
-import com.project.quantumtec.DTO.game.GameDTO;
-import com.project.quantumtec.DTO.game.GameSearchDTO;
-import com.project.quantumtec.DTO.game.GameSearchRequestDTO;
-import com.project.quantumtec.DTO.game.GameSearchResponseDTO;
+import com.project.quantumtec.DTO.game.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +22,7 @@ public class GameServiceImpl implements GameService{
     }
 
     @Override
-    public GameDTO getGameInfo(GameSearchDTO gameSearchDTO) {
+    public GameDetailsInfoDTO getGameInfo(GameSearchDTO gameSearchDTO) {
 
         return gameDAO.getGameInfo(gameSearchDTO);
     }
