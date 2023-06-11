@@ -189,20 +189,36 @@
         WHERE COMMENT_INDEX = #{commentIndex}
             AND POST_INDEX = #{postIndex};
     </insert>
-    <!-- <select id="getNextPost" resultType="int">
-        select *
-        from GAME_INFO_TB
-        where GAME_INDEX > #{postIndex}
-        order by GAME_INDEX asc
-            limit 0,1;
-         여기서 현재 보고있는 게시판 종류에 해당하는 다음 게시글로 받아와야 하는 조건도 추가해주세욥
+
+    <!-- 현재 보고있는 게시판의 다음 postIndex 불러오는 쿼리 -->
+    <!-- boardIndex
+        1 = 자유게시판
+        2 = 튜터링
+        3 = 공지사항-->
+    <select id="getNextPost" resultType="int">
+        SELECT POST_INDEX
+        FROM POST_INFO_TB
+        WHERE
+            <if test="boardIndex != 0">
+                BOARD_INDEX = #{boardIndex}
+                AND 
+            </if>
+            POST_INDEX &gt; #{postIndex}
+        ORDER BY POST_INDEX ASC
+        LIMIT 1;
     </select>
+
+    <!-- 현재 보고있는 게시판의 이전 postIndex 불러오는 쿼리 -->
     <select id="getPrevPost" resultType="int">
-        select *
-        from GAME_INFO_TB
-        where GAME_INDEX < #{postIndex}
-        order by GAME_INDEX desc
-            limit 0,1;
-        여기서 현재 보고있는 게시판 종류에 해당하는 이전 게시글로 받아와야 하는 조건도 추가해주세욥
-    </select> -->
+        SELECT POST_INDEX
+        FROM POST_INFO_TB
+        WHERE
+            <if test="boardIndex != 0">
+                BOARD_INDEX = #{boardIndex}
+                AND 
+            </if>
+            POST_INDEX &lt; #{postIndex}
+        ORDER BY POST_INDEX DESC
+        LIMIT 1;
+    </select>
 </mapper>
