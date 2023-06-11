@@ -68,6 +68,8 @@
         DELETE FROM POST_INFO_TB
         WHERE POST_INDEX = #{postIndex}
             AND POST_AUTHOR_INDEX = #{userIndex};
+        DELETE FROM POST_VOTE_TB
+        WHERE POST_INDEX = #{postIndex};
     </delete>
     <select id="checkVote" resultType="String">
         SELECT POST_VOTE_CHECK FROM POST_VOTE_TB
@@ -148,6 +150,10 @@
         DELETE FROM COMMENT_INFO_TB
         WHERE COMMENT_INDEX = #{commentIndex}
             AND COMMENT_AUTHOR_INDEX = #{userIndex}
+            AND POST_INDEX = #{postIndex};
+        DELETE FROM COMMENT_VOTE_TB
+        WHERE COMMENT_INDEX = #{commentIndex}
+            AND USER_INDEX = #{userIndex}
             AND POST_INDEX = #{postIndex};
     </delete>
     <select id="checkCommentVote" resultType="String">
