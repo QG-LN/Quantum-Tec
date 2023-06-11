@@ -80,4 +80,15 @@
         </if>
 
     </select>
+
+    <!-- 카테고리에 따른 관련 게임정보 불러오기(이미지,이름,가격,id) -->
+    <select id="getGameCategoryList" resultType="GameDTO">
+        SELECT g.GAME_INDEX, g.GAME_NAME, g.GAME_PRICE, g.GAME_IMAGE_LOCATION
+        FROM GAME_INFO_TB g
+        INNER JOIN GAME_CATEGORY_LINK_TB c ON g.GAME_INDEX = c.GAME_INDEX
+        INNER JOIN GAME_CATEGORY_TB cn ON c.GAME_CATEGORY_ID = cn.GAME_CATEGORY_ID
+        WHERE cn.GAME_CATEGORY_NAME = #{gameCategoryName}
+        ORDER BY g.GAME_VERSION_UPDATE_DATE DESC
+        LIMIT #{startIndex}, #{endIndex};
+    </select>
 </mapper>
