@@ -41,7 +41,7 @@ export default function Footer(){
 
         <ul class='flex'>
         {nav_1.map((item, index) => (
-                                  <li class='text-xl hover:cursor-pointer px-2' key={index} ><a class=' no-underline text-white text-base' href={item.link}>{item.text}</a> 
+                                  <li class='text-xl hover:cursor-pointer px-2' key={index} ><a class=' no-underline text-white text-base opacity-70' href={item.link}>{item.text}</a>
                                   <span class='ml-3 text-white text-xl opacity-30'>|</span>
                                 </li>
                                ))}
@@ -49,7 +49,7 @@ export default function Footer(){
         </ul>
         <ul class='flex mt-[-15px]'>
         {nav_2.map((item, index) => (
-                                  <li class='text-xl hover:cursor-pointer px-2' key={index}><a class=' no-underline text-white text-base' href={item.link}>{item.text}</a> 
+                                  <li class='text-xl hover:cursor-pointer px-2' key={index}><a class=' no-underline text-white text-base opacity-70' href={item.link}>{item.text}</a>
                                   <span class='ml-3 text-white text-xl opacity-30'>|</span>
                                 </li>
                                ))}
