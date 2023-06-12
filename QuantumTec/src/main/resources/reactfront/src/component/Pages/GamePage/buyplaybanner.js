@@ -1,8 +1,7 @@
 export default function Buyplaybanner(props) {
 
     const id = props.gameId;
-    const userGamePlayTotalPlayTime = props.userGamePlayTotalPlayTime;
-    const userGamePlayEndTime = props.userGamePlayEndTime;
+
 
     
     const gameBuy = () => {
@@ -59,10 +58,10 @@ export default function Buyplaybanner(props) {
                             <div class='flex'>
                                 <h2 class='m-auto w-[60%] text-2xl border-none text-start ps-5'>{/*{props.gamename}*/}
                                     <div className="text-sm ps-2 mt-1">
-                                        최근 플레이 이력 : {userGamePlayTotalPlayTime || '플레이 이력 없음'}
+                                        최근 플레이 이력 : {props.userGamePlayTotalPlayTime || '플레이 이력 없음'}
                                     </div>
                                     <div className="text-sm ps-2 mt-1">
-                                        플레이타임 : {userGamePlayEndTime || 0} 시간
+                                        플레이타임 : {props.userGamePlayEndTime || 0} 시간
                                     </div>
                                 </h2>
                                 <div class='m-auto w-[40%] border-none'>
