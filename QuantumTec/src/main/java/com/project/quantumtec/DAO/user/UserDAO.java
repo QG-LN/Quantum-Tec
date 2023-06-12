@@ -1,6 +1,7 @@
 package com.project.quantumtec.DAO.user;
 
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.VO.user.UserVO;
 
@@ -50,4 +51,7 @@ public interface UserDAO {
 
     // 사용자 비밀번호 초기화
     public boolean changePw(String userName, String userEmail, String userID, String userPW) throws Exception;
+
+    // 사용자의 게임 목록 가져오기
+    public List<MyGameListResponseDTO> getMyGameList(String userID) throws Exception;
 }
