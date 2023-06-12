@@ -38,6 +38,8 @@ export default function GamePage() {
 
     const [comment, setComment] = useState('');
     const [commentList, setCommentList] = useState([]);                // 댓글 리스트를 저장할 state
+    const [categoryGameList, setCategoryGameList] = useState([]);      // 카테고리 게임 리스트를 저장할 state
+
     const [activeImage, setActiveImage] = useState(0);
     const [usergrade,setUserGrade] = useState('0');
     const categray_0 = '카테고리1';
@@ -70,6 +72,7 @@ export default function GamePage() {
 
     const imagePath = 'http://localhost:9090/image/game';                      // 이미지 경로
     const imageListPath = 'http://localhost:9090/image/game/list';              // 이미지 리스트 경로
+    const defaultImage = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"; // 이미지가 없을 경우 기본 이미지
 
     /**
      * 최초 렌더링을 제외한 렌더링에서만 실행되는 useEffect
@@ -155,6 +158,24 @@ export default function GamePage() {
         setGameMainImage(`${imagePath}/${mainImagePath}`);
     },[gameImageList])
 
+
+    useDidMountEffect(() => {
+        const categoryGamePath = 'http://localhost:9090/game/info/sameCategory';
+        const categoryBody = {
+            gameCategoryName : gameCategoryName,
+            startIndex: 0,
+            endIndex  : 12,
+        }
+        axiosRequest(categoryGamePath, categoryBody, 'POST', 'list')
+            .then(res => {
+                // 현재 게임을 제외한 게임들만 저장
+                const data = res.filter(item => item.gameName !== gameName.replaceAll("_", " "));
+                console.log(data);
+                setCategoryGameList(data);                                          // 카테고리 게임 리스트 저장
+            })
+
+    },[gameCategoryName])
+
 //평점
     const handleInputGrade = (e) => {
       setUserGrade(e.target.value);
@@ -182,6 +203,12 @@ export default function GamePage() {
     setUserGrade('0');
   }
 
+  // 게임 페이지로 이동하기 위한 함수
+  const gameLink = (id, name) => {
+        console.log(id, name);
+      const gameName = name.replaceAll(" ", "_");
+      window.open(`/game/${id}/${gameName}/`);
+  }
 
 
 
@@ -276,12 +303,17 @@ export default function GamePage() {
                         <div className="image-slider flex">
                             <fieldset class='imgButtonStyle flex'>
                                 <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] '></legend>
-                                {Relatedgame.map((image, index) => (
+                                {categoryGameList.map((image, index) => (
                                     <label className='hover:cursor-pointer w-[320px] h-[240px] m-2'>
-                                        <input type="radio" class='hidden' name='subimg' id='subimg' onChange={handleInputImg} value={index}/>
-                                        <img class='max-w-none w-[320px] h-[180px]'src={image.Rgameimg} value={image.Rgameurl} />
-                                        <div class='mt-2 font-bold'>{image.Rgamename}</div>
-                                        <div>{image.Rgameprice}</div>
+                                        <input type="radio" class='hidden' name='subimg' id='subimg'
+                                               onChange={handleInputImg}
+                                               value={index}
+                                               onClick={()=>gameLink(image.gameIndex,image.gameName) }/>
+                                        <img class='max-w-none w-[320px] h-[180px]'
+                                             src={image.gameImageLocation || defaultImage }
+                                             value={ `http://localhost:9090/game${image.gameIndex}/${image.gameName}`}/>
+                                        <div class='mt-2 font-bold'>{image.gameName}</div>
+                                        <div>{image.gamePrice}</div>
                                     </label>
 
                                 ))}
