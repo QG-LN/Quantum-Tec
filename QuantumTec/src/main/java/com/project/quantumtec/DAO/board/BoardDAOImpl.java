@@ -78,7 +78,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean deletePost(DeleteDTO request) {
+    public boolean deletePost(DeleteDTO request) { // 게시글 삭제 성공해도 false 반환하는 중...
         try {
             // 게시물 삭제
             return sqlSession.delete("BoardService.deletePost", request) > 0;
