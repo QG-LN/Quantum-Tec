@@ -12,4 +12,6 @@ public interface GameDAO {
     public GameDetailsInfoDTO getGameInfo(GameSearchDTO gameSearchDTO);
 
     public List<GameCommentDTO> getPostGameComment(GameCommentListDTO request);
+
+    public List<GameCategoryListInfoDTO> getGameCategoryInfo(GameCategoryListRequestDTO request);
 }

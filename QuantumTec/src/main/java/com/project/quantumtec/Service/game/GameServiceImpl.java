@@ -35,4 +35,9 @@ public class GameServiceImpl implements GameService{
         return gameDAO.getPostGameComment(request);
     }
 
+    @Override
+    public List<GameCategoryListInfoDTO> getGameCategoryInfo(GameCategoryListRequestDTO request) {
+        return gameDAO.getGameCategoryInfo(request);
+    }
+
 }
