@@ -26,16 +26,16 @@
             </choose>
         <choose>
             <when test="sortType.getValue() == 'latest'">
-                ORDER BY POST_CREATED_DATE DESC
+                ORDER BY POST_CREATED_DATE DESC, POST_INDEX DESC
             </when>
             <when test="sortType.getValue()  == 'past'">
-                ORDER BY POST_CREATED_DATE ASC
+                ORDER BY POST_CREATED_DATE ASC, POST_INDEX DESC
             </when>
             <when test="sortType.getValue()  == 'upvote'">
-                ORDER BY POST_UPVOTES DESC
+                ORDER BY POST_UPVOTES DESC, POST_INDEX DESC
             </when>
             <otherwise>
-                ORDER BY POST_CREATED_DATE DESC
+                ORDER BY POST_CREATED_DATE DESC, POST_INDEX DESC
             </otherwise>
         </choose>
         LIMIT #{startIndex}, #{endIndex};
