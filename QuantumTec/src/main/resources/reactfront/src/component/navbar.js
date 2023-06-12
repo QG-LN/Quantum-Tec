@@ -1,6 +1,7 @@
 import '../App.css';
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
+import Logo from './Pages/MainPage/BringUP_LOGO.png';
 import '../App.js';
 // import React, { useState, useEffect } from "react";
 import json from './b.json';
@@ -66,7 +67,9 @@ export default function Navbar() {
             <nav className="navbar navbar-expand-lg navbar-light bg-light" style={{zIndex: '3'}}>
                 <div class="block w-[100%] relative mt-1">
                     {/*로고(클릭시 메인화면)*/}
-                    <a class="navbar-brand hover:cursor-pointer" onClick={logoClick}>로고 위치(상표)</a>
+                    <a class="navbar-brand hover:cursor-pointer mb-2" onClick={logoClick}>
+                        <img className='w-[10%] mt-[-4px] absolute left-[45.3%]' src={Logo}></img>
+                    </a>
                     <form class="log_info d-flex justify-end absolute top-0 right-0 mr-10 ">
                         {/*{getUsername()}*/}
                         {/*{getMyCash()}*/}
