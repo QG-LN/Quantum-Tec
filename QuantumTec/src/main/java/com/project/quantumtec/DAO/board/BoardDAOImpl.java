@@ -4,6 +4,9 @@ import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
+
+import ch.qos.logback.classic.pattern.SyslogStartConverter;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -176,7 +179,11 @@ public class BoardDAOImpl implements BoardDAO {
     public boolean deleteComment(CommentDeleteDTO request) {
         try {
             // 댓글 작성
-            return sqlSession.insert("BoardService.deleteComment", request) > 0;
+            String check = sqlSession.selectOne("BoardService.checkCommentVote", request);
+            if (check != null) {
+                sqlSession.delete("BoardService.deleteCommentVote", request);
+            }
+            return sqlSession.delete("BoardService.deleteComment", request) > 0;
         } catch (Exception e) {
             return false;
         }
