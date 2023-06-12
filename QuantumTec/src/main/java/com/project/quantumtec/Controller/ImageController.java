@@ -27,7 +27,7 @@ public class ImageController {
     @GetMapping("/game/{path:.+}")
     public Resource getImage(@PathVariable(value = "path") String imagePath) {
         try{
-            imagePath = imagePath.replace("_", "/");            // _을 /로 변경
+            imagePath = imagePath.replaceAll("_", "/");            // _을 /로 변경
             String path = "static/images/"+ imagePath;
             return new ClassPathResource(path);
         }catch (Exception e){

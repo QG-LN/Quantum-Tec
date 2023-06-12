@@ -310,7 +310,7 @@ export default function GamePage() {
                                                value={index}
                                                onClick={()=>gameLink(image.gameIndex,image.gameName) }/>
                                         <img class='max-w-none w-[320px] h-[180px]'
-                                             src={image.gameImageLocation || defaultImage }
+                                             src={ `http://localhost:9090/image/game/games_${image.gameIndex}_0.png` }
                                              value={ `http://localhost:9090/game${image.gameIndex}/${image.gameName}`}/>
                                         <div class='mt-2 font-bold'>{image.gameName}</div>
                                         <div>{image.gamePrice}</div>
