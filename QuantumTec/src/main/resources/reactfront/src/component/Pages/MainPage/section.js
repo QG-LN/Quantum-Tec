@@ -140,7 +140,7 @@ export default function Section() {
             <h2 class='h-[28px] text-[#17191d] text-[24px] text-left mb-4 font-bold'>전체 게임</h2>
             <div class='absolute top-[-10px] right-[0px]'>
                 <fieldset>
-                    <input class='w-[302px] h-[44px] pr-[3px] pl-[3px] mr-0 border-b-2' type='text'
+                    <input class='w-[302px] h-[44px] pr-[3px] pl-[3px] mr-0 border-b-2 bg-[#f2f2f2]' type='text'
                            placeholder='게임명 검색'onChange={handleSearch} value={search}></input>
                     <button type='button' class='absolute right-0 w-[44px] h-[44px]' onClick={onClickSearch}>
                         <span class='inline-block w-[40px] h-[40px] rounded-full'>
@@ -151,7 +151,7 @@ export default function Section() {
             <div>
             </div>
             <section>
-                <div class=' bg-white relative pt-[20px] pr-[30px] pb-[30px] pl-[3px]  text-center'>
+                <div class=' bg-white relative pt-[20px] pr-[30px] pb-[30px] pl-[3px]  text-center rounded-md'>
 
                     <fieldset class='radioButtonStyle'>
                         <legend class='absolute overflow-hidden h-1 w-1 m-[-1px]'></legend>
