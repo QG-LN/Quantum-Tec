@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import {axiosRequest} from '../../../module/networkUtils';
+import {useParams} from "react-router-dom";
 
 const ITEMS_PER_PAGE = 10; // 페이지 당 아이템 수
 export default function Board() {
@@ -13,25 +14,70 @@ export default function Board() {
     const [Categories, setCategories] = useState([]);
     // 현재 페이지 넘버
     const [currentPage, setCurrentPage] = useState(1);
+    const [boardName, setBoardName] = useState("게시판");
+    const [boardType , setBoardType] = useState('0');                       // 현재 게시판 정보
+    const [sortType, setSortType] = useState("최신순");            // 현재 정렬 방식
+
+
+    const boardId = useParams();
     
     /////////////////////////// 수정 부탁
 
     // 카테고리 리스트 불러오기
-    const getCategory = async () => {
-        try{
-            const path = 'http://localhost:9090/board/category';
-            const data = await axiosRequest(path,{},'GET','json');
-            setCategories(data);
-        }catch (e){
-            console.log(e);
+    useEffect(() => {
+        // getCategory();
+
+    }, []);
+
+    // 게시판 타입 변경
+    useEffect(() => {
+        setBoardType(boardId);
+    }, [boardType])
+
+
+    // 현재 로드된 게시판 id값에 따라 게시판 이름 변경
+    useEffect(() => {
+        console.log(boardType.id)
+        switch (boardType.id) {
+            case '0':
+                setBoardName('전체');
+                break;
+            case '1':
+                setBoardName('자유');
+                break;
+            case '2':
+                setBoardName('튜터링');
+                break;
+            case '3':
+                setBoardName('공지사항');
+                break;
         }
+    },[boardType]);
+
+    // 카테고리 리스트 불러오기
+    const getCategory = async () => {
+        // try{
+        //     const path = 'http://localhost:9090/board/category';
+        //     const data = await axiosRequest(path,{},'GET','json');
+        //     setCategories(data);
+        // }catch (e){
+        //     console.log(e);
+        // }
     }
     // 게시글 리스트 불러오기
     useEffect(() => {
-        axios.get(`/api/boards?page=${currentPage}&size=${ITEMS_PER_PAGE}`)
-            .then(response => setPosts(response.data))
-            .catch(error => console.error(error));
-        
+        // axios.get(`/api/boards?page=${currentPage}&size=${ITEMS_PER_PAGE}`)
+        //     .then(response => setPosts(response.data))
+        //     .catch(error => console.error(error));
+
+        // const path = 'http://localhost:9090/board/list';
+        // const body ={
+        //     pageNum : currentPage,
+        //     boardIndex : boardId
+        //
+        // }
+        // axiosRequest(path)
+        //
         // 게시글 리스트 더미 파일
         for (let i = 0 + (10 * (currentPage -1)); i < 10 * currentPage; i++) {
             const newPost = {
@@ -62,12 +108,8 @@ export default function Board() {
         tableBody.current.innerHTML = tempHTML;
     }, [currentPage]);
 
-    // 카테고리 리스트 불러오기
-    useEffect(() => {
-        getCategory();
-    }, []);
     ////////////////////////////
-    
+
     // 페이지네이션 함수
     const handlePageChange = (pageNumber) => {
         setPosts([]);
@@ -111,19 +153,19 @@ export default function Board() {
     Posts.totalItems = 110;
       return (
         <div className="container">
-            <h1>게시판</h1>
+            <h1>{boardName}</h1>
 
             <div class="row justify-content-around g-2 mt-1">
                 <div class="row justify-content-start g-3 mt-1 col-6 p-0">
                     <div class="dropdown col-auto">
                         <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            전체
+                            {boardName}
                         </button>
                         <ul class="dropdown-menu w-[100%]" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item active" href="#">전체</a></li>
-                            <li><a class="dropdown-item" href="#">자유게시판</a></li>
-                            <li><a class="dropdown-item" href="#">튜터링</a></li>
-                            <li><a class="dropdown-item" href="#">공지사항</a></li>
+                            <li><a class="dropdown-item active" href="/board/0">전체</a></li>
+                            <li><a class="dropdown-item" href="/board/1">자유</a></li>
+                            <li><a class="dropdown-item" href="/board/2">튜터링</a></li>
+                            <li><a class="dropdown-item" href="/board/3">공지사항</a></li>
                         </ul>
                     </div>
                     <div class="dropdown col-auto">
