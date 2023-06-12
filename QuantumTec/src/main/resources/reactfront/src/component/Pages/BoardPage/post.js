@@ -15,6 +15,7 @@ export default function Post() {
     const [page, setPage] = useState(1)
     const [ref, inView] = useInView()
     const [loading, setLoading] = useState(false)
+    const [reflash, setReflash] = useState(false)
     
     //modal
     const [show, setShow] = useState(false);
@@ -36,6 +37,19 @@ export default function Post() {
         }
         axiosRequest(path,body,'POST','json')
     }, []);
+
+
+    useEffect(() => {
+        setLoading(true)
+        const path = 'http://localhost:9090/board/view';
+        const body ={
+            postIndex: id,
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                setPost(res);
+            })
+    }, [reflash]);
 
     useEffect(() => {
         setLoading(true)
