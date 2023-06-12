@@ -19,6 +19,7 @@ export default function Board() {
     const [sortName, setSortName] = useState("최신순");
     const [boardType , setBoardType] = useState('0');               // 현재 게시판 정보
     const [sortType, setSortType] = useState("latest");            // 현재 정렬 방식
+    const [searchType, setSearchType] = useState("title");         // 현재 검색 방식
 
 
     const [postCount, setPostCount] = useState(0);                 // 게시글 수
@@ -30,31 +31,10 @@ export default function Board() {
 
     // 카테고리 리스트 불러오기
     useEffect(() => {
-        // getCategory();
-        const path = 'http://localhost:9090/board/listCount';
-        const body ={
-            pageNum : currentPage,
-            boardIndex : boardType.id,
-            sortType: sortType,
-            searchType : 'title',
-            searchKeyword : ''
-        }
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                console.log(res);
-                setPostCount(res);
-            })
-
-    }, []);
-
-    useEffect(() => {
-
-    },[postCount]);
-
-    // 게시판 타입 변경
-    useEffect(() => {
         setBoardType(boardId);
-    }, [boardType])
+        // getCategory();
+        postListCount();
+    }, []);
 
 
     // 현재 로드된 게시판 id값에 따라 게시판 이름 변경
@@ -108,14 +88,14 @@ export default function Board() {
         // axios.get(`/api/boards?page=${currentPage}&size=${ITEMS_PER_PAGE}`)
         //     .then(response => setPosts(response.data))
         //     .catch(error => console.error(error));
-        console.log(currentPage);
+        console.log(currentPage, boardType.id, sortType, searchType, '');
 
         const path = 'http://localhost:9090/board/list';
         const body ={
             pageNum : currentPage,
             boardIndex : boardType.id,
             sortType: sortType,
-            searchType : 'title',
+            searchType : searchType,
             searchKeyword : ''
         }
         axiosRequest(path,body,'POST','json')
@@ -162,6 +142,7 @@ export default function Board() {
     // 페이지네이션 함수
     const handlePageChange = (pageNumber) => {
         setPosts([]);
+        postListCount();
         setCurrentPage(pageNumber);
     };
     // 페이지네이션 다음 버튼 함수
@@ -186,6 +167,24 @@ export default function Board() {
             ul.style.display = "none";
         else
             ul.style.display = "block";
+    }
+
+
+    // 게시글 수 불러오기
+    const postListCount = () =>{
+        const path = 'http://localhost:9090/board/listCount';
+        const body ={
+            pageNum : currentPage,
+            boardIndex : boardType.id,
+            sortType: sortType,
+            searchType : searchType,
+            searchKeyword : ''
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                console.log(res);
+                setPostCount(res);
+            })
     }
 
     const test = (e) => {
