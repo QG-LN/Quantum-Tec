@@ -98,6 +98,11 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public int getCommentCount(int postIndex) {
+        return boardDAO.getCommentCount(postIndex);
+    }
+
+    @Override
     public boolean writeComment(CommentWriteDTO request) {
         return boardDAO.writeComment(request);
     }
