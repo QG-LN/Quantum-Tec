@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {axiosRequest} from '../../../module/networkUtils';
 import { useParams } from 'react-router-dom';
 import { faX, faWrench } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,6 +28,13 @@ export default function Post() {
     // 더미
     // 백엔드 통신 추가해야함.
     const maxContentLength = 15;
+
+    useEffect(() => {
+        const path = 'http://localhost:9090/board/view';
+        const body ={
+            postIndex: id,
+        }
+    }, []);
 
     useEffect(() => {
         setLoading(true)

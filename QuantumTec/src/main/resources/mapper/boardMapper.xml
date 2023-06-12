@@ -259,4 +259,11 @@
         ORDER BY POST_INDEX DESC
         LIMIT 1;
     </select>
+
+    <!-- 게시글 조회수 상승 -->
+    <update id="viewCountUp" parameterType="ViewDTO">
+        UPDATE POST_INFO_TB
+        SET POST_VIEWS = POST_VIEWS + 1
+        WHERE POST_INDEX = #{postIndex};
+    </update>
 </mapper>
