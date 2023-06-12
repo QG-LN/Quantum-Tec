@@ -156,6 +156,11 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
+    public int getCommentCount(int postIndex) { // 댓글 갯수 불러오기
+        return sqlSession.selectOne("BoardService.getCommentCount", postIndex);
+    }
+
+    @Override
     public boolean writeComment(CommentWriteDTO request) {
         try {
             // 댓글 작성

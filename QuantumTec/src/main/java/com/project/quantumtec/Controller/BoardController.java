@@ -1,16 +1,14 @@
 package com.project.quantumtec.Controller;
 
 
+import ch.qos.logback.core.model.Model;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 import com.project.quantumtec.Service.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -88,8 +86,14 @@ public class BoardController {
 
     // 댓글 불러오기
     @PostMapping("/commentList")
-    public List<CommentListResponseDTO> getCommentList(@RequestBody com.project.quantumtec.DTO.Request.board.CommentListDTO request){
+    public List<CommentListResponseDTO> getCommentList(@RequestBody CommentListDTO request){
         return boardService.getCommentList(request);
+    }
+
+    // 해당 게시글의 총 댓글 수
+    @PostMapping("/commentCount")
+    public int getCommentCount(@RequestParam("postIndex") int postIndex){
+        return boardService.getCommentCount(postIndex);
     }
 
     // 댓글 작성

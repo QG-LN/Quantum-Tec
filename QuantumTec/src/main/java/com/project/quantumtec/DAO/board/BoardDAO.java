@@ -45,6 +45,9 @@ public interface BoardDAO {
     // 댓글 리스트
     public List<CommentListResponseDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request);
 
+    // 해당 게시글의 총 댓글 수
+    public int getCommentCount(int request);
+
     // 댓글 작성
     public boolean writeComment(CommentWriteDTO request);
 
