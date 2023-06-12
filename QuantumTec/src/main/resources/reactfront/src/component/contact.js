@@ -25,6 +25,12 @@ export default function Contact() {
 
                         <nav className="flex flex-col list-none">
                             <li className="nav-item">
+                                <a className="px-3 py-2 flex items-center text-xl uppercase font-bold leading-snug text-black hover:opacity-75 no-underline" href="/board/0">
+                                    <i className="fab fa-facebook-square text-xs leading-lg text-black opacity-75"/>
+                                    <span className="ml-2">전체 게시판</span>
+                                </a>
+                            </li>
+                            <li className="nav-item">
                                 <a className="px-3 py-2 flex items-center text-xl uppercase font-bold leading-snug text-black hover:opacity-75 no-underline" href="/board/1">
                                     <i className="fab fa-facebook-square text-xs leading-lg text-black opacity-75"/>
                                     <span className="ml-2">자유 게시판</span>

@@ -88,7 +88,7 @@ function MyPage(){
 }
 function Board(){
   return (
-    <div className="Board" style={{ height: "90vh" }}>
+    <div className="Board mt-[10vh]" style={{ height: "90vh" }}>
         <BoardPage />
     </div>
   )
