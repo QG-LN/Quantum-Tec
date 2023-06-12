@@ -46,7 +46,7 @@ export default function AvatarSide(props) {
                 카테고리
             </div>
             {avatarCategory.map((category) => (
-                <div className='d-flex align-items-center shop-category' id={category.name} onClick={props.onClick}>
+                <div className='d-flex align-items-center shop-category hover:cursor-pointer' id={category.name} onClick={props.onClick}>
                     <div className='w-[15%] m-2 me-0 placeholder-glow'>
                         <div class="placeholder ratio ratio-1x1 rounded"></div>
                         {/* <img className="rounded " src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' alt="..." /> */}
