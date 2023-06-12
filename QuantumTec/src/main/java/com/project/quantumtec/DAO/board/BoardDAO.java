@@ -12,8 +12,14 @@ public interface BoardDAO {
     // 게시물 리스트 불러오기 (검색 포함)
     public List<ListResponseDTO> getPostSearchList(ListDTO request);
 
+    // 게시물 리스트 갯수
+    public int getPostCount( ListDTO request);
+
     // 게시물 조회
     public ViewResponseDTO getPost(ViewDTO request);
+
+    // 게시물 조회수 증가
+    public boolean viewCountUp(ViewDTO request);
 
     // 게시물 작성
     public boolean writePost(WriteDTO request);
@@ -38,6 +44,9 @@ public interface BoardDAO {
 
     // 댓글 리스트
     public List<CommentListResponseDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request);
+
+    // 해당 게시글의 총 댓글 수
+    public int getCommentCount(CommentCountDTO request);
 
     // 댓글 작성
     public boolean writeComment(CommentWriteDTO request);
