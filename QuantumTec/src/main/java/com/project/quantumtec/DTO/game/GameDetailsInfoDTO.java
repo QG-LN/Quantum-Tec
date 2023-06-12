@@ -27,6 +27,6 @@ public class GameDetailsInfoDTO {
     private String gameRating;              // 게임 등급
 
 
-    private String userGamePlayEndTime;  // 유저가 최근에 플레이한 날짜
+    private String userGamePlayRecentPlayDateTime;  // 유저가 최근에 플레이한 날짜
     private String userGamePlayTotalPlayTime ;  // 유저가 총 플레이한 시간
 }
