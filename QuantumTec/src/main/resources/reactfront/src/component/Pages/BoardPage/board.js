@@ -17,9 +17,11 @@ export default function Board() {
     const [currentPage, setCurrentPage] = useState(1);
     const [boardName, setBoardName] = useState("게시판");
     const [sortName, setSortName] = useState("최신순");
+    const [searchName, setSearchName] = useState("제목");
     const [boardType , setBoardType] = useState('0');               // 현재 게시판 정보
     const [sortType, setSortType] = useState("latest");            // 현재 정렬 방식
     const [searchType, setSearchType] = useState("title");         // 현재 검색 방식
+    const [searchKeyword, setSearchKeyword] = useState("");        // 현재 검색 키워드
 
 
     const [postCount, setPostCount] = useState(0);                 // 게시글 수
@@ -58,6 +60,21 @@ export default function Board() {
         }
     }, [sortType]);
 
+    useEffect(() => {
+        console.log(searchType);
+
+        switch (searchType) {
+            case 'title':
+                setSearchName('제목');
+                break;
+            case 'author':
+                setSearchName('작성자');
+                break;
+            case 'title_author':
+                setSearchName('제목 + 작성자');
+        }
+    }, [searchType]);
+
     // 게시판 타입을 받아 게시판 이름으로 변환
     const boardTypeToName = (boardType) => {
         switch (boardType) {
@@ -88,24 +105,24 @@ export default function Board() {
         // axios.get(`/api/boards?page=${currentPage}&size=${ITEMS_PER_PAGE}`)
         //     .then(response => setPosts(response.data))
         //     .catch(error => console.error(error));
-        console.log(currentPage, boardType.id, sortType, searchType, '');
+        console.log(currentPage, boardId.id, sortType, searchType, '');
 
         const path = 'http://localhost:9090/board/list';
         const body ={
             pageNum : currentPage,
-            boardIndex : boardType.id,
+            boardIndex : parseInt(boardId.id),
             sortType: sortType,
             searchType : searchType,
-            searchKeyword : ''
+            searchKeyword : searchKeyword
         }
         axiosRequest(path,body,'POST','json')
             .then(res=>{
                 console.log(res);
+                setPosts([]);
                 for (let i = 0; i < res.length; i++) {
-                    const boardTitle = boardTypeToName(res[i].boardTitle.toString());
                     const newPost = {
-                        id: i + (currentPage - 1) * 10 + 1,
-                        board: boardTitle,
+                        id: res[i].postIndex,
+                        board: res[i].boardTitle,
                         title: res[i].postTitle,
                         writer: res[i].postAuthor,
                         createdDate: res[i].postDate,
@@ -114,7 +131,6 @@ export default function Board() {
                     };
                     Posts.push(newPost);
                 }
-
                 tableBody.current.innerHTML = "";
                 let tempHTML = "";
                 for(let i = 0; i < Posts.length; i++){
@@ -135,7 +151,7 @@ export default function Board() {
                 console.log(e);
             })
 
-    }, [currentPage]);
+    }, [currentPage, sortType, searchKeyword]);
 
     ////////////////////////////
 
@@ -162,6 +178,7 @@ export default function Board() {
 
     // 드롭다운 메뉴 버튼 함수
     const handleDropdown = (e) => {
+        console.log(e.target.nextSibling);
         const ul = e.target.nextSibling;
         if(ul.style.display === "block")
             ul.style.display = "none";
@@ -197,8 +214,7 @@ export default function Board() {
     }
 
     const handleSort = (e) => {
-        console.log(e.target.innerText);
-
+        e.target.parentNode.parentNode.style.display = "none";
         switch (e.target.innerText) {
             case '최신순':
                 setSortType('latest');
@@ -212,6 +228,24 @@ export default function Board() {
         }
     }
 
+    const handleSearch = (e) => {
+        e.target.parentNode.parentNode.style.display = "none";
+        switch (e.target.innerText) {
+            case '제목':
+                setSearchType('title');
+                break;
+            case '작성자':
+                setSearchType('author');
+                break;
+            case '제목 + 작성자':
+                setSearchType('title_author');
+                break;
+        }
+    }
+
+    const handleSearchButton = (e) => {
+        setSearchKeyword(e.target.parentNode.previousSibling.childNodes[1].value);
+    }
 
     // 총 게시글 카운트 더미 파일
     Posts.totalItems = 110;
@@ -270,12 +304,12 @@ export default function Board() {
                 <div className="row justify-content-center">
                     <div class="dropdown col-auto">
                         <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            제목
+                            {searchName}
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">제목</a></li>
-                            <li><a class="dropdown-item" href="#">작성자</a></li>
-                            <li><a class="dropdown-item" href="#">제목 + 작성자</a></li>
+                            <li><a onClick={handleSearch} class="dropdown-item" href="#">제목</a></li>
+                            <li><a onClick={handleSearch} class="dropdown-item" href="#">작성자</a></li>
+                            <li><a onClick={handleSearch} class="dropdown-item" href="#">제목 + 작성자</a></li>
                         </ul>
                     </div>
                     <div class="col-auto">
@@ -283,7 +317,7 @@ export default function Board() {
                         <input type="text" class="form-control" id="inputSearch" placeholder="검색어"></input>
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-success mb-3">검색</button>
+                        <button type="submit" class="btn btn-success mb-3" onClick={handleSearchButton}>검색</button>
                     </div>
                 </div>
                 <ul className="pagination nav justify-content-center">
