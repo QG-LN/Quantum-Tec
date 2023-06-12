@@ -6,13 +6,13 @@ export default function GameImage(props) {
     const imgList = props.imgList;
     const imgPath = props.imgPath;
 
-    console.log(imgPath + "_" + imgList[0]);
+    // console.log(imgPath + "_" + imgList[0]);
     //큰 이미지 화면 초기값 설정
     const [selectImg, setSelectImg] = useState();
 
     //이미지 갯수확인
     const handleInputImg = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
     }
 
     useEffect(() => {
