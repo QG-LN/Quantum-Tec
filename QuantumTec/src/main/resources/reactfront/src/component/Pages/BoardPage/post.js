@@ -30,10 +30,11 @@ export default function Post() {
     const maxContentLength = 15;
 
     useEffect(() => {
-        const path = 'http://localhost:9090/board/view';
+        const path = 'http://localhost:9090/board/viewCountUp';
         const body ={
             postIndex: id,
         }
+        axiosRequest(path,body,'POST','json')
     }, []);
 
     useEffect(() => {
