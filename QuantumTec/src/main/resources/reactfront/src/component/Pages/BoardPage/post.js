@@ -17,6 +17,7 @@ export default function Post() {
     const [loading, setLoading] = useState(false)
     const [reflash, setReflash] = useState(false)
     const [commentEnterCheck, setCommentEnterCheck] = useState(false)
+    const [contentLength, setContentLength] = useState(0);
     
     //modal
     const [show, setShow] = useState(false);
@@ -27,9 +28,6 @@ export default function Post() {
     const handleShow = (e) => {
         setShow(true);
     }
-    // 더미
-    // 백엔드 통신 추가해야함.
-    const maxContentLength = 15;
 
     useEffect(() => {
         const path = 'http://localhost:9090/board/viewCountUp';
@@ -41,19 +39,9 @@ export default function Post() {
 
 
     useEffect(() => {
-        setLoading(true)
-        const path = 'http://localhost:9090/board/view';
-        const body ={
-            postIndex: id,
-        }
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                setPost(res);
-            })
-    }, [reflash]);
-
-    useEffect(() => {
-        setLoading(true)
+        setPost({});
+        setComments([]);
+        setPage(1);
         const path = 'http://localhost:9090/board/view';
         const body ={
             postIndex: id,
@@ -71,6 +59,38 @@ export default function Post() {
         axiosRequest(path2,body2,'POST','json')
             .then(res => {
                 setComments([...comments, ...res]);
+            })
+    }, [reflash]);
+
+    useEffect(() => {
+        setLoading(true)
+        const path = 'http://localhost:9090/board/view';
+        const body ={
+            postIndex: id,
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                setPost(res);
+            })
+        
+        const path2 = 'http://localhost:9090/board/commentList';
+        const body2 ={
+            pageNum: page,
+            postIndex: parseInt(id),
+            sortType: "date"
+        }
+        axiosRequest(path2,body2,'POST','json')
+            .then(res => {
+                setComments([...comments, ...res]);
+            })
+        
+        const path3 = 'http://localhost:9090/board/commentCount';
+        const body3 ={
+            postIndex: id,
+        }
+        axiosRequest(path3,body3,'POST','json')
+            .then(res => {
+                setContentLength(res);
             })
         setLoading(false)
     }, [page]);
@@ -290,7 +310,7 @@ export default function Post() {
             {/* 댓글 수 */}
             <div className='row justify-content-start'>
                 <div className='text-start col-auto align-middle pe-0'>
-                    전체 댓글 <span className='text-red-500 fw-bold'>{maxContentLength}</span>개
+                    전체 댓글 <span className='text-red-500 fw-bold'>{contentLength}</span>개
                 </div>
                 {/* 댓글 정렬 메뉴 */}
                 <div class="dropdown col-auto">

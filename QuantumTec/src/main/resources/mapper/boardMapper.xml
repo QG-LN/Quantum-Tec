@@ -270,4 +270,9 @@
         SET POST_VIEWS = POST_VIEWS + 1
         WHERE POST_INDEX = #{postIndex};
     </update>
+
+    <select id="getCommentCount" resultType="int">
+        SELECT COUNT(*) FROM COMMENT_INFO_TB
+        WHERE POST_INDEX = #{postIndex};
+    </select>
 </mapper>
