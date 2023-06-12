@@ -12,6 +12,8 @@ public interface BoardService {
     // 게시물 리스트 불러오기 (검색 포함)
     public List<ListResponseDTO> getPostSearchList(ListDTO request);
 
+    public int getPostListCount(ListDTO request);
+
     // 게시물 조회
     public ViewResponseDTO getPost(ViewDTO request);
 

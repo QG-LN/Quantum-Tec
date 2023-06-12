@@ -26,6 +26,15 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
+    public int getPostCount(ListDTO request){
+        try{
+            return sqlSession.selectOne("BoardService.getPostCount", request);
+        }catch (Exception e){
+            return 0;
+        }
+    }
+
+    @Override
     public ViewResponseDTO getPost(ViewDTO request) {
         try {
             // 게시물 조회

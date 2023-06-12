@@ -12,6 +12,9 @@ public interface BoardDAO {
     // 게시물 리스트 불러오기 (검색 포함)
     public List<ListResponseDTO> getPostSearchList(ListDTO request);
 
+    // 게시물 리스트 갯수
+    public int getPostCount( ListDTO request);
+
     // 게시물 조회
     public ViewResponseDTO getPost(ViewDTO request);
 
