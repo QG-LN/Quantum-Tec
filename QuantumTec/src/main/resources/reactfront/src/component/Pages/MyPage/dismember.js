@@ -144,7 +144,7 @@ export default function Dismember(){
             <h2 className='account_main_page_title '>회원 탈퇴</h2>
             <div className='mt-[20px] text-center'>
                 <div className="text-start mx-[5%] bg-gray-200 px-[5%] py-[2%]">
-                    회원 탈퇴를 결정하신 이유를 알려주실 수 있나요? 귀하의 익명의 피드백은 저희 서비스 개선에 큰 도움이 됩니다.<br />시간을 내주셔서 감사합니다.
+                    회원 탈퇴를 결정하신 이유를 알려주실 수 있나요?<br/> 귀하의 익명의 피드백은 저희 서비스 개선에 큰 도움이 됩니다.<br />시간을 내주셔서 감사합니다.
                 </div>
                 <h5 className="mt-[20px] text-start ms-[10%]">
                     회원 탈퇴 사유
