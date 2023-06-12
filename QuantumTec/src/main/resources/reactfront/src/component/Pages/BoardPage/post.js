@@ -38,46 +38,24 @@ export default function Post() {
 
     useEffect(() => {
         setLoading(true)
-        axios.get(`/api/post`,{
-            params: {
-                postIndex: id,
-            }
-        })
-        .then(response => setPost(response.data))
-        .catch(error => console.error(error));
-        axios.get(`/api/comment`,{
-            params: {
-                postIndex: id,
-                page: page,
-            }
-        })
-        .then(response => setPost(comments.concat(response.data)))
-        .catch(error => console.error(error));
-        
-        const newPost = {
-            id: id,
-            board: "게시판 제목",
-            title: "게시물 제목",
-            writer: "글쓴이",
-            createdDate: "2023-05-30 17:59:41",
-            view: 10,
-            upvote: 5,
-            downvote: 3,
-            content: "게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용게시물 내용"
-        };
-        setPost(newPost);
-        for(let i = 1 + ((page-1)*10); i < 11 + ((page-1)*10); i++){
-            if(i > maxContentLength) break;
-            const newComment = {
-                id: i + 1,
-                writer: "댓글 작성자",
-                createdDate: "2023-05-30 17:59:41",
-                content: "댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용",
-                upvote: 555,
-                downvote: 333
-            };
-            comments.push(newComment);
+        const path = 'http://localhost:9090/board/view';
+        const body ={
+            postIndex: id,
         }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                setPost(res);
+            })
+        const path2 = 'http://localhost:9090/board/commentList';
+        const body2 ={
+            pageNum: page,
+            postIndex: parseInt(id),
+            sortType: "date"
+        }
+        axiosRequest(path2,body2,'POST','json')
+            .then(res => {
+                setComments([...comments, ...res]);
+            })
         setLoading(false)
     }, [page]);
     
