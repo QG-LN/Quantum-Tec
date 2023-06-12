@@ -98,8 +98,8 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public int getCommentCount(int postIndex) {
-        return boardDAO.getCommentCount(postIndex);
+    public int getCommentCount(CommentCountDTO request) {
+        return boardDAO.getCommentCount(request);
     }
 
     @Override
