@@ -17,6 +17,9 @@ public interface BoardService {
     // 게시물 조회
     public ViewResponseDTO getPost(ViewDTO request);
 
+    // 게시물 조회수 증가
+    public boolean viewCountUp(ViewDTO request);
+
     // 게시물 작성
     public boolean writePost(WriteDTO request);
 

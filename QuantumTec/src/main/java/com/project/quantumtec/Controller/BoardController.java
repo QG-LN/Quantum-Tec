@@ -40,6 +40,10 @@ public class BoardController {
         return boardService.getPost(request);
     }
 
+    // 게시물 조회수 증가
+    @PostMapping("/viewCountUp")
+    public boolean viewCountUp(@RequestBody ViewDTO request){ return boardService.viewCountUp(request); }
+
     // 게시물 작성
     @PostMapping("/write")
     public boolean writePost(@RequestBody WriteDTO request){
