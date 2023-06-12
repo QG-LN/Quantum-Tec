@@ -324,7 +324,7 @@ export default function GamePage() {
             </div>
             <div>
                 <h2 class='text-left ml-9 mt-4'>댓글</h2>
-                <GPcomment commentList={commentList} gameID={id} />
+                <GPcomment commentList={commentList || []} gameID={id} />
             </div>
 
         </div>
