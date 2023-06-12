@@ -299,9 +299,9 @@ export default function GamePage() {
             <div>
                 <h2 class='text-left ml-9'>{gameCategoryName} 관련 게임</h2>
                 <div>
-                    <div class='overflow-x-scroll w-[1320px] mt-4'>
+                    <div class='overflow-x-scroll w-[1200px] mt-4'>
                         <div className="image-slider flex">
-                            <fieldset class='imgButtonStyle flex'>
+                            <fieldset class='imgButtonStyle flex '>
                                 <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] '></legend>
                                 {categoryGameList.map((image, index) => (
                                     <label className='hover:cursor-pointer w-[320px] h-[240px] m-2'>
