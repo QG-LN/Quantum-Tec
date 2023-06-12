@@ -40,7 +40,7 @@ export default function Login(props){
                             localStorage.setItem("userCash", res.userCash);
                             localStorage.setItem("userID", inputId);                    // 마이페이지에서 사용하기 위해 세팅
                             localStorage.setItem("truelogin","true");
-                            // document.location.href = "/";
+                            document.location.href = "/";
                             props.setTruelogin(true);
                         }else{
                             alert('로그인에 실패하였습니다.');
