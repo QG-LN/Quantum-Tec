@@ -186,6 +186,24 @@ export default function Post() {
             })
     }
 
+    // const clickDeleteComment = (e) => {
+    //     const path = 'http://localhost:9090/board/commentDelete';
+    //     const body ={
+    //         postIndex: id,
+    //         userID: localStorage.getItem("userID"),
+    //         commentIndex: e.target.parentNode.id
+    //     }
+    //     axiosRequest(path,body,'POST','json')
+    //         .then(res => {
+    //             if(res){
+    //                 alert("성공적으로 삭제되었습니다.");
+    //                 setReflash(!reflash);
+    //             }else{
+    //                 alert("삭제하지 못했습니다.");
+    //             }
+    //         })
+    // }
+
     // 드롭다운 메뉴 버튼 함수
     const handleDropdown = (e) => {
         const ul = e.target.nextSibling;
