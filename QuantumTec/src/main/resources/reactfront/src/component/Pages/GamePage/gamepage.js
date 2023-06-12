@@ -11,7 +11,7 @@ const commentlist = [
 {
   commentimg: "http://help.nexon.com/image/gameicon/cs_maple2.png",
   commentNo: "1",
-  commentName: "user1",
+  commentUserName: "user1",
   commentDate: "2021/02/14",
   commentUp: "17",
   commentDown: "16",
@@ -20,11 +20,11 @@ const commentlist = [
 {
   commentimg: "http://help.nexon.com/image/gameicon/cs_maple1.png",
   commentNo: "2",
-  commentName: "아 너무 안좋아요",
+  commentUserName: "아 너무 안좋아요",
   commentDate: "2021/05/36",
   commentUp: "17",
   commentDown: "16",
-  commentSub: '아ㅣsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddㅇddddddddddddddddddddddddㅇddddddddddddddddㅇdddddddddddddddddddddddddddddddddd',
+  commentSub: '댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용',
 },
 ]
 
@@ -241,7 +241,7 @@ export default function GamePage() {
                 </div>}
 
             <div>
-                <h2 class='text-left ml-9'>내용</h2>
+                <h2 class='text-left ml-9 mt-3'>내용</h2>
                 <hr></hr>
                 <p class='text-left ml-4'>
                     <div>
