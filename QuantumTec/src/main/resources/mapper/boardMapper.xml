@@ -169,20 +169,22 @@
             AND COMMENT_AUTHOR_INDEX = #{userIndex}
             AND POST_INDEX = #{postIndex};
     </update>
-    <delete id="deleteComment" parameterType="CommentDeleteDTO">
+    <delete id="deleteCommentVote" parameterType="CommentDeleteDTO">
         DELETE FROM COMMENT_VOTE_TB
         WHERE COMMENT_INDEX = #{commentIndex}
-          AND USER_INDEX = #{userIndex}
+          AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
           AND POST_INDEX = #{postIndex};
+    </delete>
+    <delete id="deleteComment" parameterType="CommentDeleteDTO">
         DELETE FROM COMMENT_INFO_TB
         WHERE COMMENT_INDEX = #{commentIndex}
-            AND COMMENT_AUTHOR_INDEX = #{userIndex}
+            AND COMMENT_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND POST_INDEX = #{postIndex};
     </delete>
     <select id="checkCommentVote" resultType="String">
         SELECT COMMENT_VOTE_CHECK FROM COMMENT_VOTE_TB
         WHERE COMMENT_INDEX = #{commentIndex}
-            AND USER_INDEX = #{userIndex}
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND POST_INDEX = #{postIndex};
     </select>
     <update id="updateUpvoteComment" parameterType="CommentVoteDTO">
