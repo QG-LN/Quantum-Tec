@@ -11276,6 +11276,7 @@ ul > ul > li > a {
 
 .Home {
   background-color: #f2f2f2;
+  min-height: 78.5vh;
 }
 
 .nondrag {
