@@ -1,6 +1,7 @@
 package com.project.quantumtec.DAO.user;
 
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.VO.user.UserVO;
@@ -121,5 +122,10 @@ public class UserDAOImpl implements UserDAO{
         userDTO.setUserID(userID);
         userDTO.setUserPW(userPW);
         return sqlSession.update("UserService.changePw", userDTO) > 0;
+    }
+
+    @Override
+    public List<MyGameListResponseDTO> getMyGameList(String userID) throws Exception {
+        return sqlSession.selectList("UserService.getMyGameList", userID);
     }
 }
