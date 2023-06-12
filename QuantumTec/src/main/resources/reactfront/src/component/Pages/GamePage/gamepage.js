@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import GPImage from './gpimage.js';
 import GPInfo from './gpinfo.js';
 import Buyplaybanner from './buyplaybanner.js';
@@ -89,6 +89,20 @@ export default function GamePage() {
     const imagePath = 'http://localhost:9090/image/game';                      // 이미지 경로
     const imageListPath = 'http://localhost:9090/image/game/list';              // 이미지 리스트 경로
 
+    /**
+     * 최초 렌더링을 제외한 렌더링에서만 실행되는 useEffect
+     * 기존 useEffect와 동일하게 작동
+     * */
+    const useDidMountEffect = (func, deps) => {
+        const didMount = useRef(false);
+
+        useEffect(() => {
+            if (didMount.current) func();
+            else didMount.current = true;
+        }, deps);
+    };
+
+
     useEffect(() => {
         // 로그인이 안되어있으면 구매버튼만 출력
         let checkLogin = localStorage.getItem("truelogin");
@@ -101,7 +115,7 @@ export default function GamePage() {
         axios.get(path)
             .then(response =>  {
                 if(response !== null){
-                    console.log(response.data.gameCategoryName);
+                    console.log(response.data.userGamePlayTotalPlayTime);
                     // 게임 정보 저장
                     setDeveloperName(response.data.developerName);
                     setGameReleaseDate(response.data.gameReleaseDate);
@@ -117,6 +131,16 @@ export default function GamePage() {
 
                     // 유저의 플레이 정보 저장
                     setUserGamePlayEndTime(response.data.userGamePlayEndTime);
+
+                    // const time = response.data.userGamePlayTotalPlayTime.split(':');
+                    // let hour = parseInt(time[0]);
+                    // let minute = parseInt(time[1]);
+                    // if(minute> 59){
+                    //     hour+= 1;
+                    //     minute = minute - 60;
+                    // }
+                    // let totalTime = hour + "." + minute + "시간";
+                    // console.log(totalTime);
                     setUserGamePlayTotalPlayTime(response.data.userGamePlayTotalPlayTime);
                 }
 
@@ -131,16 +155,17 @@ export default function GamePage() {
 
     },[])
 
-    useEffect(() => {
+
+    useDidMountEffect(() => {
         axios.get(imageListPath + "/games_" + gameImageLocation)
             .then(response =>  {
                 setGameImageList(response.data);
             }).catch(error => {
-            // 오류발생시 실행
+
         })
     },[gameImageLocation])
 
-    useEffect(() => {
+    useDidMountEffect(() => {
         const mainImagePath = `games/${gameImageLocation}/${gameImageList[0]}`.replaceAll('/','_');
         setGameMainImage(`${imagePath}/${mainImagePath}`);
     },[gameImageList])
@@ -161,12 +186,12 @@ export default function GamePage() {
 
   //만족도를 눌럿을떄 반영값
   const Clickgrade = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
   }
   //평가를 눌럿을떄 반영
   const Clicksetgrade = (e) => {
-    console.log(comment);
-    console.log(usergrade);
+    // console.log(comment);
+    // console.log(usergrade);
     alert('평가가 등록되었습니다.')
     setComment('');
     setUserGrade('0');
@@ -193,7 +218,7 @@ export default function GamePage() {
                                     gamegrade={gameRating}
                                     gamedate={gameReleaseDate}
                                     developer={developerName}
-                                    categorylist={gameGenre}
+                                    categorylist={gameCategoryName}
                                     img={gameMainImage} />
                         }
                     </aside>
@@ -204,11 +229,13 @@ export default function GamePage() {
                                gameprice={gamePrice}
                                buystate={buyStatus}
                                gameId = {id}
+                               userGamePlayTotalPlayTime = {userGamePlayTotalPlayTime}
+                               userGamePlayEndTime = {userGamePlayEndTime}
                 />
             </div>
             {buyStatus &&
                 <div>
-                    <h3 class='text-left ml-16 mb-5'>게임 이름에 대한 평가</h3>
+                    <h3 class='text-left ml-16 mb-5'>{gameName.replaceAll('_',' ')}에 대한 평가</h3>
                     <div class='ml-16 flex'>
                         <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9aAVl5QQCGWBdIwuGs2ybjGoAuiwAWflMh5imVUnvk3SbYbDXelzOpCCJEHlJ67IIU5k&usqp=CAU' class='w-[140px] h-[140px]'/>
                         <div class='ml-[80px]'>
@@ -246,15 +273,18 @@ export default function GamePage() {
                 <p class='text-left ml-4'>
                     <div>
                         {/*내용 작성하는부분 */}
-                        <div>업데이트 내역</div>
-                        <div>1.1 테스트</div>
+                        <div>{gameDescription}</div>
+                        <br/>
+                        <div className=''>업데이트 내역 ver : {gameVersion}</div>
                         <p>- 화면전환<br/>- 게임의 자잘자잘한 느낌</p>
+                        <br/>
+                        <div>플랫폼 :{gamePlatForm}</div>
                     </div>
                 </p>
                 <hr></hr>
             </div>
             <div>
-                <h2 class='text-left ml-9'>관련 게임</h2>
+                <h2 class='text-left ml-9'>{gameCategoryName} 관련 게임</h2>
                 <div>
                     <div class='overflow-x-scroll w-[1320px] mt-4'>
                         <div className="image-slider flex">
@@ -262,7 +292,8 @@ export default function GamePage() {
                                 <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] '></legend>
                                 {Relatedgame.map((image, index) => (
                                     <label className='hover:cursor-pointer w-[320px] h-[240px] m-2'>
-                                        <input type="radio" class='hidden' name='subimg' id='subimg' onChange={handleInputImg} value={index}/><img class='max-w-none w-[320px] h-[180px]'src={image.Rgameimg} value={image.Rgameurl} ></img>
+                                        <input type="radio" class='hidden' name='subimg' id='subimg' onChange={handleInputImg} value={index}/>
+                                        <img class='max-w-none w-[320px] h-[180px]'src={image.Rgameimg} value={image.Rgameurl} />
                                         <div class='mt-2 font-bold'>{image.Rgamename}</div>
                                         <div>{image.Rgameprice}</div>
                                     </label>
