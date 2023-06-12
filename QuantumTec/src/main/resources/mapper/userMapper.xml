@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserService">
+    <select id="getUserListAll" resultType="UserVO">
+        select *
+        from USER_INFO_TB
+    </select>
+    <select id="getUserExist" resultType="int" parameterType="UserDTO">
+        select USER_INDEX
+        from USER_INFO_TB
+        where USER_ID = #{userID} and USER_PW = #{userPW}
+    </select>
+    <select id="getUserInfo" resultType="UserInfoResponseDTO" parameterType="int">
+        select USER_ID,USER_NICKNAME,USER_NAME,USER_BIRTH,USER_ADDRESS,USER_ADDRESS_DETAIL,USER_GENDER,USER_POSTAL,USER_EMAIL,USER_ROLE,USER_CASH,USER_STATUS
+        from USER_INFO_TB, USER_STATUS_TB
+        where USER_INFO_TB.USER_INDEX = #{userIdx} and USER_STATUS_TB.USER_INDEX = #{userIdx}
+    </select>
+    <select id="getLoginInfo" resultType="LoginResponseDTO" parameterType="int">
+        select USER_NICKNAME, USER_CASH
+        from USER_INFO_TB ui, USER_STATUS_TB us
+        where ui.USER_INDEX = #{userIdx} and us.USER_INDEX = #{userIdx}
+    </select>
+    <select id="selectCountById" resultType="int">
+        SELECT USER_INDEX 
+        FROM USER_INFO_TB 
+        WHERE USER_ID = #{userID}
+    </select>
+    <select id="selectCountByNickname" resultType="int">
+        SELECT USER_INDEX 
+        FROM USER_INFO_TB 
+        WHERE USER_NICKNAME = #{userNickname}
+    </select>
+    <select id="selectCountByEmail" resultType="int">
+        SELECT USER_INDEX
+        FROM USER_INFO_TB
+        WHERE USER_EMAIL = #{userEmail}
+    </select>
+    <insert id="setUser" parameterType="UserVO">
+        insert into USER_INFO_TB(USER_ID,USER_PW,USER_NICKNAME,USER_NAME,USER_BIRTH,USER_ADDRESS,USER_ADDRESS_DETAIL,USER_GENDER,USER_POSTAL,USER_EMAIL,USER_ROLE) values(#{userID},#{userPW},#{userNickname},#{userName},#{userBirth},#{userAddress},#{userAddressDetail},#{userGender},#{userPostal},#{userEmail},#{userRole})
+    </insert>
+    <delete id="deleteUser" parameterType="int">
+        delete from USER_INFO_TB
+        where USER_INDEX = #{userIdx}
+    </delete>
+    <update id="updateUser" parameterType="UserVO">
+        update USER_INFO_TB
+        set USER_PW = #{userPW},
+            USER_NICKNAME = #{userNickname},
+            USER_NAME = #{userName},
+            USER_BIRTH = #{userBirth},
+            USER_ADDRESS = #{userAddress},
+            USER_ADDRESS_DETAIL = #{userAddressDetail},
+            USER_GENDER = #{userGender},
+            USER_POSTAL = #{userPostal},
+            USER_EMAIL = #{userEmail},
+            USER_ROLE = #{userRole}
+        where USER_ID = #{userID}
+    </update>
+    <select id="findId" parameterType="UserDTO" resultType="String">
+        select USER_ID
+        from USER_INFO_TB
+        where USER_NAME = #{userName} and USER_EMAIL = #{userEmail}
+    </select>
+    <select id="findPw" parameterType="UserDTO" resultType="int">
+        select USER_INDEX
+        from USER_INFO_TB
+        where USER_ID = #{userID} and USER_NAME = #{userName} and USER_EMAIL = #{userEmail}
+    </select>
+    <update id="changePw" parameterType="UserDTO">
+        update USER_INFO_TB
+        set USER_PW = #{userPW}
+        where USER_ID = #{userID} and USER_NAME = #{userName} and USER_EMAIL = #{userEmail}
+    </update>
+    <!-- 마이페이지의 나의 게임 플레이 내역 불러오기 -->
+    <select id="getMyGameList" parameterType="String" resultType="MyGameListResponseDTO">
+        SELECT
+            PI.USER_INDEX,
+            GI.GAME_NAME,
+            GI.GAME_IMAGE_LOCATION,
+            UGP.USERGAMEPLAY_TOTAL_PLAY_TIME,
+            GC.GAME_CATEGORY_NAME
+        FROM 
+            PAYMENT_INFO_TB PI
+        LEFT JOIN 
+            USER_GAME_PLAY_TB UGP ON PI.USER_INDEX = UGP.USER_INDEX AND PI.GAME_INDEX = UGP.GAME_INDEX
+        LEFT JOIN 
+            GAME_INFO_TB GI ON PI.GAME_INDEX = GI.GAME_INDEX
+        LEFT JOIN 
+            GAME_CATEGORY_LINK_TB GCL ON PI.GAME_INDEX = GCL.GAME_INDEX
+        LEFT JOIN 
+            GAME_CATEGORY_TB GC ON GCL.GAME_CATEGORY_ID = GC.GAME_CATEGORY_ID
+        LEFT JOIN 
+            USER_INFO_TB UI ON PI.USER_INDEX = UI.USER_INDEX
+        WHERE 
+            UI.USER_ID = #{userID}
+        GROUP BY 
+            PI.USER_INDEX,
+            PI.GAME_INDEX,
+            GI.GAME_NAME,
+            GC.GAME_CATEGORY_NAME;
+    </select>
+
+
+    
+     
+</mapper>
