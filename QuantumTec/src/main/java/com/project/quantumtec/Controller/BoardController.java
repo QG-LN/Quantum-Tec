@@ -21,8 +21,8 @@ public class BoardController {
 
     @PostMapping("/listCount")
     public int getPostListCount(@RequestBody ListDTO request){
-        System.out.println(request);
-        System.out.println(boardService.getPostListCount(request));
+//        System.out.println(request);
+//        System.out.println(boardService.getPostListCount(request));
         return boardService.getPostListCount(request);
     }
 
