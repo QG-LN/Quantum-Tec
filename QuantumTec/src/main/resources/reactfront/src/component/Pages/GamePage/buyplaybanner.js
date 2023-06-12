@@ -1,12 +1,22 @@
 export default function Buyplaybanner(props) {
+
+  const id = props.gameId;
   const gameBuy = () => {
     alert('구매가 완료되었습니다.');
+
   }
   const myWish =() => {
     alert('찜하기가 완료되었습니다.');
   }
   const gamePlay = () => { 
-    alert('게임을 실행합니다.');
+    // alert('게임을 실행합니다.');
+    try{
+      // id값을 받아서 게임 실행
+      window.open('http://localhost:5500/' + id+'/index.html');
+    }catch(e){
+      console.log(e);
+    }
+
   }
 
     return(
