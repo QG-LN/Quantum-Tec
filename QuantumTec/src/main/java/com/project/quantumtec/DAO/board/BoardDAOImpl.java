@@ -97,7 +97,7 @@ public class BoardDAOImpl implements BoardDAO {
                 else
                     return false;
             }else {
-                return sqlSession.update("BoardService.insertUpvotePost", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
+                return sqlSession.insert("BoardService.insertUpvotePost", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
             }
         } catch (Exception e) {
             return false;
@@ -116,7 +116,7 @@ public class BoardDAOImpl implements BoardDAO {
                 else
                     return false;
             }else {
-                return sqlSession.update("BoardService.insertDownvotePost", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
+                return sqlSession.insert("BoardService.insertDownvotePost", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
             }
         } catch (Exception e) {
             return false;
@@ -204,7 +204,7 @@ public class BoardDAOImpl implements BoardDAO {
                 else
                     return false;
             }else {
-                return sqlSession.update("BoardService.insertUpvoteComment", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
+                return sqlSession.insert("BoardService.insertUpvoteComment", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
             }
         } catch (Exception e) {
             return false;
@@ -223,7 +223,7 @@ public class BoardDAOImpl implements BoardDAO {
                 else
                     return false;
             }else {
-                return sqlSession.update("BoardService.insertDownvoteComment", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
+                return sqlSession.insert("BoardService.insertDownvoteComment", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
             }
         } catch (Exception e) {
             return false;

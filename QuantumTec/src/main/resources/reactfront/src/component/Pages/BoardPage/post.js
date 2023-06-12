@@ -39,8 +39,6 @@ export default function Post() {
 
 
     useEffect(() => {
-        setPost({});
-        setComments([]);
         setPage(1);
         const path = 'http://localhost:9090/board/view';
         const body ={
@@ -58,7 +56,7 @@ export default function Post() {
         }
         axiosRequest(path2,body2,'POST','json')
             .then(res => {
-                setComments([...comments, ...res]);
+                setComments([...res]);
             })
     }, [reflash]);
 
@@ -136,26 +134,38 @@ export default function Post() {
             })
     }
     const clickCommentUpvote = (e) => {
-        // 유저 중복 안되게 하는 코드 필요
-        axios.get(`/api/comment/upvote`,{
-            params: {
-                postIndex: id,
-                commentIndex: e.target.parentNode.parentNode.parentNode.id,
-            }
-        })
-        .then(response => (response.data)?alert("추천하였습니다."):alert("추천하지 못했습니다."))
-        .catch(error => console.error(error));
+        const path = 'http://localhost:9090/board/commentUpvote';
+        const body ={
+            postIndex: id,
+            userID: localStorage.getItem("userID"),
+            commentIndex: e.target.parentNode.parentNode.parentNode.parentNode.id
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("추천하였습니다.");
+                    setReflash(!reflash);
+                }else{
+                    alert("추천하지 못했습니다.");
+                }
+            })
     }
     const clickCommentDownvote = (e) => {
-        // 유저 중복 안되게 하는 코드 필요
-        axios.get(`/api/comment/downvote`,{
-            params: {
-                postIndex: id,
-                commentIndex: e.target.parentNode.parentNode.parentNode.id,
-            }
-        })
-        .then(response => (response.data)?alert("비추천하였습니다."):alert("비추천하지 못했습니다."))
-        .catch(error => console.error(error));
+        const path = 'http://localhost:9090/board/commentDownvote';
+        const body ={
+            postIndex: id,
+            userID: localStorage.getItem("userID"),
+            commentIndex: e.target.parentNode.parentNode.parentNode.parentNode.id
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("비추천하였습니다.");
+                    setReflash(!reflash);
+                }else{
+                    alert("비추천하지 못했습니다.");
+                }
+            })
     }
 
     // 드롭다운 메뉴 버튼 함수
