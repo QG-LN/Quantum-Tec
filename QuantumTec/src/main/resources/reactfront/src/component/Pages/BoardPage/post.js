@@ -15,6 +15,7 @@ export default function Post() {
     const [page, setPage] = useState(1)
     const [ref, inView] = useInView()
     const [loading, setLoading] = useState(false)
+    const [reflash, setReflash] = useState(false)
     
     //modal
     const [show, setShow] = useState(false);
@@ -30,11 +31,25 @@ export default function Post() {
     const maxContentLength = 15;
 
     useEffect(() => {
+        const path = 'http://localhost:9090/board/viewCountUp';
+        const body ={
+            postIndex: id,
+        }
+        axiosRequest(path,body,'POST','json')
+    }, []);
+
+
+    useEffect(() => {
+        setLoading(true)
         const path = 'http://localhost:9090/board/view';
         const body ={
             postIndex: id,
         }
-    }, []);
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                setPost(res);
+            })
+    }, [reflash]);
 
     useEffect(() => {
         setLoading(true)
@@ -66,25 +81,38 @@ export default function Post() {
         }
     }, [inView, loading])
 
+
     const clickUpvote = () => {
-        // 유저 중복 안되게 하는 코드 필요
-        axios.get(`/api/post/upvote`,{
-            params: {
-                postIndex: id,
-            }
-        })
-        .then(response => (response.data)?alert("추천하였습니다."):alert("추천하지 못했습니다."))
-        .catch(error => console.error(error));
+        const path = 'http://localhost:9090/board/upvote';
+        const body ={
+            postIndex: id,
+            userID: localStorage.getItem("userID")
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("추천하였습니다.");
+                    setReflash(!reflash);
+                }else{
+                    alert("추천하지 못했습니다.");
+                }
+            })
     }
     const clickDownvote = () => {
-        // 유저 중복 안되게 하는 코드 필요
-        axios.get(`/api/post/downvote`,{
-            params: {
-                postIndex: id,
-            }
-        })
-        .then(response => (response.data)?alert("비추천하였습니다."):alert("비추천하지 못했습니다."))
-        .catch(error => console.error(error));
+        const path = 'http://localhost:9090/board/downvote';
+        const body ={
+            postIndex: id,
+            userID: localStorage.getItem("userID")
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("비추천하였습니다.");
+                    setReflash(!reflash);
+                }else{
+                    alert("비추천하지 못했습니다.");
+                }
+            })
     }
     const clickCommentUpvote = (e) => {
         // 유저 중복 안되게 하는 코드 필요
@@ -138,17 +166,21 @@ export default function Post() {
         if(e.key === "Enter"){
             // 줄바꿈 방지
             e.preventDefault();
-            // 구현 필요
-            axios.get(`/api/comment/add`,{
-                params: {
-                    postIndex: id,
-                    comment_author: "댓글 작성자",  // 수정 필요
-                    comment_content: e.target.value,
-                }
-            })
-            .then(response => setPost(response.data))
-            .catch(error => console.error(error));
-            alert("댓글 작성");
+            const path = 'http://localhost:9090/board/commentWrite';
+            const body ={
+                postIndex : id,
+                userID : localStorage.getItem("userID"),
+                commentContent : e.target.value
+            }
+            axiosRequest(path,body,'POST','json')
+                .then(res => {
+                    if(res){
+                        alert("댓글을 성공적으로 올렸습니다.");
+                        setReflash(!reflash);
+                    }else{
+                        alert("댓글을 올리지 못했습니다.");
+                    }
+                })
         }
     }
 
@@ -182,21 +214,21 @@ export default function Post() {
                 </Modal.Footer>
             </Modal>
             {/* 게시글 */}
-            <h1 className='text-start mt-[10vh] ms-3 user-select-none'>{post.board}</h1>
+            <h1 className='text-start mt-[10vh] ms-3 user-select-none'>{post.boardTitle}</h1>
             <hr className='' />
             <div className='p-0 m-0 ms-3 user-select-none position-relative'>
                 {/* 게시글 정보 */}
-                <h4 className='text-start'>{post.title}</h4>
+                <h4 className='text-start'>{post.postTitle}</h4>
                 <div className='row justify-content-around g-2 ms-0'>
                     <div className='row justify-content-start col'>
-                        <div className='col-auto  m-0 p-0'>{post.writer}</div>
+                        <div className='col-auto  m-0 p-0'>{post.postAuthor}</div>
                         <div className="vr m-0 p-0 ms-2 mt-1 h-1"></div>
-                        <div className='col-auto'>{post.createdDate}</div>
+                        <div className='col-auto'>{post.postDate}</div>
                     </div>
                     <div className='row justify-content-end col'>
-                        <div className='col-auto'>조회 {post.view}</div>
-                        <div className='col-auto'>추천 {post.upvote}</div>
-                        <div className='col-auto'>추천 {post.downvote}</div>
+                        <div className='col-auto'>조회 {post.postView}</div>
+                        <div className='col-auto'>추천 {post.postUpvotes}</div>
+                        <div className='col-auto'>비추천 {post.postDownvotes}</div>
                     </div>
                 </div>
 
@@ -205,14 +237,14 @@ export default function Post() {
             </div>
             <hr />
             {/* 게시글 내용 */}
-            <p className='text-start ms-3 mb-[50px] me-3'>{post.content}</p>
+            <p className='text-start ms-3 mb-[50px] me-3'>{post.postContent}</p>
             {/* 버튼 박스 */}
             <div className='position-relative w-[100%] h-[200px]'>
                 <div className='position-absolute top-50 start-50 translate-middle rounded-top'>
                     {/* 추천, 비추천 버튼 */}
                     <div className='border border-success opacity-100 w-[350px] h-[120px] row justify-content-around text-end p-3 user-select-none m-0'>
                         <div className='row col-6'>
-                            <div className='col text-center fs-3 text-green-700 p-3'>{post.upvote}</div>
+                            <div className='col text-center fs-3 text-green-700 p-3'>{post.postUpvotes}</div>
                             <div className='col-auto bg-gray-100 border border-2 rounded-4 p-2 m-0' onClick={clickUpvote} style={{cursor:"pointer"}}>
                                 <div className='text-center fs-1'>👍</div>
                             </div>
@@ -221,7 +253,7 @@ export default function Post() {
                             <div className='col-auto bg-gray-100 border border-2 rounded-4 p-2 m-0' onClick={clickDownvote} style={{cursor:"pointer"}}>
                                 <div className='text-center fs-1'>👎</div>
                             </div>
-                            <div className='col text-center fs-3 p-3'>{post.downvote}</div>
+                            <div className='col text-center fs-3 p-3'>{post.postDownvotes}</div>
                         </div>
                     </div>
                     {/* 이전글, 목록보기, 다음글 버튼 */}
@@ -273,7 +305,7 @@ export default function Post() {
             {/* 댓글 */}
             <div>
                 {comments.map((comment, idx) => (
-                    <div key={idx} id={comment.id} className='position-relative pt-2 pb-2' ref={idx === comments.length - 1 ? ref : null}>
+                    <div key={idx} id={comment.commentIndex} className='position-relative pt-2 pb-2' ref={idx === comments.length - 1 ? ref : null}>
                         {/* ref={idx === comments.length - 1 ? ref : null} */}
                         {/* 마지막 댓글에 사용자가 보고있는지 판단하는 코드를 추가 한 것임 */}
                         <FontAwesomeIcon icon={faWrench} style={{color: "#aaa",}} className='position-absolute top-0 end-7' />
@@ -283,18 +315,18 @@ export default function Post() {
                                 <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' className="rounded w-[70px]" alt="..."></img>
                             </div>
                             <div className='col-2 text-start ps-0 user-select-none'>
-                                <div className='text-start ps-0'>{comment.writer}</div>
-                                <div className='text-start pe-0 text-sm fw-light'>{comment.createdDate}</div>
+                                <div className='text-start ps-0'>{comment.commentWriter}</div>
+                                <div className='text-start pe-0 text-sm fw-light'>{comment.commentDate}</div>
                             </div>
-                            <div className='col-7 text-start'>{comment.content}</div>
+                            <div className='col-7 text-start'>{comment.commentContent}</div>
                             <div className='row justify-content-around col-2 text-end p-0 ps-4 user-select-none'>
                                 <div className='row text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-2' onClick={clickCommentUpvote} style={{cursor:"pointer"}}>
                                     <div className='col-auto text-start p-0 ps-2 pe-1'>👍</div>
-                                    <div className='col text-center p-0'>{comment.upvote}</div>
+                                    <div className='col text-center p-0'>{comment.commentUpvote}</div>
                                 </div>
                                 <div className='row text-end text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-3' onClick={clickCommentDownvote} style={{cursor:"pointer"}}>
                                     <div className='col-auto text-start p-0 ps-2 pe-1'>👎</div>
-                                    <div className='col text-center p-0'>{comment.downvote}</div>
+                                    <div className='col text-center p-0'>{comment.commentDownvote}</div>
                                 </div>
                             </div>
                         </div>
