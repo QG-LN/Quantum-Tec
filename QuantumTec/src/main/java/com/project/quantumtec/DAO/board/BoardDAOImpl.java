@@ -45,6 +45,16 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
+    public boolean viewCountUp(ViewDTO request) {
+        try {
+            // 게시물 조회수 증가
+            return sqlSession.update("BoardService.viewCountUp", request) > 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
     public boolean writePost(WriteDTO request) {
         try {
             // 게시물 작성
