@@ -10,4 +10,7 @@ public interface GameService {
 
     // 게임 ID를 받아서 게임 정보 가져오는 메소드
     public GameDetailsInfoDTO getGameInfo(GameSearchDTO gameSearchDTO);
+
+    public List<GameCommentDTO> getPostGameComment(GameCommentListDTO request);
+
 }
