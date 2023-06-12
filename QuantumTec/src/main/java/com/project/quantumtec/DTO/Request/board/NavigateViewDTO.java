@@ -9,5 +9,5 @@ public class NavigateViewDTO {
 
     private int postIndex; // 게시글 번호
 
-    private int userIndex; // 유저 번호
+    private String userID; // 유저 아이디
 }
