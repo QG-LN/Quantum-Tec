@@ -34,7 +34,7 @@ export default function Footer(){
 
     return(
         <>
-        <footer class="bg-black footer text-left mt-[100px]">
+        <footer class="bg-black footer text-left">
         <p class="notice h-[73px] pt-[20px] pl-[40px] pr-0 pb-0 border-b-2 border-gray-500">
             <a href="notice" class='text-white no-underline' onclick={onClickNotice}>{noticeTitle}</a>
         </p>
