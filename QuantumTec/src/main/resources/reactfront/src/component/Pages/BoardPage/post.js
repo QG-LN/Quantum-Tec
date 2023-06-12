@@ -148,7 +148,7 @@ export default function Post() {
 
     // 목록보기로 돌아가는 함수
     const clickPostListPage = () => {
-        document.location.href = "/board";
+        document.location.href = "/board/0";
     }
 
     // 이전 글로 이동하는 함수
