@@ -166,17 +166,21 @@ export default function Post() {
         if(e.key === "Enter"){
             // 줄바꿈 방지
             e.preventDefault();
-            // 구현 필요
-            axios.get(`/api/comment/add`,{
-                params: {
-                    postIndex: id,
-                    comment_author: "댓글 작성자",  // 수정 필요
-                    comment_content: e.target.value,
-                }
-            })
-            .then(response => setPost(response.data))
-            .catch(error => console.error(error));
-            alert("댓글 작성");
+            const path = 'http://localhost:9090/board/commentWrite';
+            const body ={
+                postIndex : id,
+                userID : localStorage.getItem("userID"),
+                commentContent : e.target.value
+            }
+            axiosRequest(path,body,'POST','json')
+                .then(res => {
+                    if(res){
+                        alert("댓글을 성공적으로 올렸습니다.");
+                        setReflash(!reflash);
+                    }else{
+                        alert("댓글을 올리지 못했습니다.");
+                    }
+                })
         }
     }
 
