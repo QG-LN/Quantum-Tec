@@ -5,8 +5,6 @@ import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 
-import ch.qos.logback.classic.pattern.SyslogStartConverter;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -156,8 +154,8 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public int getCommentCount(int postIndex) { // 댓글 갯수 불러오기
-        return sqlSession.selectOne("BoardService.getCommentCount", postIndex);
+    public int getCommentCount(CommentCountDTO request) { // 댓글 갯수 불러오기
+        return sqlSession.selectOne("BoardService.getCommentCount", request);
     }
 
     @Override
