@@ -16,6 +16,7 @@ export default function Post() {
     const [ref, inView] = useInView()
     const [loading, setLoading] = useState(false)
     const [reflash, setReflash] = useState(false)
+    const [commentEnterCheck, setCommentEnterCheck] = useState(false)
     
     //modal
     const [show, setShow] = useState(false);
@@ -163,7 +164,7 @@ export default function Post() {
 
     // 댓글 작성하는 함수
     const enterComment = (e) => {
-        if(e.key === "Enter"){
+        if(e.key === "Enter" && !commentEnterCheck){
             // 줄바꿈 방지
             e.preventDefault();
             const path = 'http://localhost:9090/board/commentWrite';
@@ -174,8 +175,10 @@ export default function Post() {
             }
             axiosRequest(path,body,'POST','json')
                 .then(res => {
+                    setCommentEnterCheck(true);
                     if(res){
                         alert("댓글을 성공적으로 올렸습니다.");
+                        e.target.value = "";
                         setReflash(!reflash);
                     }else{
                         alert("댓글을 올리지 못했습니다.");
