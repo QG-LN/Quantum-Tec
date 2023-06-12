@@ -32,7 +32,12 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public ViewResponseDTO getPost(ViewDTO request) {
-        return boardDAO.getPost(request);
+        if (boardDAO.viewCountUp(request)){ // 조회수 증가
+            return boardDAO.getPost(request);
+        }
+        else {
+            return null; // 조회수가 오르지 않으면 null 반환, 중복으로 조회수 올리기가 가능한 상태이므로
+        }
     }
 
     @Override
