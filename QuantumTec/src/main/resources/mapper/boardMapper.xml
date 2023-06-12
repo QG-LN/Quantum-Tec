@@ -78,13 +78,13 @@
     </update>
     <insert id="writePost" parameterType="WriteDTO">
         INSERT INTO POST_INFO_TB(BOARD_INDEX, POST_TITLE, POST_CONTENT, POST_AUTHOR_INDEX)
-        VALUES(#{boardIndex}, #{title}, #{content}, #{userIndex});
+        VALUES(#{boardIndex}, #{title}, #{content}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}));
     </insert>
     <update id="modifyPost" parameterType="ModifyDTO">
         UPDATE POST_INFO_TB
         SET POST_TITLE = #{title}, POST_CONTENT = #{content}
         WHERE POST_INDEX = #{postIndex}
-            AND POST_AUTHOR_INDEX = #{userIndex}
+            AND POST_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND BOARD_INDEX = #{boardIndex};
     </update>
     <delete id="deletePost" parameterType="DeleteDTO">
@@ -92,18 +92,18 @@
         WHERE POST_INDEX = #{postIndex};
         DELETE FROM POST_INFO_TB
         WHERE POST_INDEX = #{postIndex}
-            AND POST_AUTHOR_INDEX = #{userIndex};
+            AND POST_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
     </delete>
     <select id="checkVote" resultType="String">
         SELECT POST_VOTE_CHECK FROM POST_VOTE_TB
         WHERE POST_INDEX = #{postIndex}
-            AND USER_INDEX = #{userIndex};
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
     </select>
     <update id="updateUpvotePost" parameterType="VoteDTO">
         UPDATE POST_VOTE_TB
         SET POST_VOTE_CHECK = "up"
         WHERE POST_INDEX = #{postIndex}
-            AND USER_INDEX = #{userIndex};
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
         UPDATE POST_INFO_TB
         SET POST_UPVOTES = POST_UPVOTES + 1
         , POST_DOWNVOTES = POST_DOWNVOTES - 1
@@ -111,7 +111,7 @@
     </update>
     <insert id="insertUpvotePost" parameterType="VoteDTO">
         INSERT INTO POST_VOTE_TB(POST_INDEX, USER_INDEX, POST_VOTE_CHECK)
-        VALUES(#{postIndex}, #{userIndex}, "up");
+        VALUES(#{postIndex}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}), "up");
         UPDATE POST_INFO_TB
         SET POST_UPVOTES = POST_UPVOTES + 1
         WHERE POST_INDEX = #{postIndex};
@@ -120,7 +120,7 @@
         UPDATE POST_VOTE_TB
         SET POST_VOTE_CHECK = "down"
         WHERE POST_INDEX = #{postIndex}
-            AND USER_INDEX = #{userIndex};
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
         UPDATE POST_INFO_TB
         SET POST_UPVOTES = POST_UPVOTES - 1
         , POST_DOWNVOTES = POST_DOWNVOTES + 1
@@ -128,7 +128,7 @@
     </update>
     <insert id="insertDownvotePost" parameterType="VoteDTO">
         INSERT INTO POST_VOTE_TB(POST_INDEX, USER_INDEX, POST_VOTE_CHECK)
-        VALUES(#{postIndex}, #{userIndex}, "down");
+        VALUES(#{postIndex}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}), "down");
         UPDATE POST_INFO_TB
         SET POST_DOWNVOTES = POST_DOWNVOTES + 1
         WHERE POST_INDEX = #{postIndex};
@@ -160,13 +160,13 @@
     </select>
     <insert id="writeComment" parameterType="CommentWriteDTO">
         INSERT INTO COMMENT_INFO_TB(POST_INDEX, COMMENT_CONTENT, COMMENT_AUTHOR_INDEX)
-        VALUES(#{postIndex}, #{commentContent}, #{userIndex});
+        VALUES(#{postIndex}, #{commentContent}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}));
     </insert>
     <update id="modifyComment" parameterType="CommentModifyDTO">
         UPDATE COMMENT_INFO_TB
         SET COMMENT_CONTENT = #{commentContent}
         WHERE COMMENT_INDEX = #{commentIndex}
-            AND COMMENT_AUTHOR_INDEX = #{userIndex}
+            AND COMMENT_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND POST_INDEX = #{postIndex};
     </update>
     <delete id="deleteCommentVote" parameterType="CommentDeleteDTO">
@@ -191,7 +191,7 @@
         UPDATE COMMENT_VOTE_TB
         SET COMMENT_VOTE_CHECK = "up"
         WHERE COMMENT_INDEX = #{commentIndex}
-            AND USER_INDEX = #{userIndex}
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND POST_INDEX = #{postIndex};
         UPDATE COMMENT_INFO_TB
         SET COMMENT_UPVOTES = COMMENT_UPVOTES + 1
@@ -201,7 +201,7 @@
     </update>
     <insert id="insertUpvoteComment" parameterType="CommentVoteDTO">
         INSERT INTO COMMENT_VOTE_TB(COMMENT_INDEX, USER_INDEX, COMMENT_VOTE_CHECK, POST_INDEX)
-        VALUES(#{commentIndex}, #{userIndex}, "up", #{postIndex});
+        VALUES(#{commentIndex}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}), "up", #{postIndex});
         UPDATE COMMENT_INFO_TB
         SET COMMENT_UPVOTES = COMMENT_UPVOTES + 1
         WHERE COMMENT_INDEX = #{commentIndex}
@@ -211,7 +211,7 @@
         UPDATE COMMENT_VOTE_TB
         SET COMMENT_VOTE_CHECK = "down"
         WHERE COMMENT_INDEX = #{commentIndex}
-            AND USER_INDEX = #{userIndex}
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND POST_INDEX = #{postIndex};
         UPDATE COMMENT_INFO_TB
         SET COMMENT_UPVOTES = COMMENT_UPVOTES - 1
@@ -221,7 +221,7 @@
     </update>
     <insert id="insertDownvoteComment" parameterType="CommentVoteDTO">
         INSERT INTO COMMENT_VOTE_TB(COMMENT_INDEX, USER_INDEX, COMMENT_VOTE_CHECK, POST_INDEX)
-        VALUES(#{commentIndex}, #{userIndex}, "down", #{postIndex});
+        VALUES(#{commentIndex}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}), "down", #{postIndex});
         UPDATE COMMENT_INFO_TB
         SET COMMENT_DOWNVOTES = COMMENT_DOWNVOTES + 1
         WHERE COMMENT_INDEX = #{commentIndex}
