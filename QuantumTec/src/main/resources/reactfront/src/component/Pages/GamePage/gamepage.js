@@ -48,7 +48,7 @@ export default function GamePage() {
 
     const {id, gameName} = useParams();                                                // url에서 게임번호와 이름을 가져옴
 
-    const [userGamePlayEndTime, setUserGamePlayEndTime] = useState('');    // 유저의 최근 플레이 시간을 저장할 state
+    const [userGamePlayRecentPlayDateTime, setUserGamePlayRecentPlayDateTime] = useState('');    // 유저의 최근 플레이 시간을 저장할 state
     const [userGamePlayTotalPlayTime, setUserGamePlayTotalPlayTime] = useState('');                 // 유저의 총 플레이 시간을 저장할 state
 
     const [developerName, setDeveloperName] = useState('');                 // 게임의 개발자를 저장할 state
@@ -115,14 +115,10 @@ export default function GamePage() {
                     setGameRating(response.data.gameRating.toFixed(1));
 
                     // 유저의 플레이 정보 저장
-                    setUserGamePlayEndTime(response.data.userGamePlayEndTime);
+                    setUserGamePlayRecentPlayDateTime(response.data.userGamePlayRecentPlayDateTime);
                     setUserGamePlayTotalPlayTime(response.data.userGamePlayTotalPlayTime);
                 }
 
-                // 유저의 총 플레이 시간이 null이 아니라면 [즉 게임을 구매한 상태라면]
-                if (userGamePlayTotalPlayTime.equals("") === false) {
-                    setBuyStatus(true);     // 구매상태 true
-                }
             }).catch(error => {
             // 오류발생시 실행
         })
@@ -241,8 +237,8 @@ export default function GamePage() {
                                gameprice={gamePrice}
                                buystate={buyStatus}
                                gameId = {id}
-                               userGamePlayTotalPlayTime = {userGamePlayTotalPlayTime}
-                               userGamePlayEndTime = {userGamePlayEndTime}
+                               usertotal= {userGamePlayTotalPlayTime}
+                               userend = {userGamePlayRecentPlayDateTime}
                 />
             </div>
             {buyStatus &&

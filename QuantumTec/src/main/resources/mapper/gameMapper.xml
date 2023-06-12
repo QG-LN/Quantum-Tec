@@ -69,7 +69,7 @@
                 WHERE GAME_INDEX = g.GAME_INDEX
             ) AS GAME_RATING
             <if test="userId != null">
-               ,UP.USERGAMEPLAY_PLAY_END_TIME,
+               ,UP.USERGAMEPLAY_RECENT_PLAY_DATETIME,
                 UP.USERGAMEPLAY_TOTAL_PLAY_TIME
             </if>
         FROM
