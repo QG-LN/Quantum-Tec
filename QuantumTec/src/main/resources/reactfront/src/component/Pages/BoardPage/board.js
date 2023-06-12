@@ -204,10 +204,6 @@ export default function Board() {
             })
     }
 
-    const test = (e) => {
-        document.location.href = "/post?id=" + e.target.parentNode.childNodes[0].innerText;
-    }
-
     // 게시글 글쓰기 버튼 함수
     const handleWrite = () => {
         document.location.href = "/write";
