@@ -21,6 +21,13 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    @PostMapping("/listCount")
+    public int getPostListCount(@RequestBody ListDTO request){
+        System.out.println(request);
+        System.out.println(boardService.getPostListCount(request));
+        return boardService.getPostListCount(request);
+    }
+
     // 게시물 리스트 조회
     @PostMapping("/list")
     public List<ListResponseDTO> getPostSearchList(@RequestBody ListDTO request){

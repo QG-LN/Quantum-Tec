@@ -25,6 +25,12 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public int getPostListCount(ListDTO request) {
+        System.out.println(boardDAO.getPostCount(request));
+        return boardDAO.getPostCount(request);
+    }
+
+    @Override
     public ViewResponseDTO getPost(ViewDTO request) {
         return boardDAO.getPost(request);
     }

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import {axiosRequest} from '../../../module/networkUtils';
 import {useParams} from "react-router-dom";
+import userEvent from "@testing-library/user-event";
 
 const ITEMS_PER_PAGE = 10; // 페이지 당 아이템 수
 export default function Board() {
@@ -15,19 +16,40 @@ export default function Board() {
     // 현재 페이지 넘버
     const [currentPage, setCurrentPage] = useState(1);
     const [boardName, setBoardName] = useState("게시판");
-    const [boardType , setBoardType] = useState('0');                       // 현재 게시판 정보
-    const [sortType, setSortType] = useState("최신순");            // 현재 정렬 방식
+    const [sortName, setSortName] = useState("최신순");
+    const [boardType , setBoardType] = useState('0');               // 현재 게시판 정보
+    const [sortType, setSortType] = useState("latest");            // 현재 정렬 방식
+
+
+    const [postCount, setPostCount] = useState(0);                 // 게시글 수
 
 
     const boardId = useParams();
-    
+
     /////////////////////////// 수정 부탁
 
     // 카테고리 리스트 불러오기
     useEffect(() => {
         // getCategory();
+        const path = 'http://localhost:9090/board/listCount';
+        const body ={
+            pageNum : currentPage,
+            boardIndex : boardType.id,
+            sortType: sortType,
+            searchType : 'title',
+            searchKeyword : ''
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                console.log(res);
+                setPostCount(res);
+            })
 
     }, []);
+
+    useEffect(() => {
+
+    },[postCount]);
 
     // 게시판 타입 변경
     useEffect(() => {
@@ -37,22 +59,39 @@ export default function Board() {
 
     // 현재 로드된 게시판 id값에 따라 게시판 이름 변경
     useEffect(() => {
-        console.log(boardType.id)
-        switch (boardType.id) {
-            case '0':
-                setBoardName('전체');
+        setBoardName(boardTypeToName(boardType.id));
+    },[boardType]);
+
+    useEffect(() => {
+        console.log(sortType);
+
+        switch (sortType) {
+            case 'latest':
+                setSortName('최신순');
                 break;
-            case '1':
-                setBoardName('자유');
+            case 'past':
+                setSortName('오래된순');
                 break;
-            case '2':
-                setBoardName('튜터링');
-                break;
-            case '3':
-                setBoardName('공지사항');
+            case 'upvote':
+                setSortName('별점순');
                 break;
         }
-    },[boardType]);
+    }, [sortType]);
+
+    // 게시판 타입을 받아 게시판 이름으로 변환
+    const boardTypeToName = (boardType) => {
+        switch (boardType) {
+            case '0':
+                return '전체';
+            case '1':
+                return '자유';
+            case '2':
+                return '튜터링';
+            case '3':
+                return '공지사항';
+        }
+    };
+
 
     // 카테고리 리스트 불러오기
     const getCategory = async () => {
@@ -69,32 +108,37 @@ export default function Board() {
         // axios.get(`/api/boards?page=${currentPage}&size=${ITEMS_PER_PAGE}`)
         //     .then(response => setPosts(response.data))
         //     .catch(error => console.error(error));
+        console.log(currentPage);
 
-        // const path = 'http://localhost:9090/board/list';
-        // const body ={
-        //     pageNum : currentPage,
-        //     boardIndex : boardId
-        //
-        // }
-        // axiosRequest(path)
-        //
-        // 게시글 리스트 더미 파일
-        for (let i = 0 + (10 * (currentPage -1)); i < 10 * currentPage; i++) {
-            const newPost = {
-                id: i + 1,
-                board: "게시판 제목",
-                title: "게시물 제목",
-                writer: "글쓴이",
-                createdDate: "2023-05-30",
-                view: 10,
-                upvote: 5
-            };
-            Posts.push(newPost);
+        const path = 'http://localhost:9090/board/list';
+        const body ={
+            pageNum : currentPage,
+            boardIndex : boardType.id,
+            sortType: sortType,
+            searchType : 'title',
+            searchKeyword : ''
         }
-        tableBody.current.innerHTML = "";
-        let tempHTML = "";
-        for(let i = 0; i < Posts.length; i++){
-            tempHTML += `
+        axiosRequest(path,body,'POST','json')
+            .then(res=>{
+                console.log(res);
+                for (let i = 0; i < res.length; i++) {
+                    const boardTitle = boardTypeToName(res[i].boardTitle.toString());
+                    const newPost = {
+                        id: i + (currentPage - 1) * 10 + 1,
+                        board: boardTitle,
+                        title: res[i].postTitle,
+                        writer: res[i].postAuthor,
+                        createdDate: res[i].postDate,
+                        view: res[i].postView,
+                        upvote: res[i].postUpvotes
+                    };
+                    Posts.push(newPost);
+                }
+
+                tableBody.current.innerHTML = "";
+                let tempHTML = "";
+                for(let i = 0; i < Posts.length; i++){
+                    tempHTML += `
                 <tr key=${Posts[i].id} style='cursor:pointer' onClick='location.href = "/post/${Posts[i].id}"'>
                     <td>${Posts[i].id}</td>
                     <td>${Posts[i].board}</td>
@@ -104,8 +148,13 @@ export default function Board() {
                     <td>${Posts[i].view}</td>
                     <td>${Posts[i].upvote}</td>
                 </tr>`
-        }
-        tableBody.current.innerHTML = tempHTML;
+                }
+                tableBody.current.innerHTML = tempHTML;
+
+            }).catch(e=>{
+                console.log(e);
+            })
+
     }, [currentPage]);
 
     ////////////////////////////
@@ -148,6 +197,22 @@ export default function Board() {
         document.location.href = "/write";
     }
 
+    const handleSort = (e) => {
+        console.log(e.target.innerText);
+
+        switch (e.target.innerText) {
+            case '최신순':
+                setSortType('latest');
+                break;
+            case '오래된순':
+                setSortType('past');
+                break;
+            case '별점순':
+                setSortType('upvote');
+                break;
+        }
+    }
+
 
     // 총 게시글 카운트 더미 파일
     Posts.totalItems = 110;
@@ -170,12 +235,12 @@ export default function Board() {
                     </div>
                     <div class="dropdown col-auto">
                         <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            최신순
+                            {sortName}
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">최신순</a></li>
-                            <li><a class="dropdown-item" href="#">오래된순</a></li>
-                            <li><a className="dropdown-item" href="#">별점순</a></li>
+                        <ul class="dropdown-menu user-select-none" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" onClick={handleSort}>최신순</a></li>
+                            <li><a class="dropdown-item" onClick={handleSort}>오래된순</a></li>
+                            <li><a className="dropdown-item" onClick={handleSort}>별점순</a></li>
                         </ul>
                     </div>
                 </div>
@@ -231,7 +296,7 @@ export default function Board() {
                         </li>
                     }
                     {/* 페이징 처리를 위한 컴포넌트 추가 */}
-                    {Array.from({ length: Math.min(10, Math.ceil(Posts.totalItems / ITEMS_PER_PAGE) - startPage + 1) }, (_, i) => startPage + i).map(pageNumber => (
+                    {Array.from({ length: Math.min(10, Math.ceil(postCount/ ITEMS_PER_PAGE) - startPage + 1) }, (_, i) => startPage + i).map(pageNumber => (
                         <li key={pageNumber} className={`page-item nav-item ${pageNumber === currentPage ? 'active' : ''}`}>
                             <button className="page-link nav-item" onClick={() => handlePageChange(pageNumber)}>
                                 {pageNumber}
@@ -239,7 +304,7 @@ export default function Board() {
                         </li>
                     ))}
 
-                    {Math.ceil(Posts.totalItems / ITEMS_PER_PAGE) > Math.floor((currentPage-1) / ITEMS_PER_PAGE + 1) * 10 && 
+                    {Math.ceil(postCount / ITEMS_PER_PAGE) > Math.floor((currentPage-1) / ITEMS_PER_PAGE + 1) * 10 &&
                         <li key=">" className="page-item nav-item">
                             <button className="page-link nav-item" onClick={() => handlePageUp()}>
                                 {">"}
