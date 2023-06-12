@@ -1,6 +1,7 @@
 package com.project.quantumtec.DAO.user;
 
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.UserDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.VO.user.UserVO;
 
@@ -26,7 +27,7 @@ public interface UserDAO {
     public LoginResponseDTO getLoginInfo(int userIdx) throws Exception;
 
     // 사용자 추가
-    public int setUser(UserVO user) throws Exception;
+    public int setUser(UserDTO user) throws Exception;
 
     // ID 중복 확인
     public boolean isIdDuplicate(UserVO user) throws Exception;
