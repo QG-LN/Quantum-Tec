@@ -81,25 +81,38 @@ export default function Post() {
         }
     }, [inView, loading])
 
+
     const clickUpvote = () => {
-        // 유저 중복 안되게 하는 코드 필요
-        axios.get(`/api/post/upvote`,{
-            params: {
-                postIndex: id,
-            }
-        })
-        .then(response => (response.data)?alert("추천하였습니다."):alert("추천하지 못했습니다."))
-        .catch(error => console.error(error));
+        const path = 'http://localhost:9090/board/upvote';
+        const body ={
+            postIndex: id,
+            userID: localStorage.getItem("userID")
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("추천하였습니다.");
+                    setReflash(!reflash);
+                }else{
+                    alert("추천하지 못했습니다.");
+                }
+            })
     }
     const clickDownvote = () => {
-        // 유저 중복 안되게 하는 코드 필요
-        axios.get(`/api/post/downvote`,{
-            params: {
-                postIndex: id,
-            }
-        })
-        .then(response => (response.data)?alert("비추천하였습니다."):alert("비추천하지 못했습니다."))
-        .catch(error => console.error(error));
+        const path = 'http://localhost:9090/board/downvote';
+        const body ={
+            postIndex: id,
+            userID: localStorage.getItem("userID")
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("비추천하였습니다.");
+                    setReflash(!reflash);
+                }else{
+                    alert("비추천하지 못했습니다.");
+                }
+            })
     }
     const clickCommentUpvote = (e) => {
         // 유저 중복 안되게 하는 코드 필요
