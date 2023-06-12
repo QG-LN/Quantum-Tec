@@ -43,7 +43,6 @@ export default function Section() {
         };
         axiosRequest(path, body, 'post', 'list')
             .then(res => {
-                console.log(res);
                 setGamelist(res);            // 서버에서 받아온 게임 목록 저장
                 if (res.length !== 0) {      // 받아온 게임 목록이 있을 경우
                     const temp = [];        // 새로 받아온 게임 목록을 임시로 저장할 배열
@@ -80,8 +79,6 @@ export default function Section() {
     // 페이지가 바뀌었을 때마다 게임 목록을 새로 받아옴
     useEffect(() => {
         setLoading(true);
-
-        console.log(page);
         getGameList();
 
         setLoading(false);
