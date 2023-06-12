@@ -92,8 +92,8 @@ public class BoardController {
 
     // 해당 게시글의 총 댓글 수
     @PostMapping("/commentCount")
-    public int getCommentCount(@RequestParam("postIndex") int postIndex){
-        return boardService.getCommentCount(postIndex);
+    public int getCommentCount(@RequestBody CommentCountDTO request){
+        return boardService.getCommentCount(request);
     }
 
     // 댓글 작성
