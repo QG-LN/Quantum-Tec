@@ -122,13 +122,11 @@
             G.COMMENT_DOWNVOTES,
             G.COMMENT_RATING
         FROM
-            GAME_COMMENT_TB G, USER_INFO_TB U
+            GAME_COMMENT_INFO_TB G, USER_INFO_TB U
         WHERE
             G.COMMENT_AUTHOR_INDEX = U.USER_INDEX AND
             G.GAME_INDEX = #{gameIndex}
         ORDER BY
-            G.GAME_COMMENT_DATE DESC
-        LIMIT
-            #{startIndex}, #{endIndex};
+            G.COMMENT_CREATED_DATE DESC
     </select>
 </mapper>

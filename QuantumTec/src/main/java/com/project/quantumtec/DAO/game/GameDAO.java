@@ -10,4 +10,6 @@ public interface GameDAO {
 
     // 게임 정보 가져오기
     public GameDetailsInfoDTO getGameInfo(GameSearchDTO gameSearchDTO);
+
+    public List<GameCommentDTO> getPostGameComment(GameCommentListDTO request);
 }

@@ -35,4 +35,14 @@ public class GameDAOImpl implements GameDAO{
         }
 
     }
+
+    @Override
+    public List<GameCommentDTO> getPostGameComment(GameCommentListDTO request) {
+        try{
+            return sqlSession.selectList("GameService.getGameCommentList", request);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

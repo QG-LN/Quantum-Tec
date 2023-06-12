@@ -1,10 +1,14 @@
 package com.project.quantumtec.Controller;
 
+import com.project.quantumtec.DTO.game.GameCommentDTO;
+import com.project.quantumtec.DTO.game.GameCommentListDTO;
 import com.project.quantumtec.DTO.game.GameDetailsInfoDTO;
 import com.project.quantumtec.DTO.game.GameSearchDTO;
 import com.project.quantumtec.Service.game.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * PackageName : com.project.quantumtec.Controller
@@ -29,7 +33,7 @@ public class GameController {
                                           @RequestParam( value = "userId") String userId){
         gameName = gameName.replace("_", " ");  // 게임 이름에 _가 포함되어 있으면 공백으로 변경
         if(userId.equals("")) userId = null;    // userId가 빈문자열이면 null로 변경
-
+;
         // DTO에 게임 ID와 게임 이름을 세팅
         GameSearchDTO gameSearchDTO = new GameSearchDTO();
         gameSearchDTO.setGameIndex(gameID);
@@ -40,5 +44,10 @@ public class GameController {
         return gameService.getGameInfo(gameSearchDTO);
     }
 
+    @PostMapping("/info/comment")
+    public List<GameCommentDTO> getPostGameComment(@RequestBody GameCommentListDTO request){
+        // 게임 id와 게임 이름을 받아서 게임 정보를 가져옴
+        return gameService.getPostGameComment(request);
+    }
 
 }
