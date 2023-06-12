@@ -5,28 +5,9 @@ import Buyplaybanner from './buyplaybanner.js';
 import GPcomment from './gpcomment.js'
 import {useParams} from "react-router-dom";
 import axios from "axios";
+import {axiosRequest} from "../../../module/networkUtils";
 
-// 댓글 리스트
-const commentlist = [
-{
-  commentimg: "http://help.nexon.com/image/gameicon/cs_maple2.png",
-  commentNo: "1",
-  commentUserName: "user1",
-  commentDate: "2021/02/14",
-  commentUp: "17",
-  commentDown: "16",
-  commentSub: <div>내용추가<br/>아 드럽네요</div>,
-},
-{
-  commentimg: "http://help.nexon.com/image/gameicon/cs_maple1.png",
-  commentNo: "2",
-  commentUserName: "아 너무 안좋아요",
-  commentDate: "2021/05/36",
-  commentUp: "17",
-  commentDown: "16",
-  commentSub: '댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용',
-},
-]
+
 
 //추천 게임 리스트
 const Relatedgame=[
@@ -56,6 +37,7 @@ export default function GamePage() {
     const [buyStatus, setBuyStatus] = useState(true);                       // 구매상태를 저장할 state
 
     const [comment, setComment] = useState('');
+    const [commentList, setCommentList] = useState([]);                // 댓글 리스트를 저장할 state
     const [activeImage, setActiveImage] = useState(0);
     const [usergrade,setUserGrade] = useState('0');
     const categray_0 = '카테고리1';
@@ -113,8 +95,8 @@ export default function GamePage() {
 
         const path = `http://localhost:9090/game/info?id=${id}&name=${gameName}&userId=${userId}`;
         axios.get(path)
-            .then(response =>  {
-                if(response !== null){
+            .then(response => {
+                if (response !== null) {
                     console.log(response.data.userGamePlayTotalPlayTime);
                     // 게임 정보 저장
                     setDeveloperName(response.data.developerName);
@@ -131,29 +113,32 @@ export default function GamePage() {
 
                     // 유저의 플레이 정보 저장
                     setUserGamePlayEndTime(response.data.userGamePlayEndTime);
-
-                    // const time = response.data.userGamePlayTotalPlayTime.split(':');
-                    // let hour = parseInt(time[0]);
-                    // let minute = parseInt(time[1]);
-                    // if(minute> 59){
-                    //     hour+= 1;
-                    //     minute = minute - 60;
-                    // }
-                    // let totalTime = hour + "." + minute + "시간";
-                    // console.log(totalTime);
                     setUserGamePlayTotalPlayTime(response.data.userGamePlayTotalPlayTime);
                 }
 
                 // 유저의 총 플레이 시간이 null이 아니라면 [즉 게임을 구매한 상태라면]
-                if(userGamePlayTotalPlayTime.equals("") === false) {
+                if (userGamePlayTotalPlayTime.equals("") === false) {
                     setBuyStatus(true);     // 구매상태 true
                 }
-                }).catch(error => {
-                // 오류발생시 실행
-                })
+            }).catch(error => {
+            // 오류발생시 실행
+        })
 
+        const commentPath = 'http://localhost:9090/game/info/comment';
+        const body = {
+            pageNum   : 1,
+            gameIndex : 1,
+            sortType  : "date",
+            startIndex: 0,
+            endIndex  : 10,
+        }
+        axiosRequest(commentPath, body, 'POST', 'list')
+            .then(res => {
+                console.log(res);
+                setCommentList(res);
+            })
 
-    },[])
+    }, [])
 
 
     useDidMountEffect(() => {
@@ -275,10 +260,11 @@ export default function GamePage() {
                         {/*내용 작성하는부분 */}
                         <div>{gameDescription}</div>
                         <br/>
-                        <div className=''>업데이트 내역 ver : {gameVersion}</div>
+                        <div className=''>업데이트 내역 ver{gameVersion}</div>
                         <p>- 화면전환<br/>- 게임의 자잘자잘한 느낌</p>
                         <br/>
-                        <div>플랫폼 :{gamePlatForm}</div>
+                        <div>플랫폼  {gamePlatForm}</div>
+                        <div>개발자 {developerName}</div>
                     </div>
                 </p>
                 <hr></hr>
@@ -306,7 +292,7 @@ export default function GamePage() {
             </div>
             <div>
                 <h2 class='text-left ml-9 mt-4'>댓글</h2>
-                <GPcomment Comment={commentlist} />
+                <GPcomment commentList={commentList} gameID={id} />
             </div>
 
         </div>
