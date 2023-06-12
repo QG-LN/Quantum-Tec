@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BoardService">
     <select id="getPostSearchList" resultType="ListResponseDTO">
-        SELECT POST_INDEX, BOARD_NAME, POST_TITLE,
+        SELECT POST_INDEX, BOARD_NAME AS BOARD_TITLE, POST_TITLE,
             USER_NAME AS POST_AUTHOR, POST_CREATED_DATE AS POST_DATE,
             POST_VIEWS AS POST_VIEW, POST_UPVOTES
         FROM POST_INFO_TB P, USER_INFO_TB U, BOARD_LIST_TB B
@@ -26,20 +26,43 @@
             </choose>
         <choose>
             <when test="sortType.getValue() == 'latest'">
-                ORDER BY POST_CREATED_DATE DESC
+                ORDER BY POST_CREATED_DATE DESC, POST_INDEX DESC
             </when>
             <when test="sortType.getValue()  == 'past'">
-                ORDER BY POST_CREATED_DATE ASC
+                ORDER BY POST_CREATED_DATE ASC, POST_INDEX DESC
             </when>
             <when test="sortType.getValue()  == 'upvote'">
-                ORDER BY POST_UPVOTES DESC
+                ORDER BY POST_UPVOTES DESC, POST_INDEX DESC
             </when>
             <otherwise>
-                ORDER BY POST_CREATED_DATE DESC
+                ORDER BY POST_CREATED_DATE DESC, POST_INDEX DESC
             </otherwise>
         </choose>
         LIMIT #{startIndex}, #{endIndex};
     </select>
+
+    <select id="getPostCount" resultType="int">
+        SELECT count(*)
+        FROM POST_INFO_TB P, USER_INFO_TB U, BOARD_LIST_TB B
+        WHERE P.BOARD_INDEX = B.BOARD_INDEX and P.POST_AUTHOR_INDEX = U.USER_INDEX
+        <if test="boardIndex != 0">
+            AND P.BOARD_INDEX = #{boardIndex}
+        </if>
+        <choose>
+            <when test="searchType.getValue() == 'title'">
+                AND P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%')
+            </when>
+            <when test="searchType.getValue() == 'author'">
+                AND U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%')
+            </when>
+            <when test="searchType.getValue() == 'title_author'">
+                AND (P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%') OR U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%'))
+            </when>
+        </choose>
+
+    </select>
+
+
     <select id="getPost" resultType="ViewResponseDTO">
         SELECT BOARD_NAME AS BOARD_TITLE, POST_TITLE, USER_NAME AS POST_AUTHOR, POST_CREATED_DATE AS POST_DATE,
             POST_VIEWS AS POST_VIEW, POST_UPVOTES, POST_DOWNVOTES, POST_CONTENT
@@ -55,32 +78,36 @@
     </update>
     <insert id="writePost" parameterType="WriteDTO">
         INSERT INTO POST_INFO_TB(BOARD_INDEX, POST_TITLE, POST_CONTENT, POST_AUTHOR_INDEX)
-        VALUES(#{boardIndex}, #{title}, #{content}, #{userIndex});
+        VALUES(#{boardIndex}, #{title}, #{content}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}));
     </insert>
     <update id="modifyPost" parameterType="ModifyDTO">
         UPDATE POST_INFO_TB
         SET POST_TITLE = #{title}, POST_CONTENT = #{content}
         WHERE POST_INDEX = #{postIndex}
-            AND POST_AUTHOR_INDEX = #{userIndex}
+            AND POST_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND BOARD_INDEX = #{boardIndex};
     </update>
     <delete id="deletePost" parameterType="DeleteDTO">
         DELETE FROM POST_VOTE_TB
         WHERE POST_INDEX = #{postIndex};
+        DELETE FROM COMMENT_VOTE_TB
+        WHERE POST_INDEX = #{postIndex};
+        DELETE FROM COMMENT_INFO_TB
+        WHERE POST_INDEX = #{postIndex};
         DELETE FROM POST_INFO_TB
         WHERE POST_INDEX = #{postIndex}
-            AND POST_AUTHOR_INDEX = #{userIndex};
+            AND POST_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
     </delete>
     <select id="checkVote" resultType="String">
         SELECT POST_VOTE_CHECK FROM POST_VOTE_TB
         WHERE POST_INDEX = #{postIndex}
-            AND USER_INDEX = #{userIndex};
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
     </select>
     <update id="updateUpvotePost" parameterType="VoteDTO">
         UPDATE POST_VOTE_TB
         SET POST_VOTE_CHECK = "up"
         WHERE POST_INDEX = #{postIndex}
-            AND USER_INDEX = #{userIndex};
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
         UPDATE POST_INFO_TB
         SET POST_UPVOTES = POST_UPVOTES + 1
         , POST_DOWNVOTES = POST_DOWNVOTES - 1
@@ -88,7 +115,7 @@
     </update>
     <insert id="insertUpvotePost" parameterType="VoteDTO">
         INSERT INTO POST_VOTE_TB(POST_INDEX, USER_INDEX, POST_VOTE_CHECK)
-        VALUES(#{postIndex}, #{userIndex}, "up");
+        VALUES(#{postIndex}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}), "up");
         UPDATE POST_INFO_TB
         SET POST_UPVOTES = POST_UPVOTES + 1
         WHERE POST_INDEX = #{postIndex};
@@ -97,7 +124,7 @@
         UPDATE POST_VOTE_TB
         SET POST_VOTE_CHECK = "down"
         WHERE POST_INDEX = #{postIndex}
-            AND USER_INDEX = #{userIndex};
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
         UPDATE POST_INFO_TB
         SET POST_UPVOTES = POST_UPVOTES - 1
         , POST_DOWNVOTES = POST_DOWNVOTES + 1
@@ -105,7 +132,7 @@
     </update>
     <insert id="insertDownvotePost" parameterType="VoteDTO">
         INSERT INTO POST_VOTE_TB(POST_INDEX, USER_INDEX, POST_VOTE_CHECK)
-        VALUES(#{postIndex}, #{userIndex}, "down");
+        VALUES(#{postIndex}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}), "down");
         UPDATE POST_INFO_TB
         SET POST_DOWNVOTES = POST_DOWNVOTES + 1
         WHERE POST_INDEX = #{postIndex};
@@ -137,36 +164,38 @@
     </select>
     <insert id="writeComment" parameterType="CommentWriteDTO">
         INSERT INTO COMMENT_INFO_TB(POST_INDEX, COMMENT_CONTENT, COMMENT_AUTHOR_INDEX)
-        VALUES(#{postIndex}, #{commentContent}, #{userIndex});
+        VALUES(#{postIndex}, #{commentContent}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}));
     </insert>
     <update id="modifyComment" parameterType="CommentModifyDTO">
         UPDATE COMMENT_INFO_TB
         SET COMMENT_CONTENT = #{commentContent}
         WHERE COMMENT_INDEX = #{commentIndex}
-            AND COMMENT_AUTHOR_INDEX = #{userIndex}
+            AND COMMENT_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND POST_INDEX = #{postIndex};
     </update>
-    <delete id="deleteComment" parameterType="CommentDeleteDTO">
+    <delete id="deleteCommentVote" parameterType="CommentDeleteDTO">
         DELETE FROM COMMENT_VOTE_TB
         WHERE COMMENT_INDEX = #{commentIndex}
-          AND USER_INDEX = #{userIndex}
+          AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
           AND POST_INDEX = #{postIndex};
+    </delete>
+    <delete id="deleteComment" parameterType="CommentDeleteDTO">
         DELETE FROM COMMENT_INFO_TB
         WHERE COMMENT_INDEX = #{commentIndex}
-            AND COMMENT_AUTHOR_INDEX = #{userIndex}
+            AND COMMENT_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND POST_INDEX = #{postIndex};
     </delete>
     <select id="checkCommentVote" resultType="String">
         SELECT COMMENT_VOTE_CHECK FROM COMMENT_VOTE_TB
         WHERE COMMENT_INDEX = #{commentIndex}
-            AND USER_INDEX = #{userIndex}
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND POST_INDEX = #{postIndex};
     </select>
     <update id="updateUpvoteComment" parameterType="CommentVoteDTO">
         UPDATE COMMENT_VOTE_TB
         SET COMMENT_VOTE_CHECK = "up"
         WHERE COMMENT_INDEX = #{commentIndex}
-            AND USER_INDEX = #{userIndex}
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND POST_INDEX = #{postIndex};
         UPDATE COMMENT_INFO_TB
         SET COMMENT_UPVOTES = COMMENT_UPVOTES + 1
@@ -176,7 +205,7 @@
     </update>
     <insert id="insertUpvoteComment" parameterType="CommentVoteDTO">
         INSERT INTO COMMENT_VOTE_TB(COMMENT_INDEX, USER_INDEX, COMMENT_VOTE_CHECK, POST_INDEX)
-        VALUES(#{commentIndex}, #{userIndex}, "up", #{postIndex});
+        VALUES(#{commentIndex}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}), "up", #{postIndex});
         UPDATE COMMENT_INFO_TB
         SET COMMENT_UPVOTES = COMMENT_UPVOTES + 1
         WHERE COMMENT_INDEX = #{commentIndex}
@@ -186,7 +215,7 @@
         UPDATE COMMENT_VOTE_TB
         SET COMMENT_VOTE_CHECK = "down"
         WHERE COMMENT_INDEX = #{commentIndex}
-            AND USER_INDEX = #{userIndex}
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND POST_INDEX = #{postIndex};
         UPDATE COMMENT_INFO_TB
         SET COMMENT_UPVOTES = COMMENT_UPVOTES - 1
@@ -196,7 +225,7 @@
     </update>
     <insert id="insertDownvoteComment" parameterType="CommentVoteDTO">
         INSERT INTO COMMENT_VOTE_TB(COMMENT_INDEX, USER_INDEX, COMMENT_VOTE_CHECK, POST_INDEX)
-        VALUES(#{commentIndex}, #{userIndex}, "down", #{postIndex});
+        VALUES(#{commentIndex}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}), "down", #{postIndex});
         UPDATE COMMENT_INFO_TB
         SET COMMENT_DOWNVOTES = COMMENT_DOWNVOTES + 1
         WHERE COMMENT_INDEX = #{commentIndex}
@@ -233,5 +262,17 @@
             POST_INDEX &lt; #{postIndex}
         ORDER BY POST_INDEX DESC
         LIMIT 1;
+    </select>
+
+    <!-- 게시글 조회수 상승 -->
+    <update id="viewCountUp" parameterType="ViewDTO">
+        UPDATE POST_INFO_TB
+        SET POST_VIEWS = POST_VIEWS + 1
+        WHERE POST_INDEX = #{postIndex};
+    </update>
+
+    <select id="getCommentCount" resultType="int">
+        SELECT COUNT(*) FROM COMMENT_INFO_TB
+        WHERE POST_INDEX = #{postIndex};
     </select>
 </mapper>

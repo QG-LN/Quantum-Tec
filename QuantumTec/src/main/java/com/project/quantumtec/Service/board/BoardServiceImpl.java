@@ -25,8 +25,19 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public int getPostListCount(ListDTO request) {
+        System.out.println(boardDAO.getPostCount(request));
+        return boardDAO.getPostCount(request);
+    }
+
+    @Override
     public ViewResponseDTO getPost(ViewDTO request) {
         return boardDAO.getPost(request);
+    }
+
+    @Override
+    public boolean viewCountUp(ViewDTO request) {
+        return boardDAO.viewCountUp(request);
     }
 
     @Override
@@ -84,6 +95,11 @@ public class BoardServiceImpl implements BoardService{
         request.setStartIndex((request.getPageNum()-1)*itemNum); // 페이지 (로딩 단위)에 따른 시작 댓글 인덱스 계산
         request.setEndIndex(itemNum); // 한 페이지(로딩 단위) 당 댓글 수
         return boardDAO.getCommentList(request);
+    }
+
+    @Override
+    public int getCommentCount(CommentCountDTO request) {
+        return boardDAO.getCommentCount(request);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,12 +27,31 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
+    public int getPostCount(ListDTO request){
+        try{
+            return sqlSession.selectOne("BoardService.getPostCount", request);
+        }catch (Exception e){
+            return 0;
+        }
+    }
+
+    @Override
     public ViewResponseDTO getPost(ViewDTO request) {
         try {
             // 게시물 조회
             return sqlSession.selectOne("BoardService.getPost", request);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    @Override
+    public boolean viewCountUp(ViewDTO request) {
+        try {
+            // 게시물 조회수 증가
+            return sqlSession.update("BoardService.viewCountUp", request) > 0;
+        } catch (Exception e) {
+            return false;
         }
     }
 
@@ -56,7 +76,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean deletePost(DeleteDTO request) {
+    public boolean deletePost(DeleteDTO request) { // 게시글 삭제 성공해도 false 반환하는 중...
         try {
             // 게시물 삭제
             return sqlSession.delete("BoardService.deletePost", request) > 0;
@@ -77,7 +97,7 @@ public class BoardDAOImpl implements BoardDAO {
                 else
                     return false;
             }else {
-                return sqlSession.update("BoardService.insertUpvotePost", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
+                return sqlSession.insert("BoardService.insertUpvotePost", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
             }
         } catch (Exception e) {
             return false;
@@ -96,7 +116,7 @@ public class BoardDAOImpl implements BoardDAO {
                 else
                     return false;
             }else {
-                return sqlSession.update("BoardService.insertDownvotePost", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
+                return sqlSession.insert("BoardService.insertDownvotePost", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
             }
         } catch (Exception e) {
             return false;
@@ -134,6 +154,11 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
+    public int getCommentCount(CommentCountDTO request) { // 댓글 갯수 불러오기
+        return sqlSession.selectOne("BoardService.getCommentCount", request);
+    }
+
+    @Override
     public boolean writeComment(CommentWriteDTO request) {
         try {
             // 댓글 작성
@@ -157,7 +182,11 @@ public class BoardDAOImpl implements BoardDAO {
     public boolean deleteComment(CommentDeleteDTO request) {
         try {
             // 댓글 작성
-            return sqlSession.insert("BoardService.deleteComment", request) > 0;
+            String check = sqlSession.selectOne("BoardService.checkCommentVote", request);
+            if (check != null) {
+                sqlSession.delete("BoardService.deleteCommentVote", request);
+            }
+            return sqlSession.delete("BoardService.deleteComment", request) > 0;
         } catch (Exception e) {
             return false;
         }
@@ -175,7 +204,7 @@ public class BoardDAOImpl implements BoardDAO {
                 else
                     return false;
             }else {
-                return sqlSession.update("BoardService.insertUpvoteComment", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
+                return sqlSession.insert("BoardService.insertUpvoteComment", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
             }
         } catch (Exception e) {
             return false;
@@ -194,7 +223,7 @@ public class BoardDAOImpl implements BoardDAO {
                 else
                     return false;
             }else {
-                return sqlSession.update("BoardService.insertDownvoteComment", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
+                return sqlSession.insert("BoardService.insertDownvoteComment", request) > 0; // 비추천/추천 둘다 아직 하지 않은 경우
             }
         } catch (Exception e) {
             return false;

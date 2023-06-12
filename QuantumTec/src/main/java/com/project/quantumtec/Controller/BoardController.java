@@ -1,16 +1,14 @@
 package com.project.quantumtec.Controller;
 
 
+import ch.qos.logback.core.model.Model;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 import com.project.quantumtec.Service.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +18,13 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+
+    @PostMapping("/listCount")
+    public int getPostListCount(@RequestBody ListDTO request){
+        System.out.println(request);
+        System.out.println(boardService.getPostListCount(request));
+        return boardService.getPostListCount(request);
+    }
 
     // 게시물 리스트 조회
     @PostMapping("/list")
@@ -32,6 +37,10 @@ public class BoardController {
     public ViewResponseDTO getPost(@RequestBody ViewDTO request){
         return boardService.getPost(request);
     }
+
+    // 게시물 조회수 증가
+    @PostMapping("/viewCountUp")
+    public boolean viewCountUp(@RequestBody ViewDTO request){ return boardService.viewCountUp(request); }
 
     // 게시물 작성
     @PostMapping("/write")
@@ -77,8 +86,14 @@ public class BoardController {
 
     // 댓글 불러오기
     @PostMapping("/commentList")
-    public List<CommentListResponseDTO> getCommentList(@RequestBody com.project.quantumtec.DTO.Request.board.CommentListDTO request){
+    public List<CommentListResponseDTO> getCommentList(@RequestBody CommentListDTO request){
         return boardService.getCommentList(request);
+    }
+
+    // 해당 게시글의 총 댓글 수
+    @PostMapping("/commentCount")
+    public int getCommentCount(@RequestBody CommentCountDTO request){
+        return boardService.getCommentCount(request);
     }
 
     // 댓글 작성
