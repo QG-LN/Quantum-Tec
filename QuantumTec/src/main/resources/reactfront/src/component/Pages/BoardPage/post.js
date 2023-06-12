@@ -174,12 +174,35 @@ export default function Post() {
 
     // 이전 글로 이동하는 함수
     const clickPrevPost = () => {
-        // 구현 필요
+        const path = 'http://localhost:9090/board/prev';
+        const body ={
+            postIndex: id
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res!==0){
+                    document.location.href = "/post/"+res;
+                }else{
+                    alert("이전 글이 없습니다.");
+                }
+            })
     }
 
     // 다음 글로 이동하는 함수
     const clickNextPost = () => {
-        // 구현 필요
+        
+        const path = 'http://localhost:9090/board/next';
+        const body ={
+            postIndex: id
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res!==0){
+                    document.location.href = "/post/"+res;
+                }else{
+                    alert("다음 글이 없습니다.");
+                }
+            })
     }
 
     // 댓글 작성하는 함수
