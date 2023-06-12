@@ -1,9 +1,6 @@
 package com.project.quantumtec.Controller;
 
-import com.project.quantumtec.DTO.game.GameCommentDTO;
-import com.project.quantumtec.DTO.game.GameCommentListDTO;
-import com.project.quantumtec.DTO.game.GameDetailsInfoDTO;
-import com.project.quantumtec.DTO.game.GameSearchDTO;
+import com.project.quantumtec.DTO.game.*;
 import com.project.quantumtec.Service.game.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -44,10 +41,18 @@ public class GameController {
         return gameService.getGameInfo(gameSearchDTO);
     }
 
+
+    // 게임관련 댓글을 가져옴
     @PostMapping("/info/comment")
     public List<GameCommentDTO> getPostGameComment(@RequestBody GameCommentListDTO request){
         // 게임 id와 게임 이름을 받아서 게임 정보를 가져옴
         return gameService.getPostGameComment(request);
+    }
+
+    // 게임과 동일한 카테고리를 가지고 있는 게임 리스트를 가져옴
+    @PostMapping("/info/sameCategory")
+    public List<GameCategoryListInfoDTO> getGameCategoryInfo(@RequestBody GameCategoryListRequestDTO request){
+        return gameService.getGameCategoryInfo(request);
     }
 
 }

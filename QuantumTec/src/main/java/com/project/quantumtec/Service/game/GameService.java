@@ -13,4 +13,6 @@ public interface GameService {
 
     public List<GameCommentDTO> getPostGameComment(GameCommentListDTO request);
 
+    public List<GameCategoryListInfoDTO> getGameCategoryInfo(GameCategoryListRequestDTO request);
+
 }
