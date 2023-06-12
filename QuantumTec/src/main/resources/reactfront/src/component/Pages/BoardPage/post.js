@@ -18,6 +18,8 @@ export default function Post() {
     const [reflash, setReflash] = useState(false)
     const [commentEnterCheck, setCommentEnterCheck] = useState(false)
     const [contentLength, setContentLength] = useState(0);
+    const [sortType, setSortType] = useState("date");            // 현재 정렬 방식
+    const [sortName, setSortName] = useState("등록순");
     
     //modal
     const [show, setShow] = useState(false);
@@ -28,6 +30,22 @@ export default function Post() {
     const handleShow = (e) => {
         setShow(true);
     }
+
+    useEffect(() => {
+        console.log(sortType);
+
+        switch (sortType) {
+            case 'date':
+                setSortName('등록순');
+                break;
+            case 'upvote':
+                setSortName('추천순');
+                break;
+            case 'downvote':
+                setSortName('비추천순');
+                break;
+        }
+    }, [sortType]);
 
     useEffect(() => {
         const path = 'http://localhost:9090/board/viewCountUp';
@@ -52,13 +70,13 @@ export default function Post() {
         const body2 ={
             pageNum: page,
             postIndex: parseInt(id),
-            sortType: "date"
+            sortType: sortType
         }
         axiosRequest(path2,body2,'POST','json')
             .then(res => {
                 setComments([...res]);
             })
-    }, [reflash]);
+    }, [reflash,sortType]);
 
     useEffect(() => {
         setLoading(true)
@@ -75,7 +93,7 @@ export default function Post() {
         const body2 ={
             pageNum: page,
             postIndex: parseInt(id),
-            sortType: "date"
+            sortType: sortType
         }
         axiosRequest(path2,body2,'POST','json')
             .then(res => {
@@ -240,6 +258,20 @@ export default function Post() {
         }
     }
 
+    const handleSort = (e) => {
+        e.target.parentNode.parentNode.style.display = "none";
+        switch (e.target.innerText) {
+            case '등록순':
+                setSortType('date');
+                break;
+            case '추천순':
+                setSortType('upvote');
+                break;
+            case '비추천순':
+                setSortType('downvote');
+                break;
+        }
+    }
     // if (!post) {
     //     return <div>Loading...</div>;  // 데이터를 불러오는 동안에는 Loading 메시지를 보여줍니다.
     // }
@@ -289,7 +321,7 @@ export default function Post() {
                 </div>
 
                 <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' id='modify' onClick={console.log("수정 버튼 클릭")} />
-                <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-2' id='delete' onClick={handleShow} />
+                <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-2' id='delete' onClick={handleShow}/>
             </div>
             <hr />
             {/* 게시글 내용 */}
@@ -348,12 +380,12 @@ export default function Post() {
                 {/* 댓글 정렬 메뉴 */}
                 <div class="dropdown col-auto">
                     <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle pt-0 pb-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        등록순
+                        {sortName}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item active" href="#">등록순</a></li>
-                        <li><a class="dropdown-item" href="#">최신순</a></li>
-                        <li><a class="dropdown-item" href="#">추천순</a></li>
+                        <li><a onClick={handleSort} class="dropdown-item" href="#">등록순</a></li>
+                        <li><a onClick={handleSort} class="dropdown-item" href="#">추천순</a></li>
+                        <li><a onClick={handleSort} class="dropdown-item" href="#">비추천순</a></li>
                     </ul>
                 </div>
             </div>
@@ -364,8 +396,8 @@ export default function Post() {
                     <div key={idx} id={comment.commentIndex} className='position-relative pt-2 pb-2' ref={idx === comments.length - 1 ? ref : null}>
                         {/* ref={idx === comments.length - 1 ? ref : null} */}
                         {/* 마지막 댓글에 사용자가 보고있는지 판단하는 코드를 추가 한 것임 */}
-                        <FontAwesomeIcon icon={faWrench} style={{color: "#aaa",}} className='position-absolute top-0 end-7' />
-                        <FontAwesomeIcon icon={faX} style={{color: "#aaa",}} className='position-absolute top-0 end-2' />
+                        <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' />
+                        <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-2'/>
                         <div className='row align-items-center p-0 m-0 ms-3'>
                             <div className='col-1 m-0 p-0 me-3 user-select-none'>
                                 <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' className="rounded w-[70px]" alt="..."></img>
