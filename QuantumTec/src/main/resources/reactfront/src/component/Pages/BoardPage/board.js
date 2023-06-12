@@ -226,7 +226,7 @@ export default function Board() {
                             {boardName}
                         </button>
                         <ul class="dropdown-menu w-[100%]" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item active" href="/board/0">전체</a></li>
+                            <li><a class="dropdown-item" href="/board/0">전체</a></li>
                             <li><a class="dropdown-item" href="/board/1">자유</a></li>
                             <li><a class="dropdown-item" href="/board/2">튜터링</a></li>
                             <li><a class="dropdown-item" href="/board/3">공지사항</a></li>
