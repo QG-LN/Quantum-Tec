@@ -130,7 +130,7 @@ export default function GamePage() {
         const commentPath = 'http://localhost:9090/game/info/comment';
         const body = {
             pageNum   : 1,
-            gameIndex : 1,
+            gameIndex : id,
             sortType  : "date",
             startIndex: 0,
             endIndex  : 10,
