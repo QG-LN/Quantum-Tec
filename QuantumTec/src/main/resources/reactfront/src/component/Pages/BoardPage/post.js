@@ -210,21 +210,21 @@ export default function Post() {
                 </Modal.Footer>
             </Modal>
             {/* 게시글 */}
-            <h1 className='text-start mt-[10vh] ms-3 user-select-none'>{post.board}</h1>
+            <h1 className='text-start mt-[10vh] ms-3 user-select-none'>{post.boardTitle}</h1>
             <hr className='' />
             <div className='p-0 m-0 ms-3 user-select-none position-relative'>
                 {/* 게시글 정보 */}
-                <h4 className='text-start'>{post.title}</h4>
+                <h4 className='text-start'>{post.postTitle}</h4>
                 <div className='row justify-content-around g-2 ms-0'>
                     <div className='row justify-content-start col'>
-                        <div className='col-auto  m-0 p-0'>{post.writer}</div>
+                        <div className='col-auto  m-0 p-0'>{post.postAuthor}</div>
                         <div className="vr m-0 p-0 ms-2 mt-1 h-1"></div>
-                        <div className='col-auto'>{post.createdDate}</div>
+                        <div className='col-auto'>{post.postDate}</div>
                     </div>
                     <div className='row justify-content-end col'>
-                        <div className='col-auto'>조회 {post.view}</div>
-                        <div className='col-auto'>추천 {post.upvote}</div>
-                        <div className='col-auto'>추천 {post.downvote}</div>
+                        <div className='col-auto'>조회 {post.postView}</div>
+                        <div className='col-auto'>추천 {post.postUpvotes}</div>
+                        <div className='col-auto'>비추천 {post.postDownvotes}</div>
                     </div>
                 </div>
 
@@ -233,14 +233,14 @@ export default function Post() {
             </div>
             <hr />
             {/* 게시글 내용 */}
-            <p className='text-start ms-3 mb-[50px] me-3'>{post.content}</p>
+            <p className='text-start ms-3 mb-[50px] me-3'>{post.postContent}</p>
             {/* 버튼 박스 */}
             <div className='position-relative w-[100%] h-[200px]'>
                 <div className='position-absolute top-50 start-50 translate-middle rounded-top'>
                     {/* 추천, 비추천 버튼 */}
                     <div className='border border-success opacity-100 w-[350px] h-[120px] row justify-content-around text-end p-3 user-select-none m-0'>
                         <div className='row col-6'>
-                            <div className='col text-center fs-3 text-green-700 p-3'>{post.upvote}</div>
+                            <div className='col text-center fs-3 text-green-700 p-3'>{post.postUpvotes}</div>
                             <div className='col-auto bg-gray-100 border border-2 rounded-4 p-2 m-0' onClick={clickUpvote} style={{cursor:"pointer"}}>
                                 <div className='text-center fs-1'>👍</div>
                             </div>
@@ -249,7 +249,7 @@ export default function Post() {
                             <div className='col-auto bg-gray-100 border border-2 rounded-4 p-2 m-0' onClick={clickDownvote} style={{cursor:"pointer"}}>
                                 <div className='text-center fs-1'>👎</div>
                             </div>
-                            <div className='col text-center fs-3 p-3'>{post.downvote}</div>
+                            <div className='col text-center fs-3 p-3'>{post.postDownvotes}</div>
                         </div>
                     </div>
                     {/* 이전글, 목록보기, 다음글 버튼 */}
@@ -301,7 +301,7 @@ export default function Post() {
             {/* 댓글 */}
             <div>
                 {comments.map((comment, idx) => (
-                    <div key={idx} id={comment.id} className='position-relative pt-2 pb-2' ref={idx === comments.length - 1 ? ref : null}>
+                    <div key={idx} id={comment.commentIndex} className='position-relative pt-2 pb-2' ref={idx === comments.length - 1 ? ref : null}>
                         {/* ref={idx === comments.length - 1 ? ref : null} */}
                         {/* 마지막 댓글에 사용자가 보고있는지 판단하는 코드를 추가 한 것임 */}
                         <FontAwesomeIcon icon={faWrench} style={{color: "#aaa",}} className='position-absolute top-0 end-7' />
@@ -311,18 +311,18 @@ export default function Post() {
                                 <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' className="rounded w-[70px]" alt="..."></img>
                             </div>
                             <div className='col-2 text-start ps-0 user-select-none'>
-                                <div className='text-start ps-0'>{comment.writer}</div>
-                                <div className='text-start pe-0 text-sm fw-light'>{comment.createdDate}</div>
+                                <div className='text-start ps-0'>{comment.commentWriter}</div>
+                                <div className='text-start pe-0 text-sm fw-light'>{comment.commentDate}</div>
                             </div>
-                            <div className='col-7 text-start'>{comment.content}</div>
+                            <div className='col-7 text-start'>{comment.commentContent}</div>
                             <div className='row justify-content-around col-2 text-end p-0 ps-4 user-select-none'>
                                 <div className='row text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-2' onClick={clickCommentUpvote} style={{cursor:"pointer"}}>
                                     <div className='col-auto text-start p-0 ps-2 pe-1'>👍</div>
-                                    <div className='col text-center p-0'>{comment.upvote}</div>
+                                    <div className='col text-center p-0'>{comment.commentUpvote}</div>
                                 </div>
                                 <div className='row text-end text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-3' onClick={clickCommentDownvote} style={{cursor:"pointer"}}>
                                     <div className='col-auto text-start p-0 ps-2 pe-1'>👎</div>
-                                    <div className='col text-center p-0'>{comment.downvote}</div>
+                                    <div className='col text-center p-0'>{comment.commentDownvote}</div>
                                 </div>
                             </div>
                         </div>
