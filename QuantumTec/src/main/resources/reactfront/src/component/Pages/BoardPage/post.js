@@ -97,7 +97,11 @@ export default function Post() {
         }
         axiosRequest(path2,body2,'POST','json')
             .then(res => {
-                setComments([...comments, ...res]);
+                if(page ===1){
+                    setComments([...res]);
+                }else{
+                    setComments([...comments, ...res]);
+                }
             })
         
         const path3 = 'http://localhost:9090/board/commentCount';
@@ -272,6 +276,7 @@ export default function Post() {
                     }else{
                         alert("댓글을 올리지 못했습니다.");
                     }
+                    setCommentEnterCheck(false);
                 })
         }
     }
