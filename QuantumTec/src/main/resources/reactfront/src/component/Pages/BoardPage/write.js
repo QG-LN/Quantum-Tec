@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import Editor from '@toast-ui/editor';
+import React, { useState, useEffect, useRef } from 'react';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
+import {axiosRequest} from '../../../module/networkUtils';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
+
 
 export default function WritePage() {
+    const editorRef = useRef();
     const [title, setTitle] = useState('');
 
     const handleTitleChange = (event) => {
@@ -11,19 +17,29 @@ export default function WritePage() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        //editor.getMarkdown()
+        if(title === ''){
+            alert("제목을 입력해주세요.");
+            return;
+        }
+        const path = 'http://localhost:9090/board/write';
+        const body ={
+            boardIndex : 1,
+            userID : localStorage.getItem("userID"),
+            title : title,
+            content : editorRef.current.getInstance().getMarkdown()
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("글을 성공적으로 올렸습니다.");
+                    document.location.href = "/board/0";
+                }else{
+                    alert("글을 올리지 못했습니다.");
+                }
+            })
     };
 
-    let editor;
 
-    useEffect(() => {
-        editor = new Editor({
-            el: document.querySelector('#editor'),
-            height: '600px',
-            initialEditType: 'markdown',
-            previewStyle: 'vertical'
-        });
-    }, []);
 
 
     return (
@@ -33,9 +49,21 @@ export default function WritePage() {
                     <input type="text" class="form-control" id="floatingInput" placeholder="title" onChange={handleTitleChange} />
                     <label for="floatingInput">제목</label>
                 </div>
-                <div id="editor" className='text-left'></div>
+                <div className="text-left">
+                    <Editor
+                        initialValue="이곳에 내용을 입력하세요!"
+                        previewStyle="vertical"
+                        height="600px"
+                        initialEditType="markdown"
+                        useCommandShortcut={true}
+                        ref={editorRef}
+                        plugins={[codeSyntaxHighlight]}
+                    />
+                </div>
                 <br />
-                <button type="submit" class="btn btn-success mb-5">Submit</button>
+                <div className='text-right'>
+                    <button onClick={handleSubmit} class="btn btn-success mb-5 text-right">Submit</button>
+                </div>
             </form>
         </div>
     );
