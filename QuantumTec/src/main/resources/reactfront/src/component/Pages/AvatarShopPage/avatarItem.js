@@ -57,11 +57,11 @@ export default function AvatarItem(props) {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn_close" variant="success" onClick={handleClose}>
-                        10,000 freecash
+                    <Button className="btn_close" variant="success" onClick={handleBuyForFreeCash}>
+                        {props.item.priceFreeCash} freecash
                     </Button>
-                    <Button className="btn_close" variant="success" onClick={handleClose}>
-                        1,000 cash
+                    <Button className="btn_close" variant="success" onClick={handleBuyForCash}>
+                        {props.item.priceCash} cash
                     </Button>
                     <Button className="btn_close" variant="secondary" onClick={handleClose}>
                         닫기
