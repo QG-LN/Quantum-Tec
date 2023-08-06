@@ -13,6 +13,7 @@ import GamePage from './component/Pages/GamePage/gamepage.js';
 import BoardPage from './component/Pages/BoardPage/board.js';
 import PostPage from './component/Pages/BoardPage/post.js';
 import WritePage from './component/Pages/BoardPage/write.js';
+import CashChargePage from './component/Pages/PaymentsPage/cashcharge';
 
 import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -40,6 +41,7 @@ function App() {
           <Route path="/post/:id" element={<Post />}/>
           <Route path="/write" element={<Write />}/>
           <Route path="/avatarshop" element={<AvatarShop />}/>
+          <Route path="/cashcharge" element={<CashCharge />}/>
         </Routes>
       </div>
       <Footer style={{height: "20vh"}} />
@@ -116,6 +118,13 @@ function AvatarShop(){
     )
 }
 
+function CashCharge(){
+    return (
+        <div className="CashCharge mt-[5vh]" >
+            <CashChargePage />
+        </div>
+    )
+}
 
 
 export default App;
