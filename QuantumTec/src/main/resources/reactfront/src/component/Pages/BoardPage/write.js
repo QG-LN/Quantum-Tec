@@ -45,14 +45,15 @@ export default function WritePage() {
 
     return (
         <div className="container">
-            <form onSubmit={handleSubmit} className=' mt-[10%]'>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" placeholder="title" onChange={handleTitleChange} />
-                    <label for="floatingInput">제목</label>
+            <form onSubmit={handleSubmit}  className="text-left mt-[10%]">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">제목</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력해주세요." onChange={handleTitleChange} />
                 </div>
-                <div className="text-left">
+                <div>
                     <Editor
-                        initialValue="이곳에 내용을 입력하세요!"
+                        initialValue="이곳에 내용을 입력하세요!
+오른쪽 화면에서 미리보기가 가능합니다."
                         previewStyle="vertical"
                         height="600px"
                         initialEditType="markdown"
