@@ -8,6 +8,36 @@ export default function AvatarItem(props) {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const checkLogin = () => {
+        if(localStorage.getItem("userNickname") == null){
+            alert("로그인이 필요한 서비스입니다.");
+            document.location.href = "/login";
+        }
+    }
+
+    const checkCash = () => {
+        if(localStorage.getItem("userCash") < props.item.priceCash){
+            alert("캐시가 부족합니다.");
+            document.location.href = "/cashcharge";
+        }
+    }
+
+    const handleBuyForCash = () => {
+        checkLogin();   // 로그인 확인
+        // 이미 구매한 아이템인지 확인
+        checkCash();    // 캐시 확인
+        // 구매 처리
+        // 구매 후 아이템 저장
+    }
+    const handleBuyForFreeCash = () => {
+        checkLogin();   // 로그인 확인
+        // 이미 구매한 아이템인지 확인
+        // 프리캐시 확인
+        // 구매 처리
+        // 구매 후 아이템 저장
+        alert("미구현");
+    }
     useEffect(() => {
         // console.log(props);
     }, []);
