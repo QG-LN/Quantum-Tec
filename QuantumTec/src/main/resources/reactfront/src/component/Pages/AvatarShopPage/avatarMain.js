@@ -16,7 +16,7 @@ export default function AvatarMain(props) {
             });
         let tempArray = [];
         for(let i = 0; i < 5; i++) {
-            tempArray.push({ id: i, name: `아이템${i+1}` });
+            tempArray.push({ id: i, name: `아이템${i+1}`, priceCash: 1000, priceFreeCash:10000 });
         }
         setHatList(hatList.concat(tempArray));
         tempArray = []
