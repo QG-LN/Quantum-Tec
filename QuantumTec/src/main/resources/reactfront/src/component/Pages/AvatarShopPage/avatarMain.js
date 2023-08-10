@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AvatarItem from './avatarItem';
+import '../../../css.scss'
 
 export default function AvatarMain(props) {
     const [avatarCategory, setAvatarCategory] = useState([]); // 카테고리 목록
@@ -45,7 +46,7 @@ export default function AvatarMain(props) {
             </div>
             
             <div className='row justify-content-end me-4'>
-                <div className='w-[30%] col-auto'>
+                <div className='w-[30%] col-4'>
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" placeholder="검색할 아이템을 입력하세요" aria-label="검색할 아이템을 입력하세요" aria-describedby="avatar-search-button" />
                         <button class="btn btn-outline-secondary" type="button" id="avatar-search-button" onClick={props.onClick}>검색</button>
