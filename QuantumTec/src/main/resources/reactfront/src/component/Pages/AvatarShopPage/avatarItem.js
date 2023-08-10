@@ -36,10 +36,11 @@ export default function AvatarItem(props) {
                 <Modal.Body>
                     <div className='row justify-content-between'>
                         <div className='placeholder-glow col-5'>
-                            <div class="placeholder ratio ratio-1x1 rounded"></div>
+                            {/* <div class="placeholder ratio ratio-1x1 rounded"></div> */}
+                            <img src={imgSrc} className='rounded'/>
                         </div>
                         <div className='col-7'>
-                            {props.item.name}
+                            {props.item.name} {props.category}
                             <h6 class="card-text placeholder-glow">
                                 <div class="placeholder col-5"></div> 제작
                             </h6>
@@ -72,7 +73,7 @@ export default function AvatarItem(props) {
             </Modal>
             <div onClick={handleShow}>
                 {/* <div class="placeholder ratio ratio-1x1 rounded-top"></div> */}
-                <img src={imgSrc}/>
+                <img src={imgSrc} className='rounded-top'/>
                 {/* <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" class="card-img-top" alt="..."/> */}
                 <div class="text-start m-3">
                     <h5 class="card-title placeholder-glow">
