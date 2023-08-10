@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {axiosRequest} from '../../../module/networkUtils';
+import Choosefind from "../LoginPage/choosefind";
+import mySectionInfo from "./MySectionInfo";
+import MySectionInfo from "./MySectionInfo";
 
 export default function Mysection(props){
     // 값 불러올 때에는 useState에 입력하면 됨
@@ -22,6 +25,22 @@ export default function Mysection(props){
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
+
+    // 입력한 정보를 다시한번 보여주도록 하는 창을 띄우는 state
+    const [modalOpen, setModalOpen] = useState(false)
+    const [userInfo, setUserInfo] = useState({
+        inputName: '',
+        inputBirth: '',
+        inputNickname: '',
+        inputId: '',
+        inputEmail: '',
+        inputAddress: '',
+        inputAddressDetail: '',
+        inputRole: '',
+        inputGender: '',
+        inputPostAddress: '',
+    });
+    const [sendOk, setSendOk] = useState(false);      // 수정을 위해 정보를 보내는지 확인하는 state
 
     const data = props.userData;
     useEffect(()=>{
@@ -189,40 +208,67 @@ export default function Mysection(props){
             alert('닉네임 중복확인을 해주세요');
             return
         }else{
-            const path = 'http://localhost:9090/user/update';
-            const body = {
-                userID: inputId,
-                userPW : inputPw,
-                userNickname: inputNickname,
-                userName: inputName,
-                userBirth: inputBirth,
-                userEmail: inputEmail,
-                userAddress: inputAddress,
-                userAddressDetail : inputAddressDetail,
-                userPostal : inputPostAddress,
-                userRole: inputRole,
-                userGender : inputGender
-            };
-            const checkSave = await axiosRequest(path,body,'put','boolean');
-            if(checkSave != null){
-                if(checkSave) {
-                    alert('회원 정보가 수정되었습니다.');
-                    document.location.href='/mypage';
-                }
-                else {
-                    alert('회원정보 수정에 실패하였습니다.');
-                    setInputPw('');
-                    setInputPwCheck('');
-                }
-            }else{
-                // 서버와 연결실패/데이터 전송 실패등 오류 발생시
-                alert('회원정보 수정에 실패하였습니다.');
-                setInputPw('');
-                setInputPwCheck('');
-            }
+            setUserInfo({
+                inputId: inputId,
+                inputName: inputName,
+                inputNickname: inputNickname,
+                inputEmail: inputEmail,
+                inputAddress: inputAddress,
+                inputAddressDetail: inputAddressDetail,
+                inputPostAddress: inputPostAddress,
+                inputRole: inputRole,
+                inputGender: inputGender
+            })
+            if(modalOpen) setModalOpen(false);
+            else setModalOpen(true);
         }
         
     }
+
+    useEffect( () => {
+        if (sendOk) {
+            const path = 'http://localhost:9090/user/update';
+            const body = {
+                userID           : inputId,
+                userPW           : inputPw,
+                userNickname     : inputNickname,
+                userName         : inputName,
+                userBirth        : inputBirth,
+                userEmail        : inputEmail,
+                userAddress      : inputAddress,
+                userAddressDetail: inputAddressDetail,
+                userPostal       : inputPostAddress,
+                userRole         : inputRole,
+                userGender       : inputGender
+            };
+            async function checkSaveData(){
+                try{
+                    const checkSave = await axiosRequest(path, body, 'put', 'boolean');
+                    if (checkSave != null) {
+                        if (checkSave) {
+                            alert('회원 정보가 수정되었습니다.');
+                            document.location.href = '/mypage';
+                        } else {
+                            alert('회원정보 수정에 실패하였습니다.');
+                            setInputPw('');
+                            setInputPwCheck('');
+                        }
+                    } else {
+                        // 서버와 연결실패/데이터 전송 실패등 오류 발생시
+                        alert('회원정보 수정에 실패하였습니다.');
+                        setInputPw('');
+                        setInputPwCheck('');
+                    }
+                }catch (e){
+
+                }
+            }
+            checkSaveData();
+
+        }else{
+            return
+        }
+    },[sendOk]);
 
     //취소 버튼 누를시 마이페이지로 이동
     const OnClickCancel = () => {
@@ -389,6 +435,12 @@ export default function Mysection(props){
             <div class="form-group row">
                 <div class='col-6'>
                     <button type="button" style={bottomBtn} onClick={OnClickSave}>저장</button>
+                    {modalOpen &&
+                        <MySectionInfo setModalOpen={setModalOpen}
+                                       modalOpen ={modalOpen}
+                                       info={userInfo}
+                                       setSendOk={setSendOk}
+                        />}
                 </div>
                 <div class='col-6'>
                     <button type='button' style={bottomBtn} onClick={OnClickCancel}>취소</button>
