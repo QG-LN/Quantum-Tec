@@ -18,7 +18,7 @@ export default function Login(props){
     }
  
 	// login 버튼 클릭 이벤트
-    const onClickLogin = async () => {
+    const onClickLogin = () => {
         if(inputId ===''){
             alert('아이디를 입력해주세요');
         }else if(inputPw === ''){
@@ -32,21 +32,23 @@ export default function Login(props){
                     userID: inputId,
                     userPW: inputPw,
                 };
-                const data = await axiosRequest(path,body,'POST','json');
+                axiosRequest(path,body,'POST','json')
+                    .then(res => {
+                        console.log(res);
+                        if(res !== ''){
+                            localStorage.setItem("userNickname", res.userNickname);
+                            localStorage.setItem("userCash", res.userCash);
+                            localStorage.setItem("userID", inputId);                    // 마이페이지에서 사용하기 위해 세팅
+                            localStorage.setItem("truelogin","true");
+                            document.location.href = "/";
+                            props.setTruelogin(true);
+                        }else{
+                            alert('로그인에 실패하였습니다.');
+                            setInputId("");
+                            setInputPw("");
+                        }
+                    })
 
-                console.log(data);
-                if(data !== null){
-                    localStorage.setItem("userNickname", data.userNickname);
-                    localStorage.setItem("userCash", data.userCash);
-                    localStorage.setItem("userID", inputId);                    // 마이페이지에서 사용하기 위해 세팅
-                    localStorage.setItem("truelogin","true");
-                    document.location.href = "/";
-                    props.setTruelogin(true);
-                }else{
-                    alert('로그인에 실패하였습니다.');
-                    setInputId("");
-                    setInputPw("");
-                }
             }catch (e){
                 console.log(e);
                 alert('로그인에 실패하였습니다.');

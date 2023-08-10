@@ -10,12 +10,17 @@ import Signpage from './component/Pages/LoginPage/sign.js';
 import MyMain from './component/Pages/MyPage/mymain';
 import PasswordChk from './component/Pages/MyPage/passwordChk';
 import GamePage from './component/Pages/GamePage/gamepage.js';
-import AvatarMain from './component/Pages/AvatarShopPage/avatarMain';
-import AvatarSide from './component/Pages/AvatarShopPage/avatarSide';
-import AvatarCategory from './component/Pages/AvatarShopPage/avatarCategory';
+import BoardPage from './component/Pages/BoardPage/board.js';
+import PostPage from './component/Pages/BoardPage/post.js';
+import WritePage from './component/Pages/BoardPage/write.js';
+
+import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import Sidebar from './component/Pages/MainPage/sidebar';
+
 import styled from "styled-components";
+import axios from 'axios';
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
@@ -30,8 +35,11 @@ function App() {
           <Route path="/login" element={<Login start={truelogin} setTruelogin={setTruelogin} />} />
           <Route path="/signup" element={<SignUp />}/>
           <Route path="/mypage" element={<MyPage />}/>
-          <Route path="/gamepage" element={<GamePage />}/>
-          <Route path="/avatarshop" element={<AvatarMainPage />}/>
+          <Route path="/game/:id/:gameName" element={<GamePage />}/>
+          <Route path="/board/:id" element={<Board />}/>
+          <Route path="/post/:id" element={<Post />}/>
+          <Route path="/write" element={<Write />}/>
+          <Route path="/avatarshop" element={<AvatarShop />}/>
         </Routes>
       </div>
       <Footer style={{height: "20vh"}} />
@@ -78,38 +86,36 @@ function MyPage(){
     </div>
   )
 }
-
-function AvatarMainPage(){
-  const [page, setPage] = useState("추천");
-  const handlePage = (e) => {
-    setPage(e.target.id);
-    console.log(page)
-  }
-
-
+function Board(){
   return (
-    <div className="AvatarMainPage container mt-[46px]" style={{ height: "82vh" }}>
-      <div className="row justify-content-center h-[100%]">
-        <div className="col-3 ps-0 pe-0">
-          <ScrollContainer>
-            <AvatarSide onClick={handlePage}/>
-          </ScrollContainer>
-        </div>
-        <div className="col-9 ps-0 pe-0">
-          <ScrollContainer>
-            {page === "추천"?<AvatarMain />:<AvatarCategory key={page} categoryName={page} />}
-          </ScrollContainer>
-        </div>
-      </div>
+    <div className="Board mt-[10vh]" style={{ height: "90vh" }}>
+        <BoardPage />
+    </div>
+  )
+}
+function Post(){
+  return (
+    <div className="Post">
+        <PostPage />
+    </div>
+  )
+}
+function Write(){
+  return (
+    <div className="Write">
+        <WritePage />
     </div>
   )
 }
 
-const ScrollContainer = styled.div`
-  height: 82vh;
-  overflow-y: auto;
-  background-color: var(--bs-gray-200)
-  `;
+function AvatarShop(){
+    return (
+        <div className="AvatarMainPage mt-[5vh]" >
+            <AvatarShopPage />
+        </div>
+    )
+}
+
 
 
 export default App;

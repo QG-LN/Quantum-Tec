@@ -1,11 +1,16 @@
 package com.project.quantumtec.Controller;
 
+import com.project.quantumtec.DTO.Request.myinfo.requestMyInfoDTO;
 import com.project.quantumtec.DTO.user.LoginRequestDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.Service.user.UserService;
 import com.project.quantumtec.VO.user.UserVO;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -102,5 +107,11 @@ public class UserController {
     @PostMapping("/changepw")
     public boolean changePw(@RequestBody UserVO user) throws Exception {
         return userService.changePw(user.getUserName(), user.getUserEmail(), user.getUserID(), user.getUserPW());
+    }
+    // myinfo 페이지에서 내가 가지고 있는 게임 목록을 반환하는 메소드
+    // 노션 "DB 참고 자료" 참고
+    @PostMapping("/mygamelist")
+    public List<MyGameListResponseDTO> getMyGameList(@RequestBody requestMyInfoDTO user) throws Exception {
+        return userService.getMyGameList(user.getUserID());
     }
 }
