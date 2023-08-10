@@ -41,9 +41,9 @@ export default function Myaside({select, setSelect}){
         if ( e.target.text === "사용자설정"){
            setIsOpen(!isOpen);
         }else if(e.target.text === "개인정보변경"){
-          setIsOpen(!isOpen);
+          setIsOpen(isOpen);
         }else if(e.target.text === "아바타설정"){
-          setIsOpen(!isOpen);
+          setIsOpen(isOpen);
         }else {setIsOpen(false);}
 
     };
@@ -60,13 +60,12 @@ export default function Myaside({select, setSelect}){
                                 </li>
                                ))}
                                {isOpen &&  (
-                                        <ul class='sublist ml-[-30px] mt-[17px]'>
+                                        <ul class='sublist  ml-[-30px]'>
                                           {listsub.map((item, index) => (
                                           <li name="sublist" class="pb-3 border-b text-sm mt-3 listyle hover:cursor-pointer" key={index} onClick={handleClick}><a>{item}</a></li>
                                           ))}
                                         </ul>
                                       )}
-                                      <hr class="mt-[-5px] opacity-100 border-4 border-green-500 rounded-md"/>
                                {list2.map((item, index) => (
                                 // <li class='listyle' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a></li>
                                   <li class='border-b listyle text-xl hover:cursor-pointer' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a>

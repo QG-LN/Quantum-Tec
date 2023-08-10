@@ -39,3 +39,5 @@ out/
 
 /src/main/resources/config/db/db.properties
 /src/main/resources/config/email/email.properties
+/src/main/resources/static/games/
+u/src/main/resources/static/images/games/

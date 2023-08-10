@@ -1,6 +1,7 @@
 package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
+import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.VO.user.UserVO;
@@ -58,4 +59,6 @@ public interface UserService {
 
     // 이름과 이메일, 아이디, 비밀번호를 입력받아 해당 정보와 일치하는 회원의 비밀번호를 변경한 후, 성공적으로 초기화 되었음을 반환하는 메소드
     public boolean changePw(String userName, String userEmail, String userID, String userPW) throws Exception;
+
+    public List<MyGameListResponseDTO> getMyGameList(String userID) throws Exception;
 }

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GameService">
+    <select id="getGameSearchList" resultType="GameSearchResponseDTO">
+        SELECT g.GAME_INDEX, g.GAME_NAME, g.GAME_PRICE,
+               (SELECT GROUP_CONCAT(cn.GAME_CATEGORY_NAME SEPARATOR ',') AS GAME_CATEGORY_NAME
+                FROM GAME_CATEGORY_LINK_TB c, GAME_CATEGORY_TB cn 
+                WHERE cn.GAME_CATEGORY_ID = c.GAME_CATEGORY_ID AND c.GAME_INDEX = g.GAME_INDEX) AS GAME_CATEGORY_NAME, 
+                g.GAME_IMAGE_LOCATION 
+        FROM GAME_INFO_TB g
+        INNER JOIN GAME_CATEGORY_LINK_TB c ON g.GAME_INDEX = c.GAME_INDEX
+        INNER JOIN GAME_CATEGORY_TB cn ON c.GAME_CATEGORY_ID = cn.GAME_CATEGORY_ID
+        WHERE g.GAME_NAME LIKE CONCAT('%', #{gameName}, '%')
+        <if test="gamePrice != null and gamePrice != 0">
+            AND g.GAME_PRICE BETWEEN 0 AND #{gamePrice}
+        </if>
+        <if test="gameCategoryName != null">
+            AND cn.GAME_CATEGORY_NAME = #{gameCategoryName}
+        </if>
+        ORDER BY g.GAME_VERSION_UPDATE_DATE DESC
+        LIMIT #{startIndex}, #{endIndex};
+    </select>
+    <select id="getGameInfo" resultType="GameDetailsInfoDTO" parameterType="GameSearchDTO">
+        <!-- SELECT g.GAME_INDEX, g.GAME_NAME, g.DEVELOPER_INDEX, g.GAME_RELEASE_DATE, g.GAME_PRICE, g.GAME_DESCRIPTION,
+                g.GAME_IMAGE_LOCATION, g.GAME_PLATFORM, g.GAME_VERSION_UPDATE_DATE, g.GAME_VERSION,
+                (SELECT GROUP_CONCAT(cn.GAME_CATEGORY_NAME SEPARATOR ',') AS GAME_CATEGORY_NAME
+        FROM GAME_CATEGORY_LINK_TB c, GAME_CATEGORY_TB cn
+        WHERE cn.GAME_CATEGORY_ID = c.GAME_CATEGORY_ID AND c.GAME_INDEX = g.GAME_INDEX) AS GAME_CATEGORY_NAME,
+                g.GAME_SHORT_DESCRIPTION
+                <if test="userID != null">
+                    , UP.USERGAMEPLAY_PLAY_END_TIME, UP.USERGAMEPLAY_TOTAL_PLAY_TIME
+                </if>
+        FROM GAME_INFO_TB g
+            <if test="userID != null">
+                , USER_GAME_PLAY_TB UP, USER_INFO_TB U
+            </if>
+        INNER JOIN GAME_CATEGORY_LINK_TB c ON g.GAME_INDEX = c.GAME_INDEX
+        INNER JOIN GAME_CATEGORY_TB cn ON c.GAME_CATEGORY_ID = cn.GAME_CATEGORY_ID
+        WHERE g.GAME_INDEX = #{gameIndex} and g.GAME_NAME = #{gameName}
+            <if test="userID != null">
+                AND U.USER_ID = #{userID}
+                AND U.USER_INDEX = UP.USER_INDEX
+                AND U.GAME_INDEX = #{gameIndex}
+            </if>
+        ; -->
+        SELECT
+            (
+                select USER_NAME
+                from USER_INFO_TB u
+                where g.DEVELOPER_INDEX = u.USER_INDEX
+            ) as DEVELOPER_NAME,
+            g.GAME_RELEASE_DATE,
+            g.GAME_PRICE,
+            g.GAME_DESCRIPTION,
+            g.GAME_IMAGE_LOCATION,
+            g.GAME_PLATFORM,
+            g.GAME_VERSION_UPDATE_DATE,
+            g.GAME_VERSION,
+            (
+                SELECT GROUP_CONCAT(cn.GAME_CATEGORY_NAME SEPARATOR ',') AS GAME_CATEGORY_NAME
+                FROM GAME_CATEGORY_LINK_TB c
+                JOIN GAME_CATEGORY_TB cn ON cn.GAME_CATEGORY_ID = c.GAME_CATEGORY_ID
+                WHERE c.GAME_INDEX = g.GAME_INDEX
+            ) AS GAME_CATEGORY_NAME,
+            g.GAME_SHORT_DESCRIPTION,
+            (
+                SELECT COALESCE(AVG(COMMENT_RATING), 0)
+                FROM GAME_COMMENT_INFO_TB
+                WHERE GAME_INDEX = g.GAME_INDEX
+            ) AS GAME_RATING
+            <if test="userId != null">
+               ,UP.USERGAMEPLAY_RECENT_PLAY_DATETIME,
+                UP.USERGAMEPLAY_TOTAL_PLAY_TIME
+            </if>
+        FROM
+            GAME_INFO_TB g
+        <if test="userId != null">
+            JOIN
+                USER_GAME_PLAY_TB UP ON g.GAME_INDEX = UP.GAME_INDEX
+            JOIN
+                USER_INFO_TB U ON U.USER_INDEX = UP.USER_INDEX
+        </if>
+        WHERE
+            g.GAME_INDEX = #{gameIndex}
+            AND g.GAME_NAME = #{gameName}
+        <if test="userId != null">
+            AND U.USER_ID = #{userId};
+        </if>
+
+    </select>
+
+    <!-- 카테고리에 따른 관련 게임정보 불러오기(이미지,이름,가격,id) -->
+    <select id="getGameCategoryList" resultType="GameCategoryListInfoDTO">
+        SELECT g.GAME_INDEX, g.GAME_NAME, g.GAME_PRICE, g.GAME_IMAGE_LOCATION
+        FROM GAME_INFO_TB g
+        INNER JOIN GAME_CATEGORY_LINK_TB c ON g.GAME_INDEX = c.GAME_INDEX
+        INNER JOIN GAME_CATEGORY_TB cn ON c.GAME_CATEGORY_ID = cn.GAME_CATEGORY_ID
+        WHERE cn.GAME_CATEGORY_NAME = #{gameCategoryName}
+        ORDER BY g.GAME_VERSION_UPDATE_DATE DESC
+        LIMIT #{startIndex}, #{endIndex};
+    </select>
+
+    <!-- 게임 댓글 정보 불러오기 -->
+    <!--
+        1. 작성자ID
+        2. 작성자이름
+        4. 댓글제목
+        5. 댓글내용
+        6. 게시일
+        7. 추천수
+        8. 비추천수
+        9. 게임 만족도
+    -->
+    <select id="getGameCommentList" resultType="GameCommentDTO">
+        SELECT
+            U.USER_ID,
+            U.USER_NAME,
+            <!-- G.GAME_COMMENT_TITLE,  -->
+            G.COMMENT_CONTENT,
+            G.COMMENT_CREATED_DATE,
+            G.COMMENT_UPVOTES,
+            G.COMMENT_DOWNVOTES,
+            G.COMMENT_RATING
+        FROM
+            GAME_COMMENT_INFO_TB G, USER_INFO_TB U
+        WHERE
+            G.COMMENT_AUTHOR_INDEX = U.USER_INDEX AND
+            G.GAME_INDEX = #{gameIndex}
+        ORDER BY
+            G.COMMENT_CREATED_DATE DESC
+    </select>
+</mapper>
