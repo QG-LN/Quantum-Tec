@@ -11,9 +11,11 @@ export default function AvatarCategory(props) {
         setAvatarCategory(props.categoryName)
 
         tempArray = [];
-        for(let i = 0; i < 20; i++) {
-            tempArray.push({ id: i, name: `아이템${i+1}` });
-        }
+        tempArray.push({ id: 1, name: `파란색`, eng_name: `blue` });
+        tempArray.push({ id: 2, name: `갈색`, eng_name: `brown` });
+        tempArray.push({ id: 3, name: `초록색`, eng_name: `green` });
+        tempArray.push({ id: 4, name: `보라색`, eng_name: `purple` });
+        tempArray.push({ id: 5, name: `빨간색`, eng_name: `red` });
         setItemList(tempArray)
         setSearchList(tempArray);
     }, []);
@@ -42,7 +44,7 @@ export default function AvatarCategory(props) {
             <hr className='mx-3'/>
             <div className='ms-2 mt-4 d-flex flex-wrap align-items-center'>
                 {searchList.map((item) => (
-                    <AvatarItem item={item}/>
+                    <AvatarItem item={item} category={avatarCategory} eng_category={props.eng_category}/>
                 ))}
             </div>
         </div>

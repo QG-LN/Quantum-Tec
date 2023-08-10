@@ -9,6 +9,7 @@ import styled from "styled-components";
 export default function AvatarMainPage() {
     const [page, setPage] = useState("추천");
     const [category, setCategory] = useState(["추천"]);
+    const [eng_category, setEng_category] = useState(["recommendation"]);
 
     const ScrollContainer = styled.div`
       height: 95vh;
@@ -25,19 +26,21 @@ export default function AvatarMainPage() {
                 console.log(error);
             });
         const tempArray = []
+        tempArray.push('추천');
+        tempArray.push('배경');
         tempArray.push('모자');
-        tempArray.push('악세서리');
-        tempArray.push('머리카락');
         tempArray.push('이너');
-        tempArray.push('아웃터');
         tempArray.push('바지');
         tempArray.push('치마');
-        tempArray.push('원피스');
-        tempArray.push('신발');
-        tempArray.push('구두');
-        tempArray.push('배경');
-        tempArray.push('가구');
         setCategory(category.concat(tempArray));
+        const tempArray2 = []
+        tempArray2.push('recommendation');
+        tempArray2.push('bg');
+        tempArray2.push('hat');
+        tempArray2.push('inner');
+        tempArray2.push('pants');
+        tempArray2.push('skirt');
+        setEng_category(eng_category.concat(tempArray2));
     }, []);
     const handlePage = (e) => {
         if(e.target.id === "" && e.target.id !== "avatar-search-button")
@@ -46,6 +49,7 @@ export default function AvatarMainPage() {
             setPage(e.target.id);
         else
             setPage(e.target.previousElementSibling.value);
+        console.log(eng_category[category.indexOf(page)])
     }
 
 
@@ -59,7 +63,7 @@ export default function AvatarMainPage() {
                 </div>
                 <div className="col-9 ps-0 pe-0">
                     <ScrollContainer>
-                        {page === "추천"?<AvatarMainContent onClick={handlePage} />:category.indexOf(page) !== -1?<AvatarCategory key={page} categoryName={page} />:<AvatarSearch key={page} searchName={page} onClick={handlePage} />}
+                        {page === "추천"?<AvatarMainContent onClick={handlePage} />:category.indexOf(page) !== -1?<AvatarCategory key={page} categoryName={page} eng_category={eng_category[category.indexOf(page)]} />:<AvatarSearch key={page} searchName={page} onClick={handlePage} />}
                     </ScrollContainer>
                 </div>
             </div>
