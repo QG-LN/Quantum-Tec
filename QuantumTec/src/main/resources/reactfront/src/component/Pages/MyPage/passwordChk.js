@@ -23,14 +23,13 @@ export default function PasswordChk(){
         const data = await axiosRequest(path,body,'POST','json');
 
         // 값이 존재한다면 즉, 로그인이 성공적으로 진행된다면,
-        if(data != null){
+        if(data !== null && data !== undefined && data !== ''){
             setUserData(data);
             chkPassword(!passwordchk);
+        }else{
+            alert('비밀번호가 일치하지 않습니다.');
+            setInputPw('');                                 // 비밀번호 초기화
         }
-
-        // if (inputPw === '1234'){
-        //     chkPassword(!passwordchk);
-        // };
     }
     return(
          <div class='mysection-form mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]'>
