@@ -158,8 +158,17 @@ export default function Mysection(props){
     const OnClickSave = async () => {
         // 닉네임 수정이 없을 경우
         if(inputNickname === data.userNickname) setIsNicknameDuplicate(true);
-        
-        // 이메일 수정이 없을 경우 true 값을 부여해주어야함
+
+
+
+        const path = 'http://localhost:9090/user/myinfo';
+        const body = {
+            userID: localStorage.getItem('userID'),
+            userPW: inputPw,
+        };
+        // 기존 비밀번호와 일치하는지 확인을 위한 비동기 통신
+        const pwdata = await axiosRequest(path,body,'POST','json');
+
 
 
         if(inputName.length > 20){
@@ -171,7 +180,15 @@ export default function Mysection(props){
         }else if(inputPw.length < 8){
             alert('비밀번호를 8글자 이상으로 써주세요');
             return
-        }else if(isNicknameDuplicate === true){
+        }else if(pwdata != ''){                                                 // 기존 비밀번호와 일치하는지 확인
+            alert('기존 비밀번호와 일치합니다.');
+            setInputPw('');
+            setInputPwCheck('');
+            return
+        }else if(isNicknameDuplicate !== true){
+            alert('닉네임 중복확인을 해주세요');
+            return
+        }else{
             const path = 'http://localhost:9090/user/update';
             const body = {
                 userID: inputId,
