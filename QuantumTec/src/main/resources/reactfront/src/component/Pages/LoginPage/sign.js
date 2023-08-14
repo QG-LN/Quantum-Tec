@@ -22,7 +22,6 @@ export default function Sign(){
     const [isIdDisabled, setIsIdDisabled] = useState(false);
     let [isNickCheck, setIsNickCheck] =useState(false);
     let [isIdCheck ,setIsIDCheck]= useState(false);
-    let isCheckEmailAuth = false;
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
@@ -31,6 +30,29 @@ export default function Sign(){
 
     // 주소 검색
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const initInput = () =>{
+        setInputName('')
+        setInputBirth('')
+        setInputNickname('')
+        setInputId('')
+        setInputPw('')
+        setInputPwCheck('')
+        setInputEmail('')
+        setInputEmailCheck('')
+        setInputAddress('')
+        setInputAddressDetail('')
+        setInputRole('user')
+        setInputGender('m')
+        setshowEmailCheck(false)
+        setInputPostAddress('')
+        setIsNickDisabled(false)
+        setIsIdDisabled(false)
+        setIsNickCheck(false)
+        setIsIDCheck(false)
+        setInputEmailDisabled(false)
+        setIsEmailAuthDisabled(false)
+    }
  
 	// input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
     const handleInputName = (e) => {
@@ -216,7 +238,6 @@ export default function Sign(){
         const data = await checkData(path,body,'POST');
         // 성공적으로 전달될 경우 값이 true로 반환되지만 checkData에서 boolean값을 부정하여 역으로 주었기에 여기서 한번더 수행
         if(!data){
-            isCheckEmailAuth = true;
             alert("인증이 완료되었습니다.");
 
             setIsEmailAuthDisabled(true);       // 인증번호 입력란과 인증번호 확인 버튼 비활성화
@@ -290,9 +311,14 @@ export default function Sign(){
                 document.location.href='/login';
             }else{
                 alert('회원가입에 실패하였습니다.');
+                initInput();
             }
             return
-        }
+        }else{
+           alert('회원가입에 실패하였습니다.');
+           initInput();
+           return;
+       }
         
     }
     const OnClickCancel = () => {
