@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 // import { isDisabled } from '@testing-library/user-event/dist/utils';
+import AddressModal from "./AddressModal";
 
 export default function Sign(){
     const [inputName, setInputName] = useState('')
@@ -27,6 +28,9 @@ export default function Sign(){
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
     // 인증번호와 확인 버튼의 Disabled 속성 확인
     const [isEmailAuthDisabled, setIsEmailAuthDisabled] = useState(false);
+
+    // 주소 검색
+    const [isModalOpen, setIsModalOpen] = useState(false);
  
 	// input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
     const handleInputName = (e) => {
@@ -223,12 +227,15 @@ export default function Sign(){
 
     }
     // 주소 검색 버튼 클릭 이벤트
-    const OnClickAddress = () => {
-        console.log(inputAddress)
-        // 임시 세팅
-        setInputAddress("Earth");
-        setInputAddressDetail("Korea");
-        setInputPostAddress("00000");
+    const OnClickAddress = () =>  {
+        // 주소 검색 창 출력
+        setIsModalOpen(true);
+        
+        // console.log(inputAddress)
+        // // 임시 세팅
+        // setInputAddress("Earth");
+        // setInputAddressDetail("Korea");
+        // setInputPostAddress("00000");
     }
 
     // signup 버튼 클릭 이벤트
@@ -428,6 +435,13 @@ export default function Sign(){
                 <div className='flex w-75'>
                     <input type='text' className='border' name='input_address' value={inputAddress} style={style_inputbox} onChange={handleInputAddress} readOnly/>
                     <button type="button" class='nondrag' onClick={OnClickAddress}>주소검색</button>
+                    {isModalOpen &&
+                        <AddressModal isModalOpen={isModalOpen}
+                                      setIsModalOpen={setIsModalOpen}
+                                      setInputAddress={setInputAddress}
+                                      setInputPostAddress={setInputPostAddress}
+                        />
+                    }
                 </div>
             </div>
             <div class="form-group row">
