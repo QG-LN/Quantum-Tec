@@ -25,6 +25,8 @@ export default function Sign(){
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
+    // 인증번호와 확인 버튼의 Disabled 속성 확인
+    const [isEmailAuthDisabled, setIsEmailAuthDisabled] = useState(false);
  
 	// input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
     const handleInputName = (e) => {
@@ -183,16 +185,14 @@ export default function Sign(){
             })
                 .then(response => response.json())
                 .then(data =>{
-                    console.log(data);
                     if(data === 1){
                         alert('이메일 중복되어 있습니다.');          // 이메일 중복 알림 표시
                         setInputEmail("");                  // 이메일 입력부분을 초기화
                     }else{
                         alert('인증번호가 전송되어 있습니다.');      // 인증번호 전송 여부 알림
 
-                        setInputEmailDisabled(true);
-                        //이메일 인증 텍스트와 인증버튼 활성화
-                        setshowEmailCheck(true);
+                        setInputEmailDisabled(true);       // 성공적인 이메일 전송 시 버튼과 이메일 입력란 비활성화
+                        setshowEmailCheck(true);            // 인증번호 입력란과 인증번호 확인 버튼 활성화 상태로 변경
                     }
                 })
                 .catch(err =>{
@@ -214,6 +214,9 @@ export default function Sign(){
         if(!data){
             isCheckEmailAuth = true;
             alert("인증이 완료되었습니다.");
+
+            setIsEmailAuthDisabled(true);       // 인증번호 입력란과 인증번호 확인 버튼 비활성화
+
         }else{
             alert("인증에 실패하였습니다.");
         }
@@ -399,7 +402,9 @@ export default function Sign(){
                     <label htmlFor='input_email'>Email : </label>
                 </div>
                 <div class='col-9-button'>
-                    <input type='email'className='border' name='input_email' value={inputEmail} placeholder='example@google.com' style={style_inputbox} onChange={handleInputEmail} disabled={inputEmailDisabled}/>
+                    <input type='email'className='border' name='input_email' value={inputEmail}
+                           placeholder='example@google.com' style={style_inputbox}
+                           onChange={handleInputEmail} disabled={inputEmailDisabled}/>
                     <button type="button" class='nondrag' onClick={OnClickEmailSend} disabled={inputEmailDisabled}>인증번호 전송</button>
                 </div>
             </div>
@@ -408,8 +413,12 @@ export default function Sign(){
                     <label htmlFor='input_email'>인증번호 : </label>
                 </div>
                 <div className='flex w-75'>
-                    <input type='text' className='border' name='input_email_check' value={inputEmailCheck} style={style_inputbox} onChange={handleInputEmailCheck}/>
-                    <button type="button" class='nondrag' onClick={OnClickEmailCheck}>인증번호 확인</button>
+                    <input type='text' className='border' name='input_email_check' value={inputEmailCheck} style={style_inputbox}
+                           onChange={handleInputEmailCheck} disabled={isEmailAuthDisabled}/>
+                    <button type="button" class='nondrag' onClick={OnClickEmailCheck}
+                            disabled={isEmailAuthDisabled}>
+                        인증번호 확인
+                    </button>
                 </div>
             </div>}
             <div class="form-group row">
