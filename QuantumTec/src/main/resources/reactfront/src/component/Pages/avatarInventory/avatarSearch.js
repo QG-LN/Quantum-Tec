@@ -54,6 +54,7 @@ export default function AvatarSearch(props) {
                 </div>
             </div>
             <div className='d-flex align-items-center ms-4 mt-4'>
+                {/* 왜 input박스 글자 바뀔 때 마다 바뀔까 */}
                 <h5 className=''>모든 {searchValue} 아이템 ({itemList.length})</h5>
                 <hr className='flex-fill mx-3'/>    
             </div>

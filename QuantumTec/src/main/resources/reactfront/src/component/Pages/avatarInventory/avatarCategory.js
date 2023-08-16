@@ -31,7 +31,7 @@ export default function AvatarCategory(props) {
         };
         axiosRequest('http://localhost:9090/avatar/category/inventory/search', body, 'POST', 'json')
             .then(res => {
-                setItemList(itemList.concat(res));
+                setItemList(res);
             })
             .catch(err => {
                 console.log(err);
