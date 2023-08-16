@@ -28,9 +28,15 @@ public class AvatarServiceImpl implements AvatarService{
         return avatarDAO.getAvatarInventory(userId);
     }
 
+    // 아바타 카테고리 정보 조회
+    @Override
+    public String[] getAvatarCategory(){
+        return avatarDAO.getAvatarCategory();
+    }
+
     // 아바타 카테고리 별 인벤토리 정보 조회
     @Override
-    public List<AvatarInventoryDTO> getAvatarCategoryInventory(CategoryInventoryDTO categoryInventoryDTO){
+    public List<String> getAvatarCategoryInventory(CategoryInventoryDTO categoryInventoryDTO){
         return avatarDAO.getAvatarCategoryInventory(categoryInventoryDTO);
     }
 }
