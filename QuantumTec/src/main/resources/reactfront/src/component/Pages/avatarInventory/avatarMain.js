@@ -9,7 +9,7 @@ export default function AvatarMain(props) {
     
     useEffect(() => {
         const body = {
-            userID: localStorage.getItem("userID"),
+            userId: localStorage.getItem("userID"),
         }
         console.log(body);
         axiosRequest('http://localhost:9090/avatar/inventory', body, 'POST', 'json')
