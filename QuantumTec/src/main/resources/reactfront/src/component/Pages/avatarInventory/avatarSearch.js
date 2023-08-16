@@ -7,6 +7,7 @@ export default function AvatarSearch(props) {
     const [searchValue, setSearchValue] = useState(props.searchName); // 검색어
     useEffect(() => {
         const body = {
+            userId: localStorage.getItem("userID"),
             searchValue: searchValue,
         }
         axiosRequest('http://localhost:9090/avatar/inventory/search', body, 'POST', 'json')
