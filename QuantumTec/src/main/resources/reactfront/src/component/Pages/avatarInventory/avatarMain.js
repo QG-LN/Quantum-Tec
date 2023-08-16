@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AvatarItem from './avatarItem';
+import { axiosRequest } from '../../../module/networkUtils';
 import '../../../css.scss'
 
 export default function AvatarMain(props) {
     const [itemList, setItemList] = useState([]);
     
     useEffect(() => {
-        axios.get('http://localhost:8080/api/avatar/all')
-            .then((response) => {
-                setItemList(response.data);
+        const body = {
+            userID: localStorage.getItem("userID"),
+        }
+        console.log(body);
+        axiosRequest('http://localhost:9090/avatar/inventory', body, 'POST', 'json')
+            .then(res => {
+                setItemList(res);
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch(err => {
+                console.log(err);
+            }
+        );
     }, []);
 
     const showItemList = () => {
