@@ -1,34 +1,49 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import AvatarItem from './avatarItem';
 
 export default function AvatarCategory(props) {
-    const [avatarCategory, setAvatarCategory] = useState(""); // 카테고리 목록
     const [itemList, setItemList] = useState([]); // 아이템 목록
-    const [searchList, setSearchList] = useState([]); // 검색 결과 목록
     
     useEffect(() => {
-        let tempArray = [];
-        setAvatarCategory(props.categoryName)
-
-        tempArray = [];
-        tempArray.push({ id: 1, name: `파란색`, eng_name: `blue` });
-        tempArray.push({ id: 2, name: `갈색`, eng_name: `brown` });
-        tempArray.push({ id: 3, name: `초록색`, eng_name: `green` });
-        tempArray.push({ id: 4, name: `보라색`, eng_name: `purple` });
-        tempArray.push({ id: 5, name: `빨간색`, eng_name: `red` });
-        setItemList(tempArray)
-        setSearchList(tempArray);
+        axios.get('http://localhost:8080/api/avatar/category?category='+props.categoryName)
+            .then((response) => {
+                setItemList(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }, []);
 
     const handleSearch = (e) => {
-        let filteredItems = itemList.filter(item => item.name.includes(e.target.previousElementSibling.value));
-        setSearchList(filteredItems);
+        axios.get('http://localhost:8080/api/avatar/search?keyword='+e.target.previousElementSibling.value)
+            .then((response) => {
+                setItemList(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
-
+    const showItemList = () => {
+        if (itemList.length === 0) {
+            return (
+                <div className='text-center'>
+                    <h5>아이템이 없습니다.</h5>
+                </div>
+            );
+        }
+        else {
+            return (
+                itemList.map((item) => (
+                    <AvatarItem item={item} category={props.categoryName} eng_category={props.eng_category}/>
+                ))
+            )
+        }
+    };
     return (
         <div className="">
             <h1 className='mt-5'>
-                {avatarCategory}
+                {props.categoryName}
             </h1>
             <h3 className='mb-5'>
                 자유롭게 아바타를 꾸며보세요!
@@ -43,9 +58,7 @@ export default function AvatarCategory(props) {
             </div>
             <hr className='mx-3'/>
             <div className='ms-2 mt-4 d-flex flex-wrap align-items-center'>
-                {searchList.map((item) => (
-                    <AvatarItem item={item} category={avatarCategory} eng_category={props.eng_category}/>
-                ))}
+                {showItemList()}
             </div>
         </div>
     );
