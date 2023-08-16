@@ -1,6 +1,7 @@
 package com.project.quantumtec.Controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +30,8 @@ public class AvatarController {
 
     // 아바타 모든 인벤토리 정보 조회
     @PostMapping("/inventory")
-    public List<AvatarInventoryDTO> getAvatarInventory(@RequestBody String userId){
-        return avatarService.getAvatarInventory(userId);
+    public List<AvatarInventoryDTO> getAvatarInventory(@RequestBody Map<String, String> userId){
+        return avatarService.getAvatarInventory(userId.get("userId"));
     }
 
     // 아바타 카테고리 별 인벤토리 정보 조회
