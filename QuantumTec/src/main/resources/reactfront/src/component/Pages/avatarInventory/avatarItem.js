@@ -8,8 +8,13 @@ export default function AvatarItem(props) {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    const imgSrc = `${process.env.PUBLIC_URL}/image/${props.item.itemCategoryName}/${props.item.itemName}_shop.png`;
+    let imgSrc;
+    try {
+        imgSrc = `${process.env.PUBLIC_URL}/image/${props.item.itemCategoryName}/${props.item.itemName}_shop.png`;
+    } catch (e) {
+        imgSrc = "";
+        console.log(e);
+    }
     useEffect(() => {
         // console.log(props);
     }, []);
@@ -40,7 +45,7 @@ export default function AvatarItem(props) {
                             <img src={imgSrc} className='rounded'/>
                         </div>
                         <div className='col-7'>
-                            {props.item.itemName}
+                            {props.item && props.item.itemName ? props.item.itemName : "No item name available"}
                             <h6 class="card-text placeholder-glow">
                                 <div class="placeholder col-5"></div> 제작
                             </h6>
@@ -77,7 +82,7 @@ export default function AvatarItem(props) {
                 {/* <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" class="card-img-top" alt="..."/> */}
                 <div class="text-start m-3">
                     <h5 class="card-title placeholder-glow">
-                        {props.item.itemName}
+                        {props.item && props.item.itemName ? props.item.itemName : "No item name available"}
                     {/* <div class="placeholder col-5"></div> */}
                     </h5>
                     <h6 class="card-text placeholder-glow">
