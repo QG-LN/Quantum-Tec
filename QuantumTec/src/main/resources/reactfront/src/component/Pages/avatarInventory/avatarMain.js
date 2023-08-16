@@ -4,44 +4,35 @@ import AvatarItem from './avatarItem';
 import '../../../css.scss'
 
 export default function AvatarMain(props) {
-    const [avatarCategory, setAvatarCategory] = useState([]); // 카테고리 목록
-    const [hatList, setHatList] = useState([]);
+    const [itemList, setItemList] = useState([]);
     
     useEffect(() => {
-        axios.get('http://localhost:8080/api/avatar/hat')
+        axios.get('http://localhost:8080/api/avatar/all')
             .then((response) => {
-                setHatList(response.data);
+                setItemList(response.data);
             })
             .catch((error) => {
                 console.log(error);
             });
-        let tempArray = [];
-        tempArray.push({ id: 1, name: `파란색`, eng_name: `blue` });
-        tempArray.push({ id: 2, name: `갈색`, eng_name: `brown` });
-        tempArray.push({ id: 3, name: `초록색`, eng_name: `green` });
-        tempArray.push({ id: 4, name: `보라색`, eng_name: `purple` });
-        tempArray.push({ id: 5, name: `빨간색`, eng_name: `red` });
-        setHatList(hatList.concat(tempArray));
-        tempArray = []
-        // tempArray.push({ id: 1, name: '모자' });
-        // tempArray.push({ id: 2, name: '악세서리' });
-        // tempArray.push({ id: 3, name: '머리카락' });
-        // tempArray.push({ id: 4, name: '이너' });
-        // tempArray.push({ id: 5, name: '아웃터' });
-        // tempArray.push({ id: 6, name: '바지' });
-        // tempArray.push({ id: 7, name: '치마' });
-        // tempArray.push({ id: 8, name: '원피스' });
-        // tempArray.push({ id: 9, name: '신발' });
-        // tempArray.push({ id: 10, name: '구두' });
-        // tempArray.push({ id: 11, name: '배경' });
-        // tempArray.push({ id: 12, name: '가구' });
-        tempArray.push({ id: 1, name: '배경', eng_name: 'bg'});
-        tempArray.push({ id: 2, name: '모자', eng_name: 'hat' });
-        tempArray.push({ id: 3, name: '이너', eng_name: 'inner' });
-        tempArray.push({ id: 4, name: '바지', eng_name: 'pants' });
-        tempArray.push({ id: 5, name: '치마', eng_name: 'skirt' });
-        setAvatarCategory(avatarCategory.concat(tempArray))
     }, []);
+
+    const showItemList = () => {
+        if (itemList.length === 0) {
+            return (
+                <div className='text-center'>
+                    <h5>아이템이 없습니다.</h5>
+                </div>
+            );
+        }
+        else {
+            return (
+                itemList.map((item) => (
+                    <AvatarItem item={item}/>
+                ))
+            )
+        }
+    };
+
     return (
         <div className=''>
             <div className='p-2 pt-5 me-0 user-wrap'>
@@ -60,20 +51,15 @@ export default function AvatarMain(props) {
                     </div>
                 </div>
             </div>
-            {avatarCategory.map((category) => (
-                <div className='mt-2 mb-5'>
-                    <div className='d-flex align-items-center'>
-                        <h5 className={category.name.length > 2 ? 'w-[20%]' : 'w-[18%]'}>모든 {category.name} 아이템</h5>
-                        <button type="button" class="btn btn-secondary btn-sm" id={category.name} onClick={props.onClick}>모두 보기 ({avatarCategory.length})</button>
-                        <hr className='flex-fill mx-3'/>
-                    </div>
-                    <div className='ms-4 mt-4 d-flex flex-wrap align-items-center'>
-                        {hatList.map((item) => (
-                            <AvatarItem item={item} category={category.name} eng_category={category.eng_name}/>
-                        ))}
-                    </div>
+            <div className='mt-2 mb-5'>
+                <div className='text-center'>
+                    <h5>모든 아이템</h5>
+                    <hr className='mx-3'/>
                 </div>
-            ))}
+                <div className='ms-4 mt-4 d-flex flex-wrap align-items-center'>
+                    {showItemList()}
+                </div>
+            </div>
             
             
         </div>
