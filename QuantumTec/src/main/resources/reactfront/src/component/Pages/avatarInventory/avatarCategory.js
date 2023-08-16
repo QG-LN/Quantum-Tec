@@ -14,7 +14,8 @@ export default function AvatarCategory(props) {
         console.log(body);
         axiosRequest('http://localhost:9090/avatar/category/inventory', body, 'POST', 'json')
             .then(res => {
-                setItemList(res);
+                setItemList(itemList.concat(res));
+                console.log(res);
             })
             .catch(err => {
                 console.log(err);
@@ -44,7 +45,7 @@ export default function AvatarCategory(props) {
         else {
             return (
                 itemList.map((item) => (
-                    <AvatarItem item={item} category={props.categoryName} eng_category={props.eng_category}/>
+                    <AvatarItem item={item} category={props.categoryName}/>
                 ))
             )
         }

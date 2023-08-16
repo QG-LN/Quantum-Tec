@@ -26,8 +26,10 @@ export default function AvatarMainPage() {
             });
     }, []);
     const handlePage = (e) => {
-        if(e.target.id === "" && e.target.id !== "avatar-search-button")
-            setPage(e.target.parentNode.parentNode.id)
+        if(e.target.id === "" && e.target.id !== "avatar-search-button"){
+            setPage(e.target.parentNode.parentNode.id);
+            console.log(e.target.parentNode.parentNode.id);
+        }
         else if(e.target.id !== "" && e.target.id !== "avatar-search-button")
             setPage(e.target.id);
         else
@@ -37,7 +39,6 @@ export default function AvatarMainPage() {
         if (page === "전체") {
             return <AvatarMainContent onClick={handlePage} />;
         } else if (category.includes(page)) {
-            const idx = category.indexOf(page);
             return <AvatarCategory key={page} categoryName={page} />;
         } else {
             return <AvatarSearch key={page} searchName={page} onClick={handlePage} />;

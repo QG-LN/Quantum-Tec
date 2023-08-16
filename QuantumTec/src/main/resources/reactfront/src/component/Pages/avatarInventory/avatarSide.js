@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import loginLogo from './BringUP_LOGO.png'
 
 export default function AvatarSide(props) {
-    const [avatarCategory, setAvatarCategory] = useState([]); // 카테고리 목록
+    const [avatarCategory, setAvatarCategory] = useState(["전체"]); // 카테고리 목록
     const navigate = useNavigate();
 
     const imgSrc = `${process.env.PUBLIC_URL}/image/`;
@@ -12,21 +12,14 @@ export default function AvatarSide(props) {
 
     useEffect(() => {
         // 카테고리 목록 받아오기
-        axios.get('http://localhost:8080/api/avatar/category')
+        axios.get('http://localhost:9090/avatar/category')
             .then((response) => {
-                setAvatarCategory(response.data);
+                setAvatarCategory(avatarCategory.concat(response.data));
             })
             .catch((error) => {
                 console.log(error);
             });
-        const tempArray = [];
-        tempArray.push({ id: 0, name: '전체', eng_name: 'all', img_src: 'all.png'});
-        tempArray.push({ id: 1, name: '배경', eng_name: 'bg', img_src: 'background/blue_bg.png'});
-        tempArray.push({ id: 2, name: '모자', eng_name: 'hat', img_src: 'hat/hat.png' });
-        tempArray.push({ id: 3, name: '이너', eng_name: 'inner', img_src: 'inner/inner.png' });
-        tempArray.push({ id: 4, name: '바지', eng_name: 'pants', img_src: 'pants/pants.png' });
-        tempArray.push({ id: 5, name: '치마', eng_name: 'skirt', img_src: 'skirt/skirt.png' });
-        setAvatarCategory(avatarCategory.concat(tempArray))
+        
 
 
     }, []);
@@ -64,14 +57,14 @@ export default function AvatarSide(props) {
                 카테고리
             </div>
             {avatarCategory.map((category) => (
-                <div className='d-flex align-items-center shop-category hover:cursor-pointer' id={category.name} onClick={props.onClick}>
+                <div className='d-flex align-items-center shop-category hover:cursor-pointer' id={category} onClick={props.onClick}>
                     <div className='w-[15%] m-2 me-0 placeholder-glow'>
                         {/* <div class="placeholder ratio ratio-1x1 rounded"></div> */}
-                        <img className="rounded " src={imgSrc + category.img_src} alt="..." />
+                        <img className="rounded " src={imgSrc + category + `/${category}.png`} alt="..." />
                         {/* <img className="rounded " src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' alt="..." /> */}
                     </div>
                     <div className='ms-4 text-start'>
-                        <h5 className=''>{category.name}</h5>
+                        <h5 className=''>{category}</h5>
                     </div>
                 </div>
             ))}
