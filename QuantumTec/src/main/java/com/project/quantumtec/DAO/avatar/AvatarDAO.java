@@ -20,5 +20,5 @@ public interface AvatarDAO {
     public String[] getAvatarCategory();
 
     // 아바타 카테고리 별 인벤토리 정보 조회
-    public List<String> getAvatarCategoryInventory(CategoryInventoryDTO categoryInventoryDTO);
+    public List<AvatarInventoryDTO> getAvatarCategoryInventory(CategoryInventoryDTO categoryInventoryDTO);
 }
