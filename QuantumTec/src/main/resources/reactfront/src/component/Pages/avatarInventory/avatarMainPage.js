@@ -9,7 +9,6 @@ import styled from "styled-components";
 export default function AvatarMainPage() {
     const [page, setPage] = useState("전체");
     const [category, setCategory] = useState(["전체"]);
-    const [eng_category, setEng_category] = useState(["all"]);
 
     const ScrollContainer = styled.div`
       height: 95vh;
@@ -18,29 +17,13 @@ export default function AvatarMainPage() {
     `;
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/avatar/category')
+        axios.get('http://localhost:9090/avatar/category')
             .then((response) => {
                 setCategory(category.concat(response.data));
             })
             .catch((error) => {
                 console.log(error);
             });
-        const tempArray = []
-        tempArray.push('전체');
-        tempArray.push('배경');
-        tempArray.push('모자');
-        tempArray.push('이너');
-        tempArray.push('바지');
-        tempArray.push('치마');
-        setCategory(category.concat(tempArray));
-        const tempArray2 = []
-        tempArray2.push('all');
-        tempArray2.push('bg');
-        tempArray2.push('hat');
-        tempArray2.push('inner');
-        tempArray2.push('pants');
-        tempArray2.push('skirt');
-        setEng_category(eng_category.concat(tempArray2));
     }, []);
     const handlePage = (e) => {
         if(e.target.id === "" && e.target.id !== "avatar-search-button")
@@ -49,14 +32,13 @@ export default function AvatarMainPage() {
             setPage(e.target.id);
         else
             setPage(e.target.previousElementSibling.value);
-        console.log(eng_category[category.indexOf(page)])
     }
-    function renderContent(page, handlePage, category, eng_category) {
+    function renderContent(page, handlePage, category) {
         if (page === "전체") {
             return <AvatarMainContent onClick={handlePage} />;
         } else if (category.includes(page)) {
             const idx = category.indexOf(page);
-            return <AvatarCategory key={page} categoryName={page} eng_category={eng_category[idx]} />;
+            return <AvatarCategory key={page} categoryName={page} />;
         } else {
             return <AvatarSearch key={page} searchName={page} onClick={handlePage} />;
         }
@@ -72,7 +54,7 @@ export default function AvatarMainPage() {
                 </div>
                 <div className="col-9 ps-0 pe-0">
                     <ScrollContainer>
-                    {renderContent(page, handlePage, category, eng_category)}
+                    {renderContent(page, handlePage, category)}
                     </ScrollContainer>
                 </div>
             </div>
