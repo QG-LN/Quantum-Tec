@@ -51,7 +51,16 @@ export default function AvatarMainPage() {
             setPage(e.target.previousElementSibling.value);
         console.log(eng_category[category.indexOf(page)])
     }
-
+    function renderContent(page, handlePage, category, eng_category) {
+        if (page === "추천") {
+            return <AvatarMainContent onClick={handlePage} />;
+        } else if (category.includes(page)) {
+            const idx = category.indexOf(page);
+            return <AvatarCategory key={page} categoryName={page} eng_category={eng_category[idx]} />;
+        } else {
+            return <AvatarSearch key={page} searchName={page} onClick={handlePage} />;
+        }
+    }
 
     return (
         <div className="AvatarMainPage container" style={{ height: "95vh" }}>
@@ -63,7 +72,7 @@ export default function AvatarMainPage() {
                 </div>
                 <div className="col-9 ps-0 pe-0">
                     <ScrollContainer>
-                        {page === "추천"?<AvatarMainContent onClick={handlePage} />:category.indexOf(page) !== -1?<AvatarCategory key={page} categoryName={page} eng_category={eng_category[category.indexOf(page)]} />:<AvatarSearch key={page} searchName={page} onClick={handlePage} />}
+                    {renderContent(page, handlePage, category, eng_category)}
                     </ScrollContainer>
                 </div>
             </div>
