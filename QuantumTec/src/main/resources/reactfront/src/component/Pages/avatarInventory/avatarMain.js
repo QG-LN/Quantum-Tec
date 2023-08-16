@@ -14,7 +14,8 @@ export default function AvatarMain(props) {
         console.log(body);
         axiosRequest('http://localhost:9090/avatar/inventory', body, 'POST', 'json')
             .then(res => {
-                setItemList(itemList.concat(res));
+                if(res !== null)
+                    setItemList(itemList.concat(res));
             })
             .catch(err => {
                 console.log(err);
@@ -23,19 +24,28 @@ export default function AvatarMain(props) {
     }, []);
 
     const showItemList = () => {
-        if (itemList.length === 0) {
+        try {
+            if (itemList.length === 0) {
+                return (
+                    <div className='text-center'>
+                        <h5>아이템이 없습니다.</h5>
+                    </div>
+                );
+            }
+            else {
+                return (
+                    itemList.map((item) => (
+                        <AvatarItem item={item}/>
+                    ))
+                )
+            }
+        } catch (e) {
+            console.log(e);
             return (
                 <div className='text-center'>
                     <h5>아이템이 없습니다.</h5>
                 </div>
             );
-        }
-        else {
-            return (
-                itemList.map((item) => (
-                    <AvatarItem item={item}/>
-                ))
-            )
         }
     };
 
