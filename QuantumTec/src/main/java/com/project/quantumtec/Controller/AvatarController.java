@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +33,15 @@ public class AvatarController {
         return avatarService.getAvatarInventory(userId.get("userId"));
     }
 
+    // 아바타 카테고리 정보 조회
+    @RequestMapping("/category")
+    public String[] getAvatarCategory(){
+        return avatarService.getAvatarCategory();
+    }
+
     // 아바타 카테고리 별 인벤토리 정보 조회
     @PostMapping("/category/inventory")
-    public List<AvatarInventoryDTO> getAvatarCategoryInventory(@RequestBody CategoryInventoryDTO categoryInventoryDTO){
+    public List<String> getAvatarCategoryInventory(@RequestBody CategoryInventoryDTO categoryInventoryDTO){
         return avatarService.getAvatarCategoryInventory(categoryInventoryDTO);
     }
 }

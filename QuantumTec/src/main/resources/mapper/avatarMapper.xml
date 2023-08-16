@@ -46,5 +46,14 @@
         AND 
             aic.ITEM_CATEGORY_NAME = #{itemCategoryName};
     </select>
+
+    <select id='getAvatarCategory' resultType='java.lang.String'>
+        SELECT 
+            ITEM_CATEGORY_NAME
+        FROM
+            AVATAR_ITEM_CATEGORY_TB
+        ORDER BY
+            ITEM_CATEGORY_ID ASC;
+    </select>
 </mapper>
 
