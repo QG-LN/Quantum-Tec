@@ -28,9 +28,17 @@ public class AvatarDAOImpl implements AvatarDAO{
         return sqlSession.selectList("AvatarService.getAvatarInventory", userId);
     }
 
+    // 아바타 카테고리 정보 조회
+    @Override
+    public String[] getAvatarCategory() {
+        List<String> result = sqlSession.selectList("AvatarService.getAvatarCategory");
+        String[] array = result.toArray(new String[0]);
+        return array;
+    }
+
     // 아바타 카테고리 별 인벤토리 정보 조회
     @Override
-    public List<AvatarInventoryDTO> getAvatarCategoryInventory(CategoryInventoryDTO categoryInventoryDTO) {
+    public List<String> getAvatarCategoryInventory(CategoryInventoryDTO categoryInventoryDTO) {
         return sqlSession.selectList("AvatarService.getAvatarCategoryInventory", categoryInventoryDTO);
     }
 
