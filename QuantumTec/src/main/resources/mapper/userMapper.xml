@@ -71,4 +71,36 @@
         set USER_PW = #{userPW}
         where USER_ID = #{userID} and USER_NAME = #{userName} and USER_EMAIL = #{userEmail}
     </update>
+    <!-- 마이페이지의 나의 게임 플레이 내역 불러오기 -->
+    <select id="getMyGameList" parameterType="String" resultType="MyGameListResponseDTO">
+        SELECT
+            PI.USER_INDEX,
+            GI.GAME_NAME,
+            GI.GAME_IMAGE_LOCATION,
+            UGP.USERGAMEPLAY_TOTAL_PLAY_TIME,
+            GC.GAME_CATEGORY_NAME
+        FROM 
+            PAYMENT_INFO_TB PI
+        LEFT JOIN 
+            USER_GAME_PLAY_TB UGP ON PI.USER_INDEX = UGP.USER_INDEX AND PI.GAME_INDEX = UGP.GAME_INDEX
+        LEFT JOIN 
+            GAME_INFO_TB GI ON PI.GAME_INDEX = GI.GAME_INDEX
+        LEFT JOIN 
+            GAME_CATEGORY_LINK_TB GCL ON PI.GAME_INDEX = GCL.GAME_INDEX
+        LEFT JOIN 
+            GAME_CATEGORY_TB GC ON GCL.GAME_CATEGORY_ID = GC.GAME_CATEGORY_ID
+        LEFT JOIN 
+            USER_INFO_TB UI ON PI.USER_INDEX = UI.USER_INDEX
+        WHERE 
+            UI.USER_ID = #{userID}
+        GROUP BY 
+            PI.USER_INDEX,
+            PI.GAME_INDEX,
+            GI.GAME_NAME,
+            GC.GAME_CATEGORY_NAME;
+    </select>
+
+
+    
+     
 </mapper>
