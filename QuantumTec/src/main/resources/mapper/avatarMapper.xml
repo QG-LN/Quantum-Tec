@@ -77,5 +77,31 @@
         WHERE
             ai.ITEM_NAME LIKE CONCAT('%', #{searchValue} , '%');
     </select>
+
+    <select id='getAvatarCategorySearchInventory' resultType='AvatarInventoryDTO' parameterType='CategoryInventorySearchDTO'>
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            aic.ITEM_CATEGORY_NAME,
+            aph.PAYMENT_DATE,
+            uai.ITEM_USAGE_STATUS
+        FROM
+            USER_INFO_TB ui
+        JOIN 
+            AVATAR_PAYMENT_HISTORY_TB aph ON ui.USER_INDEX = aph.USER_INDEX
+        JOIN 
+            AVATAR_ITEM_TB ai ON aph.ITEM_INDEX = ai.ITEM_INDEX
+        JOIN 
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        LEFT JOIN 
+            USER_AVATAR_INVENTORY_TB uai ON ui.USER_INDEX = uai.USER_INDEX AND ai.ITEM_INDEX = uai.ITEM_INDEX
+        WHERE 
+            ui.USER_ID = #{userId}
+        AND 
+            aic.ITEM_CATEGORY_NAME = #{itemCategoryName}
+        AND
+            ai.ITEM_NAME LIKE CONCAT('%', #{searchValue} , '%');
+    </select>
 </mapper>
 
