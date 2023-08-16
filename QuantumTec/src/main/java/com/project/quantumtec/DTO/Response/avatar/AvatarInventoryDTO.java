@@ -1,4 +1,4 @@
-package com.project.quantumtec.DTO.Request.avatar;
+package com.project.quantumtec.DTO.Response.avatar;
 
 import lombok.Data;
 
