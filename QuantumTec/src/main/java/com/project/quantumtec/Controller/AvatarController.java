@@ -41,7 +41,7 @@ public class AvatarController {
 
     // 아바타 카테고리 별 인벤토리 정보 조회
     @PostMapping("/category/inventory")
-    public List<String> getAvatarCategoryInventory(@RequestBody CategoryInventoryDTO categoryInventoryDTO){
+    public List<AvatarInventoryDTO> getAvatarCategoryInventory(@RequestBody CategoryInventoryDTO categoryInventoryDTO){
         return avatarService.getAvatarCategoryInventory(categoryInventoryDTO);
     }
 }
