@@ -2,7 +2,7 @@ package com.project.quantumtec.DAO.avatar;
 
 import java.util.List;
 
-import com.project.quantumtec.DTO.Request.avatar.AvatarInventoryDTO;
+import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
 
 /**
  * PackageName : com.project.quantumtec.DAO.avatar
