@@ -17,7 +17,7 @@ import WritePage from './component/Pages/BoardPage/write.js';
 import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import Sidebar from './component/Pages/MainPage/sidebar';
+import AvatarInvetoryPage from "./component/Pages/avatarInventory/avatarMainPage";
 
 import styled from "styled-components";
 import axios from 'axios';
@@ -40,6 +40,7 @@ function App() {
           <Route path="/post/:id" element={<Post />}/>
           <Route path="/write" element={<Write />}/>
           <Route path="/avatarshop" element={<AvatarShop />}/>
+          <Route path="/inventory" element={<AvatarInvetory />}/>
         </Routes>
       </div>
       <Footer style={{height: "20vh"}} />
@@ -109,9 +110,17 @@ function Write(){
 }
 
 function AvatarShop(){
+  return (
+      <div className="AvatarMainPage mt-[5vh]" >
+          <AvatarShopPage />
+      </div>
+  )
+}
+
+function AvatarInvetory(){
     return (
-        <div className="AvatarMainPage mt-[5vh]" >
-            <AvatarShopPage />
+        <div className="AvartarInventoryPage mt-[5vh]" >
+            <AvatarInvetoryPage />
         </div>
     )
 }
