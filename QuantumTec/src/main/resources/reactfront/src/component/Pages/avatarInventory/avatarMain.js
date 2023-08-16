@@ -14,7 +14,7 @@ export default function AvatarMain(props) {
         console.log(body);
         axiosRequest('http://localhost:9090/avatar/inventory', body, 'POST', 'json')
             .then(res => {
-                setItemList(res);
+                setItemList(itemList.concat(res));
             })
             .catch(err => {
                 console.log(err);
