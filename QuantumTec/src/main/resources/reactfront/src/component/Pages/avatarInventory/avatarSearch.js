@@ -1,20 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import AvatarItem from './avatarItem';
+import {axiosRequest} from '../../../module/networkUtils';
 
 export default function AvatarSearch(props) {
-    const [avatarCategory, setAvatarCategory] = useState(""); // 카테고리 목록
     const [itemList, setItemList] = useState([]); // 아이템 목록
     const [searchValue, setSearchValue] = useState(props.searchName); // 검색어
     useEffect(() => {
-        let tempArray = [];
-        setAvatarCategory(props.searchName)
-
-        tempArray = [];
-        for(let i = 0; i < 20; i++) {
-            tempArray.push({ id: i, name: props.searchName });
+        const body = {
+            searchValue: searchValue,
         }
-        setItemList(itemList.concat(tempArray))
+        axiosRequest('http://localhost:9090/avatar/inventory/search', body, 'POST', 'json')
+            .then(res => {
+                if(res !== null)
+                    setItemList(itemList.concat(res));
+            })
+            .catch(err => {
+                console.log(err);
+            }
+        );
     }, []);
+    const showItemList = () => {
+        if (itemList.length === 0) {
+            return (
+                <div className='text-center'>
+                    <h5>아이템이 없습니다.</h5>
+                </div>
+            );
+        }
+        else {
+            return (
+                itemList.map((item) => (
+                    <AvatarItem item={item}/>
+                ))
+            )
+        }
+    };
     return (
         <div className="">
             <div className='p-2 pt-5 me-0 user-wrap'>
@@ -33,13 +53,11 @@ export default function AvatarSearch(props) {
                 </div>
             </div>
             <div className='d-flex align-items-center ms-4 mt-4'>
-                <h5 className=''>모든 {avatarCategory} 아이템 (20)</h5>
-                <hr className='flex-fill mx-3'/>
+                <h5 className=''>모든 {searchValue} 아이템 ({itemList.length})</h5>
+                <hr className='flex-fill mx-3'/>    
             </div>
             <div className='ms-2 mt-4 d-flex flex-wrap align-items-center'>
-                {itemList.map((item) => (
-                    <AvatarItem item={item}/>
-                ))}
+                {showItemList()}
             </div>
         </div>
     );
