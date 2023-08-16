@@ -6,7 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.project.quantumtec.DTO.Request.avatar.AvatarInventoryDTO;
+import com.project.quantumtec.DTO.Request.avatar.CategoryInventoryDTO;
+import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
 
 /**
  * PackageName : com.project.quantumtec.DAO.avatar
@@ -26,4 +27,11 @@ public class AvatarDAOImpl implements AvatarDAO{
     public List<AvatarInventoryDTO> getAvatarInventory(String userId) {
         return sqlSession.selectList("AvatarService.getAvatarInventory", userId);
     }
+
+    // 아바타 카테고리 별 인벤토리 정보 조회
+    @Override
+    public List<AvatarInventoryDTO> getAvatarCategoryInventory(CategoryInventoryDTO categoryInventoryDTO) {
+        return sqlSession.selectList("AvatarService.getAvatarCategoryInventory", categoryInventoryDTO);
+    }
+
 }
