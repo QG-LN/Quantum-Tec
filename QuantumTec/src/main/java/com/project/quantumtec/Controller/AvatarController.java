@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventoryDTO;
+import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventorySearchDTO;
 import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
 import com.project.quantumtec.Service.avatar.AvatarService;
@@ -50,5 +51,11 @@ public class AvatarController {
     @PostMapping("/inventory/search")
     public List<AvatarInventoryDTO> getAvatarSearchInventory(@RequestBody InventorySearchDTO inventorySearchDTO){
         return avatarService.getAvatarSearchInventory(inventorySearchDTO);
+    }
+
+    // 아바타 카테고리를 searchValue로 인벤토리 정보 조회
+    @PostMapping("/category/inventory/search")
+    public List<AvatarInventoryDTO> getAvatarCategorySearchInventory(@RequestBody CategoryInventorySearchDTO categoryInventorySearchDTO){
+        return avatarService.getAvatarCategorySearchInventory(categoryInventorySearchDTO);
     }
 }
