@@ -11,11 +11,9 @@ export default function AvatarCategory(props) {
             userId: localStorage.getItem("userID"),
             itemCategoryName: props.categoryName,
         };
-        console.log(body);
         axiosRequest('http://localhost:9090/avatar/category/inventory', body, 'POST', 'json')
             .then(res => {
                 setItemList(itemList.concat(res));
-                console.log(res);
             })
             .catch(err => {
                 console.log(err);
@@ -26,12 +24,17 @@ export default function AvatarCategory(props) {
     }, []);
 
     const handleSearch = (e) => {
-        axios.get('http://localhost:9090/avatar/search?keyword='+e.target.previousElementSibling.value)
-            .then((response) => {
-                setItemList(response.data);
+        const body = {
+            userId: localStorage.getItem("userID"),
+            itemCategoryName: props.categoryName,
+            searchValue: e.target.previousElementSibling.value,
+        };
+        axiosRequest('http://localhost:9090/avatar/category/inventory/search', body, 'POST', 'json')
+            .then(res => {
+                setItemList(itemList.concat(res));
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(err => {
+                console.log(err);
             });
     }
     const showItemList = () => {
