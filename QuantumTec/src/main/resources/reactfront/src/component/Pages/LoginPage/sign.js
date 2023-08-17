@@ -18,7 +18,7 @@ export default function Sign(){
     const [inputGender, setInputGender] = useState('m'); // 기본 설정이 men
     const [showEmailCheck, setshowEmailCheck] = useState(false)
     const [inputPostAddress, setInputPostAddress] = useState('')
-    const [isNickDiabled, setIsNickDisabled] = useState(false);
+    const [isNickDisabled, setIsNickDisabled] = useState(false);
     const [isIdDisabled, setIsIdDisabled] = useState(false);
     let [isNickCheck, setIsNickCheck] =useState(false);
     let [isIdCheck ,setIsIDCheck]= useState(false);
@@ -69,7 +69,7 @@ export default function Sign(){
     }
     const handleInputId = (e) => {
         setInputId(e.target.value)
-        setIsIdDisabled(inputId.length > 20);
+        setIsIDCheck(false);
     }
  
     const handleInputPw = (e) => {
@@ -102,7 +102,7 @@ export default function Sign(){
     }
     const handleInputNickname = (e) => {
         setInputNickname(e.target.value)
-        setIsNickDisabled(inputName.length > 8);
+        setIsNickCheck(false);
     }
     const handleInputPostAddress = (e) => {
         setInputPostAddress(e.target.value)
@@ -351,7 +351,7 @@ export default function Sign(){
                 <div class= 'col-9'>
                     <div className='flex'>
                     <input style={style_inputbox} className='border' type='text' name='input_nickname' maxLength={8} value={inputNickname} onChange={handleInputNickname} />
-                    <button type="button" class='nondrag' onClick={OnClickNicknameCheck} disabled={isNickDiabled}>중복확인</button>
+                    <button type="button" class='nondrag' onClick={OnClickNicknameCheck} disabled={isNickDisabled}>중복확인</button>
                     </div>
                     <div class = 'infotxt'>8자 이내로 적어주세요.</div>
                     {inputNickname.length > 8 && (
