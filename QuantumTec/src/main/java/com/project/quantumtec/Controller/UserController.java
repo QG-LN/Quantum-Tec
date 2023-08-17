@@ -28,15 +28,11 @@ public class UserController {
         return loginResponseDTO;
     }
 
-    // UserService 의 입력받은 회원정보를 DB에 저장하는 메소드
+    // 회원가입을 위한 메소드
     @PostMapping("/signup")
-    public UserInfoResponseDTO signupAdd(@RequestBody UserVO user) throws Exception {
-        UserInfoResponseDTO checkUser = userService.signup(user);
-        if(checkUser != null) {
-            return checkUser;
-        }else {
-            return null;
-        }
+    public boolean signupAdd(@RequestBody UserVO user) throws Exception {
+        boolean checkUser = userService.signup(user);
+        return checkUser;
     }
 
     // UserService 의 입력받은 회원정보(아이디)가 중복되는지 확인하는 메소드

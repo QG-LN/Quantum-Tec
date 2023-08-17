@@ -28,7 +28,7 @@ public interface UserService {
     public LoginResponseDTO login(String userID, String userPW)  throws Exception;
 
     // 회원가입
-    public UserInfoResponseDTO signup(UserVO user) throws Exception;
+    public boolean signup(UserVO user) throws Exception;
 
     // 아이디 중복 확인
     public boolean checkDuplicateId(UserVO user) throws Exception;
