@@ -53,6 +53,12 @@ export default function Sign(){
         setInputEmailDisabled(false)
         setIsEmailAuthDisabled(false)
     }
+
+    // 처음 로드 시에만 실행
+    useEffect(() => {
+        initInput();
+
+    }, []);
  
 	// input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
     const handleInputName = (e) => {
@@ -261,79 +267,60 @@ export default function Sign(){
 
     // signup 버튼 클릭 이벤트
     const OnClickSignUp = async () => {
+        try {
+            console.log(inputId, inputPw, inputNickname, inputName, inputBirth, inputEmail, inputAddress, inputAddressDetail, inputPostAddress, inputRole, inputGender);
+            console.log(isEmailAuthDisabled, isNickCheck, isIdCheck);
 
-        console.log(inputId, inputPw, inputNickname, inputName, inputBirth, inputEmail, inputAddress, inputAddressDetail, inputPostAddress, inputRole, inputGender);
-        console.log(isEmailAuthDisabled , isNickCheck , isIdCheck);
-        // 닉네임 체크
-       if(isNickCheck === false){
-            alert('닉네임 중복확인을 해주세요');
-            return
-        // 아이디 체크
-        }else if(isIdCheck === false){
-            alert('아이디 중복확인을 해주세요');
-            return
-        // 비밀번호 체크
-        }else if(inputPw !== inputPwCheck) {
-            alert('비밀번호가 일치하지 않습니다.');
-            return
-        // 비밀번호 2차 체크
-        }else if(inputPw.length < 8){
-            alert('비밀번호를 8글자 이상으로 써주세요');
-            return
-        // 이름 체크
-        }else if(inputName === '') {
-            alert('이름을 입력해주세요');
-            return
-        // 이름 최소 길이 확인
-        }else if(inputName.length < 2){
-            alert('이름을 2글자 이상으로 써주세요');
-            return
-        //전체 체크 후 성공시 정보를 서버로 전송
-        }else if(isEmailAuthDisabled === false){
-            alert('이메일 인증을 해주세요');
-            return
-       }else if(inputBirth === '' || inputBirth === null){
-           alert('생년월일을 입력해주세요');
-           return
-       }else if(inputPw === inputPwCheck &&
-           inputName.length <= 20 &&
-           inputId.length <= 20 &&
-           inputPw.length >= 8 &&
-           isNickCheck === true &&
-           isIdCheck === true &&
-           isEmailAuthDisabled === true
-       ){
-            const path = 'http://localhost:9090/user/signup';
-            const body = {
-                userID: inputId,
-                userPW : inputPw,
-                userNickname: inputNickname,
-                userName: inputName,
-                userBirth: inputBirth,
-                userEmail: inputEmail,
-                userAddress: inputAddress,
-                userAddressDetail : inputAddressDetail,
-                userPostal : inputPostAddress,
-                userRole: inputRole,
-                userGender : inputGender,
-            };
-            const data = await checkData(path,body,'POST');
-            if(data !== null){
-                console.log(data);
-                alert('회원가입이 완료되었습니다.');
-                document.location.href='/login';
-            }else{
-                alert('회원가입에 실패하였습니다.');
-                initInput();
-                console.log(1);
+            if (!isNickCheck) {
+                alert('닉네임 중복확인을 해주세요');
+            } else if (!isIdCheck) {
+                alert('아이디 중복확인을 해주세요');
+            } else if (inputPw === '' || inputPw.length < 8 || inputPw.length > 20) {
+                alert('비밀번호를 알맞게 입력해주세요');
+            } else if (inputPw !== inputPwCheck) {
+                alert('비밀번호가 일치하지 않습니다.');
+            } else if (inputName === '' || inputName.length < 2 || inputName.length > 20) {
+                alert('이름을 알맞게 입력해주세요');
+            } else if (!isEmailAuthDisabled) {
+                alert('이메일 인증을 해주세요');
+            } else if (!inputBirth) {
+                alert('생년월일을 입력해주세요');
+            } else if (!inputAddress) {
+                alert('주소를 입력해주세요');
+            } else if (!inputAddressDetail) {
+                alert('상세주소를 입력해주세요');
+            } else {
+                const path = 'http://localhost:9090/user/signup';
+                const body = {
+                    userID: inputId,
+                    userPW: inputPw,
+                    userNickname: inputNickname,
+                    userName: inputName,
+                    userBirth: inputBirth,
+                    userEmail: inputEmail,
+                    userAddress: inputAddress,
+                    userAddressDetail: inputAddressDetail,
+                    userPostal: inputPostAddress,
+                    userRole: inputRole,
+                    userGender: inputGender,
+                };
+
+                const data = await checkData(path, body, 'POST');
+
+                if (data !== null) {
+                    console.log(data);
+                    alert('회원가입이 완료되었습니다.');
+                    document.location.href = '/login';
+                } else {
+                    alert('회원가입에 실패하였습니다.');
+                    initInput();
+                    console.log(1);
+                }
             }
-            return;
-        }else{
-           alert('회원가입에 실패하였습니다.');
-           initInput();
-           return;
-       }
-        
+        } catch (err) {
+            console.log(err);
+            alert('회원가입에 실패하였습니다.');
+        }
     }
     const OnClickCancel = () => {
         // 취소 버튼 클릭시 메인 페이지로 이동
