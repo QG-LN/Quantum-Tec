@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService{
         return userDAO.getMyGameList(userID);
     }
 
-    @Scheduled(cron = "10 * * * * *")
+    @Scheduled(cron = "0 0 * * * *")
     @Override
     public void checkUserGrace() throws Exception {
         // inactive인 사용자를 호출
