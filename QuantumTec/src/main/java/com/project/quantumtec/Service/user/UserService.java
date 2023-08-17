@@ -61,4 +61,6 @@ public interface UserService {
     public boolean changePw(String userName, String userEmail, String userID, String userPW) throws Exception;
 
     public List<MyGameListResponseDTO> getMyGameList(String userID) throws Exception;
+
+    public void checkUserGrace() throws Exception;
 }

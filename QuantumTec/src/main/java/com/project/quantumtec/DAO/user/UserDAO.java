@@ -2,6 +2,7 @@ package com.project.quantumtec.DAO.user;
 
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
+import com.project.quantumtec.DTO.user.UserGraceDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.VO.user.UserVO;
 
@@ -38,6 +39,9 @@ public interface UserDAO {
     // 사용자 정보를 삭제하고, 삭제된 정보를 별도의 테이블에 보관함
     public boolean deleteUser(int userIdx) throws Exception;
 
+    // 사용자를 List로 받아 한번에 삭제
+    public void deleteUserAll(List userIndexList) throws Exception;
+
     // 사용자 정보 수정
     public boolean updateUser(UserVO user) throws Exception;
     // 이메일 중복 확인
@@ -54,4 +58,7 @@ public interface UserDAO {
 
     // 사용자의 게임 목록 가져오기
     public List<MyGameListResponseDTO> getMyGameList(String userID) throws Exception;
+
+    // 유예 상태인 사용자 목록 가져오기
+    public List<UserGraceDTO> getGraceUserList() throws Exception;
 }
