@@ -124,7 +124,7 @@ export default function Sign(){
 
             // 반환값이 중복일 경우 true, 중복이 아닐 경우 false 이므로 !data로 반환
             // 서버에서 받은 값이 없을 경우 false 반환
-            if (data !== null && data !== undefined) {
+            if (data !== null && data !== undefined && data !== '') {
                 return !data;
             } else {
                 return false;
@@ -262,8 +262,8 @@ export default function Sign(){
     // signup 버튼 클릭 이벤트
     const OnClickSignUp = async () => {
 
-        console.log(inputName, inputBirth, inputId, inputPw, inputPwCheck, inputGender,inputEmail, inputAddress, inputAddressDetail, inputRole)
-        console.log(isNickCheck , isIdCheck);
+        console.log(inputId, inputPw, inputNickname, inputName, inputBirth, inputEmail, inputAddress, inputAddressDetail, inputPostAddress, inputRole, inputGender);
+        console.log(isEmailAuthDisabled , isNickCheck , isIdCheck);
         // 닉네임 체크
        if(isNickCheck === false){
             alert('닉네임 중복확인을 해주세요');
@@ -289,12 +289,20 @@ export default function Sign(){
             alert('이름을 2글자 이상으로 써주세요');
             return
         //전체 체크 후 성공시 정보를 서버로 전송
-        }else if(inputPw === inputPwCheck &&
+        }else if(isEmailAuthDisabled === false){
+            alert('이메일 인증을 해주세요');
+            return
+       }else if(inputBirth === '' || inputBirth === null){
+           alert('생년월일을 입력해주세요');
+           return
+       }else if(inputPw === inputPwCheck &&
            inputName.length <= 20 &&
            inputId.length <= 20 &&
            inputPw.length >= 8 &&
            isNickCheck === true &&
-           isIdCheck === true){
+           isIdCheck === true &&
+           isEmailAuthDisabled === true
+       ){
             const path = 'http://localhost:9090/user/signup';
             const body = {
                 userID: inputId,
@@ -317,8 +325,9 @@ export default function Sign(){
             }else{
                 alert('회원가입에 실패하였습니다.');
                 initInput();
+                console.log(1);
             }
-            return
+            return;
         }else{
            alert('회원가입에 실패하였습니다.');
            initInput();
