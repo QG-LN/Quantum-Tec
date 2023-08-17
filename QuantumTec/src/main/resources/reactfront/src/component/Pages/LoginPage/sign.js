@@ -289,7 +289,12 @@ export default function Sign(){
             alert('이름을 2글자 이상으로 써주세요');
             return
         //전체 체크 후 성공시 정보를 서버로 전송
-        }else if(inputPw === inputPwCheck && inputName.length <= 20 && inputId.length <= 20 && inputPw.length >= 8 && isNickCheck === true && isIdCheck === true){
+        }else if(inputPw === inputPwCheck &&
+           inputName.length <= 20 &&
+           inputId.length <= 20 &&
+           inputPw.length >= 8 &&
+           isNickCheck === true &&
+           isIdCheck === true){
             const path = 'http://localhost:9090/user/signup';
             const body = {
                 userID: inputId,
