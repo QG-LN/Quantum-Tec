@@ -42,6 +42,15 @@
         delete from USER_INFO_TB
         where USER_INDEX = #{userIdx}
     </delete>
+    <!-- 한번에 여러 유저를 삭제하기 위해사용   -->
+    <delete id="deleteUserAll" parameterType="list">
+        delete from USER_INFO_TB
+        where USER_INDEX in
+            <foreach collection="list" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+    </delete>
+
     <update id="updateUser" parameterType="UserVO">
         update USER_INFO_TB
         set USER_PW = #{userPW},
@@ -100,7 +109,15 @@
             GC.GAME_CATEGORY_NAME;
     </select>
 
-
+    <!-- 유예기간 확인을 위한 호출 -->
+    <select id="getGraceUserList" resultType="UserGraceDTO">
+        SELECT
+            *
+        FROM
+            USER_STATUS_TB
+        WHERE
+            USER_STATUS = "inactive";
+    </select>
     
      
 </mapper>

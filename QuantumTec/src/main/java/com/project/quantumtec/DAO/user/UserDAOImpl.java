@@ -1,9 +1,6 @@
 package com.project.quantumtec.DAO.user;
 
-import com.project.quantumtec.DTO.user.LoginResponseDTO;
-import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
-import com.project.quantumtec.DTO.user.UserDTO;
-import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
+import com.project.quantumtec.DTO.user.*;
 import com.project.quantumtec.VO.user.UserVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +89,11 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    public void deleteUserAll(List userIndexList) throws Exception {
+        int deleteResult = sqlSession.delete("UserService.deleteUserAll", userIndexList);
+    }
+
+    @Override
     public boolean updateUser(UserVO user) throws Exception {
         int updateResult = sqlSession.update("UserService.updateUser", user);
         return updateResult > 0;
@@ -127,5 +129,10 @@ public class UserDAOImpl implements UserDAO{
     @Override
     public List<MyGameListResponseDTO> getMyGameList(String userID) throws Exception {
         return sqlSession.selectList("UserService.getMyGameList", userID);
+    }
+
+    @Override
+    public List<UserGraceDTO> getGraceUserList() throws Exception {
+        return sqlSession.selectList("UserService.getGraceUserList");
     }
 }

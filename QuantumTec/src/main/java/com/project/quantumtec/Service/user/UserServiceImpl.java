@@ -1,15 +1,17 @@
 package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DAO.user.UserDAO;
-import com.project.quantumtec.DTO.user.LoginResponseDTO;
-import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
-import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
-import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
+import com.project.quantumtec.DTO.user.*;
 import com.project.quantumtec.Utils.user.emailApi.EmailApi;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -137,5 +139,42 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<MyGameListResponseDTO> getMyGameList(String userID) throws Exception {
         return userDAO.getMyGameList(userID);
+    }
+
+    @Scheduled(cron = "10 * * * * *")
+    @Override
+    public void checkUserGrace() throws Exception {
+        // inactive인 사용자를 호출
+        List<UserGraceDTO> graceList = userDAO.getGraceUserList();
+        List userIndexList = new ArrayList();
+
+
+        // 반복진행
+        for(UserGraceDTO grace : graceList){
+
+            // 포맷터
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            // grace.getStatusUpdatedAt()를 Date타입으로 변환
+            LocalDate date = LocalDate.parse(grace.getStatusUpdatedAt(),formatter);
+
+            // 현재 날짜 구하기 (시스템 시계, 시스템 타임존)
+            LocalDate now = LocalDate.now();
+
+            // grace.getStatusUpdatedAt()와 현재 날짜의 차이 구하기
+            Period diff = Period.between(date, now);
+
+            // 5일 이상이면 graceUserIdx에 추가
+            if(diff.getDays() >= 5){
+                userIndexList.add(grace.getUserIndex());
+            }
+
+        }
+        System.out.println(userIndexList);
+
+        // graceUserIdx가 비어있지 않으면 graceUserIdx에 해당하는 사용자를 삭제
+        if(userIndexList.size() > 0)
+            userDAO.deleteUserAll(userIndexList);
+
     }
 }
