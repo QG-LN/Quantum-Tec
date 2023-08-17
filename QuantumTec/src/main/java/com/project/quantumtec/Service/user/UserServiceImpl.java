@@ -59,20 +59,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserInfoResponseDTO signup(UserVO user) throws Exception {
+    public boolean signup(UserVO user) throws Exception {
         // 0: 회원가입 실패, 1: 회원가입 성공
         int checkSignUp = userDAO.setUser(user);
+        boolean result = checkSignUp == 1;
 
         // 인증키 제거
         emailApi.removeKey();
-        
-        if(checkSignUp == 0) {
-            // 회원가입 실패
-            return null;
-        }else {
-            // 회원가입 성공
-            return userDAO.getUserInfo(userDAO.getUserExist(user.getUserID(), user.getUserPW()));
-        }
+
+        return result;
     }
 
     @Override
