@@ -54,7 +54,7 @@ export default function AvatarCategory(props) {
                 </div>
             </div>
             <hr className='mx-3'/>
-            <div className='ms-2 mt-4 d-flex flex-wrap align-items-center'>
+            <div>
                 <AvatarItemCheck itemList={itemList}/>
             </div>
         </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import loginLogo from './BringUP_LOGO.png'
+import AvatarCanvas from './avatarCanvas';
 
 export default function AvatarSide(props) {
     const [avatarCategory, setAvatarCategory] = useState(["전체"]); // 카테고리 목록
@@ -36,9 +37,9 @@ export default function AvatarSide(props) {
                 <div className='text-sm text-start m-2'>
                     내 아바타
                 </div>
-                <div className='w-[70%] m-[15%] me-0'>
-                    <img className="rounded " src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' alt="..." />
-                </div>
+                <AvatarCanvas />
+                {/* <img className="rounded " src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' alt="..." /> */}
+
             </>
             : 
             <>
