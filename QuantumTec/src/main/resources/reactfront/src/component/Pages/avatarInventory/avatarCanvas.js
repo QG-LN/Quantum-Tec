@@ -1,14 +1,9 @@
-import React, { useEffect, useRef} from 'react';
+import React, { useEffect, useRef, useState} from 'react';
 import { axiosRequest } from '../../../module/networkUtils';
 
 export default function AvatarCanvas(props) {
     const canvasRef = useRef(null);
     const avatarCategory = [];
-    const avatarActive = [];
-    for(let i = 1; i < props.category.length; i++) {
-        avatarCategory.push(props.category[i]);
-        avatarActive.push(null);
-    }
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
@@ -30,31 +25,33 @@ export default function AvatarCanvas(props) {
             ctx.drawImage(imgStickman, 0, 0);
         }
 
+        for(let i = 1; i < props.category.length; i++) {
+            avatarCategory.push(props.category[i]);
+        }
+
 
         const body = {
             userId: localStorage.getItem("userID"),
         }
         axiosRequest('http://localhost:9090/avatar/inventory/active', body, 'POST', 'json')
             .then(res => {
-                for (let i = 0; i < res.data.length; i++) {
-                    const itemIndex = avatarCategory.indexOf(res[i].categoryName);
-                    avatarActive[itemIndex] = res[i];
+                console.log(res);
+                for (let i = 0; i < res.length; i++) {
+                    
+                    const img = new Image();
+                    img.src = `${process.env.PUBLIC_URL}/image/${res[i].itemCategoryName}/${res[i].itemName}.png`;
+                    img.onload = () =>{
+                        ctx.drawImage(img, 0, 0);
+                        if(res[i].itemCategoryName === '배경'){
+                            ctx.drawImage(imgStickman, 0, 0);
+                        }
+                    }
                 }
             })
             .catch(err => {
                 console.log(err);
             }
         );
-
-        for(let i = 0; i < avatarActive.length; i++) {
-            if(avatarActive[i] !== null) {
-                const img = new Image();
-                img.src = `${process.env.PUBLIC_URL}/image/${avatarActive[i].categoryName}/${avatarActive[i].itemName}.png`;
-                img.onload = () =>{
-                    ctx.drawImage(img, 0, 0);
-                }
-            }
-        }
     }, [canvasRef]);
 
     return (
