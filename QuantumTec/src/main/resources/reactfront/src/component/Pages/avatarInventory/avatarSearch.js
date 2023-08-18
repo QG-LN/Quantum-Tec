@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AvatarItem from './avatarItem';
+import AvatarItemCheck from './avatarItemCheck';
 import {axiosRequest} from '../../../module/networkUtils';
 
 export default function AvatarSearch(props) {
@@ -21,20 +21,7 @@ export default function AvatarSearch(props) {
         );
     }, []);
     const showItemList = () => {
-        if (itemList.length === 0) {
-            return (
-                <div className='text-center'>
-                    <h5>아이템이 없습니다.</h5>
-                </div>
-            );
-        }
-        else {
-            return (
-                itemList.map((item) => (
-                    <AvatarItem item={item}/>
-                ))
-            )
-        }
+        
     };
     return (
         <div className="">
@@ -58,8 +45,8 @@ export default function AvatarSearch(props) {
                 <h5 className=''>모든 {searchValue} 아이템 ({itemList.length})</h5>
                 <hr className='flex-fill mx-3'/>    
             </div>
-            <div className='ms-2 mt-4 d-flex flex-wrap align-items-center'>
-                {showItemList()}
+            <div>
+                <AvatarItemCheck itemList={itemList}/>
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import AvatarItem from './avatarItem';
+import AvatarItemCheck from './avatarItemCheck';
 import {axiosRequest} from '../../../module/networkUtils';
 
 export default function AvatarCategory(props) {
@@ -37,22 +37,6 @@ export default function AvatarCategory(props) {
                 console.log(err);
             });
     }
-    const showItemList = () => {
-        if (itemList.length === 0) {
-            return (
-                <div className='text-center'>
-                    <h5>아이템이 없습니다.</h5>
-                </div>
-            );
-        }
-        else {
-            return (
-                itemList.map((item) => (
-                    <AvatarItem item={item} category={props.categoryName}/>
-                ))
-            )
-        }
-    };
     return (
         <div className="">
             <h1 className='mt-5'>
@@ -71,7 +55,7 @@ export default function AvatarCategory(props) {
             </div>
             <hr className='mx-3'/>
             <div className='ms-2 mt-4 d-flex flex-wrap align-items-center'>
-                {showItemList()}
+                <AvatarItemCheck itemList={itemList}/>
             </div>
         </div>
     );
