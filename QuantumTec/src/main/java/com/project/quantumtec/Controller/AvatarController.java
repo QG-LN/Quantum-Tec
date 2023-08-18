@@ -54,7 +54,7 @@ public class AvatarController {
     }
 
     // 착용중인 아바타 아이템 정보 조회
-    @PostMapping("/inventroy/active")
+    @PostMapping("/inventory/active")
     public List<AvatarInventoryDTO> getAvatarActiveInventory(@RequestBody Map<String, String> userId){
         return avatarService.getAvatarActiveInventory(userId.get("userId"));
     }
