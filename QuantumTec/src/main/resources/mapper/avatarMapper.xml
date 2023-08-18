@@ -109,7 +109,7 @@
             <!-- ai.ITEM_INDEX, -->
             ai.ITEM_NAME,
             <!-- ai.ITEM_DESC, -->
-            aic.ITEM_CATEGORY_NAME,
+            aic.ITEM_CATEGORY_NAME
             <!-- aph.PAYMENT_DATE, -->
             <!-- uai.ITEM_USAGE_STATUS -->
         FROM
