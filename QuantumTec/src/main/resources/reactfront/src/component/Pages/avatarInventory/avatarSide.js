@@ -37,7 +37,7 @@ export default function AvatarSide(props) {
                 <div className='text-sm text-start m-2'>
                     내 아바타
                 </div>
-                <AvatarCanvas />
+                <AvatarCanvas category={avatarCategory} />
                 {/* <img className="rounded " src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' alt="..." /> */}
 
             </>
