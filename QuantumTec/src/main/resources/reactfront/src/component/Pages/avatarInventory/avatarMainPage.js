@@ -1,3 +1,4 @@
+// @ts-check
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import AvatarSide from "./avatarSide";
@@ -6,10 +7,18 @@ import AvatarCategory from "./avatarCategory";
 import AvatarSearch from "./avatarSearch";
 import styled from "styled-components";
 
+/**
+ * 아바타 부모 컴포넌트
+ * @returns {JSX.Element} - AvatarMainPage 컴포넌트.
+ * @auther MayoneJY <mayone6063@kakao.com>
+ */
 export default function AvatarMainPage() {
+    /** 현재 페이지 @type {[string, React.Dispatch<React.SetStateAction<string>>]} */
     const [page, setPage] = useState("전체");
+    /** 카테고리 목록 @type {[string[], React.Dispatch<React.SetStateAction<string[]>>]} */
     const [category, setCategory] = useState(["전체"]);
 
+    /** 스크롤 컨테이너 @type {import("styled-components").StyledComponent<"div", any, {}, never>} */
     const ScrollContainer = styled.div`
       height: 95vh;
       overflow-y: auto;
@@ -25,6 +34,13 @@ export default function AvatarMainPage() {
                 console.log(error);
             });
     }, []);
+
+    /**
+     * 페이지를 변경하는 함수
+     * @param {React.MouseEvent<HTMLElement>} e - 클릭 이벤트
+     * @returns {void}
+     * @todo 'EventTarget' 형식에 'id' 속성이 없습니다.ts(2339) 오류 해결
+     */
     const handlePage = (e) => {
         if(e.target.id === "" && e.target.id !== "avatar-search-button"){
             setPage(e.target.parentNode.parentNode.id);
@@ -35,6 +51,14 @@ export default function AvatarMainPage() {
         else
             setPage(e.target.previousElementSibling.value);
     }
+
+    /**
+     * 페이지에 맞는 컨텐츠를 렌더링하는 함수
+     * @param {string} page - 현재 페이지
+     * @param {React.MouseEventHandler<HTMLElement>} handlePage - 페이지 변경 함수
+     * @param {string[]} category - 카테고리 목록
+     * @returns {JSX.Element} - 렌더링할 컴포넌트
+     */
     function renderContent(page, handlePage, category) {
         if (page === "전체") {
             return <AvatarMainContent onClick={handlePage} />;

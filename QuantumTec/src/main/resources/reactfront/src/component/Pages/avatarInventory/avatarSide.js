@@ -1,13 +1,22 @@
+// @ts-check
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import loginLogo from './BringUP_LOGO.png'
 import AvatarCanvas from './avatarCanvas';
 
+/**
+ * 아바타 사이드 컴포넌트
+ * @param {Object} props - 부모 컴포넌트로부터 받아온 props
+ * @param {React.MouseEventHandler<HTMLDivElement>} props.onClick - 카테고리 클릭 이벤트
+ * @returns {JSX.Element} - AvatarSide 컴포넌트.
+ * @author MayoneJY <mayone6063@kakao.com>
+ */
 export default function AvatarSide(props) {
-    const [avatarCategory, setAvatarCategory] = useState(["전체"]); // 카테고리 목록
+    /** 카테고리 목록 @type {[string[], React.Dispatch<React.SetStateAction<string[]>>]} */
+    const [avatarCategory, setAvatarCategory] = useState(["전체"]);
+    /** @type {function} */
     const navigate = useNavigate();
-
+    /** 이미지 경로 @type {string} */
     const imgSrc = `${process.env.PUBLIC_URL}/image/`;
 
 
@@ -25,6 +34,10 @@ export default function AvatarSide(props) {
 
     }, []);
 
+    /**
+     * 로그인 페이지로 이동하는 함수
+     * @returns {void}
+     */
     const handleLogin = () => {
         navigate('/login');
     }
@@ -44,8 +57,8 @@ export default function AvatarSide(props) {
             : 
             <>
                 <div className='w-[70%] m-[15%] me-0'>
-                    <button type="button" class="btn btn-success" onClick={handleLogin}>
-                        <img src={loginLogo}/> 로그인
+                    <button type="button" className="btn btn-success" onClick={handleLogin}>
+                        <img src={imgSrc + 'BringUP_LOGO.png'}/> 로그인
                     </button>
                     <div className='text-sm text-center m-2 text-secondary'>
                         로그인이 필요한 서비스입니다.
