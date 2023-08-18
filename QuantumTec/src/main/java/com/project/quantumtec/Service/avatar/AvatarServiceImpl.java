@@ -48,6 +48,12 @@ public class AvatarServiceImpl implements AvatarService{
         return avatarDAO.getAvatarSearchInventory(inventorySearchDTO);
     }
 
+    // 착용중인 아바타 아이템 정보 조회
+    @Override
+    public List<AvatarInventoryDTO> getAvatarActiveInventory(String userId){
+        return avatarDAO.getAvatarActiveInventory(userId);
+    }
+
     // 아바타 카테고리를 searchValue로 인벤토리 정보 조회
     @Override
     public List<AvatarInventoryDTO> getAvatarCategorySearchInventory(CategoryInventorySearchDTO categoryInventorySearchDTO){

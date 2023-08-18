@@ -21,6 +21,9 @@ public interface AvatarService {
     // 아바타 searchValue로 인벤토리 정보 조회
     public List<AvatarInventoryDTO> getAvatarSearchInventory(InventorySearchDTO inventorySearchDTO);
 
+    // 착용중인 아바타 아이템 정보 조회
+    public List<AvatarInventoryDTO> getAvatarActiveInventory(String userId);
+
     // 아바타 카테고리를 searchValue로 인벤토리 정보 조회
     public List<AvatarInventoryDTO> getAvatarCategorySearchInventory(CategoryInventorySearchDTO categoryInventorySearchDTO);
 }
