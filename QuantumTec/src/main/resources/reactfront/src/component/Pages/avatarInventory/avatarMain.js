@@ -1,48 +1,22 @@
-// @ts-check
 import React, { useState, useEffect } from 'react';
 import { axiosRequest } from '../../../module/networkUtils';
 import '../../../css.scss'
 import AvatarItemCheck from './avatarItemCheck';
 
 /**
- * @typedef {Object} AvatarItemRequest
- * @property {string|null} userId - 유저 아이디
- */
-
-/**
- * @typedef {Object} Item
- * @property {string} itemCategoryName - 아이템 카테고리 이름
- * @property {string} itemName - 아이템 이름
- * @property {(string|undefined)} itemDescription - 아이템 설명
- * @property {(string|undefined)} itemUsageStatus - 아이템 사용 여부
- * @property {(string|undefined)} paymentDate - 아이템 구매 날짜
- */
-
-/**
  * 아바타 메인 컴포넌트
  * @param {Object} props - 부모 컴포넌트로부터 받아온 props
- * @param {React.MouseEventHandler<HTMLButtonElement>} props.onClick - 검색 버튼 클릭 이벤트
+ * @param {*} props.onClick - 검색 버튼 클릭 이벤트
  * @returns {JSX.Element} - AvatarMain 컴포넌트.
  * @author MayoneJY <mayone6063@kakao.com>
  */
 export default function AvatarMain(props) {
     
-    /** @type {Item} */
-    const initialItem = {
-        itemCategoryName: "",
-        itemName: "",
-        itemDescription: undefined,
-        itemUsageStatus: undefined,
-        paymentDate: undefined
-    };
-    /**
-     * 아바타 아이템 목록
-     * @type {[Item[], React.Dispatch<React.SetStateAction<Item[]>>]}
-     */
-    const [itemList, setItemList] = useState([initialItem]);
+    // 아바타 아이템 목록
+    const [itemList, setItemList] = useState([]);
     
     useEffect(() => {
-        /** 아바타 아이템 목록을 가져오기 위한 요청. @type {AvatarItemRequest} */
+        // 아바타 아이템 목록을 가져오기 위한 요청.
         const body = {
             userId: localStorage.getItem("userID"),
         }

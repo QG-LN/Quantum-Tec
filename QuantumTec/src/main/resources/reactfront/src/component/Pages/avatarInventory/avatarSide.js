@@ -1,4 +1,3 @@
-// @ts-check
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -7,16 +6,16 @@ import AvatarCanvas from './avatarCanvas';
 /**
  * 아바타 사이드 컴포넌트
  * @param {Object} props - 부모 컴포넌트로부터 받아온 props
- * @param {React.MouseEventHandler<HTMLDivElement>} props.onClick - 카테고리 클릭 이벤트
+ * @param {*} props.onClick - 카테고리 클릭 이벤트
  * @returns {JSX.Element} - AvatarSide 컴포넌트.
  * @author MayoneJY <mayone6063@kakao.com>
  */
 export default function AvatarSide(props) {
-    /** 카테고리 목록 @type {[string[], React.Dispatch<React.SetStateAction<string[]>>]} */
+
+    // 카테고리 목록
     const [avatarCategory, setAvatarCategory] = useState(["전체"]);
-    /** @type {function} */
     const navigate = useNavigate();
-    /** 이미지 경로 @type {string} */
+    // 이미지 경로
     const imgSrc = `${process.env.PUBLIC_URL}/image/`;
 
 
