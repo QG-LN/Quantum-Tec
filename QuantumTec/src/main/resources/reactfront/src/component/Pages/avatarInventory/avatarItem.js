@@ -1,4 +1,3 @@
-// @ts-check
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -16,17 +15,14 @@ import Modal from 'react-bootstrap/Modal';
  * @author MayoneJY <mayone6063@kakao.com>
  */
 export default function AvatarItem(props) {
-    /** 모달을 보여주기 위한 상태
-     * @type {[boolean, React.Dispatch<React.SetStateAction<boolean>>]}
-     */
+    
+    // 모달을 보여주기 위한 상태
     const [show, setShow] = useState(false);
-    /** 모달을 닫기 위한 함수 */
+    // 모달을 닫기 위한 함수
     const handleClose = () => setShow(false);
-    /** 모달을 보여주기 위한 함수 */
+    // 모달을 보여주기 위한 함수
     const handleShow = () => setShow(true);
-    /** 아이템 이미지 경로
-     * @type {string}
-     */
+    // 아이템 이미지 경로
     let imgSrc;
 
     try {

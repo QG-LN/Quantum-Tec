@@ -14,6 +14,7 @@ import AvatarItem from './avatarItem';
  * @author MayoneJY <mayone6063@kakao.com>
  */
 export default function AvatarItemCheck(props) {
+    
     if (props.itemList.length === 0) {
         return (
             <div>
