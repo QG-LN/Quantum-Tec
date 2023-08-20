@@ -51,7 +51,7 @@ export default function Tooltip({ content, children }) {
         {children}
         {showTooltip && (
             <div className={`tooltip-box ${tooltipPosition}`}
-                style={{ width: parentSize.width+parentSize.width+10, height: parentSize.height }}
+                style={{ width: parentSize.width+parentSize.width+22, height: parentSize.height+12 }}
                 ref={tooltipRef}
             >
                 {content}
