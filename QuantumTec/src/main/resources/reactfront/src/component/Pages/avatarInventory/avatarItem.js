@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Tooltip from '../../tooltip';
-import { OverlayTrigger } from 'react-bootstrap';
+import { axiosRequest } from '../../../module/networkUtils';
 
 /**
  * 아바타 아이템을 보여주는 컴포넌트
@@ -32,6 +32,7 @@ export default function AvatarItem(props) {
         console.log(e);
     }
 
+    // 툴팁 내용
     const tooltip = (
         <div className='text-left m-3'>
             <h4>파란색 배경</h4><br />
@@ -40,9 +41,24 @@ export default function AvatarItem(props) {
             파란색 배경 아이템입니다.<br />
         </div>
     );
+    
+    // 아바타 착용 버튼 핸들러
+    const handleAvatar = () => {
+        const body = {
+            userId: localStorage.getItem("userID"),
+            itemName: props.item.itemName,
+        }
+        axiosRequest('http://localhost:9090/avatar/inventory/item/active', body, 'POST', 'json')
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
 
     return (
-        <div className="card w-[18.5%] ms-2 placeholder-glow mb-4" aria-hidden="true">
+        <div className="card w-[18.5%] ms-2 placeholder-glow mb-4" aria-hidden="true" onClick={handleAvatar}>
                 
             <Tooltip content={tooltip}>
                 <div onClick={handleShow}>
