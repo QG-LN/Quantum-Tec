@@ -22,10 +22,10 @@ export default function AvatarItem(props) {
     let imgSrc;
     // 아이템 착용 상태
     const [itemUsageStatus, setItemUsageStatus] = useState(false);
+    const avatarItemList = JSON.parse(localStorage.getItem("avatarItemList"));
 
     useEffect(() => {
         // 아이템 착용 상태 확인
-        const avatarItemList = JSON.parse(localStorage.getItem("avatarItemList"));
         for(let i = 0; i < avatarItemList.length; i++){
             if(avatarItemList[i].itemName === props.item.itemName){
                 setItemUsageStatus(true);
@@ -63,6 +63,13 @@ export default function AvatarItem(props) {
                 .then(res => {
                     console.log(res);
                     setItemUsageStatus(false);
+                    for(let i = 0; i < avatarItemList.length; i++){
+                        if(avatarItemList[i].itemName === props.item.itemName){
+                            avatarItemList.splice(i, 1);
+                            localStorage.setItem("avatarItemList", JSON.stringify(avatarItemList));
+                            break;
+                        }
+                    }
                 })
                 .catch(err => {
                     console.log(err);
@@ -78,6 +85,16 @@ export default function AvatarItem(props) {
                 .then(res => {
                     console.log(res);
                     setItemUsageStatus(true);
+                    for(let i = 0; i < avatarItemList.length; i++){
+                        if(avatarItemList[i].itemCategoryName === props.item.itemCategoryName){
+                            avatarItemList.splice(i, 1);
+                            avatarItemList.push(props.item);
+                            localStorage.setItem("avatarItemList", JSON.stringify(avatarItemList));
+                            break;
+                        }
+                    }
+                    avatarItemList.push(props.item);
+                    localStorage.setItem("avatarItemList", JSON.stringify(avatarItemList));
                 })
                 .catch(err => {
                     console.log(err);
