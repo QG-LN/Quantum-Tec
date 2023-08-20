@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventoryDTO;
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
+import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventorySearchDTO;
 import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
 import com.project.quantumtec.Service.avatar.AvatarService;
@@ -63,5 +64,17 @@ public class AvatarController {
     @PostMapping("/category/inventory/search")
     public List<AvatarInventoryDTO> getAvatarCategorySearchInventory(@RequestBody CategoryInventorySearchDTO categoryInventorySearchDTO){
         return avatarService.getAvatarCategorySearchInventory(categoryInventorySearchDTO);
+    }
+
+    // 아바타 아이템 착용
+    @PostMapping("/inventory/item/active")
+    public boolean setActiveAvatarItem(@RequestBody InventoryItemDTO inventoryItemDTO){
+        return avatarService.setActiveAvatarItem(inventoryItemDTO);
+    }
+
+    // 아바타 아이템 착용 해제
+    @PostMapping("/inventory/item/inactive")
+    public boolean setInactiveAvatarItem(@RequestBody InventoryItemDTO inventoryItemDTO){
+        return avatarService.setInactiveAvatarItem(inventoryItemDTO);
     }
 }

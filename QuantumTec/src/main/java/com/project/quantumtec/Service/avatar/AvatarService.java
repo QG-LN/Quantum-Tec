@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventoryDTO;
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
+import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventorySearchDTO;
 import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
 
@@ -26,4 +27,10 @@ public interface AvatarService {
 
     // 아바타 카테고리를 searchValue로 인벤토리 정보 조회
     public List<AvatarInventoryDTO> getAvatarCategorySearchInventory(CategoryInventorySearchDTO categoryInventorySearchDTO);
+
+    // 아바타 아이템 착용
+    public boolean setActiveAvatarItem(InventoryItemDTO inventoryItemDTO);
+
+    // 아바타 아이템 착용 해제
+    public boolean setInactiveAvatarItem(InventoryItemDTO inventoryItemDTO);
 }
