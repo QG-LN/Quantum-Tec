@@ -4,16 +4,18 @@ import { axiosRequest } from '../../../module/networkUtils';
 /**
  * 로그인이 되었을 때 나의 아바타를 보여주는 컴포넌트
  * @param {Object} props - 부모 컴포넌트로부터 받아온 props
- * @param {Array<string>} props.category - 아바타 카테고리 이름들
+ * @param {Array<int>|undefined} props.size - 아바타 크기 (가로, 세로) (px) 기본값: [512, 512]
+ * @param {Array<int>|undefined} props.position - 아바타 위치 (x, y) (px) 기본값: [0, 0]
  * @returns {JSX.Element} - AvatarItem 컴포넌트.
  * @author MayoneJY <mayone6063@kakao.com>
  */
 export default function AvatarCanvas(props) {
-    
+    // 아바타 크기 (가로, 세로) (px) 기본값: [512, 512]
+    const size = (props.size === undefined ? [512, 512] : props.size);
+    // 아바타 위치 (x, y) (px) 기본값: [0, 0]
+    const position = (props.position === undefined ? [0, 0] : props.position);
     // 캔버스를 그리기 위한 참조
     const canvasRef = useRef(null);
-    // 아바타 카테고리 이름들
-    const avatarCategory = [];
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -39,12 +41,7 @@ export default function AvatarCanvas(props) {
 
         imgStickman.src = `${process.env.PUBLIC_URL}/image/stickman.png`;
         imgStickman.onload = () =>{
-            ctx.drawImage(imgStickman, 0, 0);
-        }
-
-        // 카테고리 이름들을 배열에 저장
-        for(let i = 1; i < props.category.length; i++) {
-            avatarCategory.push(props.category[i]);
+            ctx.drawImage(imgStickman, position[0], position[1], size[0], size[1], 0, 0, canvas.width, canvas.height);
         }
 
         
@@ -57,9 +54,9 @@ export default function AvatarCanvas(props) {
 
                 img.src = `${process.env.PUBLIC_URL}/image/${avatarItemList[i].itemCategoryName}/${avatarItemList[i].itemName}.png`;
                 img.onload = () =>{
-                    ctx.drawImage(img, 0, 0);
+                    ctx.drawImage(img, position[0], position[1], size[0], size[1], 0, 0, canvas.width, canvas.height);
                     if(avatarItemList[i].itemCategoryName === '배경'){
-                        ctx.drawImage(imgStickman, 0, 0);
+                        ctx.drawImage(imgStickman, position[0], position[1], size[0], size[1], 0, 0, canvas.width, canvas.height);
                     }
                 }
             }
@@ -73,8 +70,6 @@ export default function AvatarCanvas(props) {
     }, [canvasRef]);
 
     return (
-        <div className='w-[70%] m-[15%] me-0'>
-            <canvas className='w-[100%] h-[100%] rounded' ref={canvasRef}>캔버스를 지원하지 않는 브라우저 입니다</canvas>
-        </div>
+        <canvas className='w-[100%] h-[100%] rounded' ref={canvasRef}>캔버스를 지원하지 않는 브라우저 입니다</canvas>
     );
 }

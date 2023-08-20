@@ -7,17 +7,16 @@ import '../App.js';
 import json from './b.json';
 import Sidebar from './sidebar.js';
 import Contact from './contact.js';
+import AvatarCanvas from './Pages/avatarInventory/avatarCanvas';
 
 export default function Navbar() {
     let truelogin = localStorage.getItem("truelogin");
 
-    let defaultIconAddress = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
 
     const [userNickname, setUserNickname] = useState('');               // 사용자 닉네임
     const [userPaidCash, setUserPaidCash] = useState(0);                // 사용자 유료캐시
     const [userFreeCash, setUserFreeCash] = useState(0);                // 사용자 무료캐시
     const [userAttendance, setUserAttendance] = useState(0);            // 사용자 출석횟수
-    const [userIconAddress, setUserIconAddress] = useState(defaultIconAddress);    // 사용자 아이콘 주소
 
     useEffect(() => {
         // 로그인 상태일때 유저 이름 받아오기
@@ -26,7 +25,6 @@ export default function Navbar() {
             setUserPaidCash(localStorage.getItem("userPaidCash") || 0);
             setUserFreeCash(localStorage.getItem("userCash") || 0);
             setUserAttendance(localStorage.getItem("userAttendance") || 0);
-            setUserIconAddress(localStorage.getItem("userIcon") || defaultIconAddress);
         }
     }, [truelogin]);
 
@@ -86,7 +84,9 @@ export default function Navbar() {
                                     <div class='mr-1'>{userNickname}</div>
                                     <div class='mr-5'> : {userFreeCash}</div>
                                 </div>
-                                <img class='w-8 h-8 rounded-full' src={userIconAddress} />
+                                <div className='w-8 h-8 rounded-full'>
+                                    <AvatarCanvas size={[220,220]} position={[128,128]}/>
+                                </div>
                             </a>
                                 <div
                                     class='LogInfo hidden w-[366px] h-[300px] absolute bg-gray-800 top-[38px] right-0 z-40 overflow-hidden'>
@@ -94,9 +94,9 @@ export default function Navbar() {
                                         <ul class='flex mt-4'>
                                             <li class="thum">
                                                 {/*<img class='w-24 h-24 rounded-full' src={userIconAddress} alt=""/>*/}
-                                                <img className='w-24 h-24 rounded-full'
-                                                     src="https://resource.cyphers.co.kr/ui/img/character/ico_64px_44.png"
-                                                     alt=""/>
+                                                <div className='w-24 h-24 rounded-full'>
+                                                    <AvatarCanvas size={[220,220]} position={[128,128]}/>
+                                                </div>
                                             </li>
                                             <li class='text-gray-400 ml-3'>
                                                 <p class='mb-0 ml-2 text-left font-bold'>
