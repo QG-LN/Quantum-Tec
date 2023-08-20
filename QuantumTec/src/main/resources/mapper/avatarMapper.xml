@@ -127,5 +127,31 @@
         AND 
             uai.ITEM_USAGE_STATUS = 1;
     </select>
+
+    <select id='setActiveAvatarItem' resultType='int' parameterType='InventoryItemDTO'>
+        UPDATE 
+            USER_AVATAR_INVENTORY_TB uai
+        JOIN 
+            USER_INFO_TB ui ON uai.USER_INDEX = ui.USER_INDEX
+        SET 
+            uai.ITEM_USAGE_STATUS = 1
+        WHERE 
+            ui.USER_ID = #{userId} 
+        AND 
+            uai.ITEM_INDEX = #{itemIndex};
+    </select>
+
+    <select id='setInactiveAvatarItem' resultType='int' parameterType='InventoryItemDTO'>
+        UPDATE 
+            USER_AVATAR_INVENTORY_TB uai
+        JOIN 
+            USER_INFO_TB ui ON uai.USER_INDEX = ui.USER_INDEX
+        SET 
+            uai.ITEM_USAGE_STATUS = 0
+        WHERE 
+            ui.USER_ID = #{userId} 
+        AND 
+            uai.ITEM_INDEX = #{itemIndex};
+        </select>
 </mapper>
 
