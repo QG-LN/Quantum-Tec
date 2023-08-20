@@ -42,6 +42,18 @@ export default function Login(props){
                             localStorage.setItem("truelogin","true");
                             document.location.href = "/";
                             props.setTruelogin(true);
+                            // 착용 아바타 아이템 불러오기
+                            const avatarBody = {
+                                userID: inputId,
+                            };
+                            axiosRequest('http://localhost:9090/avatar/inventory/active', avatarBody, 'POST', 'json')
+                                .then(res => {
+                                    localStorage.setItem("avatarItemList", JSON.stringify(res));
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                });
+
                         }else{
                             alert('로그인에 실패하였습니다.');
                             setInputId("");
