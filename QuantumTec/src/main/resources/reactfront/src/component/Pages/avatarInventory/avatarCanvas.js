@@ -48,30 +48,28 @@ export default function AvatarCanvas(props) {
         }
 
         
-        // 착용중인 아바타 아이템 목록을 가져오기 위한 요청
-        const body = {
-            userId: localStorage.getItem("userID"),
-        }
-        axiosRequest('http://localhost:9090/avatar/inventory/active', body, 'POST', 'json')
-            .then(res => {
+        const avatarItemList = JSON.parse(localStorage.getItem("avatarItemList"));
+        if (avatarItemList !== null) {
+            console.log(avatarItemList.length);
+            // 착용중인 아바타 아이템들을 그림
+            for (let i = 0; i < avatarItemList.length; i++) {
+                const img = new Image();
 
-                // 착용중인 아바타 아이템들을 그림
-                for (let i = 0; i < res.length; i++) {
-                    const img = new Image();
-
-                    img.src = `${process.env.PUBLIC_URL}/image/${res[i].itemCategoryName}/${res[i].itemName}.png`;
-                    img.onload = () =>{
-                        ctx.drawImage(img, 0, 0);
-                        if(res[i].itemCategoryName === '배경'){
-                            ctx.drawImage(imgStickman, 0, 0);
-                        }
+                img.src = `${process.env.PUBLIC_URL}/image/${avatarItemList[i].itemCategoryName}/${avatarItemList[i].itemName}.png`;
+                img.onload = () =>{
+                    ctx.drawImage(img, 0, 0);
+                    if(avatarItemList[i].itemCategoryName === '배경'){
+                        ctx.drawImage(imgStickman, 0, 0);
                     }
                 }
-            })
-            .catch(err => {
-                console.log(err);
             }
-        );
+        }
+        else {
+            alert("예상치 못한 오류가 발생했습니다. 다시 로그인해주세요.");
+            localStorage.clear();
+            // 로그아웃이 생기면 로그아웃 하는 주소로 변경하기
+            document.location.href = "/";
+        }
     }, [canvasRef]);
 
     return (
