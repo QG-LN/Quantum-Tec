@@ -18,12 +18,21 @@ export default function AvatarItem(props) {
 
     // 모달을 보여주기 위한 상태
     const [show, setShow] = useState(false);
-    // 모달을 닫기 위한 함수
-    const handleClose = () => setShow(false);
-    // 모달을 보여주기 위한 함수
-    const handleShow = () => setShow(true);
     // 아이템 이미지 경로
     let imgSrc;
+    // 아이템 착용 상태
+    const [itemUsageStatus, setItemUsageStatus] = useState(false);
+
+    useEffect(() => {
+        // 아이템 착용 상태 확인
+        const avatarItemList = JSON.parse(localStorage.getItem("avatarItemList"));
+        for(let i = 0; i < avatarItemList.length; i++){
+            if(avatarItemList[i].itemName === props.item.itemName){
+                setItemUsageStatus(true);
+                break;
+            }
+        }
+    }, []);
 
     try {
         imgSrc = `${process.env.PUBLIC_URL}/image/${props.item.itemCategoryName}/${props.item.itemName}_shop.png`;
@@ -42,41 +51,53 @@ export default function AvatarItem(props) {
         </div>
     );
     
-    // 아바타 착용 버튼 핸들러
-    const handleAvatar = () => {
-        const body = {
-            userId: localStorage.getItem("userID"),
-            itemName: props.item.itemName,
+    // 아이템 착용 토글 핸들러
+    const handleItemToggle = () => {
+        if (itemUsageStatus) {
+            // 아이템 착용 해제 요청
+            const body = {
+                userId: localStorage.getItem("userID"),
+                itemName: props.item.itemName,
+            }
+            axiosRequest('http://localhost:9090/avatar/inventory/item/inactive', body, 'POST', 'json')
+                .then(res => {
+                    console.log(res);
+                    setItemUsageStatus(false);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
-        axiosRequest('http://localhost:9090/avatar/inventory/item/active', body, 'POST', 'json')
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        else {
+            // 아이템 착용 요청
+            const body = {
+                userId: localStorage.getItem("userID"),
+                itemName: props.item.itemName,
+            }
+            axiosRequest('http://localhost:9090/avatar/inventory/item/active', body, 'POST', 'json')
+                .then(res => {
+                    console.log(res);
+                    setItemUsageStatus(true);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
     }
 
     return (
-        <div className="card w-[18.5%] ms-2 placeholder-glow mb-4" aria-hidden="true" onClick={handleAvatar}>
+        <div className={'card w-[18.5%] ms-2 placeholder-glow mb-4 border border-5'+((itemUsageStatus)?' border-success-subtle':'')} aria-hidden="true" onClick={handleItemToggle}>
                 
             <Tooltip content={tooltip}>
-                <div onClick={handleShow}>
-                    {/* <div className="placeholder ratio ratio-1x1 rounded-top"></div> */}
-                    <img src={imgSrc} className='rounded-top'/>
-                    {/* <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" class="card-img-top" alt="..."/> */}
-                    <div className="text-start m-3">
-                        <h5 className="card-title placeholder-glow">
-                            {props.item && props.item.itemName ? props.item.itemName : "No item name available"}
-                        {/* <div className="placeholder col-5"></div> */}
-                        </h5>
-                        <h6 className="card-text placeholder-glow">
-                            <div className="placeholder col-7"></div>
-                        </h6>
-                        <h6 className="card-text placeholder-glow text-end">
-                            <div className="placeholder col-5"></div>
-                        </h6>
-                    </div>
+                {/* <div className="placeholder ratio ratio-1x1 rounded-top"></div> */}
+                <img src={imgSrc}/>
+                {/* <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" class="card-img-top" alt="..."/> */}
+                <hr className='m-0 border-1' />
+                <div className="text-start m-3">
+                    <h5 className="card-title placeholder-glow">
+                        {props.item && props.item.itemName ? props.item.itemName : "No item name available"}
+                    {/* <div className="placeholder col-5"></div> */}
+                    </h5>
                 </div>
             </Tooltip>
         </div>
