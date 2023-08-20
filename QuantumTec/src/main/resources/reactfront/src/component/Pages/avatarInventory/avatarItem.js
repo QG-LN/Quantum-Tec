@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Tooltip from '../../tooltip';
+import Tooltip from '../../Utils/tooltip';
 import { axiosRequest } from '../../../module/networkUtils';
 
 /**
