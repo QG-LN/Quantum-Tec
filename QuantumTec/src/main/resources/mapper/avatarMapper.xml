@@ -106,12 +106,12 @@
 
     <select id='getAvatarActiveInventory' resultType='AvatarInventoryDTO' parameterType='String'>
         SELECT 
-            <!-- ai.ITEM_INDEX, -->
+            ai.ITEM_INDEX,
             ai.ITEM_NAME,
-            <!-- ai.ITEM_DESC, -->
-            aic.ITEM_CATEGORY_NAME
-            <!-- aph.PAYMENT_DATE, -->
-            <!-- uai.ITEM_USAGE_STATUS -->
+            ai.ITEM_DESC,
+            aic.ITEM_CATEGORY_NAME,
+            aph.PAYMENT_DATE,
+            uai.ITEM_USAGE_STATUS
         FROM
             USER_INFO_TB ui
         JOIN 
