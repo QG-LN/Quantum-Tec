@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.project.quantumtec.DAO.avatar.AvatarDAO;
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventoryDTO;
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
+import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventorySearchDTO;
 import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
 
@@ -58,5 +59,17 @@ public class AvatarServiceImpl implements AvatarService{
     @Override
     public List<AvatarInventoryDTO> getAvatarCategorySearchInventory(CategoryInventorySearchDTO categoryInventorySearchDTO){
         return avatarDAO.getAvatarCategorySearchInventory(categoryInventorySearchDTO);
+    }
+
+    // 아바타 아이템 착용
+    @Override
+    public boolean setActiveAvatarItem(InventoryItemDTO inventoryItemDTO){
+        return avatarDAO.setActiveAvatarItem(inventoryItemDTO);
+    }
+
+    // 아바타 아이템 착용 해제
+    @Override
+    public boolean setInactiveAvatarItem(InventoryItemDTO inventoryItemDTO){
+        return avatarDAO.setInactiveAvatarItem(inventoryItemDTO);
     }
 }
