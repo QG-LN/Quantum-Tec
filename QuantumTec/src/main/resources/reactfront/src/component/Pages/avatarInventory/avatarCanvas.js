@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState} from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 /**
@@ -17,9 +18,15 @@ export default function AvatarCanvas(props) {
     // 캔버스를 그리기 위한 참조
     const canvasRef = useRef(null);
     // 착용중인 아바타 아이템 목록
-    const [avatarItemList, setAvatarCategory] = useState(() => JSON.parse(localStorage.getItem("avatarItemList")));
+    const avatarItemList = useSelector(state => state.avatarItemList);
+    
 
     useEffect(() => {
+        console.log(avatarItemList);
+    }, [avatarItemList]);
+
+    useEffect(() => {
+        console.log(avatarItemList);
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
 
@@ -49,7 +56,6 @@ export default function AvatarCanvas(props) {
         
         
         if (avatarItemList !== null) {
-            console.log(avatarItemList.length);
             // 카테고리 목록 받아오기
             axios.get('http://localhost:9090/avatar/category')
             .then((response) => {
@@ -57,7 +63,7 @@ export default function AvatarCanvas(props) {
                 for (let j = 0; j < catrgoryList.length; j++) {
                     // 착용중인 아바타 아이템들을 그림
                     for (let i = 0; i < avatarItemList.length; i++) {
-                        if(catrgoryList[j] === avatarItemList[j].itemCategoryName){
+                        if(catrgoryList[j] === avatarItemList[i].itemCategoryName){
                             const img = new Image();
     
                             img.src = `${process.env.PUBLIC_URL}/image/${avatarItemList[i].itemCategoryName}/${avatarItemList[i].itemName}.png`;
@@ -82,7 +88,7 @@ export default function AvatarCanvas(props) {
             // 로그아웃이 생기면 로그아웃 하는 주소로 변경하기
             document.location.href = "/";
         }
-    }, [canvasRef]);
+    }, [canvasRef, avatarItemList]);
 
     return (
         <canvas className='w-[100%] h-[100%] rounded' ref={canvasRef}>캔버스를 지원하지 않는 브라우저 입니다</canvas>
