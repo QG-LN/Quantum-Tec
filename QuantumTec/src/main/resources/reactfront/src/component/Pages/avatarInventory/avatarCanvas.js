@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState} from 'react';
-import { axiosRequest } from '../../../module/networkUtils';
+import axios from 'axios';
 
 /**
  * 로그인이 되었을 때 나의 아바타를 보여주는 컴포넌트
@@ -16,6 +16,8 @@ export default function AvatarCanvas(props) {
     const position = (props.position === undefined ? [0, 0] : props.position);
     // 캔버스를 그리기 위한 참조
     const canvasRef = useRef(null);
+    // 착용중인 아바타 아이템 목록
+    const [avatarItemList, setAvatarCategory] = useState(() => JSON.parse(localStorage.getItem("avatarItemList")));
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -45,24 +47,37 @@ export default function AvatarCanvas(props) {
         }
 
         
-        const avatarItemList = JSON.parse(localStorage.getItem("avatarItemList"));
+        
         if (avatarItemList !== null) {
             console.log(avatarItemList.length);
-            // 착용중인 아바타 아이템들을 그림
-            for (let i = 0; i < avatarItemList.length; i++) {
-                const img = new Image();
-
-                img.src = `${process.env.PUBLIC_URL}/image/${avatarItemList[i].itemCategoryName}/${avatarItemList[i].itemName}.png`;
-                img.onload = () =>{
-                    ctx.drawImage(img, position[0], position[1], size[0], size[1], 0, 0, canvas.width, canvas.height);
-                    if(avatarItemList[i].itemCategoryName === '배경'){
-                        ctx.drawImage(imgStickman, position[0], position[1], size[0], size[1], 0, 0, canvas.width, canvas.height);
+            // 카테고리 목록 받아오기
+            axios.get('http://localhost:9090/avatar/category')
+            .then((response) => {
+                const catrgoryList = response.data;
+                for (let j = 0; j < catrgoryList.length; j++) {
+                    // 착용중인 아바타 아이템들을 그림
+                    for (let i = 0; i < avatarItemList.length; i++) {
+                        if(catrgoryList[j] === avatarItemList[j].itemCategoryName){
+                            const img = new Image();
+    
+                            img.src = `${process.env.PUBLIC_URL}/image/${avatarItemList[i].itemCategoryName}/${avatarItemList[i].itemName}.png`;
+                            img.onload = () =>{
+                                ctx.drawImage(img, position[0], position[1], size[0], size[1], 0, 0, canvas.width, canvas.height);
+                                if(avatarItemList[i].itemCategoryName === '배경'){
+                                    ctx.drawImage(imgStickman, position[0], position[1], size[0], size[1], 0, 0, canvas.width, canvas.height);
+                                }
+                            }
+                        }
                     }
                 }
-            }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+            
         }
         else {
-            alert("예상치 못한 오류가 발생했습니다. 다시 로그인해주세요.");
+            alert("예상치 못한 오류가 발생했습니다. 다시 로그인해주세요. [착용 아바타 관련]");
             localStorage.clear();
             // 로그아웃이 생기면 로그아웃 하는 주소로 변경하기
             document.location.href = "/";
