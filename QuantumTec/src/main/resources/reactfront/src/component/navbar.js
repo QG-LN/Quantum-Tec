@@ -8,10 +8,15 @@ import json from './b.json';
 import Sidebar from './sidebar.js';
 import Contact from './contact.js';
 import AvatarCanvas from './Pages/avatarInventory/avatarCanvas';
+import { useNavigate } from 'react-router';
 
 export default function Navbar() {
+    const navigate = useNavigate();
     let truelogin = localStorage.getItem("truelogin");
 
+    const handleInventory = () => {
+        navigate('/inventory');
+    }
 
     const [userNickname, setUserNickname] = useState('');               // 사용자 닉네임
     const [userPaidCash, setUserPaidCash] = useState(0);                // 사용자 유료캐시
@@ -79,7 +84,11 @@ export default function Navbar() {
                                     로그인</span>
                         </button>}
                         {truelogin &&
-                            <div><a class='flex openLogInfo' href='javascript:void(0)' onClick={handleLogInfo}>
+                            <div>
+                                <div onClick={handleInventory}>
+                                    test
+                                </div>
+                                <a class='flex openLogInfo' href='javascript:void(0)' onClick={handleLogInfo}>
                                 <div class='flex'>
                                     <div class='mr-1'>{userNickname}</div>
                                     <div class='mr-5'> : {userFreeCash}</div>

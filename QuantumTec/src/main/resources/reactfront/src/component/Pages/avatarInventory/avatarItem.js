@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Tooltip from '../../Utils/tooltip';
 import { axiosRequest } from '../../../module/networkUtils';
+import { useSelector, useDispatch } from 'react-redux';
+import { setAvatarItemList } from '../../../redux/actions/avatarActions';
 
 /**
  * 아바타 아이템을 보여주는 컴포넌트
@@ -22,7 +24,13 @@ export default function AvatarItem(props) {
     let imgSrc;
     // 아이템 착용 상태
     const [itemUsageStatus, setItemUsageStatus] = useState(false);
-    const avatarItemList = JSON.parse(localStorage.getItem("avatarItemList"));
+
+    const avatarItemList = useSelector(state => state.avatarItemList);
+    const dispatch = useDispatch();
+
+    const handleUpdate = (newItemList) => {
+        dispatch(setAvatarItemList(newItemList));
+    };
 
     useEffect(() => {
         // 아이템 착용 상태 확인
@@ -53,20 +61,21 @@ export default function AvatarItem(props) {
     
     // 아이템 착용 토글 핸들러
     const handleItemToggle = () => {
+        const itemList = [...avatarItemList];
         if (itemUsageStatus) {
             // 아이템 착용 해제 요청
             const body = {
                 userId: localStorage.getItem("userID"),
-                itemName: props.item.itemName,
+                itemIndex: props.item.itemIndex,
             }
             axiosRequest('http://localhost:9090/avatar/inventory/item/inactive', body, 'POST', 'json')
                 .then(res => {
                     console.log(res);
                     setItemUsageStatus(false);
-                    for(let i = 0; i < avatarItemList.length; i++){
-                        if(avatarItemList[i].itemName === props.item.itemName){
-                            avatarItemList.splice(i, 1);
-                            localStorage.setItem("avatarItemList", JSON.stringify(avatarItemList));
+                    for(let i = 0; i < itemList.length; i++){
+                        if(itemList[i].itemIndex === props.item.itemIndex){
+                            itemList.splice(i, 1);
+                            handleUpdate(itemList);
                             break;
                         }
                     }
@@ -79,22 +88,22 @@ export default function AvatarItem(props) {
             // 아이템 착용 요청
             const body = {
                 userId: localStorage.getItem("userID"),
-                itemName: props.item.itemName,
+                itemIndex: props.item.itemIndex,
             }
             axiosRequest('http://localhost:9090/avatar/inventory/item/active', body, 'POST', 'json')
                 .then(res => {
                     console.log(res);
                     setItemUsageStatus(true);
-                    for(let i = 0; i < avatarItemList.length; i++){
-                        if(avatarItemList[i].itemCategoryName === props.item.itemCategoryName){
-                            avatarItemList.splice(i, 1);
-                            avatarItemList.push(props.item);
-                            localStorage.setItem("avatarItemList", JSON.stringify(avatarItemList));
+                    for(let i = 0; i < itemList.length; i++){
+                        if(itemList[i].itemCategoryName === props.item.itemCategoryName){
+                            itemList.splice(i, 1);
+                            itemList.push(props.item);
+                            handleUpdate(itemList);
                             break;
                         }
                     }
-                    avatarItemList.push(props.item);
-                    localStorage.setItem("avatarItemList", JSON.stringify(avatarItemList));
+                    itemList.push(props.item);
+                    handleUpdate(itemList);
                 })
                 .catch(err => {
                     console.log(err);
