@@ -14,7 +14,7 @@ import BoardPage from './component/Pages/BoardPage/board.js';
 import PostPage from './component/Pages/BoardPage/post.js';
 import WritePage from './component/Pages/BoardPage/write.js';
 
-import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
+// import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import AvatarInvetoryPage from "./component/Pages/avatarInventory/avatarMainPage";
@@ -112,7 +112,7 @@ function Write(){
 function AvatarShop(){
   return (
       <div className="AvatarMainPage mt-[5vh]" >
-          <AvatarShopPage />
+          <AvatarInvetoryPage page='shop' />
       </div>
   )
 }
@@ -120,7 +120,7 @@ function AvatarShop(){
 function AvatarInvetory(){
     return (
         <div className="AvartarInventoryPage mt-[5vh]" >
-            <AvatarInvetoryPage />
+            <AvatarInvetoryPage page='inventory' />
         </div>
     )
 }

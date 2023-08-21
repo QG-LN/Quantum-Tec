@@ -25,7 +25,7 @@ export default function AvatarItem(props) {
     // 아이템 착용 상태
     const [itemUsageStatus, setItemUsageStatus] = useState(false);
 
-    const avatarItemList = useSelector(state => state.avatarItemList);
+    const avatarItemList = useSelector(state => state.avatar.itemList);
     const dispatch = useDispatch();
 
     const handleUpdate = (newItemList) => {

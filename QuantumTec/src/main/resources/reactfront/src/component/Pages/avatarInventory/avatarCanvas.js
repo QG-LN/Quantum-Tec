@@ -18,7 +18,7 @@ export default function AvatarCanvas(props) {
     // 캔버스를 그리기 위한 참조
     const canvasRef = useRef(null);
     // 착용중인 아바타 아이템 목록
-    const avatarItemList = useSelector(state => state.avatarItemList);
+    const avatarItemList = useSelector(state => state.avatar.itemList);
     const [checkDraw, setCheckDraw] = useState(false);
     
 

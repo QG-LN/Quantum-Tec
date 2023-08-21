@@ -8,3 +8,21 @@ export function setAvatarItemList(itemList) {
     payload: itemList
   };
 }
+
+export const SET_AVATAR_PAGE = 'SET_AVATAR_PAGE';
+
+export function setAvatarPage(page) {
+  return {
+    type: SET_AVATAR_PAGE,
+    payload: page
+  };
+}
+
+export const SET_AVATAR_CATEGORY_LIST = 'SET_AVATAR_CATEGORY_LIST';
+
+export function setAvatarCategoryList(categoryList) {
+  return {
+    type: SET_AVATAR_CATEGORY_LIST,
+    payload: categoryList
+  };
+}
