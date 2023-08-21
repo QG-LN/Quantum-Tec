@@ -6,10 +6,17 @@ import AvatarCategory from "./avatarCategory";
 import AvatarSearch from "./avatarSearch";
 import styled from "styled-components";
 
+/**
+ * 아바타 부모 컴포넌트
+ * @returns {JSX.Element} - AvatarMainPage 컴포넌트.
+ * @auther MayoneJY <mayone6063@kakao.com>
+ */
 export default function AvatarMainPage() {
-    const [page, setPage] = useState("추천");
-    const [category, setCategory] = useState(["추천"]);
-    const [eng_category, setEng_category] = useState(["recommendation"]);
+
+    // 현재 페이지 이름
+    const [page, setPage] = useState("전체");
+    // 카테고리 목록
+    const [category, setCategory] = useState(["전체"]);
 
     const ScrollContainer = styled.div`
       height: 95vh;
@@ -18,45 +25,44 @@ export default function AvatarMainPage() {
     `;
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/avatar/category')
+        axios.get('http://localhost:9090/avatar/category')
             .then((response) => {
                 setCategory(category.concat(response.data));
             })
             .catch((error) => {
                 console.log(error);
             });
-        const tempArray = []
-        tempArray.push('추천');
-        tempArray.push('배경');
-        tempArray.push('모자');
-        tempArray.push('이너');
-        tempArray.push('바지');
-        tempArray.push('치마');
-        setCategory(category.concat(tempArray));
-        const tempArray2 = []
-        tempArray2.push('recommendation');
-        tempArray2.push('bg');
-        tempArray2.push('hat');
-        tempArray2.push('inner');
-        tempArray2.push('pants');
-        tempArray2.push('skirt');
-        setEng_category(eng_category.concat(tempArray2));
     }, []);
+
+    /**
+     * 페이지를 변경하는 함수
+     * @param {*} e - 클릭 이벤트
+     * @returns {void}
+     */
     const handlePage = (e) => {
-        if(e.target.id === "" && e.target.id !== "avatar-search-button")
-            setPage(e.target.parentNode.parentNode.id)
+        // 수정 필요
+        if(e.target.id === "" && e.target.id !== "avatar-search-button"){
+            setPage(e.target.parentNode.parentNode.id);
+            console.log(e.target.parentNode.parentNode.id);
+        }
         else if(e.target.id !== "" && e.target.id !== "avatar-search-button")
             setPage(e.target.id);
         else
             setPage(e.target.previousElementSibling.value);
-        console.log(eng_category[category.indexOf(page)])
     }
-    function renderContent(page, handlePage, category, eng_category) {
-        if (page === "추천") {
+
+    /**
+     * 페이지에 맞는 컨텐츠를 렌더링하는 함수
+     * @param {string} page - 현재 페이지
+     * @param {*} handlePage - 페이지 변경 함수
+     * @param {string[]} category - 카테고리 목록
+     * @returns {JSX.Element} - 렌더링할 컴포넌트
+     */
+    function renderContent(page, handlePage, category) {
+        if (page === "전체") {
             return <AvatarMainContent onClick={handlePage} />;
         } else if (category.includes(page)) {
-            const idx = category.indexOf(page);
-            return <AvatarCategory key={page} categoryName={page} eng_category={eng_category[idx]} />;
+            return <AvatarCategory key={page} categoryName={page} />;
         } else {
             return <AvatarSearch key={page} searchName={page} onClick={handlePage} />;
         }
@@ -72,7 +78,7 @@ export default function AvatarMainPage() {
                 </div>
                 <div className="col-9 ps-0 pe-0">
                     <ScrollContainer>
-                    {renderContent(page, handlePage, category, eng_category)}
+                    {renderContent(page, handlePage, category)}
                     </ScrollContainer>
                 </div>
             </div>
