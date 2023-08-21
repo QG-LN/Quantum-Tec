@@ -2,11 +2,21 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Choosefind from './choosefind.js';
 import {axiosRequest} from '../../../module/networkUtils';
+import { useDispatch } from 'react-redux';
+import { setAvatarItemList } from '../../../redux/actions/avatarActions';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login(props){
+    const navigate = useNavigate();
     const [inputId, setInputId] = useState('')
     const [inputPw, setInputPw] = useState('')
     const [modalOpen, setModalOpen] = useState(false)
+
+    const dispatch = useDispatch();
+
+    const handleUpdate = (newItemList) => {
+        dispatch(setAvatarItemList(newItemList));
+    };
 
 	// input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
     const handleInputId = (e) => {
@@ -47,8 +57,9 @@ export default function Login(props){
                             };
                             axiosRequest('http://localhost:9090/avatar/inventory/active', avatarBody, 'POST', 'json')
                                 .then(res => {
-                                    localStorage.setItem("avatarItemList", JSON.stringify(res));
-                                    document.location.href = "/";
+                                    handleUpdate(res);
+                                    navigate('/');
+                                    // document.location.href = "/";
                                 })
                                 .catch(err => {
                                     console.log(err);
