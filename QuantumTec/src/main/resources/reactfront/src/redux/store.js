@@ -5,7 +5,7 @@ import avatarReducer from './reducers/avatarReducer';
 import { composeWithDevTools } from 'redux-devtools-extension'; // 리덕스 개발자 도구
 
 const rootReducer = combineReducers({
-  avatarItemList: avatarReducer
+  avatar: avatarReducer
 });
 
 const store = createStore(rootReducer,composeWithDevTools());

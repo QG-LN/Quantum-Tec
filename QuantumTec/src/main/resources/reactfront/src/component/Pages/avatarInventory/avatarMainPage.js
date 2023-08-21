@@ -5,19 +5,23 @@ import AvatarMainContent from "./avatarMain";
 import AvatarCategory from "./avatarCategory";
 import AvatarSearch from "./avatarSearch";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { setAvatarPage, setAvatarCategoryList } from "../../../redux/actions/avatarActions";
 
 /**
  * 아바타 부모 컴포넌트
  * @returns {JSX.Element} - AvatarMainPage 컴포넌트.
  * @auther MayoneJY <mayone6063@kakao.com>
  */
-export default function AvatarMainPage() {
+export default function AvatarMainPage(props) {
 
     // 현재 페이지 이름
     const [page, setPage] = useState("전체");
     // 카테고리 목록
     const [category, setCategory] = useState(["전체"]);
-
+    // 카테고리 불러오는 상태
+    const [categoryLoading, setCategoryLoading] = useState(false);
+    const dispatch = useDispatch();
     const ScrollContainer = styled.div`
       height: 95vh;
       overflow-y: auto;
@@ -25,9 +29,13 @@ export default function AvatarMainPage() {
     `;
 
     useEffect(() => {
+        // 페이지 이름을 리덕스에 저장
+        dispatch(setAvatarPage(props.page));
         axios.get('http://localhost:9090/avatar/category')
             .then((response) => {
+                dispatch(setAvatarCategoryList([...response.data]));
                 setCategory(category.concat(response.data));
+                setCategoryLoading(true);
             })
             .catch((error) => {
                 console.log(error);
@@ -78,7 +86,7 @@ export default function AvatarMainPage() {
                 </div>
                 <div className="col-9 ps-0 pe-0">
                     <ScrollContainer>
-                    {renderContent(page, handlePage, category)}
+                    {categoryLoading && renderContent(page, handlePage, category)}
                     </ScrollContainer>
                 </div>
             </div>

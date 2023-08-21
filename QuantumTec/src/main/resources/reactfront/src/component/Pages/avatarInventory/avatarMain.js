@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { axiosRequest } from '../../../module/networkUtils';
 import '../../../css.scss'
-import AvatarItemCheck from './avatarItemCheck';
+import AvatarMainInventory from './avatarMainInventory';
+import AvatarMainShop from './avatarMainShop';
+import { useSelector } from 'react-redux';
 
 /**
  * 아바타 메인 컴포넌트
@@ -14,7 +16,8 @@ export default function AvatarMain(props) {
     
     // 아바타 아이템 목록
     const [itemList, setItemList] = useState([]);
-    
+    const avatarPage = useSelector(state => state.avatar.page);
+
     useEffect(() => {
         // 아바타 아이템 목록을 가져오기 위한 요청.
         const body = {
@@ -49,16 +52,11 @@ export default function AvatarMain(props) {
                     </div>
                 </div>
             </div>
-            <div className='mt-2 mb-5'>
-                <div className='text-center'>
-                    <h5>모든 아이템</h5>
-                    <hr className='mx-3'/>
-                </div>
-                <div className='ms-4 mt-4 d-flex flex-wrap align-items-center'>
-                    {<AvatarItemCheck itemList={itemList}/> }
-                </div>
-            </div>
-            
+            {avatarPage === 'inventory' ? (
+                <AvatarMainInventory itemList={itemList} onClick={props.onClick} />
+            ) : (
+                <AvatarMainShop itemList={itemList} onClick={props.onClick} />
+            )}
             
         </div>
     );
