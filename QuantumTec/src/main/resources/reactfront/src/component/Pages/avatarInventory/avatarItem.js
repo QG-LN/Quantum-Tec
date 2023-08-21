@@ -52,10 +52,10 @@ export default function AvatarItem(props) {
     // 툴팁 내용
     const tooltip = (
         <div className='text-left m-3'>
-            <h4>파란색 배경</h4><br />
-            구매일 : 2023-08-16 22:54:50<br />
-            분류 : 배경<br />
-            파란색 배경 아이템입니다.<br />
+            <h4>{props.item.itemName}</h4><br />
+            구매일 : {props.item.paymentDate}<br />
+            분류 : {props.item.itemCategoryName}<br />
+            {props.item.itemDesc}<br />
         </div>
     );
     
