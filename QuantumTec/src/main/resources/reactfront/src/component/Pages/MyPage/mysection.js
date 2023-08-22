@@ -20,7 +20,9 @@ export default function Mysection(props){
     const [inputGender, setInputGender] = useState('m');                        // 사용자 성별
     const [showEmailCheck, setshowEmailCheck] = useState(false)                 // 이메일 인증번호 입력란 표시여부
     const [inputPostAddress, setInputPostAddress] = useState('')                // 사용자 우편 번호
-    const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false);      // 사용자 닉네임 체크여부
+
+    // 닉네임 변경이 없으면 중복체크를 하지 않도록 하는 state
+    const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(true);      // 사용자 닉네임 체크여부
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
@@ -64,9 +66,6 @@ export default function Mysection(props){
     },[]);
 
 	// input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
-    const handleInputName = (e) => {
-        setInputName(e.target.value)
-    }
     const handleInputBirth = (e) => {
         setInputBirth(e.target.value)
     }
