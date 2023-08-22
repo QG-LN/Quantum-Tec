@@ -25,7 +25,9 @@ export default function Mysection(props){
     const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(true);      // 사용자 닉네임 체크여부
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
-    const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
+    const [inputEmailDisabled, setInputEmailDisabled] = useState(false);       // 이메일 Disabled 속성 확인
+    const [isBtnEmailDisabled, setIsBtnEmailDisabled] = useState(true);        // 인증번호 버튼 Disabled 속성 확인
+
     // 인증번호와 확인 버튼의 Disabled 속성 확인
     const [isEmailAuthDisabled, setIsEmailAuthDisabled] = useState(false);
 
@@ -78,8 +80,10 @@ export default function Mysection(props){
     }
 
     const handleInputEmail = (e) => {
-        setInputEmail(e.target.value)
-
+        setInputEmail(e.target.value);
+        
+        // 인증번호 전송 버튼 활성화
+        setIsBtnEmailDisabled(false);
     }
 
     const handleInputAddress = (e) => {
@@ -153,6 +157,7 @@ export default function Mysection(props){
                         alert('인증번호가 전송되어 있습니다.');      // 인증번호 전송 여부 알림
 
                         setInputEmailDisabled(true);       // 성공적인 이메일 전송 시 버튼과 이메일 입력란 비활성화
+                        setIsBtnEmailDisabled(true);
                         setshowEmailCheck(true);            // 인증번호 입력란과 인증번호 확인 버튼 활성화 상태로 변경
                     }
                 })
@@ -195,6 +200,8 @@ export default function Mysection(props){
     const OnClickSave = async () => {
         // 닉네임 수정이 없을 경우
         if(inputNickname === data.userNickname) setIsNicknameDuplicate(true);
+        if(inputEmail === data.userEmail) setIsEmailAuthDisabled(true);
+        console.log(isEmailAuthDisabled);
 
 
 
@@ -208,10 +215,7 @@ export default function Mysection(props){
 
 
 
-        if(inputName.length > 20){
-            alert('이름을 20글자 이내로 써주세요');
-            return
-        }else if (inputPw !== inputPwCheck) {
+        if (inputPw !== inputPwCheck) {
             alert('비밀번호가 일치하지 않습니다.')
             return
         }else if(inputPw.length < 8){
@@ -222,7 +226,9 @@ export default function Mysection(props){
             setInputPw('');
             setInputPwCheck('');
             return
-        }else if(isNicknameDuplicate !== true){
+        } else if (!isEmailAuthDisabled) {
+            alert('이메일 인증을 해주세요');
+        } else if(isNicknameDuplicate !== true){
             alert('닉네임 중복확인을 해주세요');
             return
         }else{
@@ -396,7 +402,7 @@ export default function Mysection(props){
                 </div>
                 <div class='col-9-button'>
                     <input type='email'className='border' name='input_email' value={inputEmail} placeholder='example@google.com' style={style_inputbox} onChange={handleInputEmail} disabled={inputEmailDisabled}/>
-                    <button type="button" onClick={OnClickEmailSend} disabled={inputEmailDisabled}>인증번호 전송</button>
+                    <button type="button" onClick={OnClickEmailSend} disabled={isBtnEmailDisabled}>인증번호 전송</button>
                 </div>
             </div>
             {showEmailCheck && <div class = "form-group row">
