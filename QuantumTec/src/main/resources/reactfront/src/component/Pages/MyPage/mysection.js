@@ -29,7 +29,7 @@ export default function Mysection(props){
     const [isBtnEmailDisabled, setIsBtnEmailDisabled] = useState(true);        // 인증번호 버튼 Disabled 속성 확인
 
     // 인증번호와 확인 버튼의 Disabled 속성 확인
-    const [isEmailAuthDisabled, setIsEmailAuthDisabled] = useState(false);
+    const [isEmailAuthDisabled, setIsEmailAuthDisabled] = useState(true);
 
     // 주소 검색
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -84,6 +84,9 @@ export default function Mysection(props){
         
         // 인증번호 전송 버튼 활성화
         setIsBtnEmailDisabled(false);
+
+        // 이메일 인증번호 입력 확인 버튼 활성화
+        setIsEmailAuthDisabled(false);
     }
 
     const handleInputAddress = (e) => {
@@ -180,6 +183,7 @@ export default function Mysection(props){
                 if(res.data){
                     alert("인증이 완료되었습니다.");
                     setIsEmailAuthDisabled(true);       // 인증번호 입력란과 인증번호 확인 버튼 비활성화
+                    setIsBtnEmailDisabled(true);
                 }else{
                     alert("인증에 실패하였습니다.");
                 }
@@ -198,13 +202,6 @@ export default function Mysection(props){
 
     // 회원 수정 이벤트
     const OnClickSave = async () => {
-        // 닉네임 수정이 없을 경우
-        if(inputNickname === data.userNickname) setIsNicknameDuplicate(true);
-        if(inputEmail === data.userEmail) setIsEmailAuthDisabled(true);
-        console.log(isEmailAuthDisabled);
-
-
-
         const path = 'http://localhost:9090/user/myinfo';
         const body = {
             userID: localStorage.getItem('userID'),
