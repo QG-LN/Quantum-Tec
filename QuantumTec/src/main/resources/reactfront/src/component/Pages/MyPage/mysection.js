@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {axiosRequest} from '../../../module/networkUtils';
 import MySectionInfo from "./MySectionInfo";
 import axios from 'axios';
+import AddressModal from "../LoginPage/AddressModal";
 
 export default function Mysection(props){
     // 값 불러올 때에는 useState에 입력하면 됨
@@ -25,6 +26,9 @@ export default function Mysection(props){
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
     // 인증번호와 확인 버튼의 Disabled 속성 확인
     const [isEmailAuthDisabled, setIsEmailAuthDisabled] = useState(false);
+
+    // 주소 검색
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // 입력한 정보를 다시한번 보여주도록 하는 창을 띄우는 state
     const [modalOpen, setModalOpen] = useState(false)
@@ -184,7 +188,8 @@ export default function Mysection(props){
 
     // 주소 검색 버튼 클릭 이벤트
     const OnClickAddress = () => {
-        console.log(inputAddress)
+        // 주소 검색 창 출력
+        setIsModalOpen(true);
     }
 
     // 회원 수정 이벤트
@@ -411,6 +416,13 @@ export default function Mysection(props){
                 <div className='flex w-75'>
                     <input type='text' className='border' name='input_address' value={inputAddress} style={style_inputbox} onChange={handleInputAddress} readOnly/>
                     <button type="button" onClick={OnClickAddress}>주소검색</button>
+                    {isModalOpen &&
+                        <AddressModal isModalOpen={isModalOpen}
+                                      setIsModalOpen={setIsModalOpen}
+                                      setInputAddress={setInputAddress}
+                                      setInputPostAddress={setInputPostAddress}
+                        />
+                    }
                 </div>
             </div>
             <div class="form-group row">
