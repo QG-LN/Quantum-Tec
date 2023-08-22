@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {axiosRequest} from '../../../module/networkUtils';
-import Choosefind from "../LoginPage/choosefind";
-import mySectionInfo from "./MySectionInfo";
 import MySectionInfo from "./MySectionInfo";
 
 export default function Mysection(props){
@@ -21,7 +19,6 @@ export default function Mysection(props){
     const [showEmailCheck, setshowEmailCheck] = useState(false)                 // 이메일 인증번호 입력란 표시여부
     const [inputPostAddress, setInputPostAddress] = useState('')                // 사용자 우편 번호
     const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false);      // 사용자 닉네임 체크여부
-    const [isIdDisabled, setIsIdDisabled] = useState(false);                    // 사용자 아이디 체크여부
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
@@ -66,11 +63,7 @@ export default function Mysection(props){
     const handleInputBirth = (e) => {
         setInputBirth(e.target.value)
     }
-    const handleInputId = (e) => {
-        setInputId(e.target.value)
-        setIsIdDisabled(inputId.length > 20);
-    }
- 
+
     const handleInputPw = (e) => {
         setInputPw(e.target.value)
     }
@@ -105,27 +98,6 @@ export default function Mysection(props){
     }
     const handleInputGender = (e) => {
         setInputGender(e.target.value)
-    }
-
-    // 아이디 체크 버튼 클릭 이벤트
-    const OnClickIdCheck = () => {
-        //아이디 글자수 확인
-        if(inputId.length > 20){
-            alert('아이디를 20글자 이내로 써주세요');
-            console.log(inputId);
-            return
-        }
-        //아이디 빈공간 확인
-        else if(inputId === ''){
-            alert('아이디를 입력해주세요');
-            return
-        //없을시 사용가능한 아이디 표시
-        } else{
-            setIsIdDisabled(true);
-            alert('사용 가능한 아이디입니다.');
-        }
-        // console.log(inputId)
-        // console.log(isIdCheck);
     }
 
     // 닉네임 체크 버튼 클릭 이벤트
@@ -292,7 +264,7 @@ export default function Mysection(props){
         <div class="signup-form container mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]">
             <h2 class='account_main_page_title '>회원 정보 수정</h2>
             
-            <div class='form-group row'>
+            <div class='form-group row mt-4'>
                 <div class= 'col-3'>
                     <label htmlFor='input_nickname'>닉네임 : </label>
                 </div>
@@ -301,9 +273,9 @@ export default function Mysection(props){
                     <input style={style_inputbox} className='border' type='text' name='input_nickname' maxLength={8} value={inputNickname} onChange={handleInputNickname} />
                     <button type="button" onClick={OnClickNicknameCheck} disabled={isNicknameDuplicate}>중복확인</button>
                     </div>
-                    <div class = 'infotxt'>8자 이내로 적어주세요.</div>
+                    <div class = 'infotxt mt-2 ml-2'> * 8자 이내로 적어주세요.</div>
                     {inputNickname.length > 8 && (
-                          <div style={{ color: 'red' }}>닉네임을 8글자 이내로 써주세요</div>
+                          <div style={{ color: 'red' }} class="mt-2 ml-2"> * 닉네임을 8글자 이내로 써주세요</div>
                      )}
                 </div>
             </div>
@@ -312,15 +284,7 @@ export default function Mysection(props){
                     <label htmlFor='input_id'>ID : </label>
                 </div>
                 <div class='col-9'>
-                    <div className='flex'>
-                    <input style={style_inputbox} className='border' type='text' name='input_id'maxLength={20} value={inputId} onChange={handleInputId} />
-                    <button type="button" disabled={isIdDisabled}  onClick={OnClickIdCheck}>중복확인</button>
-                    </div>
-                    <div class = 'infotxt'>20자 이내로 적어주세요.</div>
-                    {inputId.length > 20 && (
-                            <div style={{ color: 'red' }}>아이디를 20글자 이내로 써주세요</div>
-
-                        )}
+                    <label>{inputId}</label>
                 </div>
             </div>
             <div class ="form-group row">
@@ -329,10 +293,12 @@ export default function Mysection(props){
                 </div>
                 <div class= 'col-9'>
                     <input type='password' className='border' name='input_pw' minLength={8} style={style_inputbox_2} value={inputPw} onChange={handleInputPw} />
-                    <div class = 'infotxt'>특수문자 + 영문자 + 숫자로 구성된 8자 이상으로 써주세요.</div>
-                    {/* {inputPw.length <= 8 && (
-                            <div style={{ color: 'red' }}>패스워드를 8자 이상 써주세요</div>
-                        )} */}
+                    <div class = 'infotxt mt-2 ml-2'> * 특수문자 + 영문자 + 숫자로 구성된 8자 이상으로 써주세요.</div>
+                     {/*{inputPw.length <= 8 && (*/}
+                     {/*       <div style={{ color: 'red' }} class="mt-2 ml-2">*/}
+                     {/*           패스워드를 8자 이상 써주세요*/}
+                     {/*       </div>*/}
+                     {/*   )}*/}
                 </div>
             </div>
             <div class ="form-group row">
@@ -341,6 +307,9 @@ export default function Mysection(props){
                 </div>
                 <div class= 'col-9'>
                     <input type='password' className='border' name='check_input_pw' style={style_inputbox_2} minLength={8} value={inputPwCheck} onChange={handleInputPwCheck} />
+                    <div className='infotxt mt-2 ml-2'>
+                        * 비밀번호와 동일하게 입력해주세요.
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
@@ -348,11 +317,7 @@ export default function Mysection(props){
                     <label htmlFor='input_id'>이름 : </label>
                 </div>
                 <div class= 'col-9'>
-                <input type='text' className='border' name='input_name' minLength={2} maxLength={20} style={style_inputbox_2} value={inputName} onChange={handleInputName} />
-                <div class = 'infotxt'>20자 이내로 적어주세요.</div>
-                {inputName.length > 20 && (
-                        <div style={{ color: 'red' }}>이름을 20글자 이내로 써주세요</div>
-                    )}
+                    <label>{inputName}</label>
                 </div>
             </div>
             <div className="mb-1 flex justify-center form-group row">
