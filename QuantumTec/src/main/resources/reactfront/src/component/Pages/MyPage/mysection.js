@@ -50,6 +50,7 @@ export default function Mysection(props){
     });
     const [sendOk, setSendOk] = useState(false);      // 수정을 위해 정보를 보내는지 확인하는 state
 
+    // 처음 로드 시 부모로부터 받은 데이터를 세팅
     const data = props.userData;
     useEffect(()=>{
         // 로그인 되어 있는 유저의 정보를 불러와 각 입력란에 입력
@@ -200,7 +201,10 @@ export default function Mysection(props){
         setIsModalOpen(true);
     }
 
-    // 회원 수정 이벤트
+    /**
+     * 저장버튼 클릭 시 회원정보를 확인 하고 UserInfo에 저장하고 모달창을 열기
+     * @return {Promise<void>}
+     */
     const OnClickSave = async () => {
         const path = 'http://localhost:9090/user/myinfo';
         const body = {
@@ -209,8 +213,6 @@ export default function Mysection(props){
         };
         // 기존 비밀번호와 일치하는지 확인을 위한 비동기 통신
         const pwdata = await axiosRequest(path,body,'POST','json');
-
-
 
         if (inputPw !== inputPwCheck) {
             alert('비밀번호가 일치하지 않습니다.')
@@ -246,6 +248,9 @@ export default function Mysection(props){
         
     }
 
+    /**
+     * 모달창에서 저장버튼 클릭 시 수정된 회원 정보를 서버에 전달하고 수정여부를 전달
+     */
     useEffect( () => {
         if (sendOk) {
             const path = 'http://localhost:9090/user/update';
