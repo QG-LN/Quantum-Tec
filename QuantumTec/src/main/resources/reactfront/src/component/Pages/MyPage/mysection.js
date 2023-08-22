@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {axiosRequest} from '../../../module/networkUtils';
 import MySectionInfo from "./MySectionInfo";
+import axios from 'axios';
 
 export default function Mysection(props){
     // 값 불러올 때에는 useState에 입력하면 됨
@@ -22,6 +23,8 @@ export default function Mysection(props){
 
     //이메일과 이메일인증 버튼의 Disabled 속성 확인
     const [inputEmailDisabled, setInputEmailDisabled] = useState(false);
+    // 인증번호와 확인 버튼의 Disabled 속성 확인
+    const [isEmailAuthDisabled, setIsEmailAuthDisabled] = useState(false);
 
     // 입력한 정보를 다시한번 보여주도록 하는 창을 띄우는 state
     const [modalOpen, setModalOpen] = useState(false)
@@ -123,11 +126,36 @@ export default function Mysection(props){
         };
 
     // 이메일 인증 버튼 클릭 이벤트
-    const OnClickEmailSend = () => {
-        if(isEmail(inputEmail)=== true){
-        setInputEmailDisabled(true);
-        //이메일 인증 텍스트와 인증버튼 활성화
-        setshowEmailCheck(true);
+    const OnClickEmailSend = async () => {
+        // 이메일 형식을 만족할 경우
+        if(isEmail(inputEmail)){
+            const path = 'http://localhost:9090/user/signup/send-email-auth';
+
+            // 이메일 인증번호 전송버튼 클릭 시 이메일 중복여부도 체크
+            await fetch(path,{
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({
+                    userEmail: inputEmail,
+                })
+            })
+                .then(response => response.json())
+                .then(data =>{
+                    if(data === 1){
+                        alert('이메일 중복되어 있습니다.');          // 이메일 중복 알림 표시
+                        setInputEmail("");                  // 이메일 입력부분을 초기화
+                    }else{
+                        alert('인증번호가 전송되어 있습니다.');      // 인증번호 전송 여부 알림
+
+                        setInputEmailDisabled(true);       // 성공적인 이메일 전송 시 버튼과 이메일 입력란 비활성화
+                        setshowEmailCheck(true);            // 인증번호 입력란과 인증번호 확인 버튼 활성화 상태로 변경
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                })
         }
         else{
             alert('이메일 형식이 올바르지 않습니다.');
@@ -135,9 +163,23 @@ export default function Mysection(props){
     }
 
     //인증번호 체크 버튼 클릭 이벤트
-    const OnClickEmailCheck = () => {
-        console.log(inputEmailCheck)
+    const OnClickEmailCheck = async () => {
+        const path = 'http://localhost:9090/user/signup/check-email-auth';
+        const body = { key : inputEmailCheck}
 
+        axios.post(path, body)
+            .then(function (res) {
+                if(res.data){
+                    alert("인증이 완료되었습니다.");
+                    setIsEmailAuthDisabled(true);       // 인증번호 입력란과 인증번호 확인 버튼 비활성화
+                }else{
+                    alert("인증에 실패하였습니다.");
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                alert("인증에 실패하였습니다.");
+            });
     }
 
     // 주소 검색 버튼 클릭 이벤트
@@ -358,8 +400,8 @@ export default function Mysection(props){
                     <label htmlFor='input_email'>인증번호 : </label>
                 </div>
                 <div className='flex w-75'>
-                    <input type='text' className='border' name='input_email_check' value={inputEmailCheck} style={style_inputbox} onChange={handleInputEmailCheck}/>
-                    <button type="button" onClick={OnClickEmailCheck}>인증번호 확인</button>
+                    <input type='text' className='border' name='input_email_check' value={inputEmailCheck} style={style_inputbox} onChange={handleInputEmailCheck} disabled={isEmailAuthDisabled}/>
+                    <button type="button" onClick={OnClickEmailCheck} disabled={isEmailAuthDisabled}>인증번호 확인</button>
                 </div>
             </div>}
             <div class="form-group row">
