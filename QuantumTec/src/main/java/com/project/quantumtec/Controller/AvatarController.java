@@ -85,4 +85,11 @@ public class AvatarController {
         // userId가 있을 경우, 해당 유저가 가지고 있는 아이템은 제외하고 조회
         return avatarService.getAvatarShopMain(userId.get("userId"));
     }
-}
+
+    // 아바타 카테고리별 아이템 모든 정보 조회
+    @PostMapping("/shop/category/item")
+    public List<ItemInfoDTO> getAvatarShopCategoryItem(@RequestBody CategoryInventoryDTO categoryInventoryDTO){
+        return avatarService.getAvatarShopCategoryItem(categoryInventoryDTO);
+    }
+}   
+

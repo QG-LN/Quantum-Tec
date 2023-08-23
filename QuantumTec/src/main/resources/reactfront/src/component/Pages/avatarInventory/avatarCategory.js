@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AvatarItemCheck from './avatarItemCheck';
 import {axiosRequest} from '../../../module/networkUtils';
+import { useSelector } from 'react-redux';
 
 /**
  * 로그인을 하고, 카테고리를 선택했을 때 해당 카테고리의 아이템을 보여주는 컴포넌트
@@ -13,13 +14,19 @@ export default function AvatarCategory(props) {
 
     // 아이템 목록
     const [itemList, setItemList] = useState([]);
+    const page = useSelector(state => state.avatar.page);
     useEffect(() => {
         // 카테고리에 해당하는 아이템 목록을 가져오기 위한 요청
         const body = {
             userId: localStorage.getItem("userID"),
             itemCategoryName: props.categoryName,
         };
-        axiosRequest('http://localhost:9090/avatar/category/inventory', body, 'POST', 'json')
+        let url;
+        if(page === 'shop')
+            url = 'http://localhost:9090/avatar/shop/category/item';
+        else
+            url = 'http://localhost:9090/avatar/category/inventory';
+        axiosRequest(url, body, 'POST', 'json')
             .then(res => {
                 setItemList(res);
             })
