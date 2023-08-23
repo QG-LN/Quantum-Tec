@@ -41,9 +41,17 @@ public interface AvatarDAO {
     // 아바타 아이템 착용 해제
     public boolean setInactiveAvatarItem(InventoryItemDTO inventoryItemDTO);
 
+    // 상점
+
     // 아바타 모든 아이템 10개씩 정보 조회
     public List<ItemInfoDTO> getAvatarShopMain(String userId);
 
     // 아바타 카테고리별 아이템 모든 정보 조회
     public List<ItemInfoDTO> getAvatarShopCategoryItem(CategoryInventoryDTO categoryInventoryDTO);
+
+    // 아바타 카테고리를 searchValue로 인벤토리 정보 조회
+    public List<ItemInfoDTO> getAvatarShopCategorySearchItem(CategoryInventorySearchDTO categoryInventorySearchDTO);
+    
+    // 아바타 searchValue로 인벤토리 정보 조회
+    public List<ItemInfoDTO> getAvatarShopSearchItem(InventorySearchDTO inventorySearchDTO);
 }

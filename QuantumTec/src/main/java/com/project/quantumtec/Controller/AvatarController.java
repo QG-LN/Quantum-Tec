@@ -79,6 +79,8 @@ public class AvatarController {
         return avatarService.setInactiveAvatarItem(inventoryItemDTO);
     }
 
+    // 상점
+
     // 아바타 모든 아이템 10개씩 정보 조회
     @PostMapping("/shop/main")
     public List<ItemInfoDTO> getAvatarShopMain(@RequestBody Map<String, String> userId){
@@ -90,6 +92,18 @@ public class AvatarController {
     @PostMapping("/shop/category/item")
     public List<ItemInfoDTO> getAvatarShopCategoryItem(@RequestBody CategoryInventoryDTO categoryInventoryDTO){
         return avatarService.getAvatarShopCategoryItem(categoryInventoryDTO);
+    }
+
+    // 아바타 카테고리를 searchValue로 인벤토리 정보 조회
+    @PostMapping("/shop/category/search")
+    public List<ItemInfoDTO> getAvatarShopCategorySearchItem(@RequestBody CategoryInventorySearchDTO categoryInventorySearchDTO){
+        return avatarService.getAvatarShopCategorySearchItem(categoryInventorySearchDTO);
+    }
+
+    // 아바타 searchValue로 인벤토리 정보 조회
+    @PostMapping("/shop/search")
+    public List<ItemInfoDTO> getAvatarShopSearchItem(@RequestBody InventorySearchDTO inventorySearchDTO){
+        return avatarService.getAvatarShopSearchItem(inventorySearchDTO);
     }
 }   
 
