@@ -7,6 +7,7 @@ import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventorySearchDTO;
 import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
+import com.project.quantumtec.DTO.Response.avatar.ItemInfoDTO;
 
 public interface AvatarService {
     
@@ -33,4 +34,7 @@ public interface AvatarService {
 
     // 아바타 아이템 착용 해제
     public boolean setInactiveAvatarItem(InventoryItemDTO inventoryItemDTO);
+
+    // 아바타 모든 아이템 10개씩 정보 조회
+    public List<ItemInfoDTO> getAvatarShopMain(String userId);
 }

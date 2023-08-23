@@ -152,6 +152,68 @@
             ui.USER_ID = #{userId} 
         AND 
             uai.ITEM_INDEX = #{itemIndex};
-        </select>
+    </select>
+
+
+    <select id='getAvatarShopMain' resultType='ItemInfoDTO' parameterType='String'>
+        WITH ExcludedItems AS (
+            SELECT 
+                aph.ITEM_INDEX 
+            FROM 
+                AVATAR_PAYMENT_HISTORY_TB aph
+            JOIN 
+                USER_INFO_TB ui ON aph.USER_INDEX = ui.USER_INDEX
+            WHERE 
+                ui.USER_ID = #{userId}
+        )
+
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            ai.ITEM_PRICE,
+            aic.ITEM_CATEGORY_NAME,
+            ui.USER_NICKNAME
+        FROM 
+            AVATAR_ITEM_TB ai
+        JOIN 
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        LEFT JOIN 
+            ExcludedItems ei ON ai.ITEM_INDEX = ei.ITEM_INDEX
+        JOIN 
+            USER_INFO_TB ui ON ai.ITEM_CREATOR_INDEX = ui.USER_INDEX
+        WHERE 
+            ei.ITEM_INDEX IS NULL
+        LIMIT 10;
+    </select>
+    <!-- 모든 카테고리를 조회하는 쿼리 -->
+    <select id="getAllCategories" resultType="string">
+        SELECT ITEM_CATEGORY_NAME
+        FROM AVATAR_ITEM_CATEGORY_TB
+    </select>
+
+    <!-- 특정 카테고리의 아이템을 조회하는 쿼리 (특정 사용자가 구매한 아이템은 제외) -->
+    <select id="getItemsByCategory" resultType="ItemInfoDTO">
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            ai.ITEM_PRICE,
+            aic.ITEM_CATEGORY_NAME,
+            ui.USER_NICKNAME
+        FROM
+            AVATAR_ITEM_TB ai
+        JOIN AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        JOIN USER_INFO_TB ui ON ai.ITEM_CREATOR_INDEX = ui.USER_INDEX
+        WHERE 
+            aic.ITEM_CATEGORY_NAME = #{category}
+            AND NOT EXISTS (
+                SELECT 1
+                FROM AVATAR_PAYMENT_HISTORY_TB aph
+                JOIN USER_INFO_TB u ON aph.USER_INDEX = u.USER_INDEX
+                WHERE u.USER_ID = #{userId} AND aph.ITEM_INDEX = ai.ITEM_INDEX
+            )
+        LIMIT 10
+    </select>
 </mapper>
 

@@ -1,6 +1,9 @@
 package com.project.quantumtec.DAO.avatar;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventorySearchDTO;
 import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
+import com.project.quantumtec.DTO.Response.avatar.ItemInfoDTO;
 
 /**
  * PackageName : com.project.quantumtec.DAO.avatar
@@ -73,5 +77,28 @@ public class AvatarDAOImpl implements AvatarDAO{
     @Override
     public boolean setInactiveAvatarItem(InventoryItemDTO inventoryItemDTO) {
         return sqlSession.update("AvatarService.setInactiveAvatarItem", inventoryItemDTO) > 0;
+    }
+
+    // 아바타 모든 아이템 10개씩 정보 조회
+    @Override
+    public List<ItemInfoDTO> getAvatarShopMain(String userId) {
+        // userId가 있을 경우, 해당 유저가 가지고 있는 아이템은 제외하고 조회
+        List<ItemInfoDTO> allItems = new ArrayList<>();
+
+        // 카테고리 리스트를 조회합니다.
+        List<String> categories = sqlSession.selectList("AvatarService.getAvatarCategory");
+
+        for (String category : categories) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("userId", userId);
+            params.put("category", category);
+
+            // 각 카테고리별로 아이템을 조회합니다.
+            List<ItemInfoDTO> itemsForCategory = sqlSession.selectList("AvatarService.getItemsByCategory", params);
+
+            allItems.addAll(itemsForCategory);
+        }
+
+        return allItems;
     }
 }

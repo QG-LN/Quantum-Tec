@@ -19,7 +19,7 @@ export default function AvatarMainInventory(props) {
                         <hr className='flex-fill mx-3'/>
                     </div>
                     <div className='ms-4 mt-4 d-flex flex-wrap align-items-center'>
-                        <AvatarItemCheck itemList={props.itemList}/>
+                        <AvatarItemCheck itemList={props.itemList.filter(item => item.itemCategoryName === category)}/>
                     </div>
                 </div>
             ))}

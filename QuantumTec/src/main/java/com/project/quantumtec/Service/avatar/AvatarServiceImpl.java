@@ -11,6 +11,7 @@ import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventorySearchDTO;
 import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
+import com.project.quantumtec.DTO.Response.avatar.ItemInfoDTO;
 
 /**
  * PackageName : com.project.quantumtec.Service.avatar
@@ -71,5 +72,12 @@ public class AvatarServiceImpl implements AvatarService{
     @Override
     public boolean setInactiveAvatarItem(InventoryItemDTO inventoryItemDTO){
         return avatarDAO.setInactiveAvatarItem(inventoryItemDTO);
+    }
+
+    // 아바타 모든 아이템 10개씩 정보 조회
+    @Override
+    public List<ItemInfoDTO> getAvatarShopMain(String userId){
+        // userId가 있을 경우, 해당 유저가 가지고 있는 아이템은 제외하고 조회
+        return avatarDAO.getAvatarShopMain(userId);
     }
 }
