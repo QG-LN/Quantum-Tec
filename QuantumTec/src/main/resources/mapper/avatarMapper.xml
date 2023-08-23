@@ -238,7 +238,56 @@
             JOIN USER_INFO_TB u ON aph.USER_INDEX = u.USER_INDEX
             WHERE u.USER_ID = #{userId} AND aph.ITEM_INDEX = ai.ITEM_INDEX
         )
-        LIMIT 10;
+    </select>
+
+    <select id='getAvatarShopCategorySearchItem' resultType='ItemInfoDTO' parameterType='CategoryInventorySearchDTO'>
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            ai.ITEM_PRICE,
+            aic.ITEM_CATEGORY_NAME,
+            ui.USER_NICKNAME
+        FROM
+            AVATAR_ITEM_TB ai
+        JOIN
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        JOIN
+            USER_INFO_TB ui ON ai.ITEM_CREATOR_INDEX = ui.USER_INDEX
+        WHERE
+            aic.ITEM_CATEGORY_NAME = #{itemCategoryName}
+        AND
+            ai.ITEM_NAME LIKE CONCAT('%', #{searchValue} , '%')
+        AND NOT EXISTS (
+            SELECT 1
+            FROM AVATAR_PAYMENT_HISTORY_TB aph
+            JOIN USER_INFO_TB u ON aph.USER_INDEX = u.USER_INDEX
+            WHERE u.USER_ID = #{userId} AND aph.ITEM_INDEX = ai.ITEM_INDEX
+        )
+    </select>
+
+    <select id='getAvatarShopSearchItem' resultType='ItemInfoDTO' parameterType='InventorySearchDTO'>
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            ai.ITEM_PRICE,
+            aic.ITEM_CATEGORY_NAME,
+            ui.USER_NICKNAME
+        FROM
+            AVATAR_ITEM_TB ai
+        JOIN
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        JOIN
+            USER_INFO_TB ui ON ai.ITEM_CREATOR_INDEX = ui.USER_INDEX
+        WHERE
+            ai.ITEM_NAME LIKE CONCAT('%', #{searchValue} , '%')
+        AND NOT EXISTS (
+            SELECT 1
+            FROM AVATAR_PAYMENT_HISTORY_TB aph
+            JOIN USER_INFO_TB u ON aph.USER_INDEX = u.USER_INDEX
+            WHERE u.USER_ID = #{userId} AND aph.ITEM_INDEX = ai.ITEM_INDEX
+        )
     </select>
 </mapper>
 

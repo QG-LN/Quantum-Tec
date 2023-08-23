@@ -74,6 +74,8 @@ public class AvatarServiceImpl implements AvatarService{
         return avatarDAO.setInactiveAvatarItem(inventoryItemDTO);
     }
 
+    // 상점
+
     // 아바타 모든 아이템 10개씩 정보 조회
     @Override
     public List<ItemInfoDTO> getAvatarShopMain(String userId){
@@ -82,7 +84,20 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     // 아바타 카테고리별 아이템 모든 정보 조회
+    @Override
     public List<ItemInfoDTO> getAvatarShopCategoryItem(CategoryInventoryDTO categoryInventoryDTO){
         return avatarDAO.getAvatarShopCategoryItem(categoryInventoryDTO);
+    }
+
+    // 아바타 카테고리를 searchValue로 인벤토리 정보 조회
+    @Override
+    public List<ItemInfoDTO> getAvatarShopCategorySearchItem(CategoryInventorySearchDTO categoryInventorySearchDTO){
+        return avatarDAO.getAvatarShopCategorySearchItem(categoryInventorySearchDTO);
+    }
+    
+    // 아바타 searchValue로 인벤토리 정보 조회
+    @Override
+    public List<ItemInfoDTO> getAvatarShopSearchItem(InventorySearchDTO inventorySearchDTO){
+        return avatarDAO.getAvatarShopSearchItem(inventorySearchDTO);
     }
 }

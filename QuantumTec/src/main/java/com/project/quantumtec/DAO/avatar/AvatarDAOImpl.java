@@ -79,6 +79,8 @@ public class AvatarDAOImpl implements AvatarDAO{
         return sqlSession.update("AvatarService.setInactiveAvatarItem", inventoryItemDTO) > 0;
     }
 
+    // 상점
+
     // 아바타 모든 아이템 10개씩 정보 조회
     @Override
     public List<ItemInfoDTO> getAvatarShopMain(String userId) {
@@ -103,7 +105,20 @@ public class AvatarDAOImpl implements AvatarDAO{
     }
 
     // 아바타 카테고리별 아이템 모든 정보 조회
+    @Override
     public List<ItemInfoDTO> getAvatarShopCategoryItem(CategoryInventoryDTO categoryInventoryDTO) {
         return sqlSession.selectList("AvatarService.getAvatarShopCategoryItem", categoryInventoryDTO);
+    }
+
+    // 아바타 카테고리를 searchValue로 인벤토리 정보 조회
+    @Override
+    public List<ItemInfoDTO> getAvatarShopCategorySearchItem(CategoryInventorySearchDTO categoryInventorySearchDTO) {
+        return sqlSession.selectList("AvatarService.getAvatarShopCategorySearchItem", categoryInventorySearchDTO);
+    }
+
+    // 아바타 searchValue로 인벤토리 정보 조회
+    @Override
+    public List<ItemInfoDTO> getAvatarShopSearchItem(InventorySearchDTO inventorySearchDTO){
+        return sqlSession.selectList("AvatarService.getAvatarShopSearchItem", inventorySearchDTO);
     }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AvatarItemCheck from './avatarItemCheck';
 import {axiosRequest} from '../../../module/networkUtils';
+import { useSelector } from 'react-redux';
 
 /**
  * 검색을 했을 때 해당 아이템을 보여주는 컴포넌트
@@ -16,6 +17,7 @@ export default function AvatarSearch(props) {
     const [itemList, setItemList] = useState([]);
     // 검색어
     const searchValue = props.searchName;
+    const page = useSelector(state => state.avatar.page);
 
     useEffect(() => {
         // 검색어로 아이템을 검색하기 위한 요청.
@@ -23,7 +25,12 @@ export default function AvatarSearch(props) {
             userId: localStorage.getItem("userID"),
             searchValue: searchValue,
         }
-        axiosRequest('http://localhost:9090/avatar/inventory/search', body, 'POST', 'json')
+        let url;
+        if(page === 'shop')
+            url = 'http://localhost:9090/avatar/shop/search';
+        else
+            url = 'http://localhost:9090/avatar/inventory/search';
+        axiosRequest(url, body, 'POST', 'json')
             .then(res => {
                 if(res !== null)
                     setItemList(res);

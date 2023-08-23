@@ -43,7 +43,12 @@ export default function AvatarCategory(props) {
             itemCategoryName: props.categoryName,
             searchValue: e.target.previousElementSibling.value,
         };
-        axiosRequest('http://localhost:9090/avatar/category/inventory/search', body, 'POST', 'json')
+        let url;
+        if(page === 'shop')
+            url = 'http://localhost:9090/avatar/shop/category/search';
+        else
+            url = 'http://localhost:9090/avatar/category/inventory/search';
+        axiosRequest(url, body, 'POST', 'json')
             .then(res => {
                 setItemList(res);
             })
