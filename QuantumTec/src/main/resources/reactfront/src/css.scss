@@ -20,7 +20,16 @@
 	background-color: var(--bs-gray-300);
 	cursor: pointer;
 }
-
+.carousel-control-prev,
+.carousel-control-next {
+	width: auto !important;
+	
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+	filter: invert(20%) sepia(16%) saturate(14%) hue-rotate(352deg) brightness(91%) contrast(96%);
+	opacity: 1;
+}
 
 // @media (min-width: 500px) {
 // 	span {
