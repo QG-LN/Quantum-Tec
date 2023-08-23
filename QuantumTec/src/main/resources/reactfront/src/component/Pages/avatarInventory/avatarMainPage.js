@@ -15,10 +15,11 @@ import { setAvatarPage, setAvatarCategoryList } from "../../../redux/actions/ava
  */
 export default function AvatarMainPage(props) {
 
+    const initialPage = props.page === 'shop' ? '추천' : '전체';
     // 현재 페이지 이름
-    const [page, setPage] = useState("전체");
+    const [page, setPage] = useState(initialPage);
     // 카테고리 목록
-    const [category, setCategory] = useState(["전체"]);
+    const [category, setCategory] = useState([initialPage]);
     // 카테고리 불러오는 상태
     const [categoryLoading, setCategoryLoading] = useState(false);
     const dispatch = useDispatch();
@@ -67,7 +68,7 @@ export default function AvatarMainPage(props) {
      * @returns {JSX.Element} - 렌더링할 컴포넌트
      */
     function renderContent(page, handlePage, category) {
-        if (page === "전체") {
+        if (page === "전체" || page === "추천") {
             return <AvatarMainContent onClick={handlePage} />;
         } else if (category.includes(page)) {
             return <AvatarCategory key={page} categoryName={page} />;
@@ -81,7 +82,7 @@ export default function AvatarMainPage(props) {
             <div className="row justify-content-center h-[100%]">
                 <div className="col-3 ps-0 pe-0">
                     <ScrollContainer>
-                        <AvatarSide onClick={handlePage}/>
+                        <AvatarSide onClick={handlePage} page={props.page}/>
                     </ScrollContainer>
                 </div>
                 <div className="col-9 ps-0 pe-0">
