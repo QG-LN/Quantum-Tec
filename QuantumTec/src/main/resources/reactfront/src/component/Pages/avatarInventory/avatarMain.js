@@ -23,7 +23,12 @@ export default function AvatarMain(props) {
         const body = {
             userId: localStorage.getItem("userID"),
         }
-        axiosRequest('http://localhost:9090/avatar/inventory', body, 'POST', 'json')
+        let url;
+        if(avatarPage === 'inventory')
+            url = 'http://localhost:9090/avatar/inventory';
+        else
+            url = 'http://localhost:9090/avatar/shop/main';
+        axiosRequest(url, body, 'POST', 'json')
             .then(res => {
                 if(res !== null)
                     setItemList(res);

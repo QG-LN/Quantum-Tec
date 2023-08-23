@@ -14,6 +14,7 @@ import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventorySearchDTO;
 import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
+import com.project.quantumtec.DTO.Response.avatar.ItemInfoDTO;
 import com.project.quantumtec.Service.avatar.AvatarService;
 
 /**
@@ -76,5 +77,12 @@ public class AvatarController {
     @PostMapping("/inventory/item/inactive")
     public boolean setInactiveAvatarItem(@RequestBody InventoryItemDTO inventoryItemDTO){
         return avatarService.setInactiveAvatarItem(inventoryItemDTO);
+    }
+
+    // 아바타 모든 아이템 10개씩 정보 조회
+    @PostMapping("/shop/main")
+    public List<ItemInfoDTO> getAvatarShopMain(@RequestBody Map<String, String> userId){
+        // userId가 있을 경우, 해당 유저가 가지고 있는 아이템은 제외하고 조회
+        return avatarService.getAvatarShopMain(userId.get("userId"));
     }
 }
