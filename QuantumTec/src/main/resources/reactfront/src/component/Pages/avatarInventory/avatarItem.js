@@ -228,7 +228,7 @@ export default function AvatarItem(props) {
         )
     };
     return (
-        <div className={'card w-[18.5%] ms-2 placeholder-glow mb-4 border border-5'+((itemUsageStatus)?' border-success-subtle':'')} aria-hidden="true" onClick={handleItemToggle}>
+        <div className={'card w-[18.5%] ms-1 placeholder-glow mb-4 border border-5'+((itemUsageStatus)?' border-success-subtle':'')} aria-hidden="true" onClick={handleItemToggle}>
             {page === 'shop' ? showModal() : null}
             {showTooltip()}
         </div>
