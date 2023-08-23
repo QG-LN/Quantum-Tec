@@ -63,6 +63,9 @@ export default function AvatarItem(props) {
     }
 
     const changeNumberFormat = (num) => {
+        if (num === undefined) {
+            return 0;
+        }
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 

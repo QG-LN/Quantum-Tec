@@ -80,4 +80,9 @@ public class AvatarServiceImpl implements AvatarService{
         // userId가 있을 경우, 해당 유저가 가지고 있는 아이템은 제외하고 조회
         return avatarDAO.getAvatarShopMain(userId);
     }
+
+    // 아바타 카테고리별 아이템 모든 정보 조회
+    public List<ItemInfoDTO> getAvatarShopCategoryItem(CategoryInventoryDTO categoryInventoryDTO){
+        return avatarDAO.getAvatarShopCategoryItem(categoryInventoryDTO);
+    }
 }

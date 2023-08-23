@@ -101,4 +101,9 @@ public class AvatarDAOImpl implements AvatarDAO{
 
         return allItems;
     }
+
+    // 아바타 카테고리별 아이템 모든 정보 조회
+    public List<ItemInfoDTO> getAvatarShopCategoryItem(CategoryInventoryDTO categoryInventoryDTO) {
+        return sqlSession.selectList("AvatarService.getAvatarShopCategoryItem", categoryInventoryDTO);
+    }
 }
