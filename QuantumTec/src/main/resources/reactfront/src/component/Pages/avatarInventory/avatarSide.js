@@ -12,8 +12,9 @@ import AvatarCanvas from './avatarCanvas';
  */
 export default function AvatarSide(props) {
 
+    const initialAvatarCategory = props.page === 'shop' ? ['추천'] : ['전체'];
     // 카테고리 목록
-    const [avatarCategory, setAvatarCategory] = useState(["전체"]);
+    const [avatarCategory, setAvatarCategory] = useState(initialAvatarCategory);
     const navigate = useNavigate();
     // 이미지 경로
     const imgSrc = `${process.env.PUBLIC_URL}/image/`;
