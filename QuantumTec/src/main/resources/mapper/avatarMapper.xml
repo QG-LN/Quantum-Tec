@@ -289,5 +289,40 @@
             WHERE u.USER_ID = #{userId} AND aph.ITEM_INDEX = ai.ITEM_INDEX
         )
     </select>
+
+    <select id='getUserIndex' resultType='int' parameterType='String'>
+        SELECT 
+            USER_INDEX
+        FROM
+            USER_INFO_TB
+        WHERE
+            USER_ID = #{userId};
+    </select>
+
+    <select id='getUserCash' resultType='int' parameterType='int'>
+        SELECT 
+            USER_CASH
+        FROM
+            USER_STATUS_TB
+        WHERE
+            USER_INDEX = #{userIndex};
+    </select>
+
+    <update id='setUserCash' parameterType='BuyItemDTO'>
+        UPDATE 
+            USER_STATUS_TB
+        SET 
+            USER_CASH = USER_CASH - #{paymentAmount}
+        WHERE 
+            USER_INDEX = #{userIndex};
+    </update>
+
+    <insert id='setBuyAvatarItem' parameterType='BuyItemDTO'>
+        -- AVATAR_PAYMENT_HISTORY_TB에 데이터 추가
+        INSERT INTO AVATAR_PAYMENT_HISTORY_TB 
+        (USER_INDEX, ITEM_INDEX, PAYMENT_METHOD, PAYMENT_STATUS, PAYMENT_AMOUNT)
+        VALUES 
+        (#{userIndex}, #{itemIndex}, #{paymentMethod}, #{paymentStatus}, #{paymentAmount});
+    </insert>
 </mapper>
 
