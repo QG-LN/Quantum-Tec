@@ -1,5 +1,6 @@
 package com.project.quantumtec.DAO.user;
 
+import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserDTO;
@@ -127,5 +128,15 @@ public class UserDAOImpl implements UserDAO{
     @Override
     public List<MyGameListResponseDTO> getMyGameList(String userID) throws Exception {
         return sqlSession.selectList("UserService.getMyGameList", userID);
+    }
+
+    // 캐시 충전
+    @Override
+    public int chargeCash(CashChargeDTO cashChargeDTO){
+        if(sqlSession.update("UserService.chargeCash", cashChargeDTO) > 0){
+            return sqlSession.selectOne("UserService.getCash", cashChargeDTO);
+        }
+        else
+            return -1;
     }
 }
