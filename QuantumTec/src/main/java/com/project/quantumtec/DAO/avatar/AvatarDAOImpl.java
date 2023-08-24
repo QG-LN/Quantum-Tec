@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.project.quantumtec.DTO.Request.avatar.BuyItemDTO;
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventoryDTO;
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
@@ -120,5 +121,27 @@ public class AvatarDAOImpl implements AvatarDAO{
     @Override
     public List<ItemInfoDTO> getAvatarShopSearchItem(InventorySearchDTO inventorySearchDTO){
         return sqlSession.selectList("AvatarService.getAvatarShopSearchItem", inventorySearchDTO);
+    }
+    
+    // 아바타 아이템 구매
+    public boolean setBuyAvatarItem(BuyItemDTO buyItemDTO){
+        // userIndex 조회
+        int userIndex = sqlSession.selectOne("AvatarService.getUserIndex", buyItemDTO.getUserId());
+        buyItemDTO.setUserIndex(userIndex);
+        
+        // 캐시 조회
+        int cash = sqlSession.selectOne("AvatarService.getUserCash", buyItemDTO.getUserIndex());
+
+        if (cash < buyItemDTO.getPaymentAmount()) {
+            return false;
+        }
+        else{
+            // 캐시 차감
+            if (sqlSession.update("AvatarService.setUserCash", buyItemDTO) <= 0) {
+                return false;
+            }
+            return sqlSession.insert("AvatarService.setBuyAvatarItem", buyItemDTO) > 0;
+        }
+
     }
 }

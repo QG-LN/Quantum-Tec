@@ -1,5 +1,6 @@
 package com.project.quantumtec.Service.user;
 
+import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
@@ -7,6 +8,7 @@ import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
 import com.project.quantumtec.VO.user.UserVO;
 
 import java.util.List;
+
 
 /**
  * PackageName : com.project.quantumtec.Service.user
@@ -61,4 +63,7 @@ public interface UserService {
     public boolean changePw(String userName, String userEmail, String userID, String userPW) throws Exception;
 
     public List<MyGameListResponseDTO> getMyGameList(String userID) throws Exception;
+
+    // 캐시 충전
+    public int chargeCash(CashChargeDTO cashChargeDTO);
 }

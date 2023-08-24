@@ -5,6 +5,7 @@ import Tooltip from '../../Utils/tooltip';
 import { axiosRequest } from '../../../module/networkUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAvatarItemList } from '../../../redux/actions/avatarActions';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * 아바타 아이템을 보여주는 컴포넌트
@@ -20,6 +21,7 @@ import { setAvatarItemList } from '../../../redux/actions/avatarActions';
  */
 export default function AvatarItem(props) {
 
+    const navigate = useNavigate();
     // 모달을 보여주기 위한 상태
     const [show, setShow] = useState(false);
     const handleClose = (e) => {
@@ -28,6 +30,61 @@ export default function AvatarItem(props) {
         e?.stopPropagation();
     };
     const handleShow = () => setShow(true);
+
+    const checkLogin = () => {
+        if(localStorage.getItem("userNickname") == null){
+            alert("로그인이 필요한 서비스입니다.");
+            navigate('/login');
+        }
+    }
+
+    const checkCash = () => {
+        if(localStorage.getItem("userCash") < props.item.priceCash){
+            alert("캐시가 부족합니다.");
+            navigate('/cashcharge');
+        }
+        else{
+            const body = {
+                userId: localStorage.getItem("userID"),
+                itemIndex: props.item.itemIndex,
+                paymentMethod: 'cash',
+                paymentStatus: '결제 완료',
+                paymentAmount: props.item.itemPrice,
+            };
+            axiosRequest('http://localhost:9090/avatar/shop/item/buy', body, 'POST', 'json')
+                .then(res => {
+                    if(res === true){
+                        alert("구매가 완료되었습니다.");
+                        handleClose();
+                        props.refreshKey();
+                        // 구매 완료 후 캐시 차감된 내 캐시 상황을 어떻게 반영할지 고민해보기(DB에서 가져오는 방식으로?, 수동으로?)
+                    }
+                    else{
+                        alert("구매에 실패하였습니다.");
+                    }
+                })
+                // .catch(err => {
+                //     alert("구매에 실패하였습니다.");
+                //     console.log(err);
+                // });
+
+        }
+    }
+
+    const handleBuyForCash = () => {
+        checkLogin();   // 로그인 확인
+        checkCash();    // 캐시 확인
+        // 구매 처리
+        // 구매 후 아이템 저장
+    }
+
+    const handleBuyForFreeCash = () => {
+        checkLogin();   // 로그인 확인
+        // 프리캐시 확인
+        // 구매 처리
+        // 구매 후 아이템 저장
+        alert("미구현");
+    }
 
     useEffect(() => {
         console.log(show);
@@ -213,10 +270,10 @@ export default function AvatarItem(props) {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button className="btn_close" variant="success" onClick={handleClose}>
+                        <Button className="btn_close" variant="success" onClick={handleBuyForFreeCash}>
                             {changeNumberFormat(props.item.itemPrice * 10)} freecash
                         </Button>
-                        <Button className="btn_close" variant="success" onClick={handleClose}>
+                        <Button className="btn_close" variant="success" onClick={handleBuyForCash}>
                             {changeNumberFormat(props.item.itemPrice)} cash
                         </Button>
                         <Button className="btn_close" variant="secondary" onClick={handleClose}>

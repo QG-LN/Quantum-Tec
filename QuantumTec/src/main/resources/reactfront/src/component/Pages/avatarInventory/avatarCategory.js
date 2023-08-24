@@ -15,6 +15,11 @@ export default function AvatarCategory(props) {
     // 아이템 목록
     const [itemList, setItemList] = useState([]);
     const page = useSelector(state => state.avatar.page);
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    const handleRefresh = () => {
+        setRefreshKey(refreshKey + 1);
+    }
     useEffect(() => {
         // 카테고리에 해당하는 아이템 목록을 가져오기 위한 요청
         const body = {
@@ -33,7 +38,7 @@ export default function AvatarCategory(props) {
             .catch(err => {
                 console.log(err);
             });
-    }, []);
+    }, [,refreshKey]);
 
     // 아바타 아이템을 검색하는 함수
     const handleSearch = (e) => {
@@ -75,7 +80,7 @@ export default function AvatarCategory(props) {
             </div>
             <hr className='mx-3'/>
             <div>
-                <AvatarItemCheck itemList={itemList}/>
+                <AvatarItemCheck itemList={itemList} refreshKey={handleRefresh}/>
             </div>
         </div>
     );

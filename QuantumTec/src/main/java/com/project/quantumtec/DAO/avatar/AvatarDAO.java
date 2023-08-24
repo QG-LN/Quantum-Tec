@@ -2,6 +2,7 @@ package com.project.quantumtec.DAO.avatar;
 
 import java.util.List;
 
+import com.project.quantumtec.DTO.Request.avatar.BuyItemDTO;
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventoryDTO;
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
@@ -51,7 +52,10 @@ public interface AvatarDAO {
 
     // 아바타 카테고리를 searchValue로 인벤토리 정보 조회
     public List<ItemInfoDTO> getAvatarShopCategorySearchItem(CategoryInventorySearchDTO categoryInventorySearchDTO);
-    
+
     // 아바타 searchValue로 인벤토리 정보 조회
     public List<ItemInfoDTO> getAvatarShopSearchItem(InventorySearchDTO inventorySearchDTO);
+
+    // 아바타 아이템 구매
+    public boolean setBuyAvatarItem(BuyItemDTO buyItemDTO);
 }

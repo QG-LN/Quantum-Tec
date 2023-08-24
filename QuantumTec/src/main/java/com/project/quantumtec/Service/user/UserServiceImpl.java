@@ -1,6 +1,7 @@
 package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DAO.user.UserDAO;
+import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
@@ -137,5 +138,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<MyGameListResponseDTO> getMyGameList(String userID) throws Exception {
         return userDAO.getMyGameList(userID);
+    }
+
+    // 캐시 충전
+    @Override
+    public int chargeCash(CashChargeDTO cashChargeDTO){
+        return userDAO.chargeCash(cashChargeDTO);
     }
 }

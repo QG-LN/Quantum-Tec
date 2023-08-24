@@ -1,5 +1,6 @@
 package com.project.quantumtec.DAO.user;
 
+import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
@@ -54,4 +55,7 @@ public interface UserDAO {
 
     // 사용자의 게임 목록 가져오기
     public List<MyGameListResponseDTO> getMyGameList(String userID) throws Exception;
+
+    // 캐시 충전
+    public int chargeCash(CashChargeDTO cashChargeDTO);
 }

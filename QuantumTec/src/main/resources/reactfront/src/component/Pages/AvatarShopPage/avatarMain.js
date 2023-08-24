@@ -16,11 +16,9 @@ export default function AvatarMain(props) {
                 console.log(error);
             });
         let tempArray = [];
-        tempArray.push({ id: 1, name: `파란색`, eng_name: `blue` });
-        tempArray.push({ id: 2, name: `갈색`, eng_name: `brown` });
-        tempArray.push({ id: 3, name: `초록색`, eng_name: `green` });
-        tempArray.push({ id: 4, name: `보라색`, eng_name: `purple` });
-        tempArray.push({ id: 5, name: `빨간색`, eng_name: `red` });
+        for(let i = 0; i < 5; i++) {
+            tempArray.push({ id: i, name: `아이템${i+1}`, priceCash: 1000, priceFreeCash:10000 });
+        }
         setHatList(hatList.concat(tempArray));
         tempArray = []
         // tempArray.push({ id: 1, name: '모자' });
