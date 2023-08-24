@@ -17,6 +17,11 @@ export default function AvatarMain(props) {
     // 아바타 아이템 목록
     const [itemList, setItemList] = useState([]);
     const avatarPage = useSelector(state => state.avatar.page);
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    const handleRefresh = () => {
+        setRefreshKey(refreshKey + 1);
+    }
 
     useEffect(() => {
         // 아바타 아이템 목록을 가져오기 위한 요청.
@@ -37,7 +42,7 @@ export default function AvatarMain(props) {
                 console.log(err);
             }
         );
-    }, []);
+    }, [, refreshKey]);
 
     return (
         <div className=''>
@@ -60,7 +65,7 @@ export default function AvatarMain(props) {
             {avatarPage === 'inventory' ? (
                 <AvatarMainInventory itemList={itemList} onClick={props.onClick} />
             ) : (
-                <AvatarMainShop itemList={itemList} onClick={props.onClick} />
+                <AvatarMainShop itemList={itemList} onClick={props.onClick} refreshKey={handleRefresh}/>
             )}
             
         </div>

@@ -11,22 +11,22 @@ export default function AvatarMainInventory(props) {
     }
 
     const ShowCarousel = (c) => {
-        // const firstList = props.itemList.filter(item => item.itemCategoryName === c.category).slice(0, 5); // 0부터 4까지
-        // const secondList = props.itemList.filter(item => item.itemCategoryName === c.category).slice(5, 10); // 5부터 9까지
-        const firstList = props.itemList.slice(0, 5); // 0부터 4까지
-        const secondList = props.itemList.slice(5, 10); // 5부터 9까지
+        const firstList = props.itemList.filter(item => item.itemCategoryName === c.category).slice(0, 5); // 0부터 4까지
+        const secondList = props.itemList.filter(item => item.itemCategoryName === c.category).slice(5, 10); // 5부터 9까지
+        // const firstList = props.itemList.slice(0, 5); // 0부터 4까지
+        // const secondList = props.itemList.slice(5, 10); // 5부터 9까지
         console.log(secondList.length)
         return (
             <Carousel interval={null}>
                 <Carousel.Item>
                     <div className='ms-[3%] my-4 d-flex flex-wrap align-items-center'>
-                        <AvatarItemCheck itemList={firstList}/>
+                        <AvatarItemCheck itemList={firstList} refreshKey={props.refreshKey}/>
                     </div>
                 </Carousel.Item>
                 {secondList.length === 0 ? null :
                 <Carousel.Item>
                     <div className='ms-[3%] my-4 d-flex flex-wrap align-items-center'>
-                        <AvatarItemCheck itemList={secondList}/>
+                        <AvatarItemCheck itemList={secondList} refreshKey={props.refreshKey}/>
                     </div>
                 </Carousel.Item>
                 }

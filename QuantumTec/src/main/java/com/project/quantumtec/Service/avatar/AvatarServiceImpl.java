@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.quantumtec.DAO.avatar.AvatarDAO;
+import com.project.quantumtec.DTO.Request.avatar.BuyItemDTO;
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventoryDTO;
 import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
 import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
@@ -99,5 +100,11 @@ public class AvatarServiceImpl implements AvatarService{
     @Override
     public List<ItemInfoDTO> getAvatarShopSearchItem(InventorySearchDTO inventorySearchDTO){
         return avatarDAO.getAvatarShopSearchItem(inventorySearchDTO);
+    }
+
+    // 아바타 아이템 구매
+    @Override
+    public boolean setBuyAvatarItem(BuyItemDTO buyItemDTO){
+        return avatarDAO.setBuyAvatarItem(buyItemDTO);
     }
 }
