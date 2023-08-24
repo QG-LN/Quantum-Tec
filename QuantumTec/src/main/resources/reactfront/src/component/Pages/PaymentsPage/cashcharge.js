@@ -7,7 +7,6 @@ import { nanoid } from "nanoid";
 const selector = "#payment-widget";
 const clientKey = process.env.REACT_APP_PAYMENTS_API_CLIENT_KEY;
 const customerKey = localStorage.getItem("userID");
-
 export default function CashCharge() {
     //modal
     const [show, setShow] = useState(false);
@@ -78,8 +77,8 @@ export default function CashCharge() {
                                 orderName: name,
                                 customerName: localStorage.getItem("userNickname"),
                                 customerEmail: "customer123@gmail.com",
-                                successUrl: `${window.location.origin}/success`,
-                                failUrl: `${window.location.origin}/fail`
+                                successUrl: `${window.location.origin}/payments/success`,
+                                failUrl: `${window.location.origin}/payments/fail`
                             });
                         } catch (error) {
                             // handle error

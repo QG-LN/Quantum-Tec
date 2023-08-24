@@ -14,6 +14,8 @@ import BoardPage from './component/Pages/BoardPage/board.js';
 import PostPage from './component/Pages/BoardPage/post.js';
 import WritePage from './component/Pages/BoardPage/write.js';
 import CashChargePage from './component/Pages/PaymentsPage/cashcharge';
+import { Success } from './component/Pages/PaymentsPage/success';
+import { Fail } from './component/Pages/PaymentsPage/fail';
 
 // import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -43,6 +45,8 @@ function App() {
           <Route path="/avatarshop" element={<AvatarShop />}/>
           <Route path="/cashcharge" element={<CashCharge />}/>
           <Route path="/inventory" element={<AvatarInvetory />}/>
+          <Route path="/payments/success" element={<PaymentsSuccess />}/>
+          <Route path="/payments/fail" element={<PaymentsFail />}/>
         </Routes>
       </div>
       <Footer style={{height: "20vh"}} />
@@ -132,6 +136,22 @@ function CashCharge(){
         <div className="CashCharge mt-[5vh]" >
             <CashChargePage />
         </div>
+    )
+}
+
+function PaymentsSuccess(){
+    return (
+        <div className="PaymentSuccess mt-[5vh]" >
+            <Success />
+        </div>
+    )
+}
+
+function PaymentsFail(){
+    return (
+        <div className="PaymentFail mt-[5vh]" >
+            <Fail />
+        </div>  
     )
 }
 
