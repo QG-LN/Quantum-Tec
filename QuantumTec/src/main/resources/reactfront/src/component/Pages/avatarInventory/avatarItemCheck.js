@@ -26,7 +26,7 @@ export default function AvatarItemCheck(props) {
         return (
             <div className='ms-2 mt-4 d-flex flex-wrap align-items-center'>
                 {props.itemList.map((item) => (
-                    <AvatarItem item={item}/>
+                    <AvatarItem item={item} refreshKey={props.refreshKey}/>
                 ))}
             </div>
         )
