@@ -1,5 +1,6 @@
 package com.project.quantumtec.Controller;
 
+import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.DTO.Request.myinfo.requestMyInfoDTO;
 import com.project.quantumtec.DTO.user.LoginRequestDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
@@ -109,5 +110,11 @@ public class UserController {
     @PostMapping("/mygamelist")
     public List<MyGameListResponseDTO> getMyGameList(@RequestBody requestMyInfoDTO user) throws Exception {
         return userService.getMyGameList(user.getUserID());
+    }
+
+    // 캐시 충전
+    @PostMapping("/cash/charge")
+    public int chargeCash(@RequestBody CashChargeDTO cashChargeDTO){
+        return userService.chargeCash(cashChargeDTO);
     }
 }

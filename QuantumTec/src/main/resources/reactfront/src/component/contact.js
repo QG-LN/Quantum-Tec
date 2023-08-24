@@ -1,16 +1,19 @@
+import React from "react";
+import AvatarCanvas from "./Pages/avatarInventory/avatarCanvas";
+
 export default function Contact() {
     let truelogin = false;
+    if (localStorage.getItem("truelogin") === "true") {
+        truelogin = true;
+    }
     // 로그인 상태일때 유저 이름 받아오기
     return (
         <div className="container mx-auto px-4">
             <div className="flex flex-wrap justify-center text-center mb-24">
-                <div className="w-full lg:w-6/12 px-4">
-                    {!truelogin && <img class='w-40 h-40 rounded-full'
-                                        src="https://kr.seaicons.com/wp-content/uploads/2015/10/User-icon3.png"
-                                        alt=""/>}
-                    {truelogin && <img class='w-40 h-40 rounded-full'
-                                       src="https://resource.cyphers.co.kr/ui/img/character/ico_64px_44.png" alt=""/>}
-
+                <div className="w-full lg:w-6/12">
+                        {!truelogin && <img src="https://kr.seaicons.com/wp-content/uploads/2015/10/User-icon3.png"
+                                            alt=""/>}
+                        {truelogin && <AvatarCanvas/>}
                 </div>
             </div>
             <div className="flex flex-wrap justify-center">

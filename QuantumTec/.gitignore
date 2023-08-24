@@ -41,3 +41,4 @@ out/
 /src/main/resources/config/email/email.properties
 /src/main/resources/static/games/
 u/src/main/resources/static/images/games/
+.env
