@@ -2,11 +2,21 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Choosefind from './choosefind.js';
 import {axiosRequest} from '../../../module/networkUtils';
+import { useDispatch } from 'react-redux';
+import { setAvatarItemList } from '../../../redux/actions/avatarActions';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login(props){
+    const navigate = useNavigate();
     const [inputId, setInputId] = useState('')
     const [inputPw, setInputPw] = useState('')
     const [modalOpen, setModalOpen] = useState(false)
+
+    const dispatch = useDispatch();
+
+    const handleUpdate = (newItemList) => {
+        dispatch(setAvatarItemList(newItemList));
+    };
 
 	// input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
     const handleInputId = (e) => {
@@ -40,8 +50,22 @@ export default function Login(props){
                             localStorage.setItem("userCash", res.userCash);
                             localStorage.setItem("userID", inputId);                    // 마이페이지에서 사용하기 위해 세팅
                             localStorage.setItem("truelogin","true");
-                            document.location.href = "/";
                             props.setTruelogin(true);
+                            // 착용 아바타 아이템 불러오기
+                            const avatarBody = {
+                                userId: inputId,
+                            };
+                            axiosRequest('http://localhost:9090/avatar/inventory/active', avatarBody, 'POST', 'json')
+                                .then(res => {
+                                    handleUpdate(res);
+                                    navigate('/');
+                                    // document.location.href = "/";
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    alert('아바타 정보를 불러오지 못했습니다. 잠시후 다시 시도해주세요.');
+                                });
+
                         }else{
                             alert('로그인에 실패하였습니다.');
                             setInputId("");

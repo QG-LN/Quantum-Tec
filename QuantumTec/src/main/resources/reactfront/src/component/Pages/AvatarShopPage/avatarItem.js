@@ -8,6 +8,37 @@ export default function AvatarItem(props) {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const checkLogin = () => {
+        if(localStorage.getItem("userNickname") == null){
+            alert("로그인이 필요한 서비스입니다.");
+            document.location.href = "/login";
+        }
+    }
+
+    const checkCash = () => {
+        if(localStorage.getItem("userCash") < props.item.priceCash){
+            alert("캐시가 부족합니다.");
+            document.location.href = "/cashcharge";
+        }
+    }
+
+    const handleBuyForCash = () => {
+        checkLogin();   // 로그인 확인
+        // 이미 구매한 아이템인지 확인
+        checkCash();    // 캐시 확인
+        // 구매 처리
+        // 구매 후 아이템 저장
+    }
+    const handleBuyForFreeCash = () => {
+        checkLogin();   // 로그인 확인
+        // 이미 구매한 아이템인지 확인
+        // 프리캐시 확인
+        // 구매 처리
+        // 구매 후 아이템 저장
+        alert("미구현");
+    }
+    const imgSrc = `${process.env.PUBLIC_URL}/image/${props.eng_category==="bg"?"background":props.eng_category}/${props.item.eng_name}_${props.eng_category}_shop.png`;
     useEffect(() => {
         // console.log(props);
     }, []);
@@ -34,10 +65,11 @@ export default function AvatarItem(props) {
                 <Modal.Body>
                     <div className='row justify-content-between'>
                         <div className='placeholder-glow col-5'>
-                            <div class="placeholder ratio ratio-1x1 rounded"></div>
+                            {/* <div class="placeholder ratio ratio-1x1 rounded"></div> */}
+                            <img src={imgSrc} className='rounded'/>
                         </div>
                         <div className='col-7'>
-                            {props.item.name}
+                            {props.item.name} {props.category}
                             <h6 class="card-text placeholder-glow">
                                 <div class="placeholder col-5"></div> 제작
                             </h6>
@@ -57,11 +89,11 @@ export default function AvatarItem(props) {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn_close" variant="success" onClick={handleClose}>
-                        10,000 freecash
+                    <Button className="btn_close" variant="success" onClick={handleBuyForFreeCash}>
+                        {props.item.priceFreeCash} freecash
                     </Button>
-                    <Button className="btn_close" variant="success" onClick={handleClose}>
-                        1,000 cash
+                    <Button className="btn_close" variant="success" onClick={handleBuyForCash}>
+                        {props.item.priceCash} cash
                     </Button>
                     <Button className="btn_close" variant="secondary" onClick={handleClose}>
                         닫기
@@ -69,11 +101,12 @@ export default function AvatarItem(props) {
                 </Modal.Footer>
             </Modal>
             <div onClick={handleShow}>
-                <div class="placeholder ratio ratio-1x1 rounded-top"></div>
+                {/* <div class="placeholder ratio ratio-1x1 rounded-top"></div> */}
+                <img src={imgSrc} className='rounded-top'/>
                 {/* <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" class="card-img-top" alt="..."/> */}
                 <div class="text-start m-3">
                     <h5 class="card-title placeholder-glow">
-                        {props.item.name}
+                        {props.item.name} {props.category}
                     {/* <div class="placeholder col-5"></div> */}
                     </h5>
                     <h6 class="card-text placeholder-glow">

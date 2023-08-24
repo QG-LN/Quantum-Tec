@@ -2,6 +2,7 @@ package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.DTO.user.*;
+import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.Utils.user.emailApi.EmailApi;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,5 +172,11 @@ public class UserServiceImpl implements UserService{
         if(userIndexList.size() > 0)
             userDAO.deleteUserAll(userIndexList);
 
+    }
+    
+    // 캐시 충전
+    @Override
+    public int chargeCash(CashChargeDTO cashChargeDTO){
+        return userDAO.chargeCash(cashChargeDTO);
     }
 }

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AvatarService">
+    <select id='getAvatarInventory' resultType='AvatarInventoryDTO' parameterType='String'>
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            aic.ITEM_CATEGORY_NAME,
+            aph.PAYMENT_DATE,
+            uai.ITEM_USAGE_STATUS
+        FROM
+            USER_INFO_TB ui
+        JOIN 
+            AVATAR_PAYMENT_HISTORY_TB aph ON ui.USER_INDEX = aph.USER_INDEX
+        JOIN 
+            AVATAR_ITEM_TB ai ON aph.ITEM_INDEX = ai.ITEM_INDEX
+        JOIN 
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        LEFT JOIN 
+            USER_AVATAR_INVENTORY_TB uai ON ui.USER_INDEX = uai.USER_INDEX AND ai.ITEM_INDEX = uai.ITEM_INDEX
+        WHERE 
+            ui.USER_ID = #{userId};
+    </select>
+
+    <select id='getAvatarCategoryInventory' resultType='AvatarInventoryDTO' parameterType='CategoryInventoryDTO'>
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            aic.ITEM_CATEGORY_NAME,
+            aph.PAYMENT_DATE,
+            uai.ITEM_USAGE_STATUS
+        FROM
+            USER_INFO_TB ui
+        JOIN 
+            AVATAR_PAYMENT_HISTORY_TB aph ON ui.USER_INDEX = aph.USER_INDEX
+        JOIN 
+            AVATAR_ITEM_TB ai ON aph.ITEM_INDEX = ai.ITEM_INDEX
+        JOIN 
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        LEFT JOIN 
+            USER_AVATAR_INVENTORY_TB uai ON ui.USER_INDEX = uai.USER_INDEX AND ai.ITEM_INDEX = uai.ITEM_INDEX
+        WHERE 
+            ui.USER_ID = #{userId}
+        AND 
+            aic.ITEM_CATEGORY_NAME = #{itemCategoryName};
+    </select>
+
+    <select id='getAvatarCategory' resultType='java.lang.String'>
+        SELECT 
+            ITEM_CATEGORY_NAME
+        FROM
+            AVATAR_ITEM_CATEGORY_TB
+        ORDER BY
+            ITEM_CATEGORY_ID ASC;
+    </select>
+
+    <select id='getAvatarSearchInventory' resultType='AvatarInventoryDTO' parameterType='InventorySearchDTO'>
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            aic.ITEM_CATEGORY_NAME,
+            aph.PAYMENT_DATE,
+            uai.ITEM_USAGE_STATUS
+        FROM
+            USER_INFO_TB ui
+        JOIN 
+            AVATAR_PAYMENT_HISTORY_TB aph ON ui.USER_INDEX = aph.USER_INDEX
+        JOIN 
+            AVATAR_ITEM_TB ai ON aph.ITEM_INDEX = ai.ITEM_INDEX
+        JOIN 
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        LEFT JOIN 
+            USER_AVATAR_INVENTORY_TB uai ON ui.USER_INDEX = uai.USER_INDEX AND ai.ITEM_INDEX = uai.ITEM_INDEX
+        WHERE
+            ai.ITEM_NAME LIKE CONCAT('%', #{searchValue} , '%');
+    </select>
+
+    <select id='getAvatarCategorySearchInventory' resultType='AvatarInventoryDTO' parameterType='CategoryInventorySearchDTO'>
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            aic.ITEM_CATEGORY_NAME,
+            aph.PAYMENT_DATE,
+            uai.ITEM_USAGE_STATUS
+        FROM
+            USER_INFO_TB ui
+        JOIN 
+            AVATAR_PAYMENT_HISTORY_TB aph ON ui.USER_INDEX = aph.USER_INDEX
+        JOIN 
+            AVATAR_ITEM_TB ai ON aph.ITEM_INDEX = ai.ITEM_INDEX
+        JOIN 
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        LEFT JOIN 
+            USER_AVATAR_INVENTORY_TB uai ON ui.USER_INDEX = uai.USER_INDEX AND ai.ITEM_INDEX = uai.ITEM_INDEX
+        WHERE 
+            ui.USER_ID = #{userId}
+        AND 
+            aic.ITEM_CATEGORY_NAME = #{itemCategoryName}
+        AND
+            ai.ITEM_NAME LIKE CONCAT('%', #{searchValue} , '%');
+    </select>
+
+    <select id='getAvatarActiveInventory' resultType='AvatarInventoryDTO' parameterType='String'>
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            aic.ITEM_CATEGORY_NAME,
+            aph.PAYMENT_DATE,
+            uai.ITEM_USAGE_STATUS
+        FROM
+            USER_INFO_TB ui
+        JOIN 
+            AVATAR_PAYMENT_HISTORY_TB aph ON ui.USER_INDEX = aph.USER_INDEX
+        JOIN 
+            AVATAR_ITEM_TB ai ON aph.ITEM_INDEX = ai.ITEM_INDEX
+        JOIN 
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        LEFT JOIN 
+            USER_AVATAR_INVENTORY_TB uai ON ui.USER_INDEX = uai.USER_INDEX AND ai.ITEM_INDEX = uai.ITEM_INDEX
+        WHERE 
+            ui.USER_ID = #{userId}
+        AND 
+            uai.ITEM_USAGE_STATUS = 1;
+    </select>
+
+    <select id='setActiveAvatarItem' resultType='int' parameterType='InventoryItemDTO'>
+        UPDATE 
+            USER_AVATAR_INVENTORY_TB uai
+        JOIN 
+            USER_INFO_TB ui ON uai.USER_INDEX = ui.USER_INDEX
+        SET 
+            uai.ITEM_USAGE_STATUS = 1
+        WHERE 
+            ui.USER_ID = #{userId} 
+        AND 
+            uai.ITEM_INDEX = #{itemIndex};
+    </select>
+
+    <select id='setInactiveAvatarItem' resultType='int' parameterType='InventoryItemDTO'>
+        UPDATE 
+            USER_AVATAR_INVENTORY_TB uai
+        JOIN 
+            USER_INFO_TB ui ON uai.USER_INDEX = ui.USER_INDEX
+        SET 
+            uai.ITEM_USAGE_STATUS = 0
+        WHERE 
+            ui.USER_ID = #{userId} 
+        AND 
+            uai.ITEM_INDEX = #{itemIndex};
+    </select>
+
+
+    <select id='getAvatarShopMain' resultType='ItemInfoDTO' parameterType='String'>
+        WITH ExcludedItems AS (
+            SELECT 
+                aph.ITEM_INDEX 
+            FROM 
+                AVATAR_PAYMENT_HISTORY_TB aph
+            JOIN 
+                USER_INFO_TB ui ON aph.USER_INDEX = ui.USER_INDEX
+            WHERE 
+                ui.USER_ID = #{userId}
+        )
+
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            ai.ITEM_PRICE,
+            aic.ITEM_CATEGORY_NAME,
+            ui.USER_NICKNAME
+        FROM 
+            AVATAR_ITEM_TB ai
+        JOIN 
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        LEFT JOIN 
+            ExcludedItems ei ON ai.ITEM_INDEX = ei.ITEM_INDEX
+        JOIN 
+            USER_INFO_TB ui ON ai.ITEM_CREATOR_INDEX = ui.USER_INDEX
+        WHERE 
+            ei.ITEM_INDEX IS NULL
+        LIMIT 10;
+    </select>
+    <!-- 모든 카테고리를 조회하는 쿼리 -->
+    <select id="getAllCategories" resultType="string">
+        SELECT ITEM_CATEGORY_NAME
+        FROM AVATAR_ITEM_CATEGORY_TB
+    </select>
+
+    <!-- 특정 카테고리의 아이템을 조회하는 쿼리 (특정 사용자가 구매한 아이템은 제외) -->
+    <select id="getItemsByCategory" resultType="ItemInfoDTO">
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            ai.ITEM_PRICE,
+            aic.ITEM_CATEGORY_NAME,
+            ui.USER_NICKNAME
+        FROM
+            AVATAR_ITEM_TB ai
+        JOIN AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        JOIN USER_INFO_TB ui ON ai.ITEM_CREATOR_INDEX = ui.USER_INDEX
+        WHERE 
+            aic.ITEM_CATEGORY_NAME = #{category}
+            AND NOT EXISTS (
+                SELECT 1
+                FROM AVATAR_PAYMENT_HISTORY_TB aph
+                JOIN USER_INFO_TB u ON aph.USER_INDEX = u.USER_INDEX
+                WHERE u.USER_ID = #{userId} AND aph.ITEM_INDEX = ai.ITEM_INDEX
+            )
+        LIMIT 10
+    </select>
+
+    <select id='getAvatarShopCategoryItem' resultType='ItemInfoDTO' parameterType='CategoryInventoryDTO'>
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            ai.ITEM_PRICE,
+            aic.ITEM_CATEGORY_NAME,
+            ui.USER_NICKNAME
+        FROM
+            AVATAR_ITEM_TB ai
+        JOIN
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        JOIN
+            USER_INFO_TB ui ON ai.ITEM_CREATOR_INDEX = ui.USER_INDEX
+        WHERE
+            aic.ITEM_CATEGORY_NAME = #{itemCategoryName}
+        AND NOT EXISTS (
+            SELECT 1
+            FROM AVATAR_PAYMENT_HISTORY_TB aph
+            JOIN USER_INFO_TB u ON aph.USER_INDEX = u.USER_INDEX
+            WHERE u.USER_ID = #{userId} AND aph.ITEM_INDEX = ai.ITEM_INDEX
+        )
+    </select>
+
+    <select id='getAvatarShopCategorySearchItem' resultType='ItemInfoDTO' parameterType='CategoryInventorySearchDTO'>
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            ai.ITEM_PRICE,
+            aic.ITEM_CATEGORY_NAME,
+            ui.USER_NICKNAME
+        FROM
+            AVATAR_ITEM_TB ai
+        JOIN
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        JOIN
+            USER_INFO_TB ui ON ai.ITEM_CREATOR_INDEX = ui.USER_INDEX
+        WHERE
+            aic.ITEM_CATEGORY_NAME = #{itemCategoryName}
+        AND
+            ai.ITEM_NAME LIKE CONCAT('%', #{searchValue} , '%')
+        AND NOT EXISTS (
+            SELECT 1
+            FROM AVATAR_PAYMENT_HISTORY_TB aph
+            JOIN USER_INFO_TB u ON aph.USER_INDEX = u.USER_INDEX
+            WHERE u.USER_ID = #{userId} AND aph.ITEM_INDEX = ai.ITEM_INDEX
+        )
+    </select>
+
+    <select id='getAvatarShopSearchItem' resultType='ItemInfoDTO' parameterType='InventorySearchDTO'>
+        SELECT 
+            ai.ITEM_INDEX,
+            ai.ITEM_NAME,
+            ai.ITEM_DESC,
+            ai.ITEM_PRICE,
+            aic.ITEM_CATEGORY_NAME,
+            ui.USER_NICKNAME
+        FROM
+            AVATAR_ITEM_TB ai
+        JOIN
+            AVATAR_ITEM_CATEGORY_TB aic ON ai.ITEM_CATEGORY_ID = aic.ITEM_CATEGORY_ID
+        JOIN
+            USER_INFO_TB ui ON ai.ITEM_CREATOR_INDEX = ui.USER_INDEX
+        WHERE
+            ai.ITEM_NAME LIKE CONCAT('%', #{searchValue} , '%')
+        AND NOT EXISTS (
+            SELECT 1
+            FROM AVATAR_PAYMENT_HISTORY_TB aph
+            JOIN USER_INFO_TB u ON aph.USER_INDEX = u.USER_INDEX
+            WHERE u.USER_ID = #{userId} AND aph.ITEM_INDEX = ai.ITEM_INDEX
+        )
+    </select>
+
+    <select id='getUserIndex' resultType='int' parameterType='String'>
+        SELECT 
+            USER_INDEX
+        FROM
+            USER_INFO_TB
+        WHERE
+            USER_ID = #{userId};
+    </select>
+
+    <select id='getUserCash' resultType='int' parameterType='int'>
+        SELECT 
+            USER_CASH
+        FROM
+            USER_STATUS_TB
+        WHERE
+            USER_INDEX = #{userIndex};
+    </select>
+
+    <update id='setUserCash' parameterType='BuyItemDTO'>
+        UPDATE 
+            USER_STATUS_TB
+        SET 
+            USER_CASH = USER_CASH - #{paymentAmount}
+        WHERE 
+            USER_INDEX = #{userIndex};
+    </update>
+
+    <insert id='setBuyAvatarItem' parameterType='BuyItemDTO'>
+        -- AVATAR_PAYMENT_HISTORY_TB에 데이터 추가
+        INSERT INTO AVATAR_PAYMENT_HISTORY_TB 
+        (USER_INDEX, ITEM_INDEX, PAYMENT_METHOD, PAYMENT_STATUS, PAYMENT_AMOUNT)
+        VALUES 
+        (#{userIndex}, #{itemIndex}, #{paymentMethod}, #{paymentStatus}, #{paymentAmount});
+    </insert>
+</mapper>
+

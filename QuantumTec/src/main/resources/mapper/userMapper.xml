@@ -119,5 +119,17 @@
             USER_STATUS = "inactive";
     </select>
     
+    <update id="chargeCash" parameterType="CashChargeDTO">
+        UPDATE USER_STATUS_TB
+        SET USER_CASH = USER_CASH + #{amount}
+        WHERE USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userId});
+
+    </update>
+    
+    <select id="getCash" parameterType="CashChargeDTO" resultType="int">
+        SELECT USER_CASH
+        FROM USER_STATUS_TB
+        WHERE USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userId});
+    </select>
      
 </mapper>

@@ -1,6 +1,7 @@
 package com.project.quantumtec.DAO.user;
 
 import com.project.quantumtec.DTO.user.*;
+import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.VO.user.UserVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,5 +135,15 @@ public class UserDAOImpl implements UserDAO{
     @Override
     public List<UserGraceDTO> getGraceUserList() throws Exception {
         return sqlSession.selectList("UserService.getGraceUserList");
+    }
+    
+    // 캐시 충전
+    @Override
+    public int chargeCash(CashChargeDTO cashChargeDTO){
+        if(sqlSession.update("UserService.chargeCash", cashChargeDTO) > 0){
+            return sqlSession.selectOne("UserService.getCash", cashChargeDTO);
+        }
+        else
+            return -1;
     }
 }
