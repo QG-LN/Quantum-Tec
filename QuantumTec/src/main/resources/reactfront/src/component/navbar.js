@@ -85,9 +85,6 @@ export default function Navbar() {
                         </button>}
                         {truelogin &&
                             <div>
-                                <div onClick={handleInventory}>
-                                    test
-                                </div>
                                 <a class='flex openLogInfo' href='javascript:void(0)' onClick={handleLogInfo}>
                                 <div class='flex'>
                                     <div class='mr-1'>{userNickname}</div>
@@ -127,8 +124,10 @@ export default function Navbar() {
                                     <div class="info_b text-center bg-gray-900">
                                         <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg'
                                            href="/mypage">내정보관리</a>
-                                        <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg'
-                                           href="#">아바타관리</a>
+                                        <div class="inline-block px-[18px] py-[20px] text-gray-400 text-lg" 
+                                            onClick={handleInventory}>
+                                            아바타관리
+                                        </div>
                                     </div>
                                     <hr class='border-white mb-0 mt-0'/>
                                     <div class='text-center bg-gray-900'>

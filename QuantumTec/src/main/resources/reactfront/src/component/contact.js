@@ -1,11 +1,19 @@
 import React from "react";
 import AvatarCanvas from "./Pages/avatarInventory/avatarCanvas";
+import { useNavigate } from 'react-router';
 
 export default function Contact() {
     let truelogin = false;
     if (localStorage.getItem("truelogin") === "true") {
         truelogin = true;
     }
+
+    const navigate = useNavigate();
+
+    const handleInventory = () => {
+        navigate('/inventory');
+    }
+
     // 로그인 상태일때 유저 이름 받아오기
     return (
         <div className="container mx-auto px-4">
@@ -58,9 +66,17 @@ export default function Contact() {
                     <li className="nav-item">
                         <a className="px-3 py-2 flex items-center text-xl uppercase font-bold leading-snug text-black hover:opacity-75 no-underline"
                            href="/avatarshop">
-                            <i className="fab fa-facebook-square text-xs leading-lg text-black opacity-75"></i><span
-                            className="ml-2">아바타 상점</span>
+                            <i className="fab fa-facebook-square text-xs leading-lg text-black opacity-75"></i>
+                            <span className="ml-2">아바타 상점</span>
                         </a>
+                    </li>
+                    <li className="nav-item">
+                        <div 
+                            className="px-3 py-2 flex items-center text-xl uppercase font-bold leading-snug text-black hover:opacity-75 hover:cursor-pointer no-underline"
+                            onClick={handleInventory}>
+                            <i className="fab fa-facebook-square text-xs leading-lg text-black opacity-75"></i>
+                            <span className="ml-2">내 아바타</span>
+                        </div>
                     </li>
                 </nav>
             </div>
