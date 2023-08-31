@@ -14,6 +14,10 @@ export default function Contact() {
         navigate('/inventory');
     }
 
+    const handleAvatarShop = () => {
+        navigate('/avatarshop');
+    }
+
     // 로그인 상태일때 유저 이름 받아오기
     return (
         <div className="container mx-auto px-4">
@@ -64,11 +68,12 @@ export default function Contact() {
                 <hr className="w-[100%] mt-[1%] border-0 bg-black opacity-100 h-[2px]"/>
                 <nav className="flex flex-col list-none">
                     <li className="nav-item">
-                        <a className="px-3 py-2 flex items-center text-xl uppercase font-bold leading-snug text-black hover:opacity-75 no-underline"
-                           href="/avatarshop">
+                        <div 
+                            className="px-3 py-2 flex items-center text-xl uppercase font-bold leading-snug text-black hover:opacity-75 hover:cursor-pointer no-underline"
+                            onClick={handleAvatarShop}>
                             <i className="fab fa-facebook-square text-xs leading-lg text-black opacity-75"></i>
                             <span className="ml-2">아바타 상점</span>
-                        </a>
+                        </div>
                     </li>
                     <li className="nav-item">
                         <div 
