@@ -124,7 +124,8 @@ export default function Navbar() {
                                     <div class="info_b text-center bg-gray-900">
                                         <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg'
                                            href="/mypage">내정보관리</a>
-                                        <div class="inline-block px-[18px] py-[20px] text-gray-400 text-lg" 
+                                        <div class="inline-block px-[18px] py-[20px] text-gray-400 text-lg 
+                                                    underline hover:cursor-pointer" 
                                             onClick={handleInventory}>
                                             아바타관리
                                         </div>
