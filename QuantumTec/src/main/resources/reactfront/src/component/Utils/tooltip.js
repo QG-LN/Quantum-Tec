@@ -29,15 +29,27 @@ export default function Tooltip({ content, children }) {
 
     useEffect(() => {
         if (tooltipContainerRef.current && tooltipRef.current && showTooltip) {
-            const containerRect = tooltipContainerRef.current.getBoundingClientRect();
             const tooltipRect = tooltipRef.current.getBoundingClientRect();
-
-            if (window.innerWidth - containerRect.right < tooltipRect.width) {
+            const containerRect = tooltipContainerRef.current.getBoundingClientRect();
+            let windowWidth;
+            if (window.innerWidth < 576) {
+                windowWidth = window.innerWidth;
+            } else if (window.innerWidth < 768) {
+                windowWidth = 540;
+            } else if (window.innerWidth < 992) {
+                windowWidth = 720;
+            } else if (window.innerWidth < 1200) {
+                windowWidth = 960;
+            } else {
+                windowWidth = 1140;
+            }
+            let mainWidth = windowWidth * 0.75;
+            if (mainWidth - (containerRect.left - parentSize.width+parentSize.width+25 - (window.innerWidth - mainWidth - windowWidth * 0.25)/2 - windowWidth * 0.25) < tooltipRect.width) {
                 setTooltipPosition('left');
             } else {
                 setTooltipPosition('right');
             }
-            console.log(window.innerWidth, containerRect.right, tooltipRect.width )
+            console.log(mainWidth , (containerRect.left - parentSize.width+parentSize.width+25 - (window.innerWidth - mainWidth - windowWidth * 0.25)/2 - windowWidth * 0.25), tooltipRect.width )
         }
     }, [showTooltip]);
 
@@ -51,7 +63,7 @@ export default function Tooltip({ content, children }) {
         {children}
         {showTooltip && (
             <div className={`tooltip-box ${tooltipPosition}`}
-                style={{ width: parentSize.width+parentSize.width+28, height: parentSize.height+12 }}
+                style={{ width: parentSize.width+parentSize.width+25, height: parentSize.height+12 }}
                 ref={tooltipRef}
             >
                 {content}
