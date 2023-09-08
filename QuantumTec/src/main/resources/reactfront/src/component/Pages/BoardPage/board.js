@@ -127,7 +127,8 @@ export default function Board() {
                         id: res[i].postIndex,
                         board: res[i].boardTitle,
                         title: res[i].postTitle,
-                        writer: res[i].postAuthor,
+                        writer: "안녕하세요반갑습니다.또반갑습니다.",
+                        // res[i].postAuthor
                         createdDate: extractData(res[i].postDate),
                         view: res[i].postView,
                         upvote: res[i].postUpvotes
@@ -137,16 +138,22 @@ export default function Board() {
                 tableBody.current.innerHTML = "";
                 let tempHTML = "";
                 for(let i = 0; i < Posts.length; i++){
+                    const writer = Posts[i].writer.length > 6 ? Posts[i].writer.substring(0,6) + "..." : Posts[i].writer;
                     tempHTML += `
-                <tr key=${Posts[i].id} style='cursor:pointer' onClick='location.href = "/post/${Posts[i].id}"'>
-                    <td>${Posts[i].id}</td>
-                    <td>${Posts[i].board}</td>
-                    <td>${Posts[i].title}</td>
-                    <td>${Posts[i].writer}</td>
-                    <td>${Posts[i].createdDate}</td>
-                    <td>${Posts[i].view}</td>
-                    <td>${Posts[i].upvote}</td>
-                </tr>`
+                    <tr key=${Posts[i].id} style='cursor:pointer' onClick='location.href = "/post/${Posts[i].id}"'>
+                        <td>${Posts[i].id}</td>
+                        <td>${Posts[i].board}</td>
+                        <td>${Posts[i].title}</td>
+                        <td>
+                            <span
+                                title=${Posts[i].writer}>
+                                ${writer}
+                            </span>
+                        </td>
+                        <td>${Posts[i].createdDate}</td>
+                        <td>${Posts[i].view}</td>
+                        <td>${Posts[i].upvote}</td>
+                    </tr>`
                 }
                 tableBody.current.innerHTML = tempHTML;
 
