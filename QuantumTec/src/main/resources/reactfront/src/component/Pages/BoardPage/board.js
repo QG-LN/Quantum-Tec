@@ -127,8 +127,7 @@ export default function Board() {
                         id: res[i].postIndex,
                         board: res[i].boardTitle,
                         title: res[i].postTitle,
-                        writer: "안녕하세요반갑습니다.또반갑습니다.",
-                        // res[i].postAuthor
+                        writer: res[i].postAuthor,
                         createdDate: extractData(res[i].postDate),
                         view: res[i].postView,
                         upvote: res[i].postUpvotes
@@ -139,11 +138,16 @@ export default function Board() {
                 let tempHTML = "";
                 for(let i = 0; i < Posts.length; i++){
                     const writer = Posts[i].writer.length > 6 ? Posts[i].writer.substring(0,6) + "..." : Posts[i].writer;
+                    const title = Posts[i].title.length > 20 ? Posts[i].title.substring(0,20) + "..." : Posts[i].title;
                     tempHTML += `
                     <tr key=${Posts[i].id} style='cursor:pointer' onClick='location.href = "/post/${Posts[i].id}"'>
                         <td>${Posts[i].id}</td>
                         <td>${Posts[i].board}</td>
-                        <td>${Posts[i].title}</td>
+                        <td>
+                            <span
+                                title=${Posts[i].title}>
+                                ${title}
+                        </td>
                         <td>
                             <span
                                 title=${Posts[i].writer}>
