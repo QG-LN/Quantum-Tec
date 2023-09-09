@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 import {axiosRequest} from '../../../module/networkUtils';
 import {useParams} from "react-router-dom";
 import userEvent from "@testing-library/user-event";
@@ -218,11 +218,6 @@ export default function Board() {
             })
     }
 
-    // 게시글 글쓰기 버튼 함수
-    const handleWrite = () => {
-        document.location.href = "/write";
-    }
-
     const handleSort = (e) => {
         e.target.parentNode.parentNode.style.display = "none";
         switch (e.target.innerText) {
@@ -289,7 +284,7 @@ export default function Board() {
                 </div>
                 <div class="row justify-content-end g-3 mt-1 col-6">
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-success mb-3" onClick={handleWrite}>글쓰기</button>
+                        <Link to={`/board/${boardType.id}/write`} className="btn btn-success mb-3">글쓰기</Link>
                     </div>
                 </div>
             </div>
