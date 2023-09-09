@@ -1,4 +1,11 @@
+
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Viewer } from '@toast-ui/react-editor';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
 import React, { useState, useEffect } from 'react';
+
 import axios from 'axios';
 import {axiosRequest} from '../../../module/networkUtils';
 import { useParams } from 'react-router-dom';
@@ -7,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useInView } from "react-intersection-observer"
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+
 
 export default function Post() {
     const [post, setPost] = useState({});
@@ -348,7 +356,15 @@ export default function Post() {
             </div>
             <hr />
             {/* 게시글 내용 */}
-            <p className='text-start ms-3 mb-[50px] me-3'>{post.postContent}</p>
+            {/* <p className='text-start ms-3 mb-[50px] me-3'>{post.postContent}</p> */}
+            <div className='text-start ms-3 mb-[50px] me-3'>
+                {post.postContent && (<Viewer
+                    
+                    initialValue={post.postContent}
+                    plugins={[codeSyntaxHighlight]}
+                />
+                )}
+            </div>
             {/* 버튼 박스 */}
             <div className='position-relative w-[100%] h-[200px]'>
                 <div className='position-absolute top-50 start-50 translate-middle rounded-top'>
