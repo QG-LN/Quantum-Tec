@@ -141,7 +141,12 @@ public class AvatarDAOImpl implements AvatarDAO{
             if (sqlSession.update("AvatarService.setUserCash", buyItemDTO) <= 0) {
                 return false;
             }
-            return sqlSession.insert("AvatarService.setBuyAvatarItem", buyItemDTO) > 0;
+            boolean checkInsert = sqlSession.insert("AvatarService.setBuyAvatarItem", buyItemDTO) > 0;
+            if (checkInsert == false) {
+                sqlSession.update("AvatarService.setUserCashRollback", buyItemDTO);
+                return false;
+            }
+            return checkInsert;
         }
 
     }

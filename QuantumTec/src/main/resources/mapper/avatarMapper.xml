@@ -317,6 +317,15 @@
             USER_INDEX = #{userIndex};
     </update>
 
+    <update id='setUserCashRollback' parameterType='BuyItemDTO'>
+        UPDATE 
+            USER_STATUS_TB
+        SET 
+            USER_CASH = USER_CASH + #{paymentAmount}
+        WHERE 
+            USER_INDEX = #{userIndex};
+    </update>
+
     <insert id='setBuyAvatarItem' parameterType='BuyItemDTO'>
         -- AVATAR_PAYMENT_HISTORY_TB에 데이터 추가
         INSERT INTO AVATAR_PAYMENT_HISTORY_TB 
