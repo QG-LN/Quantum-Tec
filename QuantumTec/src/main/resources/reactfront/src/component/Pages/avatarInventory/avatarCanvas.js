@@ -19,7 +19,6 @@ export default function AvatarCanvas(props) {
     const canvasRef = useRef(null);
     // 착용중인 아바타 아이템 목록
     const avatarItemList = useSelector(state => state.avatar.itemList);
-    const [checkDraw, setCheckDraw] = useState(false);
     
 
     useEffect(() => {
@@ -30,8 +29,7 @@ export default function AvatarCanvas(props) {
         imgBg.src = `${process.env.PUBLIC_URL}/image/bg.png`;
         const imgStickman = new Image();
         imgStickman.src = `${process.env.PUBLIC_URL}/image/stickman.png`;
-        if(!checkDraw){
-            setCheckDraw(true);
+        if(avatarItemList === null || avatarItemList.length === 0){
 
             // 기본 배경 이미지 그리기
             imgBg.onload = () =>{
@@ -52,7 +50,7 @@ export default function AvatarCanvas(props) {
         }
         
         
-        if (avatarItemList !== null) {
+        else if (avatarItemList !== null) {
             // 카테고리 목록 받아오기
             axios.get('http://localhost:9090/avatar/category')
             .then((response) => {

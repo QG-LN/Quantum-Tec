@@ -103,14 +103,19 @@ export default function AvatarItem(props) {
     };
 
     useEffect(() => {
+        let isChanged = false;
         // 아이템 착용 상태 확인
         for(let i = 0; i < avatarItemList.length; i++){
             if(avatarItemList[i].itemName === props.item.itemName){
                 setItemUsageStatus(true);
+                isChanged = true;
                 break;
             }
         }
-    }, []);
+        if(!isChanged){
+            setItemUsageStatus(false);
+        }
+    }, [, avatarItemList]);
 
     try {
         imgSrc = `${process.env.PUBLIC_URL}/image/${props.item.itemCategoryName}/${props.item.itemName}_shop.png`;
@@ -149,16 +154,15 @@ export default function AvatarItem(props) {
                 userId: localStorage.getItem("userID"),
                 itemIndex: props.item.itemIndex,
             }
+            console.log(props.item.itemIndex)
             axiosRequest('http://localhost:9090/avatar/inventory/item/inactive', body, 'POST', 'json')
                 .then(res => {
                     console.log(res);
                     setItemUsageStatus(false);
-                    for(let i = 0; i < itemList.length; i++){
-                        if(itemList[i].itemIndex === props.item.itemIndex){
-                            itemList.splice(i, 1);
-                            handleUpdate(itemList);
-                            break;
-                        }
+                    const itemIndex = itemList.findIndex(item => item.itemIndex === props.item.itemIndex);
+                    if (itemIndex !== -1) {
+                        itemList.splice(itemIndex, 1);
+                        handleUpdate(itemList);
                     }
                 })
                 .catch(err => {
@@ -173,18 +177,14 @@ export default function AvatarItem(props) {
             }
             axiosRequest('http://localhost:9090/avatar/inventory/item/active', body, 'POST', 'json')
                 .then(res => {
-                    console.log(res);
-                    setItemUsageStatus(true);
-                    for(let i = 0; i < itemList.length; i++){
-                        if(itemList[i].itemCategoryName === props.item.itemCategoryName){
-                            itemList.splice(i, 1);
-                            itemList.push(props.item);
-                            handleUpdate(itemList);
-                            break;
-                        }
+                    const itemIndex = itemList.findIndex(item => item.itemCategoryName === props.item.itemCategoryName);
+                    if (itemIndex !== -1) {
+                        itemList[itemIndex] = props.item;
+                    } else {
+                        itemList.push(props.item);
                     }
-                    itemList.push(props.item);
                     handleUpdate(itemList);
+                    setItemUsageStatus(true);
                 })
                 .catch(err => {
                     console.log(err);

@@ -11,6 +11,7 @@ const initialState = {
 function avatarReducer(state = initialState, action) {
   switch (action.type) {
     case SET_AVATAR_ITEM_LIST:
+      console.log(action.payload);
       return {
         ...state,
         itemList: action.payload
