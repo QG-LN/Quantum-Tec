@@ -324,5 +324,18 @@
         VALUES 
         (#{userIndex}, #{itemIndex}, #{paymentMethod}, #{paymentStatus}, #{paymentAmount});
     </insert>
+
+    <select id='checkBuyAvatarItem' resultType='int' parameterType='BuyItemDTO'>
+        SELECT 
+            COUNT(*) 
+        FROM 
+            AVATAR_PAYMENT_HISTORY_TB aph
+        JOIN
+            USER_INFO_TB ui ON aph.USER_INDEX = ui.USER_INDEX
+        WHERE 
+            USER_ID = #{userId} 
+        AND 
+            ITEM_INDEX = #{itemIndex};
+        </select>
 </mapper>
 

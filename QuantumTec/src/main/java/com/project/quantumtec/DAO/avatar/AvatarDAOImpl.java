@@ -124,6 +124,7 @@ public class AvatarDAOImpl implements AvatarDAO{
     }
     
     // 아바타 아이템 구매
+    @Override
     public boolean setBuyAvatarItem(BuyItemDTO buyItemDTO){
         // userIndex 조회
         int userIndex = sqlSession.selectOne("AvatarService.getUserIndex", buyItemDTO.getUserId());
@@ -143,5 +144,11 @@ public class AvatarDAOImpl implements AvatarDAO{
             return sqlSession.insert("AvatarService.setBuyAvatarItem", buyItemDTO) > 0;
         }
 
+    }
+
+    // 구매한 아바타인지 확인
+    @Override
+    public boolean checkBuyAvatarItem(BuyItemDTO buyItemDTO){
+        return (int)sqlSession.selectOne("AvatarService.checkBuyAvatarItem", buyItemDTO) > 0;
     }
 }

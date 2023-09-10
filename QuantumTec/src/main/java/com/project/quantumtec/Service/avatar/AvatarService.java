@@ -52,4 +52,7 @@ public interface AvatarService {
 
     // 아바타 아이템 구매
     public boolean setBuyAvatarItem(BuyItemDTO buyItemDTO);
+
+    // 구매한 아바타인지 확인
+    public boolean checkBuyAvatarItem(BuyItemDTO buyItemDTO);
 }
