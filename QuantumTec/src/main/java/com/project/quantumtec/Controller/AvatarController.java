@@ -112,5 +112,11 @@ public class AvatarController {
     public boolean setBuyAvatarItem(@RequestBody BuyItemDTO buyItemDTO){
         return avatarService.setBuyAvatarItem(buyItemDTO);
     }
+
+    // 구매한 아바타인지 확인
+    @PostMapping("/shop/item/check")
+    public boolean checkBuyAvatarItem(@RequestBody BuyItemDTO buyItemDTO){
+        return avatarService.checkBuyAvatarItem(buyItemDTO);
+    }
 }   
 

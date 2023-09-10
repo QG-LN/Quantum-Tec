@@ -63,23 +63,40 @@ export default function AvatarItem(props) {
                         alert("구매에 실패하였습니다.");
                     }
                 })
-                // .catch(err => {
-                //     alert("구매에 실패하였습니다.");
-                //     console.log(err);
-                // });
 
         }
     }
 
+    const checkBuyItem = () => {
+        const body = {
+            userId: localStorage.getItem("userID"),
+            itemIndex: props.item.itemIndex,
+        };
+        axiosRequest('http://localhost:9090/avatar/shop/item/check', body, 'POST', 'json')
+            .then(res => {
+                if(res === true){
+                    alert("이미 구매한 아이템입니다.");
+                    handleClose();
+                }
+                else{
+                    checkCash(); // 캐시 확인
+                }
+            }
+        );
+
+    }
+
     const handleBuyForCash = () => {
         checkLogin();   // 로그인 확인
-        checkCash();    // 캐시 확인
+        checkBuyItem(); // 이미 구매했는지 확인
+        // 캐시 확인
         // 구매 처리
         // 구매 후 아이템 저장
     }
 
     const handleBuyForFreeCash = () => {
         checkLogin();   // 로그인 확인
+        // 이미 구매했는지 확인
         // 프리캐시 확인
         // 구매 처리
         // 구매 후 아이템 저장
