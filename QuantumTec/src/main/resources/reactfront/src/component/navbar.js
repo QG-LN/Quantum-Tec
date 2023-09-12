@@ -67,7 +67,7 @@ export default function Navbar() {
             <Sidebar width={300}>
                 <Contact/>
             </Sidebar>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light" style={{zIndex: '3'}}>
+            <nav className="navbar navbar-expand-lg" style={{zIndex: '3' ,backgroundColor :'#f6f8fa'}}>
                 <div class="block w-[100%] relative mt-1">
                     {/*로고(클릭시 메인화면)*/}
                     <a class="navbar-brand hover:cursor-pointer mb-2" onClick={logoClick}>
@@ -95,8 +95,8 @@ export default function Navbar() {
                                 </div>
                             </a>
                                 <div
-                                    class='LogInfo hidden w-[366px] h-[300px] absolute bg-gray-800 top-[38px] right-0 z-40 overflow-hidden'>
-                                    <div class="info_t p-1">
+                                    class='LogInfo hidden w-[366px] absolute bg-light top-[38px] right-0 z-40 overflow-hidden rounded-3 shadow-sm'>
+                                    <div class="info_t p-1 border-bottom">
                                         <ul class='flex mt-4'>
                                             <li class="thum">
                                                 {/*<img class='w-24 h-24 rounded-full' src={userIconAddress} alt=""/>*/}
@@ -104,7 +104,7 @@ export default function Navbar() {
                                                     <AvatarCanvas size={[220,220]} position={[128,128]}/>
                                                 </div>
                                             </li>
-                                            <li class='text-gray-400 ml-3'>
+                                            <li class='text-dark ml-3'>
                                                 <p class='mb-0 ml-2 text-left font-bold'>
                                                     <strong>
                                                         {userNickname}
@@ -114,7 +114,7 @@ export default function Navbar() {
                                                 <p class='mb-0 ml-2 text-left'>무료 캐시 : <span>{userFreeCash}원</span></p>
                                                 <p class='mb-0 ml-2 text-left'>유료 캐시 : 
                                                     <a href="#">
-                                                        <span class='text-gray-400'> {userPaidCash}원 </span>
+                                                        <span class='text-dark'> {userPaidCash}원 </span>
                                                     </a>
                                                     <a href="#" class="bg-yellow-400 rounded-md  hover:text-white" id="boxTeraCharge">
                                                         충전
@@ -123,22 +123,41 @@ export default function Navbar() {
                                             </li>
                                         </ul>
                                     </div>
-                                    <hr class='border-white mb-0'/>
-                                    <div class="info_b text-center bg-gray-900">
-                                        <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg'
-                                           href="/mypage">
-                                            내정보관리
-                                        </a>
-                                        <div class="inline-block px-[18px] py-[20px] text-gray-400 text-lg 
-                                                    underline hover:cursor-pointer" 
-                                            onClick={handleInventory}>
-                                            아바타관리
+                                    <div class="info_b text-center d-grid gap-3">
+                                        <div class="p-1 mt-2">
+                                            <div class="row hover:cursor-pointer">
+                                                <div class='col-4 text-center'>
+                                                    <img class='w-[30px] h-[100%] m-auto'src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="..." />
+                                                </div>
+                                                <div class="inline-block text-lg text-left col-8" 
+                                                    onClick={handleInventory}>
+                                                    내정보관리
+                                                </div>
+                                            </div>
+
                                         </div>
-                                    </div>
-                                    <hr class='border-white mb-0 mt-0'/>
-                                    <div class='text-center bg-gray-900'>
-                                        <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg'
-                                           onClick={clickLogout}>로그아웃</a>
+                                        <div class="p-1">
+                                            <div class="row hover:cursor-pointer" onMouseOver={()=>{console.log("Test")}}>
+                                            <div class='col-4 text-center'>
+                                                    <img class='w-[30px] h-[100%] m-auto'src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="..." />
+                                                </div>
+                                                <div class="inline-block text-lg text-left col-8" 
+                                                    onClick={handleInventory}>
+                                                    아바타관리
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="p-1 mb-2">
+                                            <div class="row hover:cursor-pointer" >
+                                            <div class='col-4 text-center'>
+                                                    <img class='w-[30px] h-[100%] m-auto'src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="..." />
+                                                </div>
+                                                <div class="inline-block text-lg text-left col-8" 
+                                                    onClick={handleInventory}>
+                                                    로그아웃
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>}
