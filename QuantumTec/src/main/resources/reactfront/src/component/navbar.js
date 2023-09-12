@@ -110,12 +110,15 @@ export default function Navbar() {
                                                         {userNickname}
                                                     </strong>
                                                 </p>
-                                                <p class='mb-0 ml-2 text-left'>출석일수 : <span>{userAttendance}일</span></p>
-                                                <p class='mb-0 ml-2 text-left'>보유재화 : <span>{userFreeCash}원</span></p>
-                                                <p class='mb-0 ml-2 text-left'>유료재화 : <a href="#"><span
-                                                    class='text-gray-400'>{userPaidCash}원</span></a> <a href="#"
-                                                                                                        class="bg-yellow-400 rounded-md  hover:text-white"
-                                                                                                        id="boxTeraCharge">충전</a>
+                                                <p class='mb-0 ml-2 text-left'>출석 일수 : <span>{userAttendance}일</span></p>
+                                                <p class='mb-0 ml-2 text-left'>무료 캐시 : <span>{userFreeCash}원</span></p>
+                                                <p class='mb-0 ml-2 text-left'>유료 캐시 : 
+                                                    <a href="#">
+                                                        <span class='text-gray-400'> {userPaidCash}원 </span>
+                                                    </a>
+                                                    <a href="#" class="bg-yellow-400 rounded-md  hover:text-white" id="boxTeraCharge">
+                                                        충전
+                                                    </a>
                                                 </p>
                                             </li>
                                         </ul>
@@ -123,7 +126,9 @@ export default function Navbar() {
                                     <hr class='border-white mb-0'/>
                                     <div class="info_b text-center bg-gray-900">
                                         <a class='inline-block px-[18px] py-[20px] text-gray-400 text-lg'
-                                           href="/mypage">내정보관리</a>
+                                           href="/mypage">
+                                            내정보관리
+                                        </a>
                                         <div class="inline-block px-[18px] py-[20px] text-gray-400 text-lg 
                                                     underline hover:cursor-pointer" 
                                             onClick={handleInventory}>
