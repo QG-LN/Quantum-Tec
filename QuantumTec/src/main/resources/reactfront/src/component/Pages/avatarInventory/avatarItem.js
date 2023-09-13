@@ -5,6 +5,7 @@ import Tooltip from '../../Utils/tooltip';
 import { axiosRequest } from '../../../module/networkUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAvatarItemList } from '../../../redux/actions/avatarActions';
+import { setCashChange } from '../../../redux/actions/userActions';
 import { useNavigate } from 'react-router-dom';
 
 /**
@@ -58,6 +59,8 @@ export default function AvatarItem(props) {
                         handleClose();
                         props.refreshKey();
                         // 구매 완료 후 캐시 차감된 내 캐시 상황을 어떻게 반영할지 고민해보기(DB에서 가져오는 방식으로?, 수동으로?)
+                        handleCashUpdate(localStorage.getItem("userCash") - props.item.itemPrice);
+                        localStorage.setItem("userCash", localStorage.getItem("userCash") - props.item.itemPrice);
                     }
                     else{
                         alert("구매에 실패하였습니다.");
@@ -117,6 +120,10 @@ export default function AvatarItem(props) {
 
     const handleUpdate = (newItemList) => {
         dispatch(setAvatarItemList(newItemList));
+    };
+
+    const handleCashUpdate = (newCash) => {
+        dispatch(setCashChange(newCash));
     };
 
     useEffect(() => {
