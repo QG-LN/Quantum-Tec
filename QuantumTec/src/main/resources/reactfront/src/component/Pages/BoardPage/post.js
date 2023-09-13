@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useInView } from "react-intersection-observer"
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useNavigate } from 'react-router';
 
 
 export default function Post() {
@@ -31,10 +32,30 @@ export default function Post() {
     
     //modal
     const [show, setShow] = useState(false);
+
+    // 페이지 이동을 위한 navigate 객체
+    const navigate = useNavigate();
+
+    // 수정버튼 클릭 시 수정 페이지로 이동
+    const handlePostModify = () => {
+        console.log("수정 버튼 클릭");
+    }
     
     const handleClose = () => {
         setShow(false);
     }
+    const handleDelete = () => {
+        handleClose();
+        console.log("삭제 버튼 클릭");
+        const path = 'http://localhost:9090/board/delete';
+        const body ={
+            postIndex: id,
+            userID: localStorage.getItem("userID")
+        }
+        axiosRequest(path,body,'POST','json')
+        navigate('/board/0')
+    }
+
     const handleShow = (e) => {
         setShow(true);
     }
@@ -306,6 +327,9 @@ export default function Post() {
     // if (!post) {
     //     return <div>Loading...</div>;  // 데이터를 불러오는 동안에는 Loading 메시지를 보여줍니다.
     // }
+
+
+
     return (
         <div className="container">
             {/* 수정 또는 삭제를 위한 팝업창 */}
@@ -324,7 +348,7 @@ export default function Post() {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn_close" variant="danger" onClick={handleClose}>
+                    <Button className="btn_close" variant="danger" onClick={handleDelete}>
                         삭제
                     </Button>
                     <Button className="btn_close" variant="secondary" onClick={handleClose}>
@@ -351,7 +375,7 @@ export default function Post() {
                     </div>
                 </div>
 
-                <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' id='modify' onClick={console.log("수정 버튼 클릭")} />
+                <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' id='modify' onClick={handlePostModify} />
                 <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-2' id='delete' onClick={handleShow}/>
             </div>
             <hr />
