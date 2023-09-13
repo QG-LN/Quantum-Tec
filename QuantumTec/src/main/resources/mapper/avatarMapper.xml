@@ -128,7 +128,7 @@
             uai.ITEM_USAGE_STATUS = 1;
     </select>
 
-    <select id='setActiveAvatarItem' resultType='int' parameterType='InventoryItemDTO'>
+    <update id='setActiveAvatarItem' parameterType='InventoryItemDTO'>
         UPDATE 
             USER_AVATAR_INVENTORY_TB uai
         JOIN 
@@ -139,9 +139,9 @@
             ui.USER_ID = #{userId} 
         AND 
             uai.ITEM_INDEX = #{itemIndex};
-    </select>
+    </update>
 
-    <select id='setInactiveAvatarItem' resultType='int' parameterType='InventoryItemDTO'>
+    <update id='setInactiveAvatarItem' parameterType='InventoryItemDTO'>
         UPDATE 
             USER_AVATAR_INVENTORY_TB uai
         JOIN 
@@ -152,7 +152,7 @@
             ui.USER_ID = #{userId} 
         AND 
             uai.ITEM_INDEX = #{itemIndex};
-    </select>
+    </update>
 
 
     <select id='getAvatarShopMain' resultType='ItemInfoDTO' parameterType='String'>
