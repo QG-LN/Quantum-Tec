@@ -21,7 +21,7 @@ export default function Post() {
     const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
     const { no ,id } = useParams();  // react-router-dom을 사용하여 URL 파라미터에서 게시글 ID를 얻습니다.
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1) 
     const [ref, inView] = useInView()
     const [loading, setLoading] = useState(false)
     const [reflash, setReflash] = useState(false)
@@ -122,7 +122,8 @@ export default function Post() {
             .then(res => {
                 setPost(res);
             })
-        
+
+
         const path2 = 'http://localhost:9090/board/commentList';
         const body2 ={
             pageNum: page,
@@ -155,7 +156,6 @@ export default function Post() {
             setPage(page + 1)
         }
     }, [inView, loading])
-
 
     const clickUpvote = () => {
         const path = 'http://localhost:9090/board/upvote';
@@ -361,9 +361,12 @@ export default function Post() {
                         <div className='col-auto'>비추천 {post.postDownvotes}</div>
                     </div>
                 </div>
-
-                <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' id='modify' onClick={handlePostModify} />
-                <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-2' id='delete' onClick={handleShow}/>
+                {post.postAuthor === localStorage.getItem("userNickname") && 
+                    <>
+                        <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' id='modify' onClick={handlePostModify} />
+                        <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-2' id='delete' onClick={handleShow}/>
+                    </>
+                }
             </div>
             <hr />
             {/* 게시글 내용 */}
