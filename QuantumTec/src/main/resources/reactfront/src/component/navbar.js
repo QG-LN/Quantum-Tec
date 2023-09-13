@@ -50,6 +50,10 @@ export default function Navbar() {
         document.location.href = "/";
     }
 
+    const handleCashCharge = () => {
+        navigate('/cashcharge');
+    }
+
     // 로고 클릭시 맨 위로 이동
     const logoClick = () => {
         document.location.href = "/";
@@ -86,16 +90,15 @@ export default function Navbar() {
                         {truelogin &&
                             <div>
                                 <a class='flex openLogInfo' href='javascript:void(0)' onClick={handleLogInfo}>
-                                <div class='flex'>
-                                    <div class='mr-3' style={{lineHeight:"2rem"}}>{userNickname}</div>
-                                </div>
-                                <div className='w-8 h-8 rounded-full'>
-                                    <AvatarCanvas size={[220,220]} position={[128,128]}/>
-                                </div>
-                            </a>
-                                <div
-                                    class='LogInfo hidden w-[320px] absolute bg-light top-[38px] right-0 z-40 overflow-hidden rounded-3 shadow-sm'>
-                                    <div class="info_t p-1 border-bottom">
+                                    <div class='flex'>
+                                        <div class='mr-3' style={{lineHeight:"2rem"}}>{userNickname}</div>
+                                    </div>
+                                    <div className='w-8 h-8 rounded-full'>
+                                        <AvatarCanvas size={[220,220]} position={[128,128]}/>
+                                    </div>
+                                </a>
+                                <div class='LogInfo hidden w-[320px] absolute bg-light top-[38px] right-0 z-40 overflow-hidden rounded-3 shadow-sm'>
+                                    <div class="info_t p-1 border-bottom bg-secondary bg-opacity-25">
                                         <ul class='flex mt-3 pl-2'>
                                             <li class="thum ml-5">
                                                 <div className='w-24 h-24 rounded-full'>
@@ -111,13 +114,10 @@ export default function Navbar() {
                                                     </p>
                                                     <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>출석 일수 : <span>{userAttendance}일</span></p>
                                                     <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>무료 캐시 : <span>{userFreeCash}원</span></p>
-                                                    <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>유료 캐시 : 
-                                                        <a href="#">
-                                                            <span class='text-dark'> {userPaidCash}원 </span>
-                                                        </a>
-                                                        <a href="#" class="bg-yellow-400 rounded-md  hover:text-white" id="boxTeraCharge">
+                                                    <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>유료 캐시 : <span class='text-dark'> {userPaidCash}원 </span>
+                                                        <div onClick={handleCashCharge} class=" bg-yellow-400 rounded-md hover:text-white hover:cursor-pointer d-inline ">
                                                             충전
-                                                        </a>
+                                                        </div>
                                                     </p>
                                                 </div>
                                             </li>
@@ -125,8 +125,8 @@ export default function Navbar() {
                                     </div>
                                     <div class="info_b text-center d-grid gap-3">
                                         <div class="p-1 mt-2">
-                                            <div class="row hover:cursor-pointer">
-                                                <div class='col-4 text-center'>
+                                            <div class="row hover:cursor-pointer hover:text-gray-400">
+                                                <div class='col-4'>
                                                     <FontAwesomeIcon icon={faUser} size='lg'/>
                                                 </div>
                                                 <div class="inline-block text-left col-8" style={{fontSize: '1rem'}}
@@ -137,8 +137,8 @@ export default function Navbar() {
 
                                         </div>
                                         <div class="p-1">
-                                            <div class="row hover:cursor-pointer">
-                                                <div class='col-4 text-center pl-1'>
+                                            <div class="row hover:cursor-pointer hover:text-gray-400">
+                                                <div class='col-4 pl-1'>
                                                     <FontAwesomeIcon icon={faUserPlus} size='lg'/>
                                                 </div>
                                                 <div class="inline-block text-left col-8" style={{fontSize: '1rem'}}
@@ -148,8 +148,8 @@ export default function Navbar() {
                                             </div>
                                         </div>
                                         <div class="p-1 mb-2">
-                                            <div class="row hover:cursor-pointer" >
-                                                <div class='col-4 text-center'>
+                                            <div class="row hover:cursor-pointer hover:text-gray-400" >
+                                                <div class='col-4'>
                                                     <FontAwesomeIcon icon={faPowerOff} size='lg'/> 
                                                 </div>
                                                 <div class="inline-block text-left col-8" style={{fontSize: '1rem'}}
