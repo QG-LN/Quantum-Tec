@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setAvatarItemList } from '../../../redux/actions/avatarActions';
 import { setCashChange } from '../../../redux/actions/userActions';
 import { useNavigate } from 'react-router-dom';
-
 /**
  * 아바타 아이템을 보여주는 컴포넌트
  * @param {Object} props - 부모 컴포넌트로부터 받아온 props
@@ -249,7 +248,7 @@ export default function AvatarItem(props) {
                 <hr className='m-0 border-1' />
                 <div className="text-start m-3 animated-box">
                     <h6 className="card-title placeholder-glow animated-text" ref={textRef}>
-                    {props.item && props.item.itemName ? props.item.itemName : "No item name available"}{props.item && props.item.itemName ? props.item.itemName : "No item name available"}{props.item && props.item.itemName ? props.item.itemName : "No item name available"}
+                    {props.item && props.item.itemName ? props.item.itemName : "No item name available"}
                     {/* <div className="placeholder col-5"></div> */}
                     </h6>
                 </div>
@@ -272,10 +271,42 @@ export default function AvatarItem(props) {
         }
     }
 
+    const mainRef = useRef(null);
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = (e) => {
+        setShow2(false);
+        // 이벤트 버블링 방지
+        e?.stopPropagation();
+    };
+    const handleShow2 = () => {
+        setShow2(true);
+
+    }
+
     const showModal = () => {
         return (
             <div onClick={e=>e.stopPropagation()}>
-                <Modal show={show} onHide={handleClose} centered={true}>
+
+                <Modal show={show2} onHide={handleClose2} centered={true}>
+                    <Modal.Header>
+                        <Modal.Title className='w-[100%]'>
+                            <div className='row justify-content-between'>
+                                asdasdasda
+                            </div>
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className='row justify-content-between'>
+                            asdasd
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button className="btn_close" variant="secondary" onClick={handleClose2}>
+                            닫기
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                <Modal show={show} onHide={handleClose} centered={true} ref={mainRef}>
                     <Modal.Header>
                         <Modal.Title className='w-[100%]'>
                             <div className='row justify-content-between'>
@@ -318,6 +349,9 @@ export default function AvatarItem(props) {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
+                        <Button className="btn_close" variant="success" onClick={handleShow2}>
+                            test
+                        </Button>
                         <Button className="btn_close" variant="success" onClick={handleBuyForFreeCash}>
                             {changeNumberFormat(props.item.itemPrice * 10)} freecash
                         </Button>
