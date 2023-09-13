@@ -5,7 +5,7 @@ import { SET_AVATAR_ITEM_LIST, SET_AVATAR_PAGE, SET_AVATAR_CATEGORY_LIST } from 
 const initialState = {
   itemList: [],
   page: "",
-  categoryList: []
+  categoryList: [],
 };
 
 function avatarReducer(state = initialState, action) {
