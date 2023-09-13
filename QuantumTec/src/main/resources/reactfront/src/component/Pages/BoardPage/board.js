@@ -140,7 +140,7 @@ export default function Board() {
                     const writer = Posts[i].writer.length > 6 ? Posts[i].writer.substring(0,6) + "..." : Posts[i].writer;
                     const title = Posts[i].title.length > 20 ? Posts[i].title.substring(0,20) + "..." : Posts[i].title;
                     tempHTML += `
-                    <tr key=${Posts[i].id} style='cursor:pointer' onClick='location.href = "/post/${Posts[i].id}"'>
+                    <tr key=${Posts[i].id} style='cursor:pointer' onClick='location.href = "${boardId.id}/post/${Posts[i].id}"'>
                         <td>${Posts[i].id}</td>
                         <td>${Posts[i].board}</td>
                         <td>

@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router';
 export default function Post() {
     const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
-    const { id } = useParams();  // react-router-dom을 사용하여 URL 파라미터에서 게시글 ID를 얻습니다.
+    const { no ,id } = useParams();  // react-router-dom을 사용하여 URL 파라미터에서 게시글 ID를 얻습니다.
     const [page, setPage] = useState(1)
     const [ref, inView] = useInView()
     const [loading, setLoading] = useState(false)
@@ -44,16 +44,21 @@ export default function Post() {
     const handleClose = () => {
         setShow(false);
     }
+
+    /**
+     * @todo 현재 사용자가 작성한 글인지 확인하는 함수를 추가하여 아이콘이 보이지 않도록 설정 필요
+     */
     const handleDelete = () => {
         handleClose();
-        console.log("삭제 버튼 클릭");
+        // console.log("삭제 버튼 클릭");
         const path = 'http://localhost:9090/board/delete';
         const body ={
             postIndex: id,
             userID: localStorage.getItem("userID")
         }
-        axiosRequest(path,body,'POST','json')
-        navigate('/board/0')
+        axiosRequest(path,body,'POST','json');
+
+        navigate(`/board/${no}`);
     }
 
     const handleShow = (e) => {
@@ -218,24 +223,6 @@ export default function Post() {
                 }
             })
     }
-
-    // const clickDeleteComment = (e) => {
-    //     const path = 'http://localhost:9090/board/commentDelete';
-    //     const body ={
-    //         postIndex: id,
-    //         userID: localStorage.getItem("userID"),
-    //         commentIndex: e.target.parentNode.id
-    //     }
-    //     axiosRequest(path,body,'POST','json')
-    //         .then(res => {
-    //             if(res){
-    //                 alert("성공적으로 삭제되었습니다.");
-    //                 setReflash(!reflash);
-    //             }else{
-    //                 alert("삭제하지 못했습니다.");
-    //             }
-    //         })
-    // }
 
     // 드롭다운 메뉴 버튼 함수
     const handleDropdown = (e) => {

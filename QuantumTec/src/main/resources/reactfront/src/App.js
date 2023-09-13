@@ -40,7 +40,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />}/>
           <Route path="/game/:id/:gameName" element={<GamePage />}/>
           <Route path="/board/:id" element={<Board />}/>
-          <Route path="/post/:id" element={<Post />}/>
+          <Route path="/board/:no/post/:id" element={<Post />}/>
           <Route path="/board/:id/write" element={<Write />}/>
           <Route path="/avatarshop" element={<AvatarShop />}/>
           <Route path="/cashcharge" element={<CashCharge />}/>
