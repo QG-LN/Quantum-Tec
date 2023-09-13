@@ -6,6 +6,8 @@ import Sidebar from './sidebar.js';
 import Contact from './contact.js';
 import AvatarCanvas from './Pages/avatarInventory/avatarCanvas';
 import { useNavigate } from 'react-router';
+import { faUser, faUserPlus, faPowerOff } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -84,8 +86,7 @@ export default function Navbar() {
                             <div>
                                 <a class='flex openLogInfo' href='javascript:void(0)' onClick={handleLogInfo}>
                                 <div class='flex'>
-                                    <div class='mr-1'>{userNickname}</div>
-                                    <div class='mr-5'> : {userFreeCash}</div>
+                                    <div class='mr-3' style={{lineHeight:"2rem"}}>{userNickname}</div>
                                 </div>
                                 <div className='w-8 h-8 rounded-full'>
                                     <AvatarCanvas size={[220,220]} position={[128,128]}/>
@@ -96,7 +97,6 @@ export default function Navbar() {
                                     <div class="info_t p-1 border-bottom">
                                         <ul class='flex mt-3 pl-2'>
                                             <li class="thum">
-                                                {/*<img class='w-24 h-24 rounded-full' src={userIconAddress} alt=""/>*/}
                                                 <div className='w-24 h-24 rounded-full'>
                                                     <AvatarCanvas size={[220,220]} position={[128,128]}/>
                                                 </div>
@@ -126,7 +126,7 @@ export default function Navbar() {
                                         <div class="p-1 mt-2">
                                             <div class="row hover:cursor-pointer">
                                                 <div class='col-4 text-center'>
-                                                    <img class='w-[30px] h-[100%] m-auto'src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="..." />
+                                                    <FontAwesomeIcon icon={faUser} size='lg'/>
                                                 </div>
                                                 <div class="inline-block text-left col-8" style={{fontSize: '1rem'}}
                                                     onClick={handleInventory}>
@@ -137,8 +137,8 @@ export default function Navbar() {
                                         </div>
                                         <div class="p-1">
                                             <div class="row hover:cursor-pointer">
-                                                <div class='col-4 text-center'>
-                                                    <img class='w-[30px] h-[100%] m-auto'src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="..." />
+                                                <div class='col-4 text-center pl-1'>
+                                                    <FontAwesomeIcon icon={faUserPlus} size='lg'/>
                                                 </div>
                                                 <div class="inline-block text-left col-8" style={{fontSize: '1rem'}}
                                                     onClick={handleInventory}>
@@ -149,7 +149,7 @@ export default function Navbar() {
                                         <div class="p-1 mb-2">
                                             <div class="row hover:cursor-pointer" >
                                                 <div class='col-4 text-center'>
-                                                    <img class='w-[30px] h-[100%] m-auto'src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="..." />
+                                                    <FontAwesomeIcon icon={faPowerOff} size='lg'/> 
                                                 </div>
                                                 <div class="inline-block text-left col-8" style={{fontSize: '1rem'}}
                                                     onClick={handleInventory}>
