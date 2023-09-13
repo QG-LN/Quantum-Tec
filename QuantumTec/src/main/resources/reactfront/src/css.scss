@@ -30,6 +30,20 @@
 	filter: invert(20%) sepia(16%) saturate(14%) hue-rotate(352deg) brightness(91%) contrast(96%);
 	opacity: 1;
 }
+/* 움직이는 텍스트 */
+.animated-box {
+	height: 20px;
+    overflow: hidden;  // 내용이 박스를 벗어나면 숨깁니다.
+    position: relative;  // 자식 요소의 위치를 기준으로 설정하기 위해 사용합니다.
+}
+
+.animated-text {
+    white-space: nowrap;  // 텍스트를 한 줄로 표시합니다.
+    position: absolute;  // 텍스트의 위치를 절대적으로 설정합니다.
+    top: 0;
+    left: 0;
+    transition: all 1.5s;  // 텍스트의 움직임을 부드럽게 만듭니다.
+}
 
 // @media (min-width: 500px) {
 // 	span {
