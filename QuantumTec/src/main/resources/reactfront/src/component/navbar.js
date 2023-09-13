@@ -13,10 +13,6 @@ export default function Navbar() {
     const navigate = useNavigate();
     let truelogin = localStorage.getItem("truelogin");
 
-    const handleInventory = () => {
-        navigate('/inventory');
-    }
-
     const [userNickname, setUserNickname] = useState('');               // 사용자 닉네임
     const [userPaidCash, setUserPaidCash] = useState(0);                // 사용자 유료캐시
     const [userFreeCash, setUserFreeCash] = useState(0);                // 사용자 무료캐시
@@ -41,6 +37,19 @@ export default function Navbar() {
             e.currentTarget.nextSibling.style.display = 'block';
     }
 
+    const handleInventory = () => {
+        navigate('/inventory');
+    }
+
+    const handleMyPage = () => {
+        navigate('/mypage');
+    }
+
+    const handleLogout = () => {
+        localStorage.clear();
+        document.location.href = "/";
+    }
+
     // 로고 클릭시 맨 위로 이동
     const logoClick = () => {
         document.location.href = "/";
@@ -50,14 +59,6 @@ export default function Navbar() {
     // 로그인 버튼 클릭시 로그인 페이지로 이동
     const ClickLogin = () => {
         document.location.href = "/login";
-    }
-
-    const clickLogout = () => {
-        localStorage.clear();
-        document.location.href = "/";
-    }
-    const ClickMyPage = () => {
-        document.location.href = "/mypage";
     }
 
 
@@ -96,7 +97,7 @@ export default function Navbar() {
                                     class='LogInfo hidden w-[320px] absolute bg-light top-[38px] right-0 z-40 overflow-hidden rounded-3 shadow-sm'>
                                     <div class="info_t p-1 border-bottom">
                                         <ul class='flex mt-3 pl-2'>
-                                            <li class="thum">
+                                            <li class="thum ml-5">
                                                 <div className='w-24 h-24 rounded-full'>
                                                     <AvatarCanvas size={[220,220]} position={[128,128]}/>
                                                 </div>
@@ -129,7 +130,7 @@ export default function Navbar() {
                                                     <FontAwesomeIcon icon={faUser} size='lg'/>
                                                 </div>
                                                 <div class="inline-block text-left col-8" style={{fontSize: '1rem'}}
-                                                    onClick={handleInventory}>
+                                                    onClick={handleMyPage}>
                                                     내정보관리
                                                 </div>
                                             </div>
@@ -152,7 +153,7 @@ export default function Navbar() {
                                                     <FontAwesomeIcon icon={faPowerOff} size='lg'/> 
                                                 </div>
                                                 <div class="inline-block text-left col-8" style={{fontSize: '1rem'}}
-                                                    onClick={handleInventory}>
+                                                    onClick={handleLogout}>
                                                     로그아웃
                                                 </div>
                                             </div>
