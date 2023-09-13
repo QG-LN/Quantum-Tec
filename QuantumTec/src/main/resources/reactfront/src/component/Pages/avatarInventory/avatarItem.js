@@ -220,14 +220,14 @@ export default function AvatarItem(props) {
         return (
             <>
                 {/* <div className="placeholder ratio ratio-1x1 rounded-top"></div> */}
-                <img src={imgSrc}/>
+                <img className='ratio ratio-1x1' src={imgSrc}/>
                 {/* <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" class="card-img-top" alt="..."/> */}
                 <hr className='m-0 border-1' />
                 <div className="text-start m-3">
-                    <h5 className="card-title placeholder-glow">
+                    <h6 className="card-title placeholder-glow">
                         {props.item && props.item.itemName ? props.item.itemName : "No item name available"}
                     {/* <div className="placeholder col-5"></div> */}
-                    </h5>
+                    </h6>
                 </div>
             </>
         )

@@ -24,13 +24,13 @@ export default function AvatarMainInventory(props) {
                 </div>
                 <Carousel interval={null}>
                     <Carousel.Item>
-                        <div className='ms-[3%] my-4 d-flex flex-wrap align-items-center'>
+                        <div className='ms-[3%] my-4 '>
                             <AvatarItemCheck itemList={firstList} refreshKey={props.refreshKey}/>
                         </div>
                     </Carousel.Item>
                     {secondList.length === 0 ? null :
                     <Carousel.Item>
-                        <div className='ms-[3%] my-4 d-flex flex-wrap align-items-center'>
+                        <div className='ms-[3%] my-4 '>
                             <AvatarItemCheck itemList={secondList} refreshKey={props.refreshKey}/>
                         </div>
                     </Carousel.Item>
