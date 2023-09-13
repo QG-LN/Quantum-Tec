@@ -39,6 +39,11 @@ export default function Post() {
     // 수정버튼 클릭 시 수정 페이지로 이동
     const handlePostModify = () => {
         console.log("수정 버튼 클릭");
+        const data = {
+            title: post.postTitle,
+            content: post.postContent
+        }
+        navigate(`/board/${no}/post/${id}/edit`, {state: data});
     }
     
     const handleClose = () => {
