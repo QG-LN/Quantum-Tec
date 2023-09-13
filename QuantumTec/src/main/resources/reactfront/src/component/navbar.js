@@ -9,17 +9,19 @@ import Sidebar from './sidebar.js';
 import Contact from './contact.js';
 import AvatarCanvas from './Pages/avatarInventory/avatarCanvas';
 import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
 
 export default function Navbar() {
     const navigate = useNavigate();
     let truelogin = localStorage.getItem("truelogin");
+    const cashChange = useSelector(state => state.user.cashChange);
 
     const handleInventory = () => {
         navigate('/inventory');
     }
 
     const [userNickname, setUserNickname] = useState('');               // 사용자 닉네임
-    const [userPaidCash, setUserPaidCash] = useState(0);                // 사용자 유료캐시
+    const [userCash, setUserCash] = useState(0);                // 사용자 유료캐시
     const [userFreeCash, setUserFreeCash] = useState(0);                // 사용자 무료캐시
     const [userAttendance, setUserAttendance] = useState(0);            // 사용자 출석횟수
 
@@ -27,11 +29,11 @@ export default function Navbar() {
         // 로그인 상태일때 유저 이름 받아오기
         if (truelogin) {
             setUserNickname(localStorage.getItem("userNickname") || '');
-            setUserPaidCash(localStorage.getItem("userPaidCash") || 0);
-            setUserFreeCash(localStorage.getItem("userCash") || 0);
+            setUserCash(localStorage.getItem("userCash") || 0);
+            setUserFreeCash(localStorage.getItem("userFreeCash") || 0);
             setUserAttendance(localStorage.getItem("userAttendance") || 0);
         }
-    }, [truelogin]);
+    }, [truelogin, cashChange]);
 
     const handleLogInfo = (e) => {
         console.log(e.currentTarget)
@@ -88,7 +90,7 @@ export default function Navbar() {
                                 <a class='flex openLogInfo' href='javascript:void(0)' onClick={handleLogInfo}>
                                 <div class='flex'>
                                     <div class='mr-1'>{userNickname}</div>
-                                    <div class='mr-5'> : {userFreeCash}</div>
+                                    <div class='mr-5'> : {userCash}</div>
                                 </div>
                                 <div className='w-8 h-8 rounded-full'>
                                     <AvatarCanvas size={[220,220]} position={[128,128]}/>
@@ -111,9 +113,9 @@ export default function Navbar() {
                                                     </strong>
                                                 </p>
                                                 <p class='mb-0 ml-2 text-left'>출석일수 : <span>{userAttendance}일</span></p>
-                                                <p class='mb-0 ml-2 text-left'>보유재화 : <span>{userFreeCash}원</span></p>
+                                                <p class='mb-0 ml-2 text-left'>무료재화 : <span>{userFreeCash}원</span></p>
                                                 <p class='mb-0 ml-2 text-left'>유료재화 : <a href="#"><span
-                                                    class='text-gray-400'>{userPaidCash}원</span></a> <a href="#"
+                                                    class='text-gray-400'>{userCash}원</span></a> <a href="#"
                                                                                                         class="bg-yellow-400 rounded-md  hover:text-white"
                                                                                                         id="boxTeraCharge">충전</a>
                                                 </p>

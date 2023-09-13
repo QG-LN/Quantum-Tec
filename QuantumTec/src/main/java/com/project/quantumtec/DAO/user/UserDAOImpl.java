@@ -140,10 +140,17 @@ public class UserDAOImpl implements UserDAO{
     // 캐시 충전
     @Override
     public int chargeCash(CashChargeDTO cashChargeDTO){
-        if(sqlSession.update("UserService.chargeCash", cashChargeDTO) > 0){
-            return sqlSession.selectOne("UserService.getCash", cashChargeDTO);
+        int checkOrderId = sqlSession.selectOne("UserService.checkOrderId", cashChargeDTO);
+        if(checkOrderId > 0){
+            return -2;
         }
-        else
-            return -1;
+        else{
+            if(sqlSession.update("UserService.chargeCash", cashChargeDTO) > 0){
+                sqlSession.insert("UserService.insertOrder", cashChargeDTO);
+                return sqlSession.selectOne("UserService.getCash", cashChargeDTO);
+            }
+            else
+                return -1;
+        }
     }
 }
