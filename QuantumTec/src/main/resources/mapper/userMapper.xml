@@ -131,5 +131,13 @@
         FROM USER_STATUS_TB
         WHERE USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userId});
     </select>
-     
+
+    <select id="checkOrderId" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM CASH_PAYMENT_HISTORY_TB WHERE ORDER_ID = #{orderId};
+    </select>
+
+    <insert id="insertOrder" parameterType="CashChargeDTO">
+        INSERT INTO CASH_PAYMENT_HISTORY_TB(USER_INDEX, ORDER_ID, PAYMENT_AMOUNT, PAYMENT_METHOD, PAYMENT_STATUS)
+        VALUES((SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userId}), #{orderId}, #{amount}, "토스페이먼츠", "결제 완료");
+    </insert>
 </mapper>
