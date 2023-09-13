@@ -16,9 +16,12 @@ export default function Navbar() {
     const cashChange = useSelector(state => state.user.cashChange);
 
     const [userNickname, setUserNickname] = useState('');               // 사용자 닉네임
-    const [userCash, setUserCash] = useState(0);                // 사용자 유료캐시
+    const [userCash, setUserCash] = useState(0);                        // 사용자 유료캐시
     const [userFreeCash, setUserFreeCash] = useState(0);                // 사용자 무료캐시
     const [userAttendance, setUserAttendance] = useState(0);            // 사용자 출석횟수
+
+    const [userCashFormat, setUserCashFormat] = useState('');           // 사용자 유료캐시 포맷
+    const [userFreeCashFormat, setUserFreeCashFormat] = useState('');   // 사용자 무료캐시 포맷
 
     useEffect(() => {
         // 로그인 상태일때 유저 이름 받아오기
@@ -27,6 +30,15 @@ export default function Navbar() {
             setUserCash(localStorage.getItem("userCash") || 0);
             setUserFreeCash(localStorage.getItem("userFreeCash") || 0);
             setUserAttendance(localStorage.getItem("userAttendance") || 0);
+
+            // 캐시가 99999이상일 때 만원 단위로 표시
+            if(userCash > 99999){
+                setUserCashFormat((userCash/10000).toFixed(1) + '만');
+            }
+
+            if(userFreeCash > 99999){
+                setUserFreeCashFormat((userFreeCash/10000).toFixed(1) + '만');
+            }
         }
     }, [truelogin, cashChange]);
 
@@ -58,7 +70,7 @@ export default function Navbar() {
 
     // 로고 클릭시 맨 위로 이동
     const logoClick = () => {
-        document.location.href = "/";
+        navigate('/');
     };
 
 
@@ -115,8 +127,8 @@ export default function Navbar() {
                                                         </strong>
                                                     </p>
                                                     <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>출석 일수 : <span>{userAttendance}일</span></p>
-                                                    <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>무료 캐시 : <span>{userFreeCash}원</span></p>
-                                                    <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>유료 캐시 : <span class='text-dark'> {userCash}원 </span>
+                                                    <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>무료 캐시 : <span>{userFreeCashFormat}원</span></p>
+                                                    <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>유료 캐시 : <span>{userCashFormat}원 </span>
                                                         <div onClick={handleCashCharge} class=" bg-yellow-400 rounded-md hover:text-white hover:cursor-pointer d-inline ">
                                                             충전
                                                         </div>
