@@ -1,10 +1,7 @@
 import '../App.css';
-import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import Logo from './Pages/MainPage/BringUP_LOGO.png';
 import '../App.js';
-// import React, { useState, useEffect } from "react";
-import json from './b.json';
 import Sidebar from './sidebar.js';
 import Contact from './contact.js';
 import AvatarCanvas from './Pages/avatarInventory/avatarCanvas';
@@ -95,9 +92,9 @@ export default function Navbar() {
                                 </div>
                             </a>
                                 <div
-                                    class='LogInfo hidden w-[366px] absolute bg-light top-[38px] right-0 z-40 overflow-hidden rounded-3 shadow-sm'>
+                                    class='LogInfo hidden w-[320px] absolute bg-light top-[38px] right-0 z-40 overflow-hidden rounded-3 shadow-sm'>
                                     <div class="info_t p-1 border-bottom">
-                                        <ul class='flex mt-4'>
+                                        <ul class='flex mt-3 pl-2'>
                                             <li class="thum">
                                                 {/*<img class='w-24 h-24 rounded-full' src={userIconAddress} alt=""/>*/}
                                                 <div className='w-24 h-24 rounded-full'>
@@ -105,21 +102,23 @@ export default function Navbar() {
                                                 </div>
                                             </li>
                                             <li class='text-dark ml-3'>
-                                                <p class='mb-0 ml-2 text-left font-bold'>
-                                                    <strong>
-                                                        {userNickname}
-                                                    </strong>
-                                                </p>
-                                                <p class='mb-0 ml-2 text-left'>출석 일수 : <span>{userAttendance}일</span></p>
-                                                <p class='mb-0 ml-2 text-left'>무료 캐시 : <span>{userFreeCash}원</span></p>
-                                                <p class='mb-0 ml-2 text-left'>유료 캐시 : 
-                                                    <a href="#">
-                                                        <span class='text-dark'> {userPaidCash}원 </span>
-                                                    </a>
-                                                    <a href="#" class="bg-yellow-400 rounded-md  hover:text-white" id="boxTeraCharge">
-                                                        충전
-                                                    </a>
-                                                </p>
+                                                <div class='w-[100%]'>
+                                                    <p class='mb-0 ml-2 text-left font-bold'>
+                                                        <strong style={{fontSize: '1.2rem'}}>
+                                                            {userNickname}
+                                                        </strong>
+                                                    </p>
+                                                    <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>출석 일수 : <span>{userAttendance}일</span></p>
+                                                    <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>무료 캐시 : <span>{userFreeCash}원</span></p>
+                                                    <p class='mb-0 ml-2 text-left' style={{fontSize: '0.9rem'}}>유료 캐시 : 
+                                                        <a href="#">
+                                                            <span class='text-dark'> {userPaidCash}원 </span>
+                                                        </a>
+                                                        <a href="#" class="bg-yellow-400 rounded-md  hover:text-white" id="boxTeraCharge">
+                                                            충전
+                                                        </a>
+                                                    </p>
+                                                </div>
                                             </li>
                                         </ul>
                                     </div>
@@ -129,7 +128,7 @@ export default function Navbar() {
                                                 <div class='col-4 text-center'>
                                                     <img class='w-[30px] h-[100%] m-auto'src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="..." />
                                                 </div>
-                                                <div class="inline-block text-lg text-left col-8" 
+                                                <div class="inline-block text-left col-8" style={{fontSize: '1rem'}}
                                                     onClick={handleInventory}>
                                                     내정보관리
                                                 </div>
@@ -137,11 +136,11 @@ export default function Navbar() {
 
                                         </div>
                                         <div class="p-1">
-                                            <div class="row hover:cursor-pointer" onMouseOver={()=>{console.log("Test")}}>
-                                            <div class='col-4 text-center'>
+                                            <div class="row hover:cursor-pointer">
+                                                <div class='col-4 text-center'>
                                                     <img class='w-[30px] h-[100%] m-auto'src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="..." />
                                                 </div>
-                                                <div class="inline-block text-lg text-left col-8" 
+                                                <div class="inline-block text-left col-8" style={{fontSize: '1rem'}}
                                                     onClick={handleInventory}>
                                                     아바타관리
                                                 </div>
@@ -149,10 +148,10 @@ export default function Navbar() {
                                         </div>
                                         <div class="p-1 mb-2">
                                             <div class="row hover:cursor-pointer" >
-                                            <div class='col-4 text-center'>
+                                                <div class='col-4 text-center'>
                                                     <img class='w-[30px] h-[100%] m-auto'src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="..." />
                                                 </div>
-                                                <div class="inline-block text-lg text-left col-8" 
+                                                <div class="inline-block text-left col-8" style={{fontSize: '1rem'}}
                                                     onClick={handleInventory}>
                                                     로그아웃
                                                 </div>
