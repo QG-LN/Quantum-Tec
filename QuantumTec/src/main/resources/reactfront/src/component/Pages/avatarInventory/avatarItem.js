@@ -32,6 +32,25 @@ export default function AvatarItem(props) {
     };
     const handleShow = () => setShow(true);
 
+    // 텍스트 애니메이션 ref
+    const textRef = useRef(null);
+    const boxRef = useRef(null);
+
+    const handleMouseEnter = () => {
+        const boxWidth = boxRef.current.clientWidth;
+        const textWidth = textRef.current.clientWidth;
+
+        if (textWidth > boxWidth) {
+            const moveDistance = boxWidth - textWidth;
+            textRef.current.style.left = `${moveDistance}px`;
+        }
+    };
+
+    const handleMouseLeave = () => {
+        textRef.current.style.left = '0';
+    };
+    ////////////////////////////////////////////
+
     const checkLogin = () => {
         if(localStorage.getItem("userNickname") == null){
             alert("로그인이 필요한 서비스입니다.");
@@ -216,20 +235,25 @@ export default function AvatarItem(props) {
         }
     };
 
+
     const Item = () => {
+
         return (
-            <>
+            <div className='animated-main'
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                ref={boxRef}>
                 {/* <div className="placeholder ratio ratio-1x1 rounded-top"></div> */}
                 <img className='ratio ratio-1x1' src={imgSrc}/>
                 {/* <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" class="card-img-top" alt="..."/> */}
                 <hr className='m-0 border-1' />
-                <div className="text-start m-3">
-                    <h6 className="card-title placeholder-glow">
-                        {props.item && props.item.itemName ? props.item.itemName : "No item name available"}
+                <div className="text-start m-3 animated-box">
+                    <h6 className="card-title placeholder-glow animated-text" ref={textRef}>
+                    {props.item && props.item.itemName ? props.item.itemName : "No item name available"}{props.item && props.item.itemName ? props.item.itemName : "No item name available"}{props.item && props.item.itemName ? props.item.itemName : "No item name available"}
                     {/* <div className="placeholder col-5"></div> */}
                     </h6>
                 </div>
-            </>
+            </div>
         )
     };
 
