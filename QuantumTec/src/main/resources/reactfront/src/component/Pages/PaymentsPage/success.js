@@ -13,11 +13,18 @@ export function Success() {
         const body = {
             userId: localStorage.getItem("userID"),
             amount: searchParams.get("amount"),
+            orderId: searchParams.get("orderId"),
         };
         axiosRequest('http://localhost:9090/user/cash/charge', body, 'POST', 'json')
             .then(res => {
                 console.log(res);
-                if(res !== ''){
+                if(res !== '' || res !== null){
+                    if(res === -2){
+                        alert('이미 결제가 완료된 주문입니다.');
+                    }
+                    else if(res === -1){
+                        alert('결제 승인에 실패했습니다.');
+                    }
                     localStorage.setItem("userCash", res.userCash);
                 }
                 else{
