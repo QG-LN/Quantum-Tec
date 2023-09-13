@@ -3,7 +3,7 @@
 <mapper namespace="BoardService">
     <select id="getPostSearchList" resultType="ListResponseDTO">
         SELECT POST_INDEX, BOARD_NAME AS BOARD_TITLE, POST_TITLE,
-            USER_NAME AS POST_AUTHOR, POST_CREATED_DATE AS POST_DATE,
+            USER_NICKNAME AS POST_AUTHOR, POST_CREATED_DATE AS POST_DATE,
             POST_VIEWS AS POST_VIEW, POST_UPVOTES
         FROM POST_INFO_TB P, USER_INFO_TB U, BOARD_LIST_TB B
         WHERE P.POST_AUTHOR_INDEX = U.USER_INDEX
@@ -16,10 +16,10 @@
                     AND P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%')
                 </when>
                 <when test="searchType.getValue() == 'author'">
-                    AND U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%')
+                    AND U.USER_NICKNAME LIKE CONCAT('%',#{searchKeyword},'%')
                 </when>
                 <when test="searchType.getValue() == 'title_author'">
-                    AND (P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%') OR U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%'))
+                    AND (P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%') OR U.USER_NICKNAME LIKE CONCAT('%',#{searchKeyword},'%'))
                 </when>
                 <otherwise>
                 </otherwise>
@@ -53,10 +53,10 @@
                 AND P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%')
             </when>
             <when test="searchType.getValue() == 'author'">
-                AND U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%')
+                AND U.USER_NICKNAME LIKE CONCAT('%',#{searchKeyword},'%')
             </when>
             <when test="searchType.getValue() == 'title_author'">
-                AND (P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%') OR U.USER_NAME LIKE CONCAT('%',#{searchKeyword},'%'))
+                AND (P.POST_TITLE LIKE CONCAT('%',#{searchKeyword},'%') OR U.USER_NICKNAME LIKE CONCAT('%',#{searchKeyword},'%'))
             </when>
         </choose>
 
@@ -64,7 +64,7 @@
 
 
     <select id="getPost" resultType="ViewResponseDTO">
-        SELECT BOARD_NAME AS BOARD_TITLE, POST_TITLE, USER_NAME AS POST_AUTHOR, POST_CREATED_DATE AS POST_DATE,
+        SELECT BOARD_NAME AS BOARD_TITLE, POST_TITLE, USER_NICKNAME AS POST_AUTHOR, POST_CREATED_DATE AS POST_DATE,
             POST_VIEWS AS POST_VIEW, POST_UPVOTES, POST_DOWNVOTES, POST_CONTENT
         FROM POST_INFO_TB P, USER_INFO_TB U, BOARD_LIST_TB B
         WHERE P.POST_AUTHOR_INDEX = U.USER_INDEX
@@ -139,7 +139,7 @@
     </insert>
     <select id="getCommentList" resultType="CommentListResponseDTO">
         SELECT COMMENT_INDEX, COMMENT_CONTENT, COMMENT_CREATED_DATE AS COMMENT_DATE,
-            USER_NAME AS COMMENT_WRITER, COMMENT_UPVOTES AS COMMENT_UPVOTE, COMMENT_DOWNVOTES AS COMMENT_DOWNVOTE, COMMENT_RATING
+        USER_NICKNAME AS COMMENT_WRITER, COMMENT_UPVOTES AS COMMENT_UPVOTE, COMMENT_DOWNVOTES AS COMMENT_DOWNVOTE, COMMENT_RATING
         FROM COMMENT_INFO_TB C, USER_INFO_TB U
         WHERE C.COMMENT_AUTHOR_INDEX = U.USER_INDEX
             AND C.POST_INDEX = #{postIndex}
