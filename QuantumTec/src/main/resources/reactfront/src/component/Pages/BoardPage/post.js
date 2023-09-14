@@ -16,7 +16,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from 'react-router';
 
-
+/**
+ * @todo 댓글 입력란 포커싱 될 때만 댓글 / 취소 버튼이 보이도록 수정
+ */
 export default function Post() {
     const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
@@ -25,11 +27,12 @@ export default function Post() {
     const [ref, inView] = useInView()
     const [loading, setLoading] = useState(false)
     const [reflash, setReflash] = useState(false)
-    const [commentEnterCheck, setCommentEnterCheck] = useState(false)
+    // const [commentEnterCheck, setCommentEnterCheck] = useState(false);       // 엔터로 댓글 입력을 진행하였을 때 입력 버튼이 두 번 눌리는 것을 방지하기 위한 변수
     const [contentLength, setContentLength] = useState(0);
     const [sortType, setSortType] = useState("date");            // 현재 정렬 방식
     const [sortName, setSortName] = useState("등록순");
 
+    
     const [isCommentModify, setIsCommentModify] = useState(false);   // 댓글 수정 모드인지 여부
     const [modifyCommentInfo, setModifyCommentInfo] = useState({    // 댓글 정보
         index : 0,
@@ -42,13 +45,14 @@ export default function Post() {
         type:"",                    // 팝업창의 종류 (post: 게시글 삭제, comment: 댓글 삭제)
         commentIndex : 0            // 팝업창을 띄울 댓글의 인덱스
     });
+    
+    const [commentText, setCommentText] = useState("");          // 댓글 작성창에 입력된 텍스트
 
     // 페이지 이동을 위한 navigate 객체
     const navigate = useNavigate();
 
     // 수정버튼 클릭 시 수정 선택 종류에 따라 수정 형식을 다르게 해주는 함수
     const handleModify = (data) => {
-
         data.type === 'post' ? handleModifyPost() : handleModifyComment(data.index, data.content);
     }
 
@@ -56,7 +60,8 @@ export default function Post() {
     const handleModifyPost = () => {
         const data = {
             title: post.postTitle,
-            content: post.postContent
+            content: post.postContent,
+            path: `/board/${no}/post/${id}`
         }
         navigate(`/board/${no}/post/${id}/edit`, {state: data});
     }
@@ -370,30 +375,39 @@ export default function Post() {
             })
     }
 
-    // 댓글 작성하는 함수
-    const enterComment = (e) => {
-        if(e.key === "Enter" && !commentEnterCheck){
-            // 줄바꿈 방지
-            e.preventDefault();
-            const path = 'http://localhost:9090/board/commentWrite';
-            const body ={
-                postIndex : id,
-                userID : localStorage.getItem("userID"),
-                commentContent : e.target.value
-            }
-            axiosRequest(path,body,'POST','json')
-                .then(res => {
-                    setCommentEnterCheck(true);
-                    if(res){
-                        alert("댓글을 성공적으로 올렸습니다.");
-                        e.target.value = "";
-                        setReflash(!reflash);
-                    }else{
-                        alert("댓글을 올리지 못했습니다.");
-                    }
-                    setCommentEnterCheck(false);
-                })
+    // 댓글 작성 이벤트 핸들러
+    const clickWriteComment = (e) => {
+        // 줄바꿈 방지
+        e.preventDefault();
+        const path = 'http://localhost:9090/board/commentWrite';
+        const body ={
+            postIndex : id,
+            userID : localStorage.getItem("userID"),
+            commentContent : commentText
         }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("댓글을 성공적으로 올렸습니다.");
+                    setCommentText("");
+                    setReflash(!reflash);
+                }else{
+                    alert("댓글을 올리지 못했습니다.");
+                }
+            })
+    }
+    
+    const clickCancelComment = (e) => {
+        console.log("취소");
+        // 댓글 작성란 초기화
+        setCommentText("");
+    }
+
+
+
+    // 댓글 작성란에 입력된 텍스트에 변화가 있을 때마다 실행되는 함수
+    const onCommentTextChange = (e) => {
+        setCommentText(e.target.value);
     }
 
     const handleSort = (e) => {
@@ -520,13 +534,16 @@ export default function Post() {
             </div>
             {/* 댓글 입력 */}
             <hr className='text-green-700 border-4 opacity-50 m-0' />
-            <div className='m-0 row justify-content-between bg-gray-100 pt-4 pb-4 '>
+            <div className='m-0 row justify-content-between bg-gray-100 pt-4 pb-4'>
                 <div className='col-auto w-[100px]'>
                     <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' className="rounded w-[100px]" alt="..."></img>
                 </div>
-                <div className="form-floating col">
-                    <textarea className="form-control" placeholder="댓글 입력하여주세요." id="floatingTextarea2" style={{height: '100px'}} onKeyDown={enterComment}/>
-                    <label className='ms-[10px]' for="floatingTextarea2">댓글</label>
+                <div className="form-floating col" >
+                    <textarea className="form-control" id="floatingTextarea2" style={{height: '100px'}} 
+                                onChange={onCommentTextChange} value={commentText}/>
+                    <label className='ms-[10px]' for="floatingTextarea2">댓글 추가...</label>
+                    <button className='btn btn-success mt-2 ml-1' style={{float:'right'}} onClick={clickWriteComment}>댓글</button>
+                    <button className='btn btn-success mt-2 ml-1' style={{float:'right'}} onClick={clickCancelComment}>취소</button>   
                 </div>
             </div>
             <hr className='text-green-700 border-4 opacity-50 m-0 mb-4' />
