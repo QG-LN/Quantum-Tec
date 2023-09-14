@@ -91,6 +91,11 @@ export default function Post() {
                 }
             })
     }
+
+    const cancelModifyComment = () => {
+        setIsCommentModify(false);
+        setReflash(!reflash);
+    }
     
     // 삭제버튼 클릭 시 나오는 팝업창을 닫는 함수
     const handleClose = () => {
@@ -576,6 +581,9 @@ export default function Post() {
                                         <textarea className="form-control" placeholder="댓글 입력하여주세요." id="floatingTextarea2" style={{height: '100px'}} onChange={onTextChange}>
                                             {modifyCommentInfo.content}
                                         </textarea>
+                                        <button class='m-1 btn btn-success' style={{float:'right'}} onClick={cancelModifyComment}>
+                                            취소
+                                        </button>
                                         <button class='m-1 btn btn-success' style={{float:'right'}} onClick={sendModifyComment}>
                                             수정
                                         </button>
