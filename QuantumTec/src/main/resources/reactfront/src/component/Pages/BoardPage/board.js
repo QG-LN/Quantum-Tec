@@ -284,7 +284,11 @@ export default function Board() {
                 </div>
                 <div class="row justify-content-end g-3 mt-1 col-6">
                     <div class="col-auto">
-                        <Link to={`/board/${boardType.id}/write`} className="btn btn-success mb-3">글쓰기</Link>
+                        {boardType.id !== '3' && 
+                            <>
+                                <Link to={`/board/${boardType.id}/write`} className="btn btn-success mb-3">글쓰기</Link>   
+                            </>
+                        }
                     </div>
                 </div>
             </div>
