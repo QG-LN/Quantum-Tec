@@ -31,14 +31,17 @@ export default function Post() {
     const [sortName, setSortName] = useState("등록순");
     
     //modal
-    const [show, setShow] = useState(false);
+    const [modalState, setModalState] = useState({
+        show:false,                 // 팝업창을 띄울지 여부
+        type:"",                    // 팝업창의 종류 (post: 게시글 삭제, comment: 댓글 삭제)
+        commentIndex : 0            // 팝업창을 띄울 댓글의 인덱스
+    });
 
     // 페이지 이동을 위한 navigate 객체
     const navigate = useNavigate();
 
     // 수정버튼 클릭 시 수정 페이지로 이동
     const handlePostModify = () => {
-        console.log("수정 버튼 클릭");
         const data = {
             title: post.postTitle,
             content: post.postContent
@@ -46,29 +49,72 @@ export default function Post() {
         navigate(`/board/${no}/post/${id}/edit`, {state: data});
     }
     
+    // 삭제버튼 클릭 시 나오는 팝업창을 닫는 함수
     const handleClose = () => {
-        setShow(false);
+        setModalState({
+            show:false,
+            type:"",
+            commentIndex : 0
+        });
+        
+    }
+    // 삭제버튼 클릭 시 팝업창을 띄우는 함수
+    const handleShow = (data) => {
+        
+        setModalState({
+            show:true,
+            type:data.type,
+            commentIndex : data.index
+        });
     }
 
-    /**
-     * @todo 현재 사용자가 작성한 글인지 확인하는 함수를 추가하여 아이콘이 보이지 않도록 설정 필요
-     */
-    const handleDelete = () => {
+    // 삭제버튼 클릭 시 사용되는 이벤트
+    const handleDelete = (content) => {
         handleClose();
-        // console.log("삭제 버튼 클릭");
+
+        content.type === 'post' ? deletePost() : deleteComment(content.index);
+    }
+
+    // 게시글 삭제 함수
+    const deletePost = () => {
         const path = 'http://localhost:9090/board/delete';
         const body ={
             postIndex: id,
             userID: localStorage.getItem("userID")
         }
-        axiosRequest(path,body,'POST','json');
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("게시글을 성공적으로 삭제하였습니다.");
+                    navigate(`/board/${no}`);
+                }else{
+                    alert("게시글을 삭제하지 못했습니다.");
+                    setReflash(!reflash);
+                }
+            })
 
-        navigate(`/board/${no}`);
     }
 
-    const handleShow = (e) => {
-        setShow(true);
+    // 댓글 삭제 함수
+    const deleteComment = (commentIdx) => {
+        
+        const path = 'http://localhost:9090/board/commentDelete';
+        const body = {
+            commentIndex: commentIdx,
+            postIndex: id,
+            userID: localStorage.getItem("userID")
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("댓글을 성공적으로 삭제하였습니다.");
+                    setReflash(!reflash);
+                }else{
+                    alert("댓글을 삭제하지 못했습니다.");
+                }
+            })
     }
+
 
     useEffect(() => {
         console.log(sortType);
@@ -316,31 +362,29 @@ export default function Post() {
                 break;
         }
     }
-    // if (!post) {
-    //     return <div>Loading...</div>;  // 데이터를 불러오는 동안에는 Loading 메시지를 보여줍니다.
-    // }
-
 
 
     return (
         <div className="container">
             {/* 수정 또는 삭제를 위한 팝업창 */}
-            <Modal show={show} onHide={handleClose} centered={true}>
+            <Modal show={modalState.show} onHide={handleClose} centered={true}>
                 <Modal.Header>
                     <Modal.Title className='w-[100%]'>
-                        게시글 삭제
+                        {modalState.type === 'post' ? '게시글 삭제' : '댓글 삭제'}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='mx-3'>
                         <h6 class="card-text placeholder-glow">
-                            <strong>"{post.postTitle}"</strong> 게시글을 삭제하시겠습니까?
+                            {
+                                modalState.type === 'post' ? <strong>"{post.postTitle}" 게시글을 삭제하시겠습니까?</strong> : <strong>댓글을 삭제하시겠습니까?</strong>
+                            }
                         </h6>
-                        게시글 삭제시 복구가 불가능합니다.
+                        <div class="ml-3 text-sm">삭제시 복구가 불가능합니다.</div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn_close" variant="danger" onClick={handleDelete}>
+                    <Button className="btn_close" variant="danger" onClick={() => handleDelete({type:modalState.type , index:modalState.commentIndex})}>
                         삭제
                     </Button>
                     <Button className="btn_close" variant="secondary" onClick={handleClose}>
@@ -369,7 +413,7 @@ export default function Post() {
                 {post.postAuthor === localStorage.getItem("userNickname") && 
                     <>
                         <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' id='modify' onClick={handlePostModify} />
-                        <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-2' id='delete' onClick={handleShow}/>
+                        <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-2' id='delete' onClick={ () => handleShow({type:'post'})}/>
                     </>
                 }
             </div>
@@ -454,8 +498,16 @@ export default function Post() {
                     <div key={idx} id={comment.commentIndex} className='position-relative pt-2 pb-2' ref={idx === comments.length - 1 ? ref : null}>
                         {/* ref={idx === comments.length - 1 ? ref : null} */}
                         {/* 마지막 댓글에 사용자가 보고있는지 판단하는 코드를 추가 한 것임 */}
-                        <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' />
-                        <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-2'/>
+                        {comment.commentWriter === localStorage.getItem("userNickname") && 
+                            <>
+                                <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' id='modify'/>
+                                <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} 
+                                                className='position-absolute top-0 end-2' 
+                                                id='delete'
+                                                // onClick={() => handleDelete({type:"comment", index:comment.commentIndex})}/>
+                                                onClick={() => handleShow({type:'comment' , index:comment.commentIndex})}/>
+                            </>
+                        }
                         <div className='row align-items-center p-0 m-0 ms-3'>
                             <div className='col-1 m-0 p-0 me-3 user-select-none'>
                                 <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' className="rounded w-[70px]" alt="..."></img>
