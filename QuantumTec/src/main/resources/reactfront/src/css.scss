@@ -45,6 +45,17 @@
     transition: all 1.5s;  // 텍스트의 움직임을 부드럽게 만듭니다.
 }
 
+// 점점 어두워지게
+.darken {
+	transition: filter 1s;  /* 2초 동안 필터 효과 전환 */
+	filter: brightness(0.3);  /* 요소의 밝기를 30%로 감소 */
+}
+
+// 점점 밝아지게
+.lighten {
+	transition: filter 1s;  /* 2초 동안 필터 효과 전환 */
+	filter: brightness(1);  /* 요소의 밝기를 100%로 증가 */
+}
 // @media (min-width: 500px) {
 // 	span {
 // 		font-size: 0.5rem;
