@@ -6,23 +6,27 @@ import { Editor } from '@toast-ui/react-editor';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
-import { useLocation } from "react-router";
+import { useLocation , useNavigate} from "react-router";
 import { useParams } from 'react-router-dom';
 
 export default function WritePage() {
-    const editorRef = useRef();
-    const [title, setTitle] = useState('');
+    const editorRef = useRef();              
+    const [title, setTitle] = useState('');  // 제목
+    const [path, setPath] = useState('');    // 수정 시 이전 페이지 경로
 
     const [isEdit, setIsEdit] = useState(false);    // 글 수정인지 확인하는 변수
 
     const {state} = useLocation();  // 수정버튼 클릭 시 전달받은 state 값
     const { no, id } = useParams();  // 게시판 번호, 게시글 번호
 
+    // 페이지 이동을 위한 navigate 객체
+    const navigate = useNavigate();
+
     useEffect(() => {
         if(state !== null){
-            console.log(state);
             setIsEdit(true);
             setTitle(state.title);
+            setPath(state.path);
             editorRef.current.getInstance().setMarkdown(state.content);
         }
 
@@ -86,6 +90,17 @@ export default function WritePage() {
         }
     };
 
+    const handleCancel = (event) => {
+        event.preventDefault(); 
+        
+        if(isEdit){
+            // 글 수정 시 이전 페이지로 이동
+            navigate(path);
+        }else{
+            // 글 작성 시 이전 페이지로 이동
+            navigate(`/board/${no}`);
+        }
+    }
 
     return (
         <div className="container">
@@ -113,7 +128,8 @@ export default function WritePage() {
                 </div>
                 <br />
                 <div className='text-right'>
-                    <button onClick={handleSubmit} class="btn btn-success mb-5 text-right">Submit</button>
+                    <button onClick={handleSubmit} class="btn btn-success mb-5 text-right ml-1">작성</button>
+                    <button onClick={handleCancel} class="btn btn-success mb-5 text-right ml-1">취소</button>
                 </div>
             </form>
         </div>
