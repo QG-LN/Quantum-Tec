@@ -29,6 +29,12 @@ export default function Post() {
     const [contentLength, setContentLength] = useState(0);
     const [sortType, setSortType] = useState("date");            // 현재 정렬 방식
     const [sortName, setSortName] = useState("등록순");
+
+    const [isCommentModify, setIsCommentModify] = useState(false);   // 댓글 수정 모드인지 여부
+    const [modifyCommentInfo, setModifyCommentInfo] = useState({    // 댓글 정보
+        index : 0,
+        content : ""
+    });
     
     //modal
     const [modalState, setModalState] = useState({
@@ -40,13 +46,50 @@ export default function Post() {
     // 페이지 이동을 위한 navigate 객체
     const navigate = useNavigate();
 
-    // 수정버튼 클릭 시 수정 페이지로 이동
-    const handlePostModify = () => {
+    // 수정버튼 클릭 시 수정 선택 종류에 따라 수정 형식을 다르게 해주는 함수
+    const handleModify = (data) => {
+
+        data.type === 'post' ? handleModifyPost() : handleModifyComment(data.index, data.content);
+    }
+
+    // 게시글 수정일 때의 핸들링 함수
+    const handleModifyPost = () => {
         const data = {
             title: post.postTitle,
             content: post.postContent
         }
         navigate(`/board/${no}/post/${id}/edit`, {state: data});
+    }
+
+    // 댓글 수정일 때의 핸들링 함수
+    const handleModifyComment = (commentIndex, commentContent) => {
+        setIsCommentModify(true);
+        setModifyCommentInfo({
+            index : commentIndex,
+            content : commentContent
+        });
+    }
+
+    const sendModifyComment = () => {
+        const path ='http://localhost:9090/board/commentModify';
+        const body = {
+            postIndex: id,
+            commentIndex: modifyCommentInfo.index,
+            userID: localStorage.getItem("userID"),
+            commentContent : modifyCommentInfo.content
+        }
+        console.log(body);
+
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("댓글을 성공적으로 수정하였습니다.");
+                    setIsCommentModify(false);
+                    setReflash(!reflash);
+                }else{
+                    alert("댓글을 수정하지 못했습니다.");
+                }
+            })
     }
     
     // 삭제버튼 클릭 시 나오는 팝업창을 닫는 함수
@@ -363,6 +406,14 @@ export default function Post() {
         }
     }
 
+    // 댓글 수정 시 textarea에 입력된 값을 저장하는 함수
+    const onTextChange = (e) => {
+        setModifyCommentInfo({
+            ...modifyCommentInfo,
+            content : e.target.value
+        });
+        console.log(modifyCommentInfo.content);
+    }
 
     return (
         <div className="container">
@@ -412,7 +463,7 @@ export default function Post() {
                 </div>
                 {post.postAuthor === localStorage.getItem("userNickname") && 
                     <>
-                        <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' id='modify' onClick={handlePostModify} />
+                        <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' id='modify' onClick={() => handleModify({type:'post'})} />
                         <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-2' id='delete' onClick={ () => handleShow({type:'post'})}/>
                     </>
                 }
@@ -469,7 +520,7 @@ export default function Post() {
                     <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png' className="rounded w-[100px]" alt="..."></img>
                 </div>
                 <div className="form-floating col">
-                    <textarea className="form-control" placeholder="댓글 입력하여주세요." id="floatingTextarea2" style={{height: '100px'}} onKeyDown={enterComment}></textarea>
+                    <textarea className="form-control" placeholder="댓글 입력하여주세요." id="floatingTextarea2" style={{height: '100px'}} onKeyDown={enterComment}/>
                     <label className='ms-[10px]' for="floatingTextarea2">댓글</label>
                 </div>
             </div>
@@ -500,11 +551,13 @@ export default function Post() {
                         {/* 마지막 댓글에 사용자가 보고있는지 판단하는 코드를 추가 한 것임 */}
                         {comment.commentWriter === localStorage.getItem("userNickname") && 
                             <>
-                                <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} className='position-absolute top-0 end-7' id='modify'/>
+                                <FontAwesomeIcon icon={faWrench} style={{color: "#aaa", cursor:"pointer"}} 
+                                                className='position-absolute top-0 end-7' 
+                                                id='modify'
+                                                onClick={()=> handleModify({type:'comment', index:comment.commentIndex, content:comment.commentContent})}/>
                                 <FontAwesomeIcon icon={faX} style={{color: "#aaa", cursor:"pointer"}} 
                                                 className='position-absolute top-0 end-2' 
                                                 id='delete'
-                                                // onClick={() => handleDelete({type:"comment", index:comment.commentIndex})}/>
                                                 onClick={() => handleShow({type:'comment' , index:comment.commentIndex})}/>
                             </>
                         }
@@ -516,7 +569,20 @@ export default function Post() {
                                 <div className='text-start ps-0'>{comment.commentWriter}</div>
                                 <div className='text-start pe-0 text-sm fw-light'>{comment.commentDate}</div>
                             </div>
-                            <div className='col-7 text-start'>{comment.commentContent}</div>
+                            <div className='col-7 text-start'>
+                                {!isCommentModify && comment.commentContent}
+                                {isCommentModify && modifyCommentInfo.index === comment.commentIndex &&
+                                    <>
+                                        <textarea className="form-control" placeholder="댓글 입력하여주세요." id="floatingTextarea2" style={{height: '100px'}} onChange={onTextChange}>
+                                            {modifyCommentInfo.content}
+                                        </textarea>
+                                        <button class='m-1 btn btn-success' style={{float:'right'}} onClick={sendModifyComment}>
+                                            수정
+                                        </button>
+
+                                    </>
+                                }
+                            </div>
                             <div className='row justify-content-around col-2 text-end p-0 ps-4 user-select-none'>
                                 <div className='row text-sm fw-light col-5 bg-gray-100 border rounded-pill p-2 ps-0 me-2' onClick={clickCommentUpvote} style={{cursor:"pointer"}}>
                                     <div className='col-auto text-start p-0 ps-2 pe-1'>👍</div>
