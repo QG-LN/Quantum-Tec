@@ -73,12 +73,14 @@ export default function AvatarItem(props) {
             axiosRequest('http://localhost:9090/avatar/shop/item/buy', body, 'POST', 'json')
                 .then(res => {
                     if(res === true){
-                        alert("구매가 완료되었습니다.");
-                        handleClose();
-                        props.refreshKey();
                         // 구매 완료 후 캐시 차감된 내 캐시 상황을 어떻게 반영할지 고민해보기(DB에서 가져오는 방식으로?, 수동으로?)
                         handleCashUpdate(localStorage.getItem("userCash") - props.item.itemPrice);
                         localStorage.setItem("userCash", localStorage.getItem("userCash") - props.item.itemPrice);
+                        setShow2(false);
+                        setCheckBuy(true);
+                        setTitleBuyItem('구매 완료!');
+                        setContentBuyItem('구매가 완료되었습니다.');
+                        setShow2(true);
                     }
                     else{
                         alert("구매에 실패하였습니다.");
@@ -124,9 +126,6 @@ export default function AvatarItem(props) {
         alert("미구현");
     }
 
-    useEffect(() => {
-        console.log(show);
-    }, [show]);
     // 아이템 이미지 경로
     let imgSrc;
     // 아이템 착용 상태
@@ -271,15 +270,36 @@ export default function AvatarItem(props) {
         }
     }
 
-    const mainRef = useRef(null);
     const [show2, setShow2] = useState(false);
     const handleClose2 = (e) => {
         setShow2(false);
+        setDarken(false);
         // 이벤트 버블링 방지
         e?.stopPropagation();
+        if(checkBuy){
+            
+            handleClose();
+            props.refreshKey();
+        }
     };
-    const handleShow2 = () => {
+    const [darken, setDarken] = useState(false);
+    const [titleBuyItem, setTitleBuyItem] = useState('캐시');
+    const [contentBuyItem, setContentBuyItem] = useState('');
+    const [checkBuy, setCheckBuy] = useState(false);
+
+    const handleShow2 = (e) => {
+        
+        if(e.target.id === 'cash'){
+            setTitleBuyItem('캐시를 사용하여 구매');
+            const content = `정말로 구매하시겠습니까?
+            ${localStorage.getItem("userCash")} -> ${localStorage.getItem("userCash") - props.item.itemPrice}`;
+            setContentBuyItem(content);
+        }
+        else{
+            setTitleBuyItem('프리캐시를 사용하여 구매');
+        }
         setShow2(true);
+        setDarken(true);
 
     }
 
@@ -290,23 +310,22 @@ export default function AvatarItem(props) {
                 <Modal show={show2} onHide={handleClose2} centered={true}>
                     <Modal.Header>
                         <Modal.Title className='w-[100%]'>
-                            <div className='row justify-content-between'>
-                                asdasdasda
-                            </div>
+                            {titleBuyItem}
                         </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
-                        <div className='row justify-content-between'>
-                            asdasd
-                        </div>
+                    <Modal.Body className='ml-5'>
+                        {contentBuyItem.split("\n").map((letter)=>(<>{letter}<br /></>))}
                     </Modal.Body>
                     <Modal.Footer>
+                        { !checkBuy && <Button className="btn_close" variant="success" onClick={handleBuyForCash}>
+                            구매
+                        </Button>}
                         <Button className="btn_close" variant="secondary" onClick={handleClose2}>
                             닫기
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <Modal show={show} onHide={handleClose} centered={true} ref={mainRef}>
+                <Modal className={darken ? 'darken' : 'lighten'} show={show} onHide={handleClose} centered={true}>
                     <Modal.Header>
                         <Modal.Title className='w-[100%]'>
                             <div className='row justify-content-between'>
@@ -349,13 +368,10 @@ export default function AvatarItem(props) {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button className="btn_close" variant="success" onClick={handleShow2}>
-                            test
-                        </Button>
-                        <Button className="btn_close" variant="success" onClick={handleBuyForFreeCash}>
+                        <Button className="btn_close" variant="success" onClick={handleBuyForFreeCash} id='freecash'>
                             {changeNumberFormat(props.item.itemPrice * 10)} freecash
                         </Button>
-                        <Button className="btn_close" variant="success" onClick={handleBuyForCash}>
+                        <Button className="btn_close" variant="success" onClick={handleShow2} id='cash'>
                             {changeNumberFormat(props.item.itemPrice)} cash
                         </Button>
                         <Button className="btn_close" variant="secondary" onClick={handleClose}>
