@@ -19,18 +19,18 @@ import { useNavigate } from 'react-router';
 export default function Post() {
     const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
-    const { no ,id } = useParams();  // react-router-dom을 사용하여 URL 파라미터에서 게시글 ID를 얻습니다.
+    const { no ,id } = useParams();                                 // react-router-dom을 사용하여 URL 파라미터에서 게시글 ID를 얻습니다.
     const [page, setPage] = useState(1)
     const [ref, inView] = useInView()
     const [loading, setLoading] = useState(false)
     const [reflash, setReflash] = useState(false)
     // const [commentEnterCheck, setCommentEnterCheck] = useState(false);       // 엔터로 댓글 입력을 진행하였을 때 입력 버튼이 두 번 눌리는 것을 방지하기 위한 변수
     const [contentLength, setContentLength] = useState(0);
-    const [sortType, setSortType] = useState("date");            // 현재 정렬 방식
+    const [sortType, setSortType] = useState("date");               // 현재 정렬 방식
     const [sortName, setSortName] = useState("등록순");
 
     
-    const [isCommentModify, setIsCommentModify] = useState(false);   // 댓글 수정 모드인지 여부
+    const [isCommentModify, setIsCommentModify] = useState(false);  // 댓글 수정 모드인지 여부
     const [modifyCommentInfo, setModifyCommentInfo] = useState({    // 댓글 정보
         index : 0,
         content : ""
@@ -43,77 +43,16 @@ export default function Post() {
         commentIndex : 0            // 팝업창을 띄울 댓글의 인덱스
     });
 
-    const [commentText, setCommentText] = useState("");          // 댓글 작성창에 입력된 텍스트
-    const [isFocusTextarea, setIsFocusTestarea] = useState(false);               // 댓글 작성창에 포커싱이 되었는지 여부
+    const [commentText, setCommentText] = useState("");                 // 댓글 작성창에 입력된 텍스트
+    const [isFocusTextarea, setIsFocusTestarea] = useState(false);      // 댓글 작성창에 포커싱이 되었는지 여부
 
     // 페이지 이동을 위한 navigate 객체
     const navigate = useNavigate();
 
-    // 댓글 작성창에 포커싱이 되었을 때 실행되는 함수
-    const handleTextareaFocus = () => {
-        setIsFocusTestarea(true);
-    }
-
-    // 댓글 작성창에 포커싱이 해제되었을 때 실행되는 함수
-    const handleTextareaBlur = () => {
-        setTimeout(() => {
-            setIsFocusTestarea(false);
-          }, 150); // 100ms 딜레이
-
-    }
-
-    // 수정버튼 클릭 시 수정 선택 종류에 따라 수정 형식을 다르게 해주는 함수
-    const handleModify = (data) => {
-        data.type === 'post' ? handleModifyPost() : handleModifyComment(data.index, data.content);
-    }
-
-    // 게시글 수정일 때의 핸들링 함수
-    const handleModifyPost = () => {
-        const data = {
-            title: post.postTitle,
-            content: post.postContent,
-            path: `/board/${no}/post/${id}`
-        }
-        navigate(`/board/${no}/post/${id}/edit`, {state: data});
-    }
-
-    // 댓글 수정일 때의 핸들링 함수
-    const handleModifyComment = (commentIndex, commentContent) => {
-        setIsCommentModify(true);
-        setModifyCommentInfo({
-            index : commentIndex,
-            content : commentContent
-        });
-    }
-
-    const sendModifyComment = () => {
-        const path ='http://localhost:9090/board/commentModify';
-        const body = {
-            postIndex: id,
-            commentIndex: modifyCommentInfo.index,
-            userID: localStorage.getItem("userID"),
-            commentContent : modifyCommentInfo.content
-        }
-        console.log(body);
-
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                if(res){
-                    alert("댓글을 성공적으로 수정하였습니다.");
-                    setIsCommentModify(false);
-                    setReflash(!reflash);
-                }else{
-                    alert("댓글을 수정하지 못했습니다.");
-                }
-            })
-    }
-
-    const cancelModifyComment = () => {
-        setIsCommentModify(false);
-        setReflash(!reflash);
-    }
-    
-    // 삭제버튼 클릭 시 나오는 팝업창을 닫는 함수
+    ////////////////////////////////////////////////////////////////////////////////////
+    // 게시글/댓글  수정/삭제 관련 
+    ////////////////////////////////////////////////////////////////////////////////////
+    // 게시글/댓글 삭제버튼 클릭 시 나오는 팝업창을 닫는 함수
     const handleClose = () => {
         setModalState({
             show:false,
@@ -122,17 +61,7 @@ export default function Post() {
         });
         
     }
-    // 삭제버튼 클릭 시 팝업창을 띄우는 함수
-    const handleShow = (data) => {
-        
-        setModalState({
-            show:true,
-            type:data.type,
-            commentIndex : data.index
-        });
-    }
-
-    // 삭제버튼 클릭 시 사용되는 이벤트
+    // 게시글 삭제버튼 클릭 시 사용되는 이벤트
     const handleDelete = (content) => {
         handleClose();
 
@@ -157,7 +86,7 @@ export default function Post() {
                 }
             })
 
-    }
+    }    
 
     // 댓글 삭제 함수
     const deleteComment = (commentIdx) => {
@@ -179,7 +108,281 @@ export default function Post() {
             })
     }
 
+    // 게시글 / 댓글 삭제버튼 클릭 시 팝업창을 띄우는 함수
+    const handleShow = (data) => {
+        
+        setModalState({
+            show:true,
+            type:data.type,
+            commentIndex : data.index
+        });
+    }
 
+    // 게시글 / 댓글 수정버튼 클릭 시 수정 선택 종류에 따라 수정 형식을 다르게 해주는 함수
+    const handleModify = (data) => {
+        data.type === 'post' ? handleModifyPost() : handleModifyComment(data.index, data.content);
+    }    
+
+    // 게시글 수정일 때의 핸들링 함수
+    const handleModifyPost = () => {
+        const data = {
+            title: post.postTitle,
+            content: post.postContent,
+            path: `/board/${no}/post/${id}`
+        }
+        navigate(`/board/${no}/post/${id}/edit`, {state: data});
+    }
+
+    // 댓글 수정일 때의 핸들링 함수
+    const handleModifyComment = (commentIndex, commentContent) => {
+        setIsCommentModify(true);
+        setModifyCommentInfo({
+            index : commentIndex,
+            content : commentContent
+        });
+    }
+
+    // 수정된 댓글을 서버에 전달하는 함수
+    const sendModifyComment = () => {
+        const path ='http://localhost:9090/board/commentModify';
+        const body = {
+            postIndex: id,
+            commentIndex: modifyCommentInfo.index,
+            userID: localStorage.getItem("userID"),
+            commentContent : modifyCommentInfo.content
+        }
+        console.log(body);
+
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("댓글을 성공적으로 수정하였습니다.");
+                    setIsCommentModify(false);
+                    setReflash(!reflash);
+                }else{
+                    alert("댓글을 수정하지 못했습니다.");
+                }
+            })
+    }
+
+    // 댓글 수정 취소 함수
+    const cancelModifyComment = () => {
+        setIsCommentModify(false);
+        setReflash(!reflash);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////
+    // 게시글 이동 관련 함수
+    ////////////////////////////////////////////////////////////////////////////////////
+    // 드롭다운 메뉴 버튼 함수
+    const handleDropdown = (e) => {
+        const ul = e.target.nextSibling;
+        if(ul.style.display === "block")
+            ul.style.display = "none";
+        else
+            ul.style.display = "block";
+    }
+
+    // 목록보기로 돌아가는 함수
+    const clickPostListPage = () => {
+        document.location.href = "/board/0";
+    }
+    // 이전 글로 이동하는 함수
+    const clickPrevPost = () => {
+        const path = 'http://localhost:9090/board/prev';
+        const body ={
+            postIndex: id
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res!==0){
+                    document.location.href = "/post/"+res;
+                }else{
+                    alert("이전 글이 없습니다.");
+                }
+            })
+    }
+    // 다음 글로 이동하는 함수
+    const clickNextPost = () => {
+        
+        const path = 'http://localhost:9090/board/next';
+        const body ={
+            postIndex: id
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res!==0){
+                    document.location.href = "/post/"+res;
+                }else{
+                    alert("다음 글이 없습니다.");
+                }
+            })
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////
+    // 추천 / 비추천 관련 함수
+    ///////////////////////////////////////////////////////////////////////////////////
+    // 추천, 비추천 버튼 함수
+    const clickUpvote = () => {
+        const path = 'http://localhost:9090/board/upvote';
+        const body ={
+            postIndex: id,
+            userID: localStorage.getItem("userID")
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("추천하였습니다.");
+                    setReflash(!reflash);
+                }else{
+                    alert("추천하지 못했습니다.");
+                }
+            })
+    }
+    const clickDownvote = () => {
+        const path = 'http://localhost:9090/board/downvote';
+        const body ={
+            postIndex: id,
+            userID: localStorage.getItem("userID")
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("비추천하였습니다.");
+                    setReflash(!reflash);
+                }else{
+                    alert("비추천하지 못했습니다.");
+                }
+            })
+    }
+
+    // 댓글 추천, 비추천 버튼 함수
+    const clickCommentUpvote = (e) => {
+        const path = 'http://localhost:9090/board/commentUpvote';
+        const body ={
+            postIndex: id,
+            userID: localStorage.getItem("userID"),
+            commentIndex: e.target.parentNode.parentNode.parentNode.parentNode.id
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("추천하였습니다.");
+                    setReflash(!reflash);
+                }else{
+                    alert("추천하지 못했습니다.");
+                }
+            })
+    }
+    const clickCommentDownvote = (e) => {
+        const path = 'http://localhost:9090/board/commentDownvote';
+        const body ={
+            postIndex: id,
+            userID: localStorage.getItem("userID"),
+            commentIndex: e.target.parentNode.parentNode.parentNode.parentNode.id
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("비추천하였습니다.");
+                    setReflash(!reflash);
+                }else{
+                    alert("비추천하지 못했습니다.");
+                }
+            })
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    //댓글 관련 함수
+    ////////////////////////////////////////////////////////////////////////////////////
+    // 댓글 작성란에 입력된 텍스트에 변화가 있을 때마다 실행되는 함수
+    const onCommentTextChange = (e) => {
+        setCommentText(e.target.value);
+    }
+
+    // 댓글 작성창에 포커싱이 되었을 때 실행되는 함수
+    const handleTextareaFocus = () => {
+        setIsFocusTestarea(true);
+    }
+
+    // 댓글 작성창에 포커싱이 해제되었을 때 실행되는 함수
+    const handleTextareaBlur = () => {
+        setTimeout(() => {
+            setIsFocusTestarea(false);
+          }, 150); // 100ms 딜레이
+
+    }
+
+    // 댓글 작성 버튼을 눌렀을 때 실행되는 함수
+    const clickWriteComment = (e) => {
+        // 줄바꿈 방지
+        e.preventDefault();
+        const path = 'http://localhost:9090/board/commentWrite';
+        const body ={
+            postIndex : id,
+            userID : localStorage.getItem("userID"),
+            commentContent : commentText
+        }
+        axiosRequest(path,body,'POST','json')
+            .then(res => {
+                if(res){
+                    alert("댓글을 성공적으로 올렸습니다.");
+                    setCommentText("");
+                    setReflash(!reflash);
+                }else{
+                    alert("댓글을 올리지 못했습니다.");
+                }
+            })
+    }
+    
+    // 댓글 작성 취소 버튼을 눌렀을 때 실행되는 함수
+    const clickCancelComment = (e) => {
+        console.log("취소");
+        // 댓글 작성란 초기화
+        setCommentText("");
+    }    
+
+    // 댓글 정렬 함수
+    const handleSort = (e) => {
+        e.target.parentNode.parentNode.style.display = "none";
+        switch (e.target.innerText) {
+            case '등록순':
+                setSortType('date');
+                break;
+            case '추천순':
+                setSortType('upvote');
+                break;
+            case '비추천순':
+                setSortType('downvote');
+                break;
+            default:
+                setSortType('date');
+                break;
+        }
+    }
+
+    // 댓글 수정 시 textarea에 입력된 값을 저장하는 함수
+    const onTextChange = (e) => {
+        setModifyCommentInfo({
+            ...modifyCommentInfo,
+            content : e.target.value
+        });
+        console.log(modifyCommentInfo.content);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    // useEffect
+    ////////////////////////////////////////////////////////////////////////////////////
+    useEffect(() => {
+        const path = 'http://localhost:9090/board/viewCountUp';
+        const body ={
+            postIndex: id,
+        }
+        axiosRequest(path,body,'POST','json')
+    }, []);
+
+    // 정렬 방식이 바뀔 때마다 정렬 방식에 따라 정렬 이름을 바꿔주는 함수
     useEffect(() => {
         console.log(sortType);
 
@@ -193,18 +396,13 @@ export default function Post() {
             case 'downvote':
                 setSortName('비추천순');
                 break;
+            default:
+                setSortName('등록순');
+                break;
         }
     }, [sortType]);
 
-    useEffect(() => {
-        const path = 'http://localhost:9090/board/viewCountUp';
-        const body ={
-            postIndex: id,
-        }
-        axiosRequest(path,body,'POST','json')
-    }, []);
-
-
+    // reflash와 sortType이 바뀔 때마다 게시글 정보와 댓글 정보를 가져오는 함수
     useEffect(() => {
         setPage(1);
         const path = 'http://localhost:9090/board/view';
@@ -227,6 +425,7 @@ export default function Post() {
             })
     }, [reflash,sortType]);
 
+    // page가 바뀔 때마다 댓글 정보를 가져오는 함수
     useEffect(() => {
         setLoading(true)
         const path = 'http://localhost:9090/board/view';
@@ -270,180 +469,6 @@ export default function Post() {
             setPage(page + 1)
         }
     }, [inView, loading])
-
-
-    const clickUpvote = () => {
-        const path = 'http://localhost:9090/board/upvote';
-        const body ={
-            postIndex: id,
-            userID: localStorage.getItem("userID")
-        }
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                if(res){
-                    alert("추천하였습니다.");
-                    setReflash(!reflash);
-                }else{
-                    alert("추천하지 못했습니다.");
-                }
-            })
-    }
-    const clickDownvote = () => {
-        const path = 'http://localhost:9090/board/downvote';
-        const body ={
-            postIndex: id,
-            userID: localStorage.getItem("userID")
-        }
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                if(res){
-                    alert("비추천하였습니다.");
-                    setReflash(!reflash);
-                }else{
-                    alert("비추천하지 못했습니다.");
-                }
-            })
-    }
-    const clickCommentUpvote = (e) => {
-        const path = 'http://localhost:9090/board/commentUpvote';
-        const body ={
-            postIndex: id,
-            userID: localStorage.getItem("userID"),
-            commentIndex: e.target.parentNode.parentNode.parentNode.parentNode.id
-        }
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                if(res){
-                    alert("추천하였습니다.");
-                    setReflash(!reflash);
-                }else{
-                    alert("추천하지 못했습니다.");
-                }
-            })
-    }
-    const clickCommentDownvote = (e) => {
-        const path = 'http://localhost:9090/board/commentDownvote';
-        const body ={
-            postIndex: id,
-            userID: localStorage.getItem("userID"),
-            commentIndex: e.target.parentNode.parentNode.parentNode.parentNode.id
-        }
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                if(res){
-                    alert("비추천하였습니다.");
-                    setReflash(!reflash);
-                }else{
-                    alert("비추천하지 못했습니다.");
-                }
-            })
-    }
-
-    // 드롭다운 메뉴 버튼 함수
-    const handleDropdown = (e) => {
-        const ul = e.target.nextSibling;
-        if(ul.style.display === "block")
-            ul.style.display = "none";
-        else
-            ul.style.display = "block";
-    }
-
-    // 목록보기로 돌아가는 함수
-    const clickPostListPage = () => {
-        document.location.href = "/board/0";
-    }
-
-    // 이전 글로 이동하는 함수
-    const clickPrevPost = () => {
-        const path = 'http://localhost:9090/board/prev';
-        const body ={
-            postIndex: id
-        }
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                if(res!==0){
-                    document.location.href = "/post/"+res;
-                }else{
-                    alert("이전 글이 없습니다.");
-                }
-            })
-    }
-
-    // 다음 글로 이동하는 함수
-    const clickNextPost = () => {
-        
-        const path = 'http://localhost:9090/board/next';
-        const body ={
-            postIndex: id
-        }
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                if(res!==0){
-                    document.location.href = "/post/"+res;
-                }else{
-                    alert("다음 글이 없습니다.");
-                }
-            })
-    }
-
-    // 댓글 작성 이벤트 핸들러
-    const clickWriteComment = (e) => {
-        // 줄바꿈 방지
-        e.preventDefault();
-        const path = 'http://localhost:9090/board/commentWrite';
-        const body ={
-            postIndex : id,
-            userID : localStorage.getItem("userID"),
-            commentContent : commentText
-        }
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                if(res){
-                    alert("댓글을 성공적으로 올렸습니다.");
-                    setCommentText("");
-                    setReflash(!reflash);
-                }else{
-                    alert("댓글을 올리지 못했습니다.");
-                }
-            })
-    }
-    
-    const clickCancelComment = (e) => {
-        console.log("취소");
-        // 댓글 작성란 초기화
-        setCommentText("");
-    }
-
-
-
-    // 댓글 작성란에 입력된 텍스트에 변화가 있을 때마다 실행되는 함수
-    const onCommentTextChange = (e) => {
-        setCommentText(e.target.value);
-    }
-
-    const handleSort = (e) => {
-        e.target.parentNode.parentNode.style.display = "none";
-        switch (e.target.innerText) {
-            case '등록순':
-                setSortType('date');
-                break;
-            case '추천순':
-                setSortType('upvote');
-                break;
-            case '비추천순':
-                setSortType('downvote');
-                break;
-        }
-    }
-
-    // 댓글 수정 시 textarea에 입력된 값을 저장하는 함수
-    const onTextChange = (e) => {
-        setModifyCommentInfo({
-            ...modifyCommentInfo,
-            content : e.target.value
-        });
-        console.log(modifyCommentInfo.content);
-    }
 
     return (
         <div className="container">
