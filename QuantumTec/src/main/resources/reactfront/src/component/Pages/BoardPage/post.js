@@ -4,7 +4,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 
 import axios from 'axios';
 import {axiosRequest} from '../../../module/networkUtils';
@@ -16,9 +16,6 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from 'react-router';
 
-/**
- * @todo 댓글 입력란 포커싱 될 때만 댓글 / 취소 버튼이 보이도록 수정
- */
 export default function Post() {
     const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
@@ -45,11 +42,25 @@ export default function Post() {
         type:"",                    // 팝업창의 종류 (post: 게시글 삭제, comment: 댓글 삭제)
         commentIndex : 0            // 팝업창을 띄울 댓글의 인덱스
     });
-    
+
     const [commentText, setCommentText] = useState("");          // 댓글 작성창에 입력된 텍스트
+    const [isFocusTextarea, setIsFocusTestarea] = useState(false);               // 댓글 작성창에 포커싱이 되었는지 여부
 
     // 페이지 이동을 위한 navigate 객체
     const navigate = useNavigate();
+
+    // 댓글 작성창에 포커싱이 되었을 때 실행되는 함수
+    const handleTextareaFocus = () => {
+        setIsFocusTestarea(true);
+    }
+
+    // 댓글 작성창에 포커싱이 해제되었을 때 실행되는 함수
+    const handleTextareaBlur = () => {
+        setTimeout(() => {
+            setIsFocusTestarea(false);
+          }, 150); // 100ms 딜레이
+
+    }
 
     // 수정버튼 클릭 시 수정 선택 종류에 따라 수정 형식을 다르게 해주는 함수
     const handleModify = (data) => {
@@ -540,10 +551,16 @@ export default function Post() {
                 </div>
                 <div className="form-floating col" >
                     <textarea className="form-control" id="floatingTextarea2" style={{height: '100px'}} 
-                                onChange={onCommentTextChange} value={commentText}/>
+                                onChange={onCommentTextChange} value={commentText} 
+                                onFocus={handleTextareaFocus} onBlur={handleTextareaBlur}/>
                     <label className='ms-[10px]' for="floatingTextarea2">댓글 추가...</label>
-                    <button className='btn btn-success mt-2 ml-1' style={{float:'right'}} onClick={clickWriteComment}>댓글</button>
-                    <button className='btn btn-success mt-2 ml-1' style={{float:'right'}} onClick={clickCancelComment}>취소</button>   
+                    {
+                        isFocusTextarea &&
+                        <div>
+                            <button className='btn btn-success mt-2 ml-1' style={{float:'right'}} onClick={clickWriteComment}>댓글</button>
+                            <button className='btn btn-success mt-2 ml-1' style={{float:'right'}} onClick={clickCancelComment}>취소</button>   
+                        </div>
+                    }
                 </div>
             </div>
             <hr className='text-green-700 border-4 opacity-50 m-0 mb-4' />
