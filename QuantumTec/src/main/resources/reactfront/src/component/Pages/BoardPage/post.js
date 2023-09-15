@@ -144,25 +144,30 @@ export default function Post() {
 
     // 수정된 댓글을 서버에 전달하는 함수
     const sendModifyComment = () => {
-        const path ='http://localhost:9090/board/commentModify';
-        const body = {
-            postIndex: id,
-            commentIndex: modifyCommentInfo.index,
-            userID: localStorage.getItem("userID"),
-            commentContent : modifyCommentInfo.content
-        }
-        console.log(body);
+        const checkComment = modifyCommentInfo.content === "";
+        if(checkComment){
+            alert("댓글을 작성해주세요.");
+        }else{
+            const path ='http://localhost:9090/board/commentModify';
+            const body = {
+                postIndex: id,
+                commentIndex: modifyCommentInfo.index,
+                userID: localStorage.getItem("userID"),
+                commentContent : modifyCommentInfo.content
+            }
+            console.log(body);
 
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                if(res){
-                    alert("댓글을 성공적으로 수정하였습니다.");
-                    setIsCommentModify(false);
-                    setReflash(!reflash);
-                }else{
-                    alert("댓글을 수정하지 못했습니다.");
-                }
-            })
+            axiosRequest(path,body,'POST','json')
+                .then(res => {
+                    if(res){
+                        alert("댓글을 성공적으로 수정하였습니다.");
+                        setIsCommentModify(false);
+                        setReflash(!reflash);
+                    }else{
+                        alert("댓글을 수정하지 못했습니다.");
+                    }
+                })
+        }
     }
 
     // 댓글 수정 취소 함수
@@ -317,22 +322,28 @@ export default function Post() {
     const clickWriteComment = (e) => {
         // 줄바꿈 방지
         e.preventDefault();
-        const path = 'http://localhost:9090/board/commentWrite';
-        const body ={
-            postIndex : id,
-            userID : localStorage.getItem("userID"),
-            commentContent : commentText
+        const checkComment = commentText === "";
+        if(checkComment){
+            alert("댓글을 작성해주세요.");
+        }else{
+            const path = 'http://localhost:9090/board/commentWrite';
+            const body ={
+                postIndex : id,
+                userID : localStorage.getItem("userID"),
+                commentContent : commentText
+            }
+            axiosRequest(path,body,'POST','json')
+                .then(res => {
+                    if(res){
+                        alert("댓글을 성공적으로 올렸습니다.");
+                        setCommentText("");
+                        setReflash(!reflash);
+                    }else{
+                        alert("댓글을 올리지 못했습니다.");
+                    }
+                })
         }
-        axiosRequest(path,body,'POST','json')
-            .then(res => {
-                if(res){
-                    alert("댓글을 성공적으로 올렸습니다.");
-                    setCommentText("");
-                    setReflash(!reflash);
-                }else{
-                    alert("댓글을 올리지 못했습니다.");
-                }
-            })
+
     }
     
     // 댓글 작성 취소 버튼을 눌렀을 때 실행되는 함수
