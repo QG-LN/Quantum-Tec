@@ -646,19 +646,25 @@ export default function Post() {
                             </div>
                             <div className='col-7 text-start'>
                                 {!isCommentModify && comment.commentContent}
-                                {isCommentModify && modifyCommentInfo.index === comment.commentIndex &&
-                                    <>
-                                        <textarea className="form-control" placeholder="댓글 입력하여주세요." id="floatingTextarea2" style={{height: '100px'}} onChange={onTextChange}>
-                                            {modifyCommentInfo.content}
-                                        </textarea>
-                                        <button class='m-1 btn btn-success' style={{float:'right'}} onClick={cancelModifyComment}>
-                                            취소
-                                        </button>
-                                        <button class='m-1 btn btn-success' style={{float:'right'}} onClick={sendModifyComment}>
-                                            수정
-                                        </button>
+                                {isCommentModify &&
+                                    (
+                                        modifyCommentInfo.index === comment.commentIndex &&
+                                        <>
+                                            <textarea className="form-control" placeholder="댓글 입력하여주세요." id="floatingTextarea2" style={{height: '100px'}} onChange={onTextChange}>
+                                                {modifyCommentInfo.content}
+                                            </textarea>
+                                            <button class='m-1 btn btn-success' style={{float:'right'}} onClick={cancelModifyComment}>
+                                                취소
+                                            </button>
+                                            <button class='m-1 btn btn-success' style={{float:'right'}} onClick={sendModifyComment}>
+                                                수정
+                                            </button>
 
-                                    </>
+                                        </>
+                                    )
+                                }
+                                {
+                                    isCommentModify && modifyCommentInfo.index !== comment.commentIndex && comment.commentContent
                                 }
                             </div>
                             <div className='row justify-content-around col-2 text-end p-0 ps-4 user-select-none'>
