@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import {axiosRequest} from '../../../module/networkUtils';
 import {useParams} from "react-router-dom";
-import userEvent from "@testing-library/user-event";
 
 const ITEMS_PER_PAGE = 10; // 페이지 당 아이템 수
 export default function Board() {
@@ -10,8 +9,6 @@ export default function Board() {
     const [startPage, setStartPage] = useState(1);
     // 게시글 리스트
     const [Posts, setPosts] = useState([]);
-    // 카테고리 리스트
-    const [Categories, setCategories] = useState([]);
     // 현재 페이지 넘버
     const [currentPage, setCurrentPage] = useState(1);
     const [boardName, setBoardName] = useState("게시판");
@@ -97,7 +94,7 @@ export default function Board() {
     useEffect(() => {
         loadBoardList();
         setBoardName(boardTypeToName(id));
-    }, [currentPage, searchKeyword.sortType, id]);
+    }, [currentPage, searchKeyword, sortType, id]);
 
     // 게시글 리스트 불러오기
     const loadBoardList = () => {
@@ -167,7 +164,6 @@ export default function Board() {
 
     // 드롭다운 메뉴 버튼 함수
     const handleDropdown = (e) => {
-        console.log(e.target.nextSibling);
         const ul = e.target.nextSibling;
         if(ul.style.display === "block")
             ul.style.display = "none";
@@ -190,12 +186,12 @@ export default function Board() {
             .then(res => {
                 setPostCount(res);
             })
-
             
     }
 
     const handleSort = (e) => {
         e.target.parentNode.parentNode.style.display = "none";
+        console.log( e.target.parentNode.parentNode.style.display);
         switch (e.target.innerText) {
             case '최신순':
                 setSortType('latest');
@@ -234,8 +230,6 @@ export default function Board() {
         setSearchKeyword(e.target.parentNode.previousSibling.childNodes[1].value);
     }
 
-    // 총 게시글 카운트 더미 파일
-    Posts.totalItems = 110;
       return (
         <div className="container">
             <h1>{boardName}</h1>
@@ -258,9 +252,9 @@ export default function Board() {
                             {sortName}
                         </button>
                         <ul class="dropdown-menu user-select-none" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" onClick={handleSort}>최신순</a></li>
-                            <li><a class="dropdown-item" onClick={handleSort}>오래된순</a></li>
-                            <li><a className="dropdown-item" onClick={handleSort}>별점순</a></li>
+                            <li><span class="dropdown-item hover:cursor-pointer" onClick={handleSort}>최신순</span></li>
+                            <li><span class="dropdown-item hover:cursor-pointer " onClick={handleSort}>오래된순</span></li>
+                            <li><span className="dropdown-item hover:cursor-pointer" onClick={handleSort}>별점순</span></li>
                         </ul>
                     </div>
                 </div>
@@ -298,9 +292,9 @@ export default function Board() {
                             {searchName}
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a onClick={handleSearch} class="dropdown-item" href="#">제목</a></li>
-                            <li><a onClick={handleSearch} class="dropdown-item" href="#">작성자</a></li>
-                            <li><a onClick={handleSearch} class="dropdown-item" href="#">제목 + 작성자</a></li>
+                            <li><span onClick={handleSearch} class="dropdown-item hover:cursor-pointer">제목</span></li>
+                            <li><span onClick={handleSearch} class="dropdown-item hover:cursor-pointer">작성자</span></li>
+                            <li><span onClick={handleSearch} class="dropdown-item hover:cursor-pointer">제목 + 작성자</span></li>
                         </ul>
                     </div>
                     <div class="col-auto">
