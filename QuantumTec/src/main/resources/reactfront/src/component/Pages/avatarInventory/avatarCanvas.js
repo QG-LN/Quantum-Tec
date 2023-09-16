@@ -20,7 +20,6 @@ export default function AvatarCanvas(props) {
     // 착용중인 아바타 아이템 목록
     const avatarItemList = useSelector(state => state.avatar.itemList);
     
-
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
@@ -90,8 +89,9 @@ export default function AvatarCanvas(props) {
     }, [canvasRef, avatarItemList]);
 
     return (
-        <div className='ratio ratio-1x1'>
+        <>
             <canvas className='w-[100%] h-[100%] rounded border' ref={canvasRef}>캔버스를 지원하지 않는 브라우저 입니다</canvas>
-        </div>
+        </>
+
     );
 }
