@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useNavigate } from 'react-router';
 
 export default function AvatarItem(props) {
     //modal
@@ -8,6 +9,8 @@ export default function AvatarItem(props) {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const navigate = useNavigate();
 
     const checkLogin = () => {
         if(localStorage.getItem("userNickname") == null){
@@ -19,7 +22,7 @@ export default function AvatarItem(props) {
     const checkCash = () => {
         if(localStorage.getItem("userCash") < props.item.priceCash){
             alert("캐시가 부족합니다.");
-            document.location.href = "/cashcharge";
+            navigate("/cashcharge");
         }
     }
 

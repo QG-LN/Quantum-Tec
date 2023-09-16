@@ -190,7 +190,7 @@ export default function Post() {
 
     // 목록보기로 돌아가는 함수
     const clickPostListPage = () => {
-        document.location.href = "/board/0";
+        navigate(`/board/${no}`);
     }
     // 이전 글로 이동하는 함수
     const clickPrevPost = () => {
@@ -201,7 +201,7 @@ export default function Post() {
         axiosRequest(path,body,'POST','json')
             .then(res => {
                 if(res!==0){
-                    document.location.href = "/post/"+res;
+                    navigate(`/board/${no}/post/${res}`);
                 }else{
                     alert("이전 글이 없습니다.");
                 }
@@ -217,7 +217,7 @@ export default function Post() {
         axiosRequest(path,body,'POST','json')
             .then(res => {
                 if(res!==0){
-                    document.location.href = "/post/"+res;
+                    navigate(`/board/${no}/post/${res}`);
                 }else{
                     alert("다음 글이 없습니다.");
                 }

@@ -57,7 +57,7 @@ export default function WritePage() {
                 .then(res => {
                     if(res){
                         alert("글을 성공적으로 수정하였습니다.");
-                        document.location.href = `/board/${no}`;
+                        navigate(`/board/${no}`);
                     }else{
                         alert("글 수정에 실패하였습니다.");
                     }
@@ -79,7 +79,7 @@ export default function WritePage() {
                     .then(res => {
                         if(res){
                             alert("글을 성공적으로 등록하였습니다.");
-                            document.location.href = `/board/${no}`;
+                            navigate(`/board/${no}`);
                         }else{
                             alert("글 등록에 실패하였습니다.");
                         }

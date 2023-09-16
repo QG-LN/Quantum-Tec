@@ -1,7 +1,7 @@
 import Userimg from './asideImg.js';
 import '../../../App.css';
 import '../../../styles.css';
-import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 export default function AsideLogin(props) {
     /*로그인 확인 임시 false 비로그인/true 로그인*/
@@ -13,10 +13,11 @@ export default function AsideLogin(props) {
     // 로그인 상태일때 유저 캐시 받아오기
     let usercash = localStorage.getItem("userCash");
 
+    const navigate = useNavigate();
 
     // 마이페이지로 이동
     const OnClickMyPage = () => {
-        document.location.href = "/mypage";
+        navigate('/mypage');
     }
 
     // 로그인 페이지로 이동

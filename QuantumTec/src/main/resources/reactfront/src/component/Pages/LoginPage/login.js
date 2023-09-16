@@ -59,7 +59,6 @@ export default function Login(props){
                                 .then(res => {
                                     handleUpdate(res);
                                     navigate('/');
-                                    // document.location.href = "/";
                                 })
                                 .catch(err => {
                                     console.log(err);

@@ -3,6 +3,7 @@ import {axiosRequest} from '../../../module/networkUtils';
 import MySectionInfo from "./MySectionInfo";
 import axios from 'axios';
 import AddressModal from "../LoginPage/AddressModal";
+import { useNavigate } from 'react-router';
 
 export default function Mysection(props){
     // 값 불러올 때에는 useState에 입력하면 됨
@@ -49,6 +50,8 @@ export default function Mysection(props){
         inputPostAddress: '',
     });
     const [sendOk, setSendOk] = useState(false);      // 수정을 위해 정보를 보내는지 확인하는 state
+
+    const navigate = useNavigate();
 
     // 처음 로드 시 부모로부터 받은 데이터를 세팅
     const data = props.userData;
@@ -206,7 +209,7 @@ export default function Mysection(props){
      * @return {Promise<void>}
      */
     const OnClickSave = async () => {
-        const path = 'user/myinfo';
+        const path = 'http://localhost:9090/user/myinfo';
         const body = {
             userID: localStorage.getItem('userID'),
             userPW: inputPw,
@@ -253,7 +256,7 @@ export default function Mysection(props){
      */
     useEffect( () => {
         if (sendOk) {
-            const path = 'user/update';
+            const path = 'http://localhost:9090/user/update';
             const body = {
                 userID           : inputId,
                 userPW           : inputPw,
@@ -273,7 +276,7 @@ export default function Mysection(props){
                     if (checkSave != null) {
                         if (checkSave) {
                             alert('회원 정보가 수정되었습니다.');
-                            document.location.href = '/mypage';
+                            navigate('/mypage');
                         } else {
                             alert('회원정보 수정에 실패하였습니다.');
                             setInputPw('');
@@ -298,7 +301,7 @@ export default function Mysection(props){
 
     //취소 버튼 누를시 마이페이지로 이동
     const OnClickCancel = () => {
-        document.location.href = "/mypage";
+        navigate('/mypage');
     }
 
     //css부분 옮길 예정
