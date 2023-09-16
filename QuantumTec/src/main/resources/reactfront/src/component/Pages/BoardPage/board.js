@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import {axiosRequest} from '../../../module/networkUtils';
 import {useParams} from "react-router-dom";
 
@@ -21,6 +21,8 @@ export default function Board() {
     const [postCount, setPostCount] = useState(0);                 // 게시글 수
 
     const {id} = useParams();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         switch (sortType) {
@@ -119,13 +121,11 @@ export default function Board() {
     // 게시글 랜더링 함수
     const renderPosts = () => {
         return Posts.map((post) => (
-            <tr key={post.postIndex} style={{ cursor: 'pointer' }}>
+            <tr key={post.postIndex} style={{ cursor: 'pointer' }} onClick={() => navigateToPost(post.postIndex)}>
               <td>{post.postIndex}</td>
               <td>{post.boardTitle}</td>
               <td>
-                <Link to={`/board/${id}/post/${post.postIndex}`} title={post.postTitle} class="text-decoration-none text-body">
-                  {post.postTitle && post.postTitle.length > 20 ? post.postTitle.substring(0, 20) + "..." : post.postTitle}
-                </Link>
+                {post.postTitle && post.postTitle.length > 20 ? post.postTitle.substring(0, 20) + "..." : post.postTitle}
               </td>
               <td>
                 <span title={post.postAuthor}>
@@ -138,6 +138,12 @@ export default function Board() {
             </tr>
           ));
     }
+
+    // 게시글로 이동하는 함수
+    const navigateToPost = (postIndex) => {
+        navigate(`/board/${id}/post/${postIndex}`);
+    }
+
 
     ////////////////////////////
 
