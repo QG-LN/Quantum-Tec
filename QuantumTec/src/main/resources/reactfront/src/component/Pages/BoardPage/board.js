@@ -246,10 +246,18 @@ export default function Board() {
                             {boardName}
                         </button>
                         <ul class="dropdown-menu w-[100%]" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="/board/0">전체</a></li>
-                            <li><a class="dropdown-item" href="/board/1">자유</a></li>
-                            <li><a class="dropdown-item" href="/board/2">튜터링</a></li>
-                            <li><a class="dropdown-item" href="/board/3">공지사항</a></li>
+                            <li>
+                                <Link to={`/board/0`} className="dropdown-item hover:cursor-pointer">전체</Link>
+                            </li>
+                            <li>
+                                <Link to={`/board/1`} className="dropdown-item hover:cursor-pointer">자유</Link>
+                            </li>
+                            <li>
+                                <Link to={`/board/2`} className="dropdown-item hover:cursor-pointer">튜터링</Link>
+                            </li>
+                            <li>
+                                <Link to={`/board/3`} className="dropdown-item hover:cursor-pointer">공지사항</Link>
+                            </li>
                         </ul>
                     </div>
                     <div class="dropdown col-auto">
