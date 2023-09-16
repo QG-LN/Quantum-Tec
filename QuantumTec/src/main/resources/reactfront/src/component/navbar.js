@@ -40,7 +40,7 @@ export default function Navbar() {
                 setUserFreeCashFormat((userFreeCash/10000).toFixed(1) + '만');
             }
         }
-    }, [truelogin, cashChange]);
+    }, [truelogin, cashChange, userCash, userFreeCash]);
 
     const handleLogInfo = (e) => {
         console.log(e.currentTarget)
