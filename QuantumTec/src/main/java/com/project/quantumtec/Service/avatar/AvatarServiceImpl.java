@@ -107,4 +107,10 @@ public class AvatarServiceImpl implements AvatarService{
     public boolean setBuyAvatarItem(BuyItemDTO buyItemDTO){
         return avatarDAO.setBuyAvatarItem(buyItemDTO);
     }
+
+    // 구매한 아바타인지 확인
+    public boolean checkBuyAvatarItem(BuyItemDTO buyItemDTO){
+        return avatarDAO.checkBuyAvatarItem(buyItemDTO);
+    }
+    
 }

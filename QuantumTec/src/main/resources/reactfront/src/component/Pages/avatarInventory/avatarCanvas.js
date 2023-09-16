@@ -90,6 +90,8 @@ export default function AvatarCanvas(props) {
     }, [canvasRef, avatarItemList]);
 
     return (
-        <canvas className='w-[100%] h-[100%] rounded border' ref={canvasRef}>캔버스를 지원하지 않는 브라우저 입니다</canvas>
+        <div className='ratio ratio-1x1'>
+            <canvas className='w-[100%] h-[100%] rounded border' ref={canvasRef}>캔버스를 지원하지 않는 브라우저 입니다</canvas>
+        </div>
     );
 }

@@ -317,6 +317,15 @@
             USER_INDEX = #{userIndex};
     </update>
 
+    <update id='setUserCashRollback' parameterType='BuyItemDTO'>
+        UPDATE 
+            USER_STATUS_TB
+        SET 
+            USER_CASH = USER_CASH + #{paymentAmount}
+        WHERE 
+            USER_INDEX = #{userIndex};
+    </update>
+
     <insert id='setBuyAvatarItem' parameterType='BuyItemDTO'>
         -- AVATAR_PAYMENT_HISTORY_TB에 데이터 추가
         INSERT INTO AVATAR_PAYMENT_HISTORY_TB 
@@ -324,5 +333,18 @@
         VALUES 
         (#{userIndex}, #{itemIndex}, #{paymentMethod}, #{paymentStatus}, #{paymentAmount});
     </insert>
+
+    <select id='checkBuyAvatarItem' resultType='int' parameterType='BuyItemDTO'>
+        SELECT 
+            COUNT(*) 
+        FROM 
+            AVATAR_PAYMENT_HISTORY_TB aph
+        JOIN
+            USER_INFO_TB ui ON aph.USER_INDEX = ui.USER_INDEX
+        WHERE 
+            USER_ID = #{userId} 
+        AND 
+            ITEM_INDEX = #{itemIndex};
+        </select>
 </mapper>
 

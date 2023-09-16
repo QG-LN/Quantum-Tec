@@ -5,8 +5,8 @@ import Tooltip from '../../Utils/tooltip';
 import { axiosRequest } from '../../../module/networkUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAvatarItemList } from '../../../redux/actions/avatarActions';
+import { setCashChange } from '../../../redux/actions/userActions';
 import { useNavigate } from 'react-router-dom';
-
 /**
  * 아바타 아이템을 보여주는 컴포넌트
  * @param {Object} props - 부모 컴포넌트로부터 받아온 props
@@ -31,6 +31,25 @@ export default function AvatarItem(props) {
     };
     const handleShow = () => setShow(true);
 
+    // 텍스트 애니메이션 ref
+    const textRef = useRef(null);
+    const boxRef = useRef(null);
+
+    const handleMouseEnter = () => {
+        const boxWidth = boxRef.current.clientWidth;
+        const textWidth = textRef.current.clientWidth;
+
+        if (textWidth > boxWidth) {
+            const moveDistance = boxWidth - textWidth;
+            textRef.current.style.left = `${moveDistance}px`;
+        }
+    };
+
+    const handleMouseLeave = () => {
+        textRef.current.style.left = '0';
+    };
+    ////////////////////////////////////////////
+
     const checkLogin = () => {
         if(localStorage.getItem("userNickname") == null){
             alert("로그인이 필요한 서비스입니다.");
@@ -54,41 +73,59 @@ export default function AvatarItem(props) {
             axiosRequest('http://localhost:9090/avatar/shop/item/buy', body, 'POST', 'json')
                 .then(res => {
                     if(res === true){
-                        alert("구매가 완료되었습니다.");
-                        handleClose();
-                        props.refreshKey();
                         // 구매 완료 후 캐시 차감된 내 캐시 상황을 어떻게 반영할지 고민해보기(DB에서 가져오는 방식으로?, 수동으로?)
+                        handleCashUpdate(localStorage.getItem("userCash") - props.item.itemPrice);
+                        localStorage.setItem("userCash", localStorage.getItem("userCash") - props.item.itemPrice);
+                        setShow2(false);
+                        setCheckBuy(true);
+                        setTitleBuyItem('구매 완료!');
+                        setContentBuyItem('구매가 완료되었습니다.');
+                        setShow2(true);
                     }
                     else{
                         alert("구매에 실패하였습니다.");
                     }
                 })
-                // .catch(err => {
-                //     alert("구매에 실패하였습니다.");
-                //     console.log(err);
-                // });
 
         }
     }
 
+    const checkBuyItem = () => {
+        const body = {
+            userId: localStorage.getItem("userID"),
+            itemIndex: props.item.itemIndex,
+        };
+        axiosRequest('http://localhost:9090/avatar/shop/item/check', body, 'POST', 'json')
+            .then(res => {
+                if(res === true){
+                    alert("이미 구매한 아이템입니다.");
+                    handleClose();
+                }
+                else{
+                    checkCash(); // 캐시 확인
+                }
+            }
+        );
+
+    }
+
     const handleBuyForCash = () => {
         checkLogin();   // 로그인 확인
-        checkCash();    // 캐시 확인
+        checkBuyItem(); // 이미 구매했는지 확인
+        // 캐시 확인
         // 구매 처리
         // 구매 후 아이템 저장
     }
 
     const handleBuyForFreeCash = () => {
         checkLogin();   // 로그인 확인
+        // 이미 구매했는지 확인
         // 프리캐시 확인
         // 구매 처리
         // 구매 후 아이템 저장
         alert("미구현");
     }
 
-    useEffect(() => {
-        console.log(show);
-    }, [show]);
     // 아이템 이미지 경로
     let imgSrc;
     // 아이템 착용 상태
@@ -100,6 +137,10 @@ export default function AvatarItem(props) {
 
     const handleUpdate = (newItemList) => {
         dispatch(setAvatarItemList(newItemList));
+    };
+
+    const handleCashUpdate = (newCash) => {
+        dispatch(setCashChange(newCash));
     };
 
     useEffect(() => {
@@ -192,20 +233,25 @@ export default function AvatarItem(props) {
         }
     };
 
+
     const Item = () => {
+
         return (
-            <>
+            <div className='animated-main'
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                ref={boxRef}>
                 {/* <div className="placeholder ratio ratio-1x1 rounded-top"></div> */}
-                <img src={imgSrc}/>
+                <img className='ratio ratio-1x1' src={imgSrc}/>
                 {/* <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" class="card-img-top" alt="..."/> */}
                 <hr className='m-0 border-1' />
-                <div className="text-start m-3">
-                    <h5 className="card-title placeholder-glow">
-                        {props.item && props.item.itemName ? props.item.itemName : "No item name available"}
+                <div className="text-start m-3 animated-box">
+                    <h6 className="card-title placeholder-glow animated-text" ref={textRef}>
+                    {props.item && props.item.itemName ? props.item.itemName : "No item name available"}
                     {/* <div className="placeholder col-5"></div> */}
-                    </h5>
+                    </h6>
                 </div>
-            </>
+            </div>
         )
     };
 
@@ -224,10 +270,62 @@ export default function AvatarItem(props) {
         }
     }
 
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = (e) => {
+        setShow2(false);
+        setDarken(false);
+        // 이벤트 버블링 방지
+        e?.stopPropagation();
+        if(checkBuy){
+            
+            handleClose();
+            props.refreshKey();
+        }
+    };
+    const [darken, setDarken] = useState(false);
+    const [titleBuyItem, setTitleBuyItem] = useState('캐시');
+    const [contentBuyItem, setContentBuyItem] = useState('');
+    const [checkBuy, setCheckBuy] = useState(false);
+
+    const handleShow2 = (e) => {
+        
+        if(e.target.id === 'cash'){
+            setTitleBuyItem('캐시를 사용하여 구매');
+            const content = `정말로 구매하시겠습니까?
+            ${localStorage.getItem("userCash")} -> ${localStorage.getItem("userCash") - props.item.itemPrice}`;
+            setContentBuyItem(content);
+        }
+        else{
+            setTitleBuyItem('프리캐시를 사용하여 구매');
+        }
+        setShow2(true);
+        setDarken(true);
+
+    }
+
     const showModal = () => {
         return (
             <div onClick={e=>e.stopPropagation()}>
-                <Modal show={show} onHide={handleClose} centered={true}>
+
+                <Modal show={show2} onHide={handleClose2} centered={true}>
+                    <Modal.Header>
+                        <Modal.Title className='w-[100%]'>
+                            {titleBuyItem}
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className='ml-5'>
+                        {contentBuyItem.split("\n").map((letter)=>(<>{letter}<br /></>))}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        { !checkBuy && <Button className="btn_close" variant="success" onClick={handleBuyForCash}>
+                            구매
+                        </Button>}
+                        <Button className="btn_close" variant="secondary" onClick={handleClose2}>
+                            닫기
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                <Modal className={darken ? 'darken' : 'lighten'} show={show} onHide={handleClose} centered={true}>
                     <Modal.Header>
                         <Modal.Title className='w-[100%]'>
                             <div className='row justify-content-between'>
@@ -270,10 +368,10 @@ export default function AvatarItem(props) {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button className="btn_close" variant="success" onClick={handleBuyForFreeCash}>
+                        <Button className="btn_close" variant="success" onClick={handleBuyForFreeCash} id='freecash'>
                             {changeNumberFormat(props.item.itemPrice * 10)} freecash
                         </Button>
-                        <Button className="btn_close" variant="success" onClick={handleBuyForCash}>
+                        <Button className="btn_close" variant="success" onClick={handleShow2} id='cash'>
                             {changeNumberFormat(props.item.itemPrice)} cash
                         </Button>
                         <Button className="btn_close" variant="secondary" onClick={handleClose}>

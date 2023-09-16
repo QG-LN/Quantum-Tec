@@ -1,5 +1,6 @@
 import React from 'react';
 import AvatarItem from './avatarItem';
+import { useLocation } from 'react-router-dom';
 
 /**
  * 아바타 아이템이 존재하는지 확인하는 컴포넌트
@@ -14,10 +15,19 @@ import AvatarItem from './avatarItem';
  * @author MayoneJY <mayone6063@kakao.com>
  */
 export default function AvatarItemCheck(props) {
+    const location = useLocation();
+    const path = location.pathname.split("/").pop(); // "avatarshop"을 얻기 위함
     
     if (props.itemList.length === 0) {
+        if (path === "avatarshop"){
+            return (
+                <div className='mb-5'>
+                    <h5 className='text-center'>더 이상 구매가 가능한 아이템이 없습니다. 감사합니다!</h5>
+                </div>
+            );
+        }
         return (
-            <div>
+            <div className='mb-5'>
                 <h5 className='text-center'>아이템이 없습니다.</h5>
             </div>
         );

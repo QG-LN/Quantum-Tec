@@ -30,7 +30,32 @@
 	filter: invert(20%) sepia(16%) saturate(14%) hue-rotate(352deg) brightness(91%) contrast(96%);
 	opacity: 1;
 }
+/* 움직이는 텍스트 */
+.animated-box {
+	height: 20px;
+    overflow: hidden;  // 내용이 박스를 벗어나면 숨깁니다.
+    position: relative;  // 자식 요소의 위치를 기준으로 설정하기 위해 사용합니다.
+}
 
+.animated-text {
+    white-space: nowrap;  // 텍스트를 한 줄로 표시합니다.
+    position: absolute;  // 텍스트의 위치를 절대적으로 설정합니다.
+    top: 0;
+    left: 0;
+    transition: all 1.5s;  // 텍스트의 움직임을 부드럽게 만듭니다.
+}
+
+// 점점 어두워지게
+.darken {
+	transition: filter 1s;  /* 2초 동안 필터 효과 전환 */
+	filter: brightness(0.3);  /* 요소의 밝기를 30%로 감소 */
+}
+
+// 점점 밝아지게
+.lighten {
+	transition: filter 1s;  /* 2초 동안 필터 효과 전환 */
+	filter: brightness(1);  /* 요소의 밝기를 100%로 증가 */
+}
 // @media (min-width: 500px) {
 // 	span {
 // 		font-size: 0.5rem;
