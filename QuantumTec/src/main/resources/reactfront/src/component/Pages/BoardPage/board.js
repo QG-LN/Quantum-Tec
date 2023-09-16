@@ -180,7 +180,7 @@ export default function Board() {
             boardIndex : id,
             sortType: sortType,
             searchType : searchType,
-            searchKeyword : ''
+            searchKeyword : searchKeyword
         }
         axiosRequest(path,body,'POST','json')
             .then(res => {
@@ -191,7 +191,6 @@ export default function Board() {
 
     const handleSort = (e) => {
         e.target.parentNode.parentNode.style.display = "none";
-        console.log( e.target.parentNode.parentNode.style.display);
         switch (e.target.innerText) {
             case '최신순':
                 setSortType('latest');
