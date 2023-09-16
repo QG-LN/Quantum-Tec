@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const BASE_URL = 'http://localhost:9090';
+
 /**
  * json 데이터를 전달 받아  요청처리
  * @param path  데이터 전송 경로
@@ -15,7 +17,7 @@ export async function axiosRequest(path, body, methodType, returnType) {
     try {
         const config = {
             method: methodType,
-            url: path,
+            url: `${BASE_URL}/${path}`,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -32,6 +34,12 @@ export async function axiosRequest(path, body, methodType, returnType) {
                 break;
             case "string" :
                 data = response.data.toString();
+                break;
+            case "array":
+                data = Array.isArray(response.data) ? response.data : [];
+                break;
+            default:
+                data = response.data;
                 break;
         }
         

@@ -123,7 +123,7 @@ export default function GamePage() {
             // 오류발생시 실행
         })
 
-        const commentPath = 'http://localhost:9090/game/info/comment';
+        const commentPath = 'game/info/comment';
         const body = {
             pageNum   : 1,
             gameIndex : id,
@@ -156,7 +156,7 @@ export default function GamePage() {
 
 
     useDidMountEffect(() => {
-        const categoryGamePath = 'http://localhost:9090/game/info/sameCategory';
+        const categoryGamePath = 'game/info/sameCategory';
         const categoryBody = {
             gameCategoryName : gameCategoryName,
             startIndex: 0,

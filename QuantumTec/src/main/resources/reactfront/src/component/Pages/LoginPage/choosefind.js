@@ -48,7 +48,7 @@ export default function Choosefind(props) {
     //확인 버튼 클릭 이벤트
     const onClickIdFind = async () => {
         // 인증번호를 체크하고 그에 맞게 처리
-        const path = 'http://localhost:9090/user/signup/check-email-auth';
+        const path = 'user/signup/check-email-auth';
         const body = { key : inputEmailCheck}
         const authData = await axiosRequest(path,body,'POST',"json");
         if(authData){
@@ -66,7 +66,7 @@ export default function Choosefind(props) {
                 return
             }else{
                 // 이름과 이메일을 통해서 아이디 가져오기
-                const path = 'http://localhost:9090/user/findid';
+                const path = 'user/findid';
                 const body = {
                     userName : inputName,
                     userEmail : inputEmail
@@ -87,7 +87,7 @@ export default function Choosefind(props) {
 
     const onClickPwFind = async () => {
         // 인증번호를 체크하고 그에 맞게 처리
-        const path = 'http://localhost:9090/user/signup/check-email-auth';
+        const path = 'user/signup/check-email-auth';
         const body = { key : inputEmailCheck}
         const authData  = await axiosRequest(path,body,'POST',"json");
 
@@ -113,7 +113,7 @@ export default function Choosefind(props) {
                 return
             }else{
                 // 이름, 아이디, 이메일을 통해서 비밀번호 찾기
-                const path = 'http://localhost:9090/user/findpw';
+                const path = 'user/findpw';
                 const body = {
                     userName : inputName,
                     userID : inputId,
@@ -156,7 +156,7 @@ export default function Choosefind(props) {
                 alert('이메일 형식이 올바르지 않습니다.');
                 return;
             }
-            const path = 'http://localhost:9090/user/signup/send-email-auth';
+            const path = 'user/signup/send-email-auth';
             const body = { userEmail : inputEmail}
             const data = await axiosRequest(path,body,'POST',"json");
             if(data != null){   // 인증번호 전송에 성공하였을 경우
@@ -175,7 +175,7 @@ export default function Choosefind(props) {
 
     //인증번호 재전송 버튼 클릭 이벤트
     const OnClickEmailReSend = async () => {
-        const path = 'http://localhost:9090/user/signup/send-email-auth';
+        const path = 'user/signup/send-email-auth';
         const body = { userEmail : inputEmail}
         const data = await axiosRequest(path,body,'POST');
         alert('인증번호가 재전송되었습니다.');

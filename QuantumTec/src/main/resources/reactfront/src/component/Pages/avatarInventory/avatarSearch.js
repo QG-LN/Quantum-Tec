@@ -27,9 +27,9 @@ export default function AvatarSearch(props) {
         }
         let url;
         if(page === 'shop')
-            url = 'http://localhost:9090/avatar/shop/search';
+            url = 'avatar/shop/search';
         else
-            url = 'http://localhost:9090/avatar/inventory/search';
+            url = 'avatar/inventory/search';
         axiosRequest(url, body, 'POST', 'json')
             .then(res => {
                 if(res !== null)

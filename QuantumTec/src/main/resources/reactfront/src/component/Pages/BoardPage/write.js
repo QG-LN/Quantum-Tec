@@ -44,7 +44,7 @@ export default function WritePage() {
             return;
         }else{
             if(isEdit){
-                const path = 'http://localhost:9090/board/modify';
+                const path = 'board/modify';
                 const body = {
                     boardIndex : (no === "0") ? 1 : no,
                     postIndex : id,
@@ -67,7 +67,7 @@ export default function WritePage() {
 
                 const boarderIndex = (no === "0") ? 1 : no;
     
-                const path = 'http://localhost:9090/board/write';
+                const path = 'board/write';
                 const body = {
                     boardIndex : boarderIndex,
                     userID : userID,

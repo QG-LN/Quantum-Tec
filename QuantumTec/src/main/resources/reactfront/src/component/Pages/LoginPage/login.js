@@ -37,7 +37,7 @@ export default function Login(props){
             alert('비밀번호는 8자리 이상이어야 합니다');
         }else{
             try{
-                const path = 'http://localhost:9090/user/login';
+                const path = 'user/login';
                 const body = {
                     userID: inputId,
                     userPW: inputPw,
@@ -55,7 +55,7 @@ export default function Login(props){
                             const avatarBody = {
                                 userId: inputId,
                             };
-                            axiosRequest('http://localhost:9090/avatar/inventory/active', avatarBody, 'POST', 'json')
+                            axiosRequest('avatar/inventory/active', avatarBody, 'POST', 'json')
                                 .then(res => {
                                     handleUpdate(res);
                                     navigate('/');

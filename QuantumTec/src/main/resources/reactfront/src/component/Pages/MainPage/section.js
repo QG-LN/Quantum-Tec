@@ -32,7 +32,7 @@ export default function Section() {
 
     // 게임 목록을 받아오는 함수
     function getGameList(){
-        const path = 'http://localhost:9090/search';
+        const path = 'search';
         let category = inputCate === "전체" ? "" : inputCate;
         let searchWord = search;
         const body = {

@@ -70,7 +70,7 @@ export default function AvatarItem(props) {
                 paymentStatus: '결제 완료',
                 paymentAmount: props.item.itemPrice,
             };
-            axiosRequest('http://localhost:9090/avatar/shop/item/buy', body, 'POST', 'json')
+            axiosRequest('avatar/shop/item/buy', body, 'POST', 'json')
                 .then(res => {
                     if(res === true){
                         // 구매 완료 후 캐시 차감된 내 캐시 상황을 어떻게 반영할지 고민해보기(DB에서 가져오는 방식으로?, 수동으로?)
@@ -95,7 +95,7 @@ export default function AvatarItem(props) {
             userId: localStorage.getItem("userID"),
             itemIndex: props.item.itemIndex,
         };
-        axiosRequest('http://localhost:9090/avatar/shop/item/check', body, 'POST', 'json')
+        axiosRequest('avatar/shop/item/check', body, 'POST', 'json')
             .then(res => {
                 if(res === true){
                     alert("이미 구매한 아이템입니다.");
@@ -196,7 +196,7 @@ export default function AvatarItem(props) {
                 itemIndex: props.item.itemIndex,
             }
             console.log(props.item.itemIndex)
-            axiosRequest('http://localhost:9090/avatar/inventory/item/inactive', body, 'POST', 'json')
+            axiosRequest('avatar/inventory/item/inactive', body, 'POST', 'json')
                 .then(res => {
                     console.log(res);
                     setItemUsageStatus(false);
@@ -216,7 +216,7 @@ export default function AvatarItem(props) {
                 userId: localStorage.getItem("userID"),
                 itemIndex: props.item.itemIndex,
             }
-            axiosRequest('http://localhost:9090/avatar/inventory/item/active', body, 'POST', 'json')
+            axiosRequest('avatar/inventory/item/active', body, 'POST', 'json')
                 .then(res => {
                     const itemIndex = itemList.findIndex(item => item.itemCategoryName === props.item.itemCategoryName);
                     if (itemIndex !== -1) {

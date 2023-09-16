@@ -21,7 +21,7 @@ export function Success() {
             amount: searchParams.get("amount"),
             orderId: searchParams.get("orderId"),
         };
-        axiosRequest('http://localhost:9090/user/cash/charge', body, 'POST', 'json')
+        axiosRequest('user/cash/charge', body, 'POST', 'json')
             .then(res => {
                 console.log(res);
                 if(res !== '' || res !== null){

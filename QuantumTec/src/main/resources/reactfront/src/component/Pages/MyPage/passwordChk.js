@@ -15,7 +15,7 @@ export default function PasswordChk(){
 
     //확인 버튼 눌럿을시 비밀번호 확인
     const handleClick = async () => {
-        const path = 'http://localhost:9090/user/myinfo';
+        const path = 'user/myinfo';
         const body = {
             userID: localStorage.getItem('userID'),
             userPW: inputPw,

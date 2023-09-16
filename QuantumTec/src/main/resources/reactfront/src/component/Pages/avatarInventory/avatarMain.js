@@ -30,9 +30,9 @@ export default function AvatarMain(props) {
         }
         let url;
         if(avatarPage === 'inventory')
-            url = 'http://localhost:9090/avatar/inventory';
+            url = 'avatar/inventory';
         else
-            url = 'http://localhost:9090/avatar/shop/main';
+            url = 'avatar/shop/main';
         axiosRequest(url, body, 'POST', 'json')
             .then(res => {
                 if(res !== null)

@@ -28,9 +28,9 @@ export default function AvatarCategory(props) {
         };
         let url;
         if(page === 'shop')
-            url = 'http://localhost:9090/avatar/shop/category/item';
+            url = 'avatar/shop/category/item';
         else
-            url = 'http://localhost:9090/avatar/category/inventory';
+            url = 'avatar/category/inventory';
         axiosRequest(url, body, 'POST', 'json')
             .then(res => {
                 setItemList(res);
@@ -50,9 +50,9 @@ export default function AvatarCategory(props) {
         };
         let url;
         if(page === 'shop')
-            url = 'http://localhost:9090/avatar/shop/category/search';
+            url = 'avatar/shop/category/search';
         else
-            url = 'http://localhost:9090/avatar/category/inventory/search';
+            url = 'avatar/category/inventory/search';
         axiosRequest(url, body, 'POST', 'json')
             .then(res => {
                 setItemList(res);

@@ -70,7 +70,7 @@ export default function Post() {
 
     // 게시글 삭제 함수
     const deletePost = () => {
-        const path = 'http://localhost:9090/board/delete';
+        const path = 'board/delete';
         const body ={
             postIndex: id,
             userID: localStorage.getItem("userID")
@@ -91,7 +91,7 @@ export default function Post() {
     // 댓글 삭제 함수
     const deleteComment = (commentIdx) => {
         
-        const path = 'http://localhost:9090/board/commentDelete';
+        const path = 'board/commentDelete';
         const body = {
             commentIndex: commentIdx,
             postIndex: id,
@@ -148,7 +148,7 @@ export default function Post() {
         if(checkComment){
             alert("댓글을 작성해주세요.");
         }else{
-            const path ='http://localhost:9090/board/commentModify';
+            const path ='board/commentModify';
             const body = {
                 postIndex: id,
                 commentIndex: modifyCommentInfo.index,
@@ -194,7 +194,7 @@ export default function Post() {
     }
     // 이전 글로 이동하는 함수
     const clickPrevPost = () => {
-        const path = 'http://localhost:9090/board/prev';
+        const path = 'board/prev';
         const body ={
             postIndex: id
         }
@@ -210,7 +210,7 @@ export default function Post() {
     // 다음 글로 이동하는 함수
     const clickNextPost = () => {
         
-        const path = 'http://localhost:9090/board/next';
+        const path = 'board/next';
         const body ={
             postIndex: id
         }
@@ -229,7 +229,7 @@ export default function Post() {
     ///////////////////////////////////////////////////////////////////////////////////
     // 추천, 비추천 버튼 함수
     const clickUpvote = () => {
-        const path = 'http://localhost:9090/board/upvote';
+        const path = 'board/upvote';
         const body ={
             postIndex: id,
             userID: localStorage.getItem("userID")
@@ -245,7 +245,7 @@ export default function Post() {
             })
     }
     const clickDownvote = () => {
-        const path = 'http://localhost:9090/board/downvote';
+        const path = 'board/downvote';
         const body ={
             postIndex: id,
             userID: localStorage.getItem("userID")
@@ -263,7 +263,7 @@ export default function Post() {
 
     // 댓글 추천, 비추천 버튼 함수
     const clickCommentUpvote = (e) => {
-        const path = 'http://localhost:9090/board/commentUpvote';
+        const path = 'board/commentUpvote';
         const body ={
             postIndex: id,
             userID: localStorage.getItem("userID"),
@@ -280,7 +280,7 @@ export default function Post() {
             })
     }
     const clickCommentDownvote = (e) => {
-        const path = 'http://localhost:9090/board/commentDownvote';
+        const path = 'board/commentDownvote';
         const body ={
             postIndex: id,
             userID: localStorage.getItem("userID"),
@@ -326,7 +326,7 @@ export default function Post() {
         if(checkComment){
             alert("댓글을 작성해주세요.");
         }else{
-            const path = 'http://localhost:9090/board/commentWrite';
+            const path = 'board/commentWrite';
             const body ={
                 postIndex : id,
                 userID : localStorage.getItem("userID"),
@@ -386,7 +386,7 @@ export default function Post() {
     // useEffect
     ////////////////////////////////////////////////////////////////////////////////////
     useEffect(() => {
-        const path = 'http://localhost:9090/board/viewCountUp';
+        const path = 'board/viewCountUp';
         const body ={
             postIndex: id,
         }
@@ -416,7 +416,7 @@ export default function Post() {
     // reflash와 sortType이 바뀔 때마다 게시글 정보와 댓글 정보를 가져오는 함수
     useEffect(() => {
         setPage(1);
-        const path = 'http://localhost:9090/board/view';
+        const path = 'board/view';
         const body ={
             postIndex: id,
         }
@@ -424,7 +424,7 @@ export default function Post() {
             .then(res => {
                 setPost(res);
             })
-        const path2 = 'http://localhost:9090/board/commentList';
+        const path2 = 'board/commentList';
         const body2 ={
             pageNum: page,
             postIndex: parseInt(id),
@@ -439,7 +439,7 @@ export default function Post() {
     // page가 바뀔 때마다 댓글 정보를 가져오는 함수
     useEffect(() => {
         setLoading(true)
-        const path = 'http://localhost:9090/board/view';
+        const path = 'board/view';
         const body ={
             postIndex: id,
         }
@@ -448,7 +448,7 @@ export default function Post() {
                 setPost(res);
             })
         
-        const path2 = 'http://localhost:9090/board/commentList';
+        const path2 = 'board/commentList';
         const body2 ={
             pageNum: page,
             postIndex: parseInt(id),
@@ -463,7 +463,7 @@ export default function Post() {
                 }
             })
         
-        const path3 = 'http://localhost:9090/board/commentCount';
+        const path3 = 'board/commentCount';
         const body3 ={
             postIndex: id,
         }

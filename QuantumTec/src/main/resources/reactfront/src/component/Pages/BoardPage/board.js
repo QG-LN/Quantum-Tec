@@ -110,7 +110,7 @@ export default function Board() {
 
     // 게시글 리스트 불러오기
     useEffect(() => {
-        const path = 'http://localhost:9090/board/list';
+        const path = 'board/list';
         const body ={
             pageNum : currentPage,
             boardIndex : parseInt(boardId.id),
@@ -203,7 +203,7 @@ export default function Board() {
 
     // 게시글 수 불러오기
     const postListCount = () =>{
-        const path = 'http://localhost:9090/board/listCount';
+        const path = 'board/listCount';
         const body ={
             pageNum : currentPage,
             boardIndex : boardType.id,
