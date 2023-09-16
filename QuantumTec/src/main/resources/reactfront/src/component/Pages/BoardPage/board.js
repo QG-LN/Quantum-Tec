@@ -17,7 +17,6 @@ export default function Board() {
     const [boardName, setBoardName] = useState("게시판");
     const [sortName, setSortName] = useState("최신순");
     const [searchName, setSearchName] = useState("제목");
-    const [boardType , setBoardType] = useState('0');               // 현재 게시판 정보
     const [sortType, setSortType] = useState("latest");            // 현재 정렬 방식
     const [searchType, setSearchType] = useState("title");         // 현재 검색 방식
     const [searchKeyword, setSearchKeyword] = useState("");        // 현재 검색 키워드
@@ -25,13 +24,6 @@ export default function Board() {
     const [postCount, setPostCount] = useState(0);                 // 게시글 수
 
     const {id} = useParams();
-
-    // // 카테고리 리스트 불러오기
-    // useEffect(() => {
-    //     setBoardType(id);
-    //     // getCategory();
-    //     loadPostCount();
-    // }, []);
 
     useEffect(() => {
         switch (sortType) {
@@ -189,7 +181,7 @@ export default function Board() {
         const path = 'board/listCount';
         const body ={
             pageNum : currentPage,
-            boardIndex : boardType.id,
+            boardIndex : id,
             sortType: sortType,
             searchType : searchType,
             searchKeyword : ''
@@ -274,9 +266,9 @@ export default function Board() {
                 </div>
                 <div class="row justify-content-end g-3 mt-1 col-6">
                     <div class="col-auto">
-                        {boardType.id !== '3' && 
+                        {id !== '3' && 
                             <>
-                                <Link to={`/board/${boardType.id}/write`} className="btn btn-success mb-3">글쓰기</Link>   
+                                <Link to={`/board/${id}/write`} className="btn btn-success mb-3">글쓰기</Link>   
                             </>
                         }
                     </div>
