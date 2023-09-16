@@ -27,13 +27,13 @@ export default function Board() {
     const [postCount, setPostCount] = useState(0);                 // 게시글 수
 
 
-    const boardId = useParams();
+    const {id} = useParams();
 
     /////////////////////////// 수정 부탁
 
     // 카테고리 리스트 불러오기
     useEffect(() => {
-        setBoardType(boardId);
+        setBoardType(id);
         // getCategory();
         postListCount();
     }, []);
@@ -45,8 +45,6 @@ export default function Board() {
     },[boardType]);
 
     useEffect(() => {
-        console.log(sortType);
-
         switch (sortType) {
             case 'latest':
                 setSortName('최신순');
@@ -57,12 +55,13 @@ export default function Board() {
             case 'upvote':
                 setSortName('별점순');
                 break;
+            default:
+                setSortName('최신순');
+                break;
         }
     }, [sortType]);
 
     useEffect(() => {
-        console.log(searchType);
-
         switch (searchType) {
             case 'title':
                 setSearchName('제목');
@@ -72,6 +71,10 @@ export default function Board() {
                 break;
             case 'title_author':
                 setSearchName('제목 + 작성자');
+                break;
+            default:
+                setSearchName('제목');
+                break;
         }
     }, [searchType]);
 
@@ -86,6 +89,8 @@ export default function Board() {
                 return '튜터링';
             case '3':
                 return '공지사항';
+            default:
+                return '전체';
         }
     };
 
@@ -113,7 +118,7 @@ export default function Board() {
         const path = 'board/list';
         const body ={
             pageNum : currentPage,
-            boardIndex : parseInt(boardId.id),
+            boardIndex : parseInt(id),
             sortType: sortType,
             searchType : searchType,
             searchKeyword : searchKeyword
@@ -140,7 +145,7 @@ export default function Board() {
                     const writer = Posts[i].writer.length > 6 ? Posts[i].writer.substring(0,6) + "..." : Posts[i].writer;
                     const title = Posts[i].title.length > 20 ? Posts[i].title.substring(0,20) + "..." : Posts[i].title;
                     tempHTML += `
-                    <tr key=${Posts[i].id} style='cursor:pointer' onClick='location.href = "${boardId.id}/post/${Posts[i].id}"'>
+                    <tr key=${Posts[i].id} style='cursor:pointer' onClick='location.href = "${id}/post/${Posts[i].id}"'>
                         <td>${Posts[i].id}</td>
                         <td>${Posts[i].board}</td>
                         <td>
@@ -230,6 +235,9 @@ export default function Board() {
             case '별점순':
                 setSortType('upvote');
                 break;
+            default:
+                setSortType('latest');
+                break;
         }
     }
 
@@ -244,6 +252,9 @@ export default function Board() {
                 break;
             case '제목 + 작성자':
                 setSearchType('title_author');
+                break;
+            default:
+                setSearchType('title');
                 break;
         }
     }
