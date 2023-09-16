@@ -6,7 +6,6 @@ import userEvent from "@testing-library/user-event";
 
 const ITEMS_PER_PAGE = 10; // 페이지 당 아이템 수
 export default function Board() {
-    const tableBody = useRef(null);
     // 페에지네이션 첫 시작 페이지 넘버
     const [startPage, setStartPage] = useState(1);
     // 게시글 리스트
@@ -23,26 +22,16 @@ export default function Board() {
     const [searchType, setSearchType] = useState("title");         // 현재 검색 방식
     const [searchKeyword, setSearchKeyword] = useState("");        // 현재 검색 키워드
 
-
     const [postCount, setPostCount] = useState(0);                 // 게시글 수
-
 
     const {id} = useParams();
 
-    /////////////////////////// 수정 부탁
-
-    // 카테고리 리스트 불러오기
-    useEffect(() => {
-        setBoardType(id);
-        // getCategory();
-        postListCount();
-    }, []);
-
-
-    // 현재 로드된 게시판 id값에 따라 게시판 이름 변경
-    useEffect(() => {
-        setBoardName(boardTypeToName(boardType.id));
-    },[boardType]);
+    // // 카테고리 리스트 불러오기
+    // useEffect(() => {
+    //     setBoardType(id);
+    //     // getCategory();
+    //     loadPostCount();
+    // }, []);
 
     useEffect(() => {
         switch (sortType) {
@@ -113,8 +102,13 @@ export default function Board() {
         }
     }
 
-    // 게시글 리스트 불러오기
     useEffect(() => {
+        loadBoardList();
+        setBoardName(boardTypeToName(id));
+    }, [currentPage, searchKeyword.sortType, id]);
+
+    // 게시글 리스트 불러오기
+    const loadBoardList = () => {
         const path = 'board/list';
         const body ={
             pageNum : currentPage,
@@ -123,61 +117,45 @@ export default function Board() {
             searchType : searchType,
             searchKeyword : searchKeyword
         }
-        axiosRequest(path,body,'POST','json')
-            .then(res=>{
-                console.log(res);
-                setPosts([]);
-                for (let i = 0; i < res.length; i++) {
-                    const newPost = {
-                        id: res[i].postIndex,
-                        board: res[i].boardTitle,
-                        title: res[i].postTitle,
-                        writer: res[i].postAuthor,
-                        createdDate: extractData(res[i].postDate),
-                        view: res[i].postView,
-                        upvote: res[i].postUpvotes
-                    };
-                    Posts.push(newPost);
-                }
-                tableBody.current.innerHTML = "";
-                let tempHTML = "";
-                for(let i = 0; i < Posts.length; i++){
-                    const writer = Posts[i].writer.length > 6 ? Posts[i].writer.substring(0,6) + "..." : Posts[i].writer;
-                    const title = Posts[i].title.length > 20 ? Posts[i].title.substring(0,20) + "..." : Posts[i].title;
-                    tempHTML += `
-                    <tr key=${Posts[i].id} style='cursor:pointer' onClick='location.href = "${id}/post/${Posts[i].id}"'>
-                        <td>${Posts[i].id}</td>
-                        <td>${Posts[i].board}</td>
-                        <td>
-                            <span
-                                title=${Posts[i].title}>
-                                ${title}
-                        </td>
-                        <td>
-                            <span
-                                title=${Posts[i].writer}>
-                                ${writer}
-                            </span>
-                        </td>
-                        <td>${Posts[i].createdDate}</td>
-                        <td>${Posts[i].view}</td>
-                        <td>${Posts[i].upvote}</td>
-                    </tr>`
-                }
-                tableBody.current.innerHTML = tempHTML;
+        axiosRequest(path, body, 'POST', 'json')
+        .then((res) => {
+            setPosts(res);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+        loadPostCount();
+    }
 
-            }).catch(e=>{
-                console.log(e);
-            })
-
-    }, [currentPage, sortType, searchKeyword]);
+    // 게시글 랜더링 함수
+    const renderPosts = () => {
+        return Posts.map((post) => (
+            <tr key={post.postIndex} style={{ cursor: 'pointer' }}>
+              <td>{post.postIndex}</td>
+              <td>{post.boardTitle}</td>
+              <td>
+                <Link to={`/board/${id}/post/${post.postIndex}`} title={post.postTitle} class="text-decoration-none text-body">
+                  {post.postTitle && post.postTitle.length > 20 ? post.postTitle.substring(0, 20) + "..." : post.postTitle}
+                </Link>
+              </td>
+              <td>
+                <span title={post.postAuthor}>
+                  {post.postAuthor && post.postAuthor.length > 6 ? post.postAuthor.substring(0, 6) + "..." : post.postAuthor}
+                </span>
+              </td>
+              <td>{extractData(post.postDate)}</td>
+              <td>{post.postView}</td>
+              <td>{post.postUpvotes}</td>
+            </tr>
+          ));
+    }
 
     ////////////////////////////
 
     // 페이지네이션 함수
     const handlePageChange = (pageNumber) => {
         setPosts([]);
-        postListCount();
+        loadPostCount();
         setCurrentPage(pageNumber);
     };
     // 페이지네이션 다음 버튼 함수
@@ -207,7 +185,7 @@ export default function Board() {
 
 
     // 게시글 수 불러오기
-    const postListCount = () =>{
+    const loadPostCount = () =>{
         const path = 'board/listCount';
         const body ={
             pageNum : currentPage,
@@ -218,9 +196,10 @@ export default function Board() {
         }
         axiosRequest(path,body,'POST','json')
             .then(res => {
-                console.log(res);
                 setPostCount(res);
             })
+
+            
     }
 
     const handleSort = (e) => {
@@ -316,8 +295,8 @@ export default function Board() {
                         <th className="w-[7%]">추천수</th>
                     </tr>
                 </thead>
-                <tbody ref={tableBody}>
-                    
+                <tbody>
+                    {renderPosts()}
                 </tbody>
             </table>
             <nav aria-label="Page navigation example mb-5">
