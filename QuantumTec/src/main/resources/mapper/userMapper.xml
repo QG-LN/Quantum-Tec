@@ -16,7 +16,7 @@
         where USER_INFO_TB.USER_INDEX = #{userIdx} and USER_STATUS_TB.USER_INDEX = #{userIdx}
     </select>
     <select id="getLoginInfo" resultType="LoginResponseDTO" parameterType="int">
-        select USER_NICKNAME, USER_CASH
+        select USER_NICKNAME, USER_CASH,USER_FREE_CASH,USER_ATTENDANCE,USER_STATUS
         from USER_INFO_TB ui, USER_STATUS_TB us
         where ui.USER_INDEX = #{userIdx} and us.USER_INDEX = #{userIdx}
     </select>

@@ -44,11 +44,11 @@ export default function Login(props){
                 };
                 axiosRequest(path,body,'POST','json')
                     .then(res => {
-                        console.log(res);
-                        if(res !== ''){
+                        if(res !== '' && res.userStatus === 'active'){
                             localStorage.setItem("userNickname", res.userNickname);
                             localStorage.setItem("userCash", res.userCash);
                             localStorage.setItem("userID", inputId);                    // 마이페이지에서 사용하기 위해 세팅
+                            localStorage.setItem("userFreeCash", res.userFreeCash);
                             localStorage.setItem("truelogin","true");
                             props.setTruelogin(true);
                             // 착용 아바타 아이템 불러오기
@@ -67,7 +67,13 @@ export default function Login(props){
                                 });
 
                         }else{
-                            alert('로그인에 실패하였습니다.');
+                            if(res.userStatus === 'inactive'){
+                                alert('탈퇴한 회원입니다.');
+                            }else if(res.userStatus === 'banned'){
+                                alert('정지된 회원입니다.');
+                            }else{
+                                alert('로그인에 실패하였습니다.');
+                            }
                             setInputId("");
                             setInputPw("");
                         }
