@@ -118,6 +118,48 @@ export default function TutoringBoardPage() {
             img: '테스트2',
             link: '테스트2'
         },
+        {
+            id: 2,
+            name: '테스트2',
+            cate: '테스트2',
+            img: '테스트2',
+            link: '테스트2'
+        },
+        {
+            id: 2,
+            name: '테스트2',
+            cate: '테스트2',
+            img: '테스트2',
+            link: '테스트2'
+        },
+        {
+            id: 2,
+            name: '테스트2',
+            cate: '테스트2',
+            img: '테스트2',
+            link: '테스트2'
+        },
+        {
+            id: 2,
+            name: '테스트2',
+            cate: '테스트2',
+            img: '테스트2',
+            link: '테스트2'
+        },
+        {
+            id: 2,
+            name: '테스트2',
+            cate: '테스트2',
+            img: '테스트2',
+            link: '테스트2'
+        },
+        {
+            id: 2,
+            name: '테스트2',
+            cate: '테스트2',
+            img: '테스트2',
+            link: '테스트2'
+        },
     ]
 
 

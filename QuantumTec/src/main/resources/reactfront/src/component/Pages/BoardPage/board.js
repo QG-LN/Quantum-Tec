@@ -16,6 +16,7 @@ export default function Board() {
     // 현재 페이지 넘버
     const [currentPage, setCurrentPage] = useState(1);
     const [boardName, setBoardName] = useState("게시판");
+    const [boardDetails, setBoardDetails] = useState("자연스러운 대화를 추구합니다.");
     const [sortName, setSortName] = useState("최신순");
     const [searchName, setSearchName] = useState("제목");
     const [boardType , setBoardType] = useState('0');               // 현재 게시판 정보
@@ -30,6 +31,22 @@ export default function Board() {
     const boardId = useParams();
 
     /////////////////////////// 수정 부탁
+    useEffect(() => {
+        // boardName이 변경될 때마다 실행되는 효과
+        if (boardName === "전체") {
+          setBoardDetails("다양한 주제를 다루는 게시판");
+        } else if (boardName === "자유") {
+          setBoardDetails("자유로운 토론과 대화를 추구하는 게시판");
+        } else if (boardName === "튜터링") {
+            setBoardDetails("학습 관련 정보 및 질문 게시판");
+        } else if (boardName === "공지사항") {
+            setBoardDetails("중요한 공지사항과 업데이트 게시판");
+        } else {
+          setBoardDetails("");
+        }
+      }, [boardName]);
+
+    
 
     // 카테고리 리스트 불러오기
     useEffect(() => {
@@ -83,7 +100,7 @@ export default function Board() {
             case '1':
                 return '자유';
             case '2':
-                return '튜터링';
+                return '질문';
             case '3':
                 return '공지사항';
         }
@@ -134,10 +151,22 @@ export default function Board() {
                 tableBody.current.innerHTML = "";
                 let tempHTML = "";
                 for(let i = 0; i < Posts.length; i++){
+                    let bgColor = ""; // 배경색 변수 초기화
+
+                    // 게시판 종류에 따라 배경색을 설정
+                    if (Posts[i].board === "자유게시판") {
+                      bgColor = "bg-blue-500"; // 파란색 배경
+                    } else if (Posts[i].board === "튜터링") {
+                      bgColor = "bg-green-500"; // 녹색 배경
+                    } else if (Posts[i].board === "공지사항") {
+                      bgColor = "bg-red-500"; // 빨간색 배경
+                    } else {
+                      bgColor = "bg-black"; // 기본 배경 (검정색)
+                    }
                     tempHTML += `
                 <tr key=${Posts[i].id} style='cursor:pointer' onClick='location.href = "/post/${Posts[i].id}"'>
                     <td>${Posts[i].id}</td>
-                    <td>${Posts[i].board}</td>
+                    <td><div class='rounded-md ${bgColor} text-white'>${Posts[i].board}</div></td>
                     <td>${Posts[i].title}</td>
                     <td>${Posts[i].writer}</td>
                     <td>${Posts[i].createdDate}</td>
@@ -247,9 +276,12 @@ export default function Board() {
     Posts.totalItems = 110;
       return (
         <div className="container">
-            <h1>{boardName}</h1>
+            <div class='bg-black h-36 grid scale-[1.469]'>
+            <h1 class='text-white mt-auto ml-52 text-left'>{boardName}</h1>
+            <span class='text-white mb-auto ml-52 text-left'>{boardDetails}</span>
+            </div>
 
-            <div class="row justify-content-around g-2 mt-1">
+            <div class="row justify-content-around g-2 mt-5">
                 <div class="row justify-content-start g-3 mt-1 col-6 p-0">
                     <div class="dropdown col-auto">
                         <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -316,7 +348,7 @@ export default function Board() {
                         <button type="submit" class="btn btn-success mb-3" onClick={handleSearchButton}>검색</button>
                     </div>
                 </div>
-                <ul className="pagination nav justify-content-center">
+                <ul className="pagination nav justify-content-center mb-10">
                     {startPage !== 1 && 
                         <li key="<" className="page-item nav-item">
                             <button className="page-link nav-item" onClick={() => handlePageDown()}>

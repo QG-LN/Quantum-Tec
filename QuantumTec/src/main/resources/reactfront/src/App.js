@@ -52,9 +52,15 @@ function App() {
 
 function Home(props) {
   return (
-    <div className="SignUp" style={{ height: "81vh" }}>
-      <Signpage/>
-    </div>
+    <div className="Home">
+          {/*위에 광고 화면과 로그인 크기 맞추기위해 설정해놓음*/}
+        <div class='h-[297px] mb-[50px]' style={{ display: 'flex'}}>
+        <header style={{ flexBasis: '100%'}}>
+          <Header />
+        </header>
+      </div>
+      <Section />
+      </div>
   );
 }
 function Login(props){
