@@ -13,7 +13,7 @@ import GamePage from './component/Pages/GamePage/gamepage.js';
 import BoardPage from './component/Pages/BoardPage/board.js';
 import PostPage from './component/Pages/BoardPage/post.js';
 import WritePage from './component/Pages/BoardPage/write.js';
-
+import TtBoardPage from './component/Pages/BoardPage/tutoringboard.js';
 import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
@@ -37,6 +37,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />}/>
           <Route path="/game/:id/:gameName" element={<GamePage />}/>
           <Route path="/board/:id" element={<Board />}/>
+          <Route path="/ttboard/:id" element={<TtBoard />}/>
           <Route path="/post/:id" element={<Post />}/>
           <Route path="/write" element={<Write />}/>
           <Route path="/avatarshop" element={<AvatarShop />}/>
@@ -51,18 +52,11 @@ function App() {
 
 function Home(props) {
   return (
-    <div className="Home">
-          {/*위에 광고 화면과 로그인 크기 맞추기위해 설정해놓음*/}
-        <div class='h-[297px] mb-[50px]' style={{ display: 'flex'}}>
-        <header style={{ flexBasis: '100%'}}>
-          <Header />
-        </header>
-      </div>
-      <Section />
-        </div>
+    <div className="SignUp" style={{ height: "81vh" }}>
+      <Signpage/>
+    </div>
   );
 }
-
 function Login(props){
   return (
     <div className="Login" style={{ height: "81vh" }}>
@@ -78,6 +72,7 @@ function SignUp(){
     </div>
   );
 }
+
 
 function MyPage(){
   return (
@@ -114,6 +109,14 @@ function AvatarShop(){
             <AvatarShopPage />
         </div>
     )
+}
+
+function TtBoard(){
+  return (
+    <div className="Board mt-[10vh]">
+        <TtBoardPage />
+    </div>
+  )
 }
 
 
