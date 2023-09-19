@@ -14,6 +14,7 @@ import BoardPage from './component/Pages/BoardPage/board.js';
 import PostPage from './component/Pages/BoardPage/post.js';
 import WritePage from './component/Pages/BoardPage/write.js';
 import TtBoardPage from './component/Pages/BoardPage/tutoringboard.js';
+import TutorPage from './component/Pages/BoardPage/tutorpage.js'
 import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
@@ -38,6 +39,7 @@ function App() {
           <Route path="/game/:id/:gameName" element={<GamePage />}/>
           <Route path="/board/:id" element={<Board />}/>
           <Route path="/ttboard/:id" element={<TtBoard />}/>
+          <Route path="/ttboard/:id/:tutor" element={<TtPage />}/>
           <Route path="/post/:id" element={<Post />}/>
           <Route path="/write" element={<Write />}/>
           <Route path="/avatarshop" element={<AvatarShop />}/>
@@ -121,6 +123,14 @@ function TtBoard(){
   return (
     <div className="Board mt-[10vh]">
         <TtBoardPage />
+    </div>
+  )
+}
+
+function TtPage(){
+  return (
+    <div className="Board mt-[10vh]">
+        <TutorPage />
     </div>
   )
 }
