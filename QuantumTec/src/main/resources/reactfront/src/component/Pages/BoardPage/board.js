@@ -24,24 +24,7 @@ export default function Board() {
     const {id} = useParams();
 
     const navigate = useNavigate();
-    /////////////////////////// 수정 부탁
-    useEffect(() => {
-        // boardName이 변경될 때마다 실행되는 효과
-        if (boardName === "전체") {
-          setBoardDetails("다양한 주제를 다루는 게시판");
-        } else if (boardName === "자유") {
-          setBoardDetails("자유로운 토론과 대화를 추구하는 게시판");
-        } else if (boardName === "튜터링") {
-            setBoardDetails("학습 관련 정보 및 질문 게시판");
-        } else if (boardName === "공지사항") {
-            setBoardDetails("중요한 공지사항과 업데이트 게시판");
-        } else {
-          setBoardDetails("");
-        }
-      }, [boardName]);
-
-
-
+    
     useEffect(() => {
         switch (sortType) {
             case 'latest':
@@ -80,14 +63,19 @@ export default function Board() {
     const boardTypeToName = (boardType) => {
         switch (boardType) {
             case '0':
+                setBoardDetails("다양한 주제를 다루는 게시판");
                 return '전체';
             case '1':
+                setBoardDetails("자유로운 토론과 대화를 추구하는 게시판");
                 return '자유';
             case '2':
+                setBoardDetails("학습 관련 정보 및 질문 게시판");
                 return '튜터링';
             case '3':
+                setBoardDetails("중요한 공지사항과 업데이트 게시판");
                 return '공지사항';
             default:
+                setBoardDetails("");
                 return '전체';
         }
     };
@@ -136,17 +124,24 @@ export default function Board() {
         loadPostCount();
     }
 
-    let bgColor = ""; // 배경색 변수 초기화
-
-    // 게시판 종류에 따라 배경색을 설정
-    if (Posts[i].board === "자유게시판") {
-        bgColor = "bg-blue-500"; // 파란색 배경
-    } else if (Posts[i].board === "튜터링") {
-        bgColor = "bg-green-500"; // 녹색 배경
-    } else if (Posts[i].board === "공지사항") {
-        bgColor = "bg-red-500"; // 빨간색 배경
-    } else {
-        bgColor = "bg-black"; // 기본 배경 (검정색)
+    // 게시판 타입에 따라 배경색 변경
+    const changeBoardTitleStyle = (boardTitle) => {
+        let bgColor = ""; // 배경색 변수 초기화
+        switch (boardTitle) {
+            case '자유게시판':
+                bgColor = "bg-blue-500"; // 파란색 배경
+                break;
+            case '튜터링':
+                bgColor = "bg-green-500"; // 녹색 배경
+                break;
+            case '공지사항':
+                bgColor = "bg-red-500"; // 빨간색 배경
+                break;
+            default:
+                bgColor = "bg-black"; // 기본 배경 (검정색)
+                break;
+        }
+        return bgColor;
     }
 
     // 게시글 랜더링 함수
@@ -155,7 +150,7 @@ export default function Board() {
             <tr key={post.postIndex} style={{ cursor: 'pointer' }} onClick={() => navigateToPost(post.postIndex)}>
               <td>{post.postIndex}</td>
               <td>
-                  <div class='rounded-md ${bgColor} text-white'>
+                  <div className={`rounded-md ${changeBoardTitleStyle(post.boardTitle)} text-white`}>
                     {post.boardTitle}
                   </div>
               </td>

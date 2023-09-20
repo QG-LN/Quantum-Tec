@@ -16,17 +16,12 @@ import WritePage from './component/Pages/BoardPage/write.js';
 import CashChargePage from './component/Pages/PaymentsPage/cashcharge';
 import { Success } from './component/Pages/PaymentsPage/success';
 import { Fail } from './component/Pages/PaymentsPage/fail';
-
-// import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
 import TtBoardPage from './component/Pages/BoardPage/tutoringboard.js';
 import TutorPage from './component/Pages/BoardPage/tutorpage.js'
-import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import AvatarInvetoryPage from "./component/Pages/avatarInventory/avatarMainPage";
 
-import styled from "styled-components";
-import axios from 'axios';
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
@@ -46,7 +41,7 @@ function App() {
           <Route path="/board/:no/post/:id" element={<Post />}/>
           <Route path="/board/:no/write" element={<Write />}/>
           <Route path="/board/:no/post/:id/edit" element={<Write />}/>
-          <Route path="/ttboard/:id" element={<TtBoard />}/>
+          <Route path="/tutoring" element={<TtBoard />}/>
           <Route path="/ttboard/:id/:tutor" element={<TtPage />}/>
           <Route path="/post/:id" element={<Post />}/>
           <Route path="/write" element={<Write />}/>
