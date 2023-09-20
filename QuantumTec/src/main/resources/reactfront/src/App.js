@@ -18,6 +18,9 @@ import { Success } from './component/Pages/PaymentsPage/success';
 import { Fail } from './component/Pages/PaymentsPage/fail';
 
 // import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
+import TtBoardPage from './component/Pages/BoardPage/tutoringboard.js';
+import TutorPage from './component/Pages/BoardPage/tutorpage.js'
+import AvatarShopPage from "./component/Pages/AvatarShopPage/avatarMainPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import AvatarInvetoryPage from "./component/Pages/avatarInventory/avatarMainPage";
@@ -43,6 +46,10 @@ function App() {
           <Route path="/board/:no/post/:id" element={<Post />}/>
           <Route path="/board/:no/write" element={<Write />}/>
           <Route path="/board/:no/post/:id/edit" element={<Write />}/>
+          <Route path="/ttboard/:id" element={<TtBoard />}/>
+          <Route path="/ttboard/:id/:tutor" element={<TtPage />}/>
+          <Route path="/post/:id" element={<Post />}/>
+          <Route path="/write" element={<Write />}/>
           <Route path="/avatarshop" element={<AvatarShop />}/>
           <Route path="/cashcharge" element={<CashCharge />}/>
           <Route path="/inventory" element={<AvatarInvetory />}/>
@@ -67,10 +74,9 @@ function Home(props) {
         </header>
       </div>
       <Section />
-        </div>
+      </div>
   );
 }
-
 function Login(props){
   return (
     <div className="Login" style={{ height: "81vh" }}>
@@ -86,6 +92,7 @@ function SignUp(){
     </div>
   );
 }
+
 
 function MyPage(){
   return (
@@ -152,8 +159,24 @@ function PaymentsFail(){
     return (
         <div className="PaymentFail mt-[5vh]" >
             <Fail />
-        </div>  
+        </div>
     )
+}
+
+function TtBoard(){
+  return (
+    <div className="Board mt-[10vh]">
+        <TtBoardPage />
+    </div>
+  )
+}
+
+function TtPage(){
+  return (
+    <div className="Board mt-[10vh]">
+        <TutorPage />
+    </div>
+  )
 }
 
 

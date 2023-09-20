@@ -11154,7 +11154,10 @@ ul > ul > li > a {
   user-select: none;
 }
 
-
+.ml-n1 {
+  margin-left: auto !important;
+  margin-right : auto !important
+}
 
 
 .mypagestyle {
