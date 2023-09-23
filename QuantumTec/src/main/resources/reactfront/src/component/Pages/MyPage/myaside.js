@@ -3,95 +3,66 @@ import "../../../styles.css";
 
 //my page에서 select값을 가져와 setSelect으로 값을 변경한다.
 export default function Myaside({ select, setSelect }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const astyle = {
-    textDecorationLine: "none",
-    color: "black",
-  };
-  //css 부분 나중에 옮길것
-  const asideStyle = {
-    padding: "0px",
-    height: "82vh",
-  };
-  const listStyle = {
-    height: "5vh",
-  };
-  const uiStyle = {
-    listStyleType: "none",
-    paddingLeft: "0px",
-  };
+  const [isOpen, setIsOpen] = useState(false);                    // 카테고리 선택에 서브메뉴 활성화 여부
+
+  const [nowChoiceMenu, setNowChoiceMenu] = useState("마이페이지");         // 현재 선택된 메뉴
 
   //카테고리 리스트 설정
-  const [list, setList] = useState(["마이페이지", "사용자설정"]);
-  const [list2, setList2] = useState(["결제방식", "회원탈퇴"]);
-  const [listsub, setListsub] = useState(["개인정보변경", "아바타설정"]);
+  const menuItems = [
+    { item: "마이페이지" },
+    { item: "사용자설정", subItems: ["개인정보변경", "아바타설정"] },
+    { item: "결제방식" },
+    { item: "회원탈퇴" },
+  ];
 
   // 카테고리 클릭시 해당 값을 mypage에 전송
-  const handleClick = (e) => {
-    if (typeof e.target.text === "undefined") {
-      return;
-    } else {
-      setSelect(e.target.text);
+  const handleClick = (menuItem) => {
+    if (typeof menuItem.item !== "undefined") {
+      setSelect(menuItem.item);
     }
-    // console.log(e.target.list);
-    // console.log(e.target);
-    // console.log(e.target.text);
-    if (e.target.text === "사용자설정") {
-      setIsOpen(!isOpen);
-    } else if (e.target.text === "개인정보변경") {
-      setIsOpen(isOpen);
-    } else if (e.target.text === "아바타설정") {
-      setIsOpen(isOpen);
+
+    if (menuItem.subItems) {
+      setIsOpen(true);
     } else {
       setIsOpen(false);
     }
   };
 
+  const handleMenuClick = (menuItem) => {
+    setNowChoiceMenu(menuItem.item);
+  }
+
   return (
     <div className="min-w-[280px] w-[280px] float-left mt-40">
-      <aside style={asideStyle}>
+      <aside style={{ padding: "0px", height: "82vh" }}>
         <div>
-          <h2 class=" border-b-4 border-green-500 rounded-md pb-4">카테고리</h2>
-          <ul class="asideul" style={uiStyle}>
-            {list.map((item, index) => (
-              // <li class='listyle' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a></li>
+          <h2 className="border-b-4 border-green-500 rounded-md pb-4">카테고리</h2>
+          <ul className="list-unstyled">
+            {menuItems.map((menuItem, index) => (
               <li
-                class="listyle text-xl border-b hover:cursor-pointer"
-                style={listStyle}
+                className={`text-xl border-b py-3 cursor-pointer`}
                 key={index}
-                onClick={handleClick}
-                name={item}
+                onClick={() => handleClick(menuItem)}
+                name={menuItem.item}
               >
-                <a class="astyle" style={astyle}>
-                  {item}
-                </a>
-              </li>
-            ))}
-            {isOpen && (
-              <ul class="sublist  ml-[-30px]">
-                {listsub.map((item, index) => (
-                  <li
-                    name="sublist"
-                    class="pb-3 border-b text-sm mt-3 listyle hover:cursor-pointer"
-                    key={index}
-                    onClick={handleClick}
-                  >
-                    <a>{item}</a>
-                  </li>
-                ))}
-              </ul>
-            )}
-            {list2.map((item, index) => (
-              // <li class='listyle' style={listStyle} key={index} onClick={handleClick}><a class='astyle' style={astyle}>{item}</a></li>
-              <li
-                class="border-b listyle text-xl hover:cursor-pointer"
-                style={listStyle}
-                key={index}
-                onClick={handleClick}
-              >
-                <a class="astyle" style={astyle}>
-                  {item}
-                </a>
+                <div class={`hover:bg-gray-300 rounded-3 ${menuItem.item === nowChoiceMenu ? "bg-gray-300 rounded-3" : ""}`} 
+                      onClick={()=> handleMenuClick(menuItem)}>
+                  {menuItem.item}
+                </div>
+                {menuItem.subItems && isOpen && (
+                  <ul className="list-unstyled m-3 ">
+                    {menuItem.subItems.map((subItem, subIndex) => (
+                      <li
+                        name="sublist"
+                        className="text-sm py-3 cursor-pointer"
+                        key={subIndex}
+                        onClick={() => handleClick({ item: subItem })}
+                      >
+                        <div class="hover:bg-gray-300 rounded-3">{subItem}</div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>
