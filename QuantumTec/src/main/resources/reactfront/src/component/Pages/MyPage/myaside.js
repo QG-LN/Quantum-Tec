@@ -11,7 +11,7 @@ export default function Myaside({ select, setSelect }) {
   const menuItems = [
     { item: "마이페이지" },
     { item: "사용자설정", subItems: ["개인정보변경", "아바타설정"] },
-    { item: "결제방식" },
+    { item: "결제내역" },
     { item: "회원탈퇴" },
   ];
 

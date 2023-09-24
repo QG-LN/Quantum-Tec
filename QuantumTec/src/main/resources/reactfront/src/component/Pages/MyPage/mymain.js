@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Mysection from "./mysection";
 import Myaside from "./myaside";
-import MyCash from "./mycash";
+import MyPaymentDetails from "./MyPaymentDetails";
 import Dismember from "./dismember";
 import PasswordChk from "./passwordChk";
 import MyMain from "./mypage";
@@ -27,7 +27,7 @@ export default function Mypage() {
             {select === "개인정보변경" ? <PasswordChk /> : <div />}
             {/*아바타 페이지 연결해주세요. 연결 후 삭제 플리즈 */}
             {select === "아바타설정" ? <PasswordChk /> : <div />}
-            {select === "결제방식" ? <MyCash /> : <div />}
+            {select === "결제내역" ? <MyPaymentDetails /> : <div />}
             {select === "회원탈퇴" ? <Dismember /> : <div />}
           </div>
         </section>
