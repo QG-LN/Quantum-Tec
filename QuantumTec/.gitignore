@@ -36,9 +36,9 @@ out/
 ### VS Code ###
 .vscode/
 
+# config files 파일 무시
+/src/main/resources/config/
 
-/src/main/resources/config/db/db.properties
-/src/main/resources/config/email/email.properties
+# game, image 파일 무시
 /src/main/resources/static/games/
-u/src/main/resources/static/images/games/
-/src/main/resources/reactfront/.evn
+/src/main/resources/static/images/
