@@ -350,7 +350,7 @@
     <!-- 결제내역 테스트용 -->
     <select id="getPaymentHistory" resultType="UserPaymentVO" parameterType="String">
         SELECT
-            PAYMENT_INDEX, aph.USER_INDEX, ITEM_INDEX,PAYMENT_DATE, PAYMENT_METHOD, PAYMENT_AMOUNT, PAYMENT_STATUS
+            PAYMENT_INDEX, aph.USER_INDEX, ITEM_NAME,PAYMENT_DATE, PAYMENT_METHOD, PAYMENT_AMOUNT, PAYMENT_STATUS
         FROM
             AVATAR_PAYMENT_HISTORY_TB aph ,USER_INFO_TB ui , AVATAR_ITEM_TB ai
         WHERE
@@ -358,7 +358,7 @@
         and
             aph.ITEM_INDEX = ai.ITEM_INDEX
         and
-            USER_ID = #{userId};
+            USER_ID = #{userID};
     </select>
 </mapper>
 
