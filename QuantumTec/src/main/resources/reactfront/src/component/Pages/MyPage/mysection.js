@@ -209,7 +209,7 @@ export default function Mysection(props){
      * @return {Promise<void>}
      */
     const OnClickSave = async () => {
-        const path = 'http://localhost:9090/user/myinfo';
+        const path = 'user/myinfo';
         const body = {
             userID: localStorage.getItem('userID'),
             userPW: inputPw,
@@ -256,7 +256,7 @@ export default function Mysection(props){
      */
     useEffect( () => {
         if (sendOk) {
-            const path = 'http://localhost:9090/user/update';
+            const path = 'user/update';
             const body = {
                 userID           : inputId,
                 userPW           : inputPw,
