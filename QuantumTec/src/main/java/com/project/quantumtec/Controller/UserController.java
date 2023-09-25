@@ -1,12 +1,15 @@
 package com.project.quantumtec.Controller;
 
 import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
+import com.project.quantumtec.DTO.Request.myinfo.PaymentMyInfoDTO;
 import com.project.quantumtec.DTO.Request.myinfo.requestMyInfoDTO;
+import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryListDTO;
 import com.project.quantumtec.DTO.user.LoginRequestDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
 import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
+import com.project.quantumtec.Service.user.UserPageService;
 import com.project.quantumtec.Service.user.UserService;
 import com.project.quantumtec.VO.user.UserVO;
 
@@ -21,6 +24,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserPageService userPageService;
 
     // UserService 의 login 메소드를 호출하여 회원정보를 반환하는 메소드
     @PostMapping("/login")
@@ -116,5 +122,10 @@ public class UserController {
     @PostMapping("/cash/charge")
     public int chargeCash(@RequestBody CashChargeDTO cashChargeDTO){
         return userService.chargeCash(cashChargeDTO);
+    }
+
+    @PostMapping("/payment/history")
+    public List<PaymentHistoryListDTO> getPaymentHistory(@RequestBody PaymentMyInfoDTO user) throws Exception {
+        return userPageService.getPaymentHistory(user);
     }
 }
