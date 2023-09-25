@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
+import {axiosRequest} from '../../../module/networkUtils';
 
 export default function MyPaymentDetails() {
   const [data, setData] = useState([]);
@@ -12,6 +13,20 @@ export default function MyPaymentDetails() {
   const [postCount, setPostCount] = useState(0);          // 게시글 수
 
   const ITEMS_PER_PAGE = 10;                              // 페이지당 보여줄 게시글 수
+
+  
+  useEffect(() => {
+    getPaymentPosts();
+  }, []);
+
+  const getPaymentPosts = async () => {
+    const path = 'user/payment/history';
+    const body = {
+      userID: localStorage.getItem('userID'),
+    };
+    const data = await axiosRequest(path,body,'POST','json');
+    setpaymentPosts(data);
+  };
 
   //월일을 클릭 시
   useEffect(() => {
@@ -53,16 +68,17 @@ export default function MyPaymentDetails() {
     );
   };
 
-  
-
+  /**
+   * @todo 결제 일자 포맷변경 및 페이징 처리 추가 필요
+   */
   const renderPaymentPosts = () => {
     return paymentPosts.map((paymentHistory, index) => (
       <tr key={index} style={{cursor:'pointer'}}>
-              <td>{paymentHistory.postIndex}</td>
-              <td>{paymentHistory.postDetails}</td>
-              <td>{paymentHistory.postDate}</td>
-              <td>{paymentHistory.postType}</td>
-              <td>{paymentHistory.postState}</td>
+              <td>{paymentHistory.paymentIndex}</td>
+              <td>{paymentHistory.paymentDesc}</td>
+              <td>{paymentHistory.paymentDate}</td>
+              <td>{paymentHistory.paymentType}</td>
+              <td>{paymentHistory.paymentStatus}</td>
       </tr>
     ));
   };
