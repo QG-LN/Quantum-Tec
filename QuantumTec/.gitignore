@@ -32,13 +32,3 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
-
-### VS Code ###
-.vscode/
-
-# config files 파일 무시
-/src/main/resources/config/
-
-# game, image 파일 무시
-/src/main/resources/static/games/
-/src/main/resources/static/images/
