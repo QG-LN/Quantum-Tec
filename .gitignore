@@ -9,3 +9,4 @@ QuantumTec/src/main/resources/reactfront/.evn
 
 # IDE
 .idea/
+.vscode/
