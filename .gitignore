@@ -1,0 +1,8 @@
+# config files 파일 무시
+QuantumTec/src/main/resources/config/
+
+# game, image 파일 무시
+QuantumTec/src/main/resources/static/games/
+QuantumTec/src/main/resources/static/images/
+
+QuantumTec/src/main/resources/reactfront/.evn
