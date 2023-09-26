@@ -6,3 +6,6 @@ QuantumTec/src/main/resources/static/games/
 QuantumTec/src/main/resources/static/images/
 
 QuantumTec/src/main/resources/reactfront/.evn
+
+# IDE
+.idea/
