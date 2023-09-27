@@ -64,7 +64,7 @@ public class UserController {
 
     /**
      * 입력받은 이메일에 인증코드를 전송하고 전송여부에 따라 true/false 값을 전달
-     * */
+     */
     @PostMapping("/signup/send-email-auth")
     public boolean sendEmailAuth(@RequestBody UserVO user) throws Exception {
         return userService.sendEmailAuth(user);
@@ -81,6 +81,7 @@ public class UserController {
     public UserInfoResponseDTO getUserInfo(@RequestBody UserVO user) throws Exception {
         return userService.getUserInfo(user.getUserID(), user.getUserPW());
     }
+
     // UserService 의 입력받은 회원정보를 삭제하는 메소드
     @DeleteMapping("/delete")
     public boolean deleteUser(@RequestParam int userIdx) throws Exception {
@@ -100,7 +101,8 @@ public class UserController {
         return userService.findId(user.getUserName(), user.getUserEmail());
     }
 
-    // 이름과 이메일, 아이디를 입력받아 해당 정보와 일치하는 회원 존재 여부 확인 후 존재 여부를 반환하고, 임시 비밀번호를 이메일로 전송하는 메소드
+    // 이름과 이메일, 아이디를 입력받아 해당 정보와 일치하는 회원 존재 여부 확인 후 존재 여부를 반환하고, 임시 비밀번호를 이메일로 전송하는
+    // 메소드
     @PostMapping("/findpw")
     public boolean findPw(@RequestBody UserVO user) throws Exception {
         return userService.findPw(user.getUserName(), user.getUserEmail(), user.getUserID());
@@ -111,6 +113,7 @@ public class UserController {
     public boolean changePw(@RequestBody UserVO user) throws Exception {
         return userService.changePw(user.getUserName(), user.getUserEmail(), user.getUserID(), user.getUserPW());
     }
+
     // myinfo 페이지에서 내가 가지고 있는 게임 목록을 반환하는 메소드
     // 노션 "DB 참고 자료" 참고
     @PostMapping("/mygamelist")
@@ -120,7 +123,7 @@ public class UserController {
 
     // 캐시 충전
     @PostMapping("/cash/charge")
-    public int chargeCash(@RequestBody CashChargeDTO cashChargeDTO){
+    public int chargeCash(@RequestBody CashChargeDTO cashChargeDTO) {
         return userService.chargeCash(cashChargeDTO);
     }
 
