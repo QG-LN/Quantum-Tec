@@ -348,7 +348,7 @@
         </select>
 
     <!-- 결제내역 테스트용 -->
-    <select id="getPaymentHistory" resultType="UserPaymentVO" parameterType="String">
+    <select id="getPaymentHistory" resultType="UserPaymentVO" parameterType="PaymentMyInfoDTO">
         SELECT
             PAYMENT_INDEX, aph.USER_INDEX, ITEM_NAME,PAYMENT_DATE, PAYMENT_METHOD, PAYMENT_AMOUNT, PAYMENT_STATUS
         FROM
@@ -358,7 +358,9 @@
         and
             aph.ITEM_INDEX = ai.ITEM_INDEX
         and
-            USER_ID = #{userID};
+            USER_ID = #{userID}
+        LIMIT #{startNum}, #{endNum};
     </select>
+
 </mapper>
 
