@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface UserPageService {
 
-    public List<PaymentHistoryListDTO> getPaymentHistory(PaymentMyInfoDTO user) throws Exception;
+    public PaymentHistoryListDTO getPaymentHistory(PaymentMyInfoDTO user) throws Exception;
 }
