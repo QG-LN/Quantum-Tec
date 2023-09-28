@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class PaymentMyInfoDTO {
     private String userID;  // 유저 아이디
+    private int currentPage;// 현재 페이지
     private int startNum;   // 시작 번호
     private int endNum;     // 끝 번호
 }

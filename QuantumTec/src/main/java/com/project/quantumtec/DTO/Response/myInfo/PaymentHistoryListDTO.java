@@ -12,4 +12,5 @@ import java.util.List;
 public class PaymentHistoryListDTO {
     private List<PaymentHistoryDTO> paymentHistoryList;     // 결제 내역 리스트
     private int paymentHistoryCount;                        // 결제 내역 개수
+    private int itemMaxCount;                                // 한 페이지 당 게시글 수
 }
