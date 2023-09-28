@@ -359,7 +359,22 @@
             aph.ITEM_INDEX = ai.ITEM_INDEX
         and
             USER_ID = #{userID}
+        ORDER BY PAYMENT_DATE DESC
         LIMIT #{startNum}, #{endNum};
+    </select>
+
+    <!-- 아바타 결제 내역 개수를 확인하기 위한 sql    -->
+    <select id="getPaymentHistoryCount" resultType="int" parameterType="String">
+        SELECT
+            COUNT(*)
+        FROM
+            AVATAR_PAYMENT_HISTORY_TB aph ,USER_INFO_TB ui , AVATAR_ITEM_TB ai
+        WHERE
+            aph.USER_INDEX = ui.USER_INDEX
+        and
+            aph.ITEM_INDEX = ai.ITEM_INDEX
+        and
+            USER_ID = #{userID};
     </select>
 
 </mapper>
