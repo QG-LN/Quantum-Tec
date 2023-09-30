@@ -359,12 +359,23 @@
             aph.ITEM_INDEX = ai.ITEM_INDEX
         and
             USER_ID = #{userID}
+        <if test="searchKeyword != null">
+            AND (
+                ITEM_NAME LIKE CONCAT('%', #{searchKeyword} , '%')
+                OR
+                PAYMENT_METHOD LIKE CONCAT('%', #{searchKeyword} , '%')
+                OR
+                PAYMENT_STATUS LIKE CONCAT('%', #{searchKeyword} , '%')
+                OR
+                PAYMENT_AMOUNT LIKE CONCAT('%',  #{searchKeyword} , '%')
+            )
+        </if>
         ORDER BY PAYMENT_DATE DESC
         LIMIT #{startNum}, #{endNum};
     </select>
 
     <!-- 아바타 결제 내역 개수를 확인하기 위한 sql    -->
-    <select id="getPaymentHistoryCount" resultType="int" parameterType="String">
+    <select id="getPaymentHistoryCount" resultType="int" parameterType="PaymentMyInfoDTO">
         SELECT
             COUNT(*)
         FROM
@@ -374,7 +385,23 @@
         and
             aph.ITEM_INDEX = ai.ITEM_INDEX
         and
-            USER_ID = #{userID};
+            USER_ID = #{userID}
+        <choose>
+            <when test="searchKeyword != null">
+                AND (
+                ITEM_NAME LIKE CONCAT('%', #{searchKeyword} , '%')
+                OR
+                PAYMENT_METHOD LIKE CONCAT('%', #{searchKeyword} , '%')
+                OR
+                PAYMENT_STATUS LIKE CONCAT('%', #{searchKeyword} , '%')
+                OR
+                PAYMENT_AMOUNT LIKE CONCAT('%',  #{searchKeyword} , '%')
+                );
+            </when>
+            <otherwise>
+                ;
+            </otherwise>
+        </choose>
     </select>
 
 </mapper>
