@@ -20,23 +20,26 @@ export default function MyPaymentDetails() {
   const [postCount, setPostCount] = useState(0);          // 게시글 수
   const [itemMaxCount, setItemMaxCount] = useState(0);    // 페이지당 최대 게시글 수
 
+  const [searchKeyword, setSearchKeyword] = useState(''); // 검색어		[타입1]
+  const [searchKeyword2, setSearchKeyword2] = useState(''); // 검색어 	[타입2]
+
   
     useEffect(() => {
       getPaymentPosts();
-    }, [currentPage]);
+    }, [currentPage, searchKeyword]);
 
   const getPaymentPosts = async () => {
     const path = 'user/payment/history';
     const body = {
       userID: localStorage.getItem('userID'),
       currentPage: currentPage,
+	  searchKeyword: searchKeyword
     };
     const data = await axiosRequest(path,body,'POST','json');
     setpaymentPosts(data.paymentHistoryList);
     setPostCount(data.paymentHistoryCount);
     setItemMaxCount(data.itemMaxCount);
-
-    console.log(data);
+	console.log(data);
   };
 
   //월일을 클릭 시
@@ -97,6 +100,18 @@ export default function MyPaymentDetails() {
     }
   }
 
+  // 검색어 입력 시 호출되는 함수
+  const handleSeraechKeyword = (e) => {
+	setSearchKeyword(e.target.value);
+	// setSearchKeyword2(e.target.value);
+  }
+
+  // 검색 버튼 클릭 시 호출되는 함수
+  const handleSearch = () => {
+	setSearchKeyword2('');
+	getPaymentPosts();
+  }
+
   //////////////////////////////////////////// 페이징 처리 ////////////////////////////////////////////
   // 페이지 변경 시 호출되는 함수
   const handlePageChange = (pageNumber) => {
@@ -119,6 +134,7 @@ export default function MyPaymentDetails() {
       setCurrentPage(page);
   }
 
+  //////////////////////////////////////////// 렌더링 ////////////////////////////////////////////
   /**
    * @todo 결제 일자 포맷변경 및 페이징 처리 추가 필요
    */
@@ -134,36 +150,44 @@ export default function MyPaymentDetails() {
     ));
   };
 
+  // 1번 타입
   const renderPaymentSearch = () => {
     return (
-      <div className="row justify-content-center">
-        <div class="dropdown col-auto">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="pdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            검색
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><span class="dropdown-item hover:cursor-pointer">제목</span></li>
-            <li><span class="dropdown-item hover:cursor-pointer">작성자</span></li>
-            <li><span class="dropdown-item hover:cursor-pointer">제목 + 작성자</span></li>
-          </ul>
-        </div>
-        <div class="col-auto">
-          <label for="inputSearch" class="visually-hidden">검색어</label>
-          <input type="text" class="form-control" id="inputSearch" placeholder="검색어"></input>
-        </div>
-        <div class="col-auto">
-          <button type="submit" class="btn btn-success mb-3">검색</button>
-        </div>
-      </div>
+		<input type="text" class="form-control" id="inputSearch" 
+				placeholder="검색어"
+				value={searchKeyword}
+				onChange={handleSeraechKeyword}/>
     )
+  }
+  // 2번 타입
+  const renderPaymentSearch2 = () => {
+	return (
+		<div className="row justify-content-center">
+		  <div class="col-auto">
+			<input type="text" class="form-control" id="inputSearch" 
+					placeholder="검색어"
+				  	value={searchKeyword2}
+					onChange={handleSeraechKeyword}/>
+		  </div>
+		  <div class="col-auto">
+			<button type="submit" class="btn btn-success mb-3"
+						onClick={handleSearch}>
+			  검색
+			</button>
+		  </div>
+		</div>
+	  )
   }
 
   return (
     <div class="mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]">
       <h2 class="account_main_page_title ">결제 내역</h2>
-      <table className="table table-striped mt-0 pt-0 table-hover user-select-none border-top-2">
+	  <div class="mt-4 mb-4 w-[30%] float-right">
+		{renderPaymentSearch()}
+      </div>    
+      <table className="table table-striped mt-0 pt-0 table-hover user-select-none">
           <thead>
-            <tr>
+            <tr class='border-top'>
               <th className="w-[10%]">결제번호</th>
               <th className="w-[45%]">결제내역</th>
               <th className="w-[20%]">결제일자</th>
@@ -176,9 +200,9 @@ export default function MyPaymentDetails() {
           <tbody>{renderPaymentPosts()}</tbody>
         </table>
         <nav aria-label="Page navigation example mb-5"> 
-          <div class="mt-4">
-              {renderPaymentSearch()}
-          </div>    
+          {/* <div class="mt-4">
+              {renderPaymentSearch2()}
+          </div>     */}
           <ul className="pagination nav justify-content-center mb-10">
             {startPageNum !== 1 && 
               <li key="<" className="page-item nav-item">
