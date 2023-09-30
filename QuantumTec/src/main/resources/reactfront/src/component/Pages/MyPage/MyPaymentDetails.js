@@ -5,9 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion, faSackDollar, faMoneyCheckDollar} from "@fortawesome/free-solid-svg-icons";
 import { extractData } from "../../Utils/dataFormat";
 
-
 /**
- * @todo 검색 영역 결정 + 정렬 기능 + 아이콘 튤팁 + 결제 내역 종목 추가
+ * @todo 검색 영역 결정 + 결제 내역 종목 추가
  */
 export default function MyPaymentDetails() {
   const [data, setData] = useState([]);
@@ -19,22 +18,25 @@ export default function MyPaymentDetails() {
   const [postCount, setPostCount] = useState(0);          // 게시글 수
   const [itemMaxCount, setItemMaxCount] = useState(0);    // 페이지당 최대 게시글 수
 
-  const [searchKeyword, setSearchKeyword] = useState(''); // 검색어		[타입1]
-  const [searchKeyword2, setSearchKeyword2] = useState(''); // 검색어 	[타입2]
+  const [searchKeyword, setSearchKeyword] = useState(''); 			// 검색어	[타입1]
+  const [searchKeyword2, setSearchKeyword2] = useState(''); 		// 검색어 	[타입2]
 
-  const [isTooltipVisible, setTooltipVisible] = useState(false); // 툴팁 보이기 여부
+  const [isTooltipVisible, setTooltipVisible] = useState(false); 	// 툴팁 보이기 여부
+
+  const [listType, setListType] = useState('전체');					// 리스트 출력 타입 
 
   
     useEffect(() => {
       getPaymentPosts();
-    }, [currentPage, searchKeyword]);
+    }, [currentPage, searchKeyword, listType]);
 
   const getPaymentPosts = async () => {
     const path = 'user/payment/history';
     const body = {
       userID: localStorage.getItem('userID'),
       currentPage: currentPage,
-	  searchKeyword: searchKeyword
+	  searchKeyword: searchKeyword,
+	  listType: listType
     };
     const data = await axiosRequest(path,body,'POST','json');
     setpaymentPosts(data.paymentHistoryList);
@@ -75,7 +77,7 @@ export default function MyPaymentDetails() {
 		case "paid":
 			return <FontAwesomeIcon icon={faSackDollar} style={{color: "#ff0000"}}/>;
 		default:
-			return <FontAwesomeIcon icon={faSackDollar} style={{color: "#2474ff"}}/>;
+			return <span>{type}</span>;
 	}
   }
 
@@ -158,6 +160,78 @@ export default function MyPaymentDetails() {
 	  )
   }
 
+    // 드롭다운 메뉴 버튼 함수
+    const handleDropdown = (e) => {
+        const ul = e.target.nextSibling;
+        if(ul.style.display === "block")
+            ul.style.display = "none";
+        else
+            ul.style.display = "block";
+    }
+
+  const handleListType = (e) => {
+	e.target.parentNode.parentNode.style.display = "none";
+	switch (e.target.innerText) {
+		case '전체':
+			setListType('all');
+			break;
+		case '게임':
+			setListType('game');
+			break;
+		case '아바타':
+			setListType('avatar');
+			break;
+		case '현금':
+			setListType('cash');
+			break;
+		default:
+			setListType('all');
+			break;
+	}
+  }
+
+  const changeListTypeToKorean = (type) => {
+	switch (type) {
+		case 'all':
+			return '전체';
+		case 'game':
+			return '게임';
+		case 'avatar':
+			return '아바타';
+		case 'cash':
+			return '현금';
+		default:
+			return '전체';
+	}
+  }
+
+  const renderTop = () => {
+	return (
+		<div class="row justify-content-around g-2 mb-4">
+			<div class="row justify-content-start g-3 mt-1 col-6 p-0">
+				<div class="dropdown col-auto">
+					<button class="btn btn-secondary dropdown-toggle" type="button" 
+							id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+							onClick={handleDropdown}>
+						{changeListTypeToKorean(listType)}
+					</button>
+					<ul class="dropdown-menu user-select-none" aria-labelledby="dropdownMenuButton1">
+						<li><span class="dropdown-item hover:cursor-pointer" onClick={handleListType}>전체</span></li>
+						<li><span class="dropdown-item hover:cursor-pointer " onClick={handleListType}>게임</span></li>
+						<li><span className="dropdown-item hover:cursor-pointer" onClick={handleListType}>아바타</span></li>
+						<li><span className="dropdown-item hover:cursor-pointer" onClick={handleListType}>현금</span></li>
+					</ul>
+				</div>
+			</div>
+			<div class="row justify-content-end g-3 mt-1 col-6">
+				<div class="col-auto">
+					{renderPaymentSearch()}
+				</div>
+			</div>
+		</div>
+	)
+  }
+
   // 툴팁 보이기
   const showTooltip = () => {
 	setTooltipVisible(true);
@@ -187,9 +261,10 @@ export default function MyPaymentDetails() {
   return (
     <div class="mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]">
       <h2 class="account_main_page_title ">결제 내역</h2>
-	  <div class="mt-4 mb-4 w-[30%] float-right">
+	  {/* <div class="mt-4 mb-4 w-[30%] float-right">
 		{renderPaymentSearch()}
-      </div>    
+      </div>     */}
+	  {renderTop()}
       <table className="table table-striped mt-0 pt-0 table-hover user-select-none">
           <thead>
             <tr class='border-top'>
