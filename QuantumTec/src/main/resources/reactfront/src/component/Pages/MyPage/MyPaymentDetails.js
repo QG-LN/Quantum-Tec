@@ -4,6 +4,7 @@ import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 import {axiosRequest} from '../../../module/networkUtils';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion} from "@fortawesome/free-solid-svg-icons";
+import { extractData } from "../../Utils/dataFormat";
 
 
 /**
@@ -79,25 +80,6 @@ export default function MyPaymentDetails() {
   };
 
   /**
-  * 날짜 데이터 포맷 변경 함수
-  * 만약 데이터가 날짜 형식이 아니라면 그대로 반환
-  * @param data 날짜데이터
-  * @returns {*|string} 포맷 변경된 날짜 데이터
-  * @example 2021-06-01 -> 2021년 06월 01일
-  */
-  const extractData = (data) => {
-    const datePattern = /^(\d{4})-(\d{2})-(\d{2})/;     // 날짜 데이터 추출 패턴 설정
-    const match = datePattern.exec(data);       // 정규식과 매칭을 통해 날짜 데이터 추출
-
-    // 날짜 데이터를 올바르게 추출 했을 경우 포맷 변경
-    if(match){
-        return match[1] + '년 ' + match[2] + '월 ' + match[3] + '일';
-    }else{
-        return data;
-    }
-  }
-
-  /**
    * 결제 상태에 따라서 텍스트 색상을 변경하는 함수
    * @param {string} status 결제 상태를 나타내는 문자열 
    * @returns <span>태그를 반환하는 함수
@@ -115,16 +97,26 @@ export default function MyPaymentDetails() {
     }
   }
 
+  //////////////////////////////////////////// 페이징 처리 ////////////////////////////////////////////
+  // 페이지 변경 시 호출되는 함수
   const handlePageChange = (pageNumber) => {
     if(pageNumber === currentPage) return;      // 현재 페이지와 같은 페이지를 클릭했을 경우 아무것도 하지 않음
     setpaymentPosts([]);                        // 게시글 목록 초기화
     setCurrentPage(pageNumber);                 // 현재 페이지 변경
   }
+  // 페이지 다운 버튼 클릭 시 호출되는 함수
   const handlePageDown = () => {
-
+      setpaymentPosts([]);
+      let page = Math.floor((currentPage-1) / itemMaxCount) * 10;
+      setStartPageNum(page);
+      setCurrentPage(page);
   }
+  // 페이지 업 버튼 클릭 시 호출되는 함수
   const handlePageUp = () => {
-
+      setpaymentPosts([]);
+      let page = Math.floor((currentPage-1) / itemMaxCount + 1) * 10 + 1;
+      setStartPageNum(page);
+      setCurrentPage(page);
   }
 
   /**
