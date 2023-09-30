@@ -161,8 +161,9 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public PaymentHistoryListDTO getPaymentHistory(PaymentMyInfoDTO user) {
-        List<UserPaymentVO> list = sqlSession.selectList("AvatarService.getPaymentHistory", user);
-        int listCount =  sqlSession.selectOne("AvatarService.getPaymentHistoryCount", user);
+        List<UserPaymentVO> list = sqlSession.selectList("UserPageService.getPaymentHistory", user);
+        int listCount =  sqlSession.selectOne("UserPageService.getPaymentHistoryCount", user);
+
 
         // 결제 내역 리스트 반환 DTO 객체 생성
         PaymentHistoryListDTO paymentHistoryListDTO = new PaymentHistoryListDTO();
