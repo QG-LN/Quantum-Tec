@@ -69,7 +69,4 @@ public interface UserDAO {
     // 캐시 충전
     public int chargeCash(CashChargeDTO cashChargeDTO);
 
-    // 아바타 결제 내역
-    public PaymentHistoryListDTO getPaymentHistory(PaymentMyInfoDTO user);
-
 }

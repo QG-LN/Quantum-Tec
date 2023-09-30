@@ -1,6 +1,6 @@
 package com.project.quantumtec.Service.user;
 
-import com.project.quantumtec.DAO.user.UserDAO;
+import com.project.quantumtec.DAO.user.UserPageDAO;
 import com.project.quantumtec.DTO.Request.myinfo.PaymentMyInfoDTO;
 import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class UserPageServiceImpl implements UserPageService{
 
     @Autowired
-    private UserDAO userDAO;
+    private UserPageDAO userPageDAO;
     @Override
     public PaymentHistoryListDTO getPaymentHistory(PaymentMyInfoDTO user) throws Exception {
         int itemMaxNum = 10; // 한 페이지 당 게시글 수
@@ -20,7 +20,7 @@ public class UserPageServiceImpl implements UserPageService{
             user.setSearchKeyword(null);
         }
 
-        PaymentHistoryListDTO dto = userDAO.getPaymentHistory(user);    // 결제 내역 리스트
+        PaymentHistoryListDTO dto = userPageDAO.getPaymentHistory(user);    // 결제 내역 리스트
         dto.setItemMaxCount(itemMaxNum);                                // 한 페이지 당 게시글 수 세팅
 
         return dto;
