@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 import {axiosRequest} from '../../Utils/networkUtils';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleQuestion} from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion, faSackDollar, faMoneyCheckDollar} from "@fortawesome/free-solid-svg-icons";
 import { extractData } from "../../Utils/dataFormat";
 
 
 /**
- * @todo 결제 내역 페이징 처리 및 검색 기능 + 정렬 기능 + 아이콘 튤팁 추가
+ * @todo 검색 영역 결정 + 정렬 기능 + 아이콘 튤팁 + 결제 내역 종목 추가
  */
 export default function MyPaymentDetails() {
   const [data, setData] = useState([]);
@@ -22,6 +21,8 @@ export default function MyPaymentDetails() {
 
   const [searchKeyword, setSearchKeyword] = useState(''); // 검색어		[타입1]
   const [searchKeyword2, setSearchKeyword2] = useState(''); // 검색어 	[타입2]
+
+  const [isTooltipVisible, setTooltipVisible] = useState(false); // 툴팁 보이기 여부
 
   
     useEffect(() => {
@@ -42,50 +43,10 @@ export default function MyPaymentDetails() {
 	console.log(data);
   };
 
-  //월일을 클릭 시
-  useEffect(() => {
-    if (isState === "isMonthly") {
-      setData([
-        { year: 2022, month: 1, value: 100 },
-        { year: 2022, month: 2, value: 200 },
-        { year: 2022, month: 3, value: 300 },
-        { year: 2023, month: 1, value: 400 },
-        { year: 2023, month: 2, value: 500 },
-        { year: 2023, month: 3, value: 600 },
-      ]);
-      //년일을 클릭 시
-    } else if (isState === "isYearly") {
-      setData([
-        { year: 2022, value: 100 },
-        { year: 2023, value: 400 },
-      ]);
-    }
-  }, [isState]);
-
-  // 월별 데이터
-  const chart = () => {
-    return (
-      <div class="mt-[20px]">
-        <LineChart
-          data={data}
-          width={500}
-          height={400}
-          margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-        >
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Line dataKey="value" />
-        </LineChart>
-        <button onClick={() => setState("isYearly")}>연도별로 보기</button>
-      </div>
-    );
-  };
-
   /**
    * 결제 상태에 따라서 텍스트 색상을 변경하는 함수
    * @param {string} status 결제 상태를 나타내는 문자열 
-   * @returns <span>태그를 반환하는 함수
+   * @returns <span>태그를 반환
    */
   const changePaymentStatusText = (status) => {
     switch(status){
@@ -98,6 +59,24 @@ export default function MyPaymentDetails() {
       default:
         return <span class='text-primary'>{status}</span>
     }
+  }
+
+  /**
+   * 결제 유형에 따라 다른 아이콘을 반환하는 함수
+   * @param {string} type 결제 유형을 나타내는 문자열
+   * @returns 아이콘 반환
+   */
+  const changePaymenType = (type) => {
+	switch(type){
+		case "cash":
+			return <FontAwesomeIcon icon={faMoneyCheckDollar} style={{color: "#3a5583"}}/>;
+		case "free":
+			return <FontAwesomeIcon icon={faSackDollar} style={{color: "#2474ff"}}/>;
+		case "paid":
+			return <FontAwesomeIcon icon={faSackDollar} style={{color: "#ff0000"}}/>;
+		default:
+			return <FontAwesomeIcon icon={faSackDollar} style={{color: "#2474ff"}}/>;
+	}
   }
 
   // 검색어 입력 시 호출되는 함수
@@ -144,7 +123,7 @@ export default function MyPaymentDetails() {
         <td>{paymentHistory.paymentIndex}</td>
         <td>{paymentHistory.paymentDesc} [{paymentHistory.paymentAmount}]</td>
         <td>{extractData(paymentHistory.paymentDate)}</td>
-        <td>{paymentHistory.paymentType}</td>
+        <td>{changePaymenType(paymentHistory.paymentType)}</td>
         <td>{changePaymentStatusText(paymentHistory.paymentStatus)}</td>
       </tr>
     ));
@@ -179,6 +158,32 @@ export default function MyPaymentDetails() {
 	  )
   }
 
+  // 툴팁 보이기
+  const showTooltip = () => {
+	setTooltipVisible(true);
+  }
+  // 툴팁 숨기기
+  const hindTooltip = () => {
+	setTooltipVisible(false);
+  }
+
+  // 결제 유형 툴팁
+  const paymentTypeTooltip = () => {
+	return (
+		<div class='position-relative'>
+			<div class='position-absolute top-0 start-0'>
+				<div class='bg-white m-2 p-2 border text-left w-[100%]'>
+					<FontAwesomeIcon icon={faSackDollar} style={{color: "#2474ff"}}/> 무료 <br/>
+					<FontAwesomeIcon icon={faSackDollar} style={{color: "#ff0000"}}/> 유료 <br/>
+					<FontAwesomeIcon icon={faMoneyCheckDollar} style={{color: "#3a5583"}}/> 현금 <br/>
+				</div>
+			</div>
+		</div>
+	)
+  }
+
+
+
   return (
     <div class="mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]">
       <h2 class="account_main_page_title ">결제 내역</h2>
@@ -192,7 +197,9 @@ export default function MyPaymentDetails() {
               <th className="w-[45%]">결제내역</th>
               <th className="w-[20%]">결제일자</th>
               <th className="w-[15%]">
-                결제유형 <FontAwesomeIcon icon={faCircleQuestion} style={{color: "#8f8f8f"}}/>
+				결제유형 <FontAwesomeIcon icon={faCircleQuestion} style={{color: "#8f8f8f"}} 
+				onMouseOver={showTooltip} onMouseOut={hindTooltip}/>
+				{isTooltipVisible && paymentTypeTooltip()}
               </th>
               <th className="w-[10%]">결제상태</th>
             </tr>
