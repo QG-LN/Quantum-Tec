@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom"
 import React, { useEffect } from 'react';
-import { axiosRequest } from "../../../module/networkUtils";
+import { axiosRequest } from "../../Utils/networkUtils";
 import { useDispatch } from 'react-redux';
 import { setCashChange } from '../../../redux/actions/userActions';
 

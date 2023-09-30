@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import {axiosRequest} from '../../../module/networkUtils';
+import {axiosRequest} from '../../Utils/networkUtils';
 
 export default function Choosefind(props) {
   const [inputId, setInputId] = useState('');

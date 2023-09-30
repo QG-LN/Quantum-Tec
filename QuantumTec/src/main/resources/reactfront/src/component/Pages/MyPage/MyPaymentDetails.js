@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
-import {axiosRequest} from '../../../module/networkUtils';
+import {axiosRequest} from '../../Utils/networkUtils';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion} from "@fortawesome/free-solid-svg-icons";
 import { extractData } from "../../Utils/dataFormat";

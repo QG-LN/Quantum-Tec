@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Mysection from './mysection';
 import '../../../styles.css';
-import {axiosRequest} from '../../../module/networkUtils';
+import {axiosRequest} from '../../Utils/networkUtils';
 
 export default function PasswordChk(){
     const [inputPw, setInputPw] = useState('')

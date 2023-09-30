@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Choosefind from './choosefind.js';
-import {axiosRequest} from '../../../module/networkUtils';
+import {axiosRequest} from '../../Utils/networkUtils';
 import { useDispatch } from 'react-redux';
 import { setAvatarItemList } from '../../../redux/actions/avatarActions';
 import { useNavigate } from 'react-router-dom';

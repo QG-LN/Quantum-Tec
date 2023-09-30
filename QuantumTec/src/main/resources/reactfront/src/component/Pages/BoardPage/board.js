@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link , useNavigate} from 'react-router-dom';
-import {axiosRequest} from '../../../module/networkUtils';
+import {axiosRequest} from '../../Utils/networkUtils';
 import {useParams} from "react-router-dom";
 import { extractData } from "../../Utils/dataFormat";
 
