@@ -3,7 +3,7 @@
 <mapper namespace="UserPageService">
     <!-- 결제 내역 리스트 -->
     <select id="getPaymentHistory" resultType="UserPaymentVO" parameterType="PaymentMyInfoDTO">
-        SELECT PAYMENT_INDEX, phv.USER_INDEX, ITEM_NAME,PAYMENT_DATE, PAYMENT_METHOD, PAYMENT_AMOUNT, PAYMENT_STATUS
+        SELECT PAYMENT_INDEX, phv.USER_INDEX, ITEM_NAME,PAYMENT_DATE, PAYMENT_METHOD, PAYMENT_AMOUNT, PAYMENT_STATUS,SOURCE_TABLE
         FROM PAYMENT_HISTORY_VW phv ,USER_INFO_TB ui
         WHERE phv.USER_INDEX = ui.USER_INDEX
         and USER_ID = #{userID}
@@ -18,6 +18,17 @@
             PAYMENT_AMOUNT LIKE CONCAT('%',  #{searchKeyword} , '%')
             )
         </if>
+        <choose>
+            <when test="listType == 'game'">
+                AND SOURCE_TABLE = 'game'
+            </when>
+            <when test="listType == 'avatar'">
+                AND SOURCE_TABLE = 'avatar'
+            </when>
+            <when test="listType == 'cash'">
+                AND SOURCE_TABLE = 'cash'
+            </when>
+        </choose>
         ORDER BY PAYMENT_DATE DESC
         LIMIT #{startNum}, #{endNum};
     </select>
@@ -28,6 +39,17 @@
         FROM PAYMENT_HISTORY_VW phv ,USER_INFO_TB ui
         WHERE phv.USER_INDEX = ui.USER_INDEX
         and USER_ID = #{userID}
+        <choose>
+            <when test="listType == 'game'">
+                AND SOURCE_TABLE = 'game'
+            </when>
+            <when test="listType == 'avatar'">
+                AND SOURCE_TABLE = 'avatar'
+            </when>
+            <when test="listType == 'cash'">
+                AND SOURCE_TABLE = 'cash'
+            </when>
+        </choose>
         <choose>
             <when test="searchKeyword != null">
                 AND (
