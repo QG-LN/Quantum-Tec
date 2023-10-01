@@ -4,7 +4,6 @@ import {useEffect} from 'react';
 import { useInView } from 'react-intersection-observer';
 import img from '../MainPage/1_logo.png'
 import {Dropdown} from 'react-bootstrap'
-
 import { Link } from 'react-router-dom';
 import Tutoringlist from './tutoringlist';
 
@@ -33,9 +32,6 @@ export default function TutoringBoardPage() {
     }
 
 
-      const handleboardAdd = () => {
-        alert('게시판 추가')
-    }
 
 
     const ttlist = [
@@ -181,7 +177,7 @@ export default function TutoringBoardPage() {
                 <div class='container'>
                     <div className='row justify-content-end'>
                         {/* 게시글 추가 버튼을 우측 상단에 배치 */}
-                        <button className='bg-green-300 p-2 rounded-full shadow-sm col-md-1 mb-2 mr-2' 
+                        <button className='bg-green-300 p-2 rounded-full shadow-sm col-md-1 mb-2 mr-2'
                                 onClick={handleboardAdd}>
                             게시글 추가
                         </button>
@@ -189,7 +185,7 @@ export default function TutoringBoardPage() {
                     <div className='row'>
                         <div className='col-sm-8'>
                             {/* 카테고리 목록 드롭다운 */}
-                            <Dropdown autoClose='outside'> 
+                            <Dropdown autoClose='outside'>
                                 <div className='float-left'>
                                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                                         카테고리 목록
@@ -212,7 +208,7 @@ export default function TutoringBoardPage() {
                         <div className='col-sm-4'>
                             {/* 검색 창 */}
                             <div class='relative'>
-                                <input className='w-[100%] h-[44px] pr-[3px] pl-[10px] mr-0 border-b-2 rounded-full bg-[#f2f2f2]' 
+                                <input className='w-[100%] h-[44px] pr-[3px] pl-[10px] mr-0 border-b-2 rounded-full bg-[#f2f2f2]'
                                     type='text' placeholder='튜터링 검색' onChange={handleSearch} value={search}></input>
                                 <button type='button' className='absolute right-0 w-[44px] h-[44px]' onClick={onClickSearch}>
                                     <span className='inline-block w-[40px] h-[40px] rounded-full'>
@@ -227,19 +223,24 @@ export default function TutoringBoardPage() {
 
             {loading ? <div>로딩중</div> :
                 <section class="py-5">
+                    <div class='container px-lg-5'>
+                        <Link to={`/tutorinsert`}>
+                            <button class='float-right bg-green-300 p-2 mr-2 rounded-full shadow-sm text-black'>게시판 추가</button>
+                        </Link>
+                    </div>
                     <div class="container ml-n1 grid-cols-4 gap-[20px] gx-1 px-lg-5 mt-5 flex flex-wrap max-w-full">
                         {ttlist.map((tutor, idx) => (
                             <div key={idx} id={tutor.id}
-                                    className='row gx-0 row-cols-2 row-cols-md-3 row-cols-xl-4'
-                                    ref={idx === ttlist.length - 1 ? ref : null}>
-                                    <Tutoringlist 
-                                        name={tutor.name}
-                                        cate={tutor.cate}
-                                        img={tutor.img}
-                                        link={tutor.link}
-                                        // key={tutor.id}
-                                        id={tutor.id}
-                                    />
+                                 className='row gx-0 row-cols-2 row-cols-md-3 row-cols-xl-4'
+                                 ref={idx === ttlist.length - 1 ? ref : null}>
+                                <Tutoringlist
+                                    name={tutor.name}
+                                    cate={tutor.cate}
+                                    img={tutor.img}
+                                    link={tutor.link}
+                                    // key={tutor.id}
+                                    id={tutor.id}
+                                />
                             </div>
                         ))}
 

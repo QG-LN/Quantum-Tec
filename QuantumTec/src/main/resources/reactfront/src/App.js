@@ -18,9 +18,11 @@ import { Success } from './component/Pages/PaymentsPage/success';
 import { Fail } from './component/Pages/PaymentsPage/fail';
 import TtBoardPage from './component/Pages/BoardPage/tutoringboard.js';
 import TutorPage from './component/Pages/BoardPage/tutorpage.js'
+import TutorInsertPage from './component/Pages/BoardPage/tutorinsertpage.js'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import AvatarInvetoryPage from "./component/Pages/avatarInventory/avatarMainPage";
+
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
@@ -42,6 +44,7 @@ function App() {
           <Route path="/board/:no/write" element={<Write />}/>
           <Route path="/board/:no/post/:id/edit" element={<Write />}/>
           <Route path="/tutoring" element={<TtBoard />}/>
+          <Route path="/tutorinsert" element={<TtInsert />}/>
           <Route path="/ttboard/:id/:tutor" element={<TtPage />}/>
           <Route path="/post/:id" element={<Post />}/>
           <Route path="/write" element={<Write />}/>
@@ -170,6 +173,14 @@ function TtPage(){
   return (
     <div className="Board mt-[10vh]">
         <TutorPage />
+    </div>
+  )
+}
+
+function TtInsert(){
+  return (
+    <div className="Board mt-[10vh]">
+        <TutorInsertPage />
     </div>
   )
 }
