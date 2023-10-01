@@ -85,13 +85,13 @@ export default function Navbar() {
             <Sidebar width={300}>
                 <Contact/>
             </Sidebar>
-            <nav className="navbar navbar-expand-lg" style={{zIndex: '3' ,backgroundColor :'#f6f8fa'}}>
+            <nav className="navbar navbar-expand-lg" style={{zIndex: '3' ,backgroundColor :'#f6f8fa', height:'60px'}}>
                 <div class="block w-[100%] relative mt-1">
                     {/*로고(클릭시 메인화면)*/}
                     <a class="navbar-brand hover:cursor-pointer mb-2" onClick={logoClick}>
-                        <img className='w-[10%] mt-[-4px] absolute left-[45.3%]' src={Logo}></img>
+                        <img className='w-[200px] mt-[20px] mx-auto' src={Logo}></img>
                     </a>
-                    <form class="log_info d-flex justify-end absolute top-0 right-0 mr-10 ">
+                    <form class="log_info d-flex justify-end absolute top-5 right-0 mr-10 ">
                         {/*{getUsername()}*/}
                         {/*{getMyCash()}*/}
                         {!truelogin && <button

@@ -4,7 +4,6 @@ import {useEffect} from 'react';
 import { useInView } from 'react-intersection-observer';
 import img from '../MainPage/1_logo.png'
 import {Dropdown} from 'react-bootstrap'
-
 import { Link } from 'react-router-dom';
 import Tutoringlist from './tutoringlist';
 
@@ -33,9 +32,6 @@ export default function TutoringBoardPage() {
     }
 
 
-      const handleboardAdd = () => {
-        alert('게시판 추가')
-    }
 
 
     const ttlist = [
@@ -217,7 +213,9 @@ export default function TutoringBoardPage() {
             {loading ? <div>로딩중</div> :
             <section class="py-5">
                 <div class='container px-lg-5'>
-                <button class='float-right bg-green-300 p-2 mr-2 rounded-full shadow-sm' onClick={handleboardAdd}>게시판 추가</button>
+                <Link to={`/tutorinsert`}>
+                    <button class='float-right bg-green-300 p-2 mr-2 rounded-full shadow-sm text-black'>게시판 추가</button>
+                </Link>
                 </div>
                 <div class="container ml-n1 grid-cols-4 gap-[20px] gx-1 px-lg-5 mt-5 flex flex-wrap max-w-full">
                     {ttlist.map((tutor, idx) => (
