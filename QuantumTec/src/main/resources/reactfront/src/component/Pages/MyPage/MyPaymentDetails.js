@@ -4,6 +4,7 @@ import {axiosRequest} from '../../Utils/networkUtils';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion, faSackDollar, faMoneyCheckDollar} from "@fortawesome/free-solid-svg-icons";
 import { extractData } from "../../Utils/dataFormat";
+import Dropdown from 'react-bootstrap/Dropdown';
 
 /**
  * @todo 검색 영역 결정
@@ -166,17 +167,17 @@ export default function MyPaymentDetails() {
 			<div class="row justify-content-around g-2 mb-4">
 				<div class="row justify-content-start g-3 mt-1 col-6 p-0">
 					<div class="dropdown col-auto">
-						<button class="btn btn-secondary dropdown-toggle" type="button" 
-								id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-								onClick={handleDropdown}>
-							{changeListTypeToKorean(listType)}
-						</button>
-						<ul class="dropdown-menu user-select-none" aria-labelledby="dropdownMenuButton1">
-							<li><span class="dropdown-item hover:cursor-pointer" onClick={handleListType}>전체</span></li>
-							<li><span class="dropdown-item hover:cursor-pointer " onClick={handleListType}>게임</span></li>
-							<li><span className="dropdown-item hover:cursor-pointer" onClick={handleListType}>아바타</span></li>
-							<li><span className="dropdown-item hover:cursor-pointer" onClick={handleListType}>현금</span></li>
-						</ul>
+					<Dropdown>
+						<Dropdown.Toggle variant="secondary" id="dropdown-basic">
+						{changeListTypeToKorean(listType)}
+						</Dropdown.Toggle>
+						<Dropdown.Menu>
+							<Dropdown.Item onClick={() => handleListType('all')}>전체</Dropdown.Item>
+							<Dropdown.Item onClick={() => handleListType('게임')}>게임</Dropdown.Item>
+							<Dropdown.Item onClick={() => handleListType('아바타')}>아바타</Dropdown.Item>
+							<Dropdown.Item onClick={() => handleListType('현금')}>현금</Dropdown.Item>
+						</Dropdown.Menu>
+					</Dropdown>
 					</div>
 				</div>
 				<div class="row justify-content-end g-3 mt-1 col-6">
@@ -187,20 +188,10 @@ export default function MyPaymentDetails() {
 			</div>
 		)
 	}
-	
-    // 드롭다운 메뉴 버튼 함수
-    const handleDropdown = (e) => {
-        const ul = e.target.nextSibling;
-        if(ul.style.display === "block")
-            ul.style.display = "none";
-        else
-            ul.style.display = "block";
-    }
 
 	// 드롭다운 메뉴에서 리스트 타입을 선택했을 때 호출되는 함수
-	const handleListType = (e) => {
-		e.target.parentNode.parentNode.style.display = "none";
-		switch (e.target.innerText) {
+	const handleListType = (type) => {
+		switch (type) {
 			case '전체':
 				setListType('all');
 				break;
@@ -260,7 +251,7 @@ export default function MyPaymentDetails() {
 	}
 
 	return (
-		<div class="mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]">
+		<div class="mypagestyle float-right w-mypagesection max-w-[880px] min-w-[700px]">
 		<h2 class="account_main_page_title ">결제 내역</h2>
 		{/* <div class="mt-4 mb-4 w-[30%] float-right">
 			{renderPaymentSearch()}
