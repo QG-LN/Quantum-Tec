@@ -173,72 +173,80 @@ export default function TutoringBoardPage() {
     };
     
     return(
-        <>
-        <div class=' bg-slate-300 justify-center items-center  mt-auto h-24 flex'>
-            <h1 class='text-black'>{boardName}</h1>
+        <div>
+            <div class=' bg-slate-300 justify-center items-center  mt-auto h-24 flex'>
+                <h1 class='text-black'>{boardName}</h1>
             </div>
-            <div className="w-[1320px] h-[32px] mt-14 mx-auto pl-12 pr-12">
-                
-                <Dropdown autoClose='outside'> 
-                    <div class='float-left'>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        카테고리 목록
-                    </Dropdown.Toggle>
+            <div className="w-[1320px] h-[32px] mt-5 mx-auto pl-12 pr-12">
+                <div class='container'>
+                    <div className='row justify-content-end'>
+                        {/* 게시글 추가 버튼을 우측 상단에 배치 */}
+                        <button className='bg-green-300 p-2 rounded-full shadow-sm col-md-1 mb-2 mr-2' 
+                                onClick={handleboardAdd}>
+                            게시글 추가
+                        </button>
                     </div>
-                    <span class='float-left ml-6 mt-1 border-b-2 pb-2 px-2'> {selectedCategories.join(', ')}</span>
-                    <Dropdown.Menu>
-                            {categories.map((category, index) => (
-                                <Dropdown.Item key={index} onClick={() => toggleCategory(category)}>
-                                <input className='mr-2'
-                                    type="checkbox"
-                                    checked={selectedCategories.includes(category)}
-                                    readOnly
-                                    
-                                />
-                                {category}
-                                </Dropdown.Item>
-                            ))}
-                    </Dropdown.Menu>
-                    <div class='absolute top-[-10px] right-[0px]'>
-                <fieldset>
-                    <input class='w-[302px] h-[44px] pr-[3px] pl-[10px] mr-0 border-b-2 rounded-full bg-[#f2f2f2]' type='text'
-                           placeholder='튜터링 검색'onChange={handleSearch} value={search}></input>
-                    <button type='button' class='absolute right-0 w-[44px] h-[44px]' onClick={onClickSearch}>
-                        <span class='inline-block w-[40px] h-[40px] rounded-full'>
-                            <img class='w-[20px] h-[20px] m-[10px]' src={searchIcon} alt='search'/>
-                        </span></button>
-                </fieldset>
-                </div>
-                </Dropdown>
-
-            </div>
-                
-                
-            {loading ? <div>로딩중</div> :
-            <section class="py-5">
-                <div class='container px-lg-5'>
-                <button class='float-right bg-green-300 p-2 mr-2 rounded-full shadow-sm' onClick={handleboardAdd}>게시판 추가</button>
-                </div>
-                <div class="container ml-n1 grid-cols-4 gap-[20px] gx-1 px-lg-5 mt-5 flex flex-wrap max-w-full">
-                    {ttlist.map((tutor, idx) => (
-                        <div key={idx} id={tutor.id}
-                                className='row gx-0 row-cols-2 row-cols-md-3 row-cols-xl-4'
-                                ref={idx === ttlist.length - 1 ? ref : null}>
-                                <Tutoringlist 
-                                    name={tutor.name}
-                                    cate={tutor.cate}
-                                    img={tutor.img}
-                                    link={tutor.link}
-                                    // key={tutor.id}
-                                    id={tutor.id}
-                                />
+                    <div className='row'>
+                        <div className='col-sm-8'>
+                            {/* 카테고리 목록 드롭다운 */}
+                            <Dropdown autoClose='outside'> 
+                                <div className='float-left'>
+                                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                        카테고리 목록
+                                    </Dropdown.Toggle>
+                                </div>
+                                <span className='float-left ml-6 mt-1 border-b-2 pb-2 px-2'> {selectedCategories.join(', ')}</span>
+                                <Dropdown.Menu>
+                                    {categories.map((category, index) => (
+                                        <Dropdown.Item key={index} onClick={() => toggleCategory(category)}>
+                                            <input className='mr-2'
+                                                type="checkbox"
+                                                checked={selectedCategories.includes(category)}
+                                                readOnly/>
+                                            {category}
+                                        </Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </div>
-                    ))}
-
+                        <div className='col-sm-4'>
+                            {/* 검색 창 */}
+                            <div class='relative'>
+                                <input className='w-[100%] h-[44px] pr-[3px] pl-[10px] mr-0 border-b-2 rounded-full bg-[#f2f2f2]' 
+                                    type='text' placeholder='튜터링 검색' onChange={handleSearch} value={search}></input>
+                                <button type='button' className='absolute right-0 w-[44px] h-[44px]' onClick={onClickSearch}>
+                                    <span className='inline-block w-[40px] h-[40px] rounded-full'>
+                                        <img className='w-[20px] h-[20px] m-[10px]' src={searchIcon} alt='search'/>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </section>
-        }
+            </div>
 
-    </>
+            {loading ? <div>로딩중</div> :
+                <section class="py-5">
+                    <div class="container ml-n1 grid-cols-4 gap-[20px] gx-1 px-lg-5 mt-5 flex flex-wrap max-w-full">
+                        {ttlist.map((tutor, idx) => (
+                            <div key={idx} id={tutor.id}
+                                    className='row gx-0 row-cols-2 row-cols-md-3 row-cols-xl-4'
+                                    ref={idx === ttlist.length - 1 ? ref : null}>
+                                    <Tutoringlist 
+                                        name={tutor.name}
+                                        cate={tutor.cate}
+                                        img={tutor.img}
+                                        link={tutor.link}
+                                        // key={tutor.id}
+                                        id={tutor.id}
+                                    />
+                            </div>
+                        ))}
+
+                    </div>
+                </section>
+            }
+
+    </div>
     )
 }
