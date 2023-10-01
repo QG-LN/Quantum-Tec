@@ -177,10 +177,11 @@ export default function TutoringBoardPage() {
                 <div class='container'>
                     <div className='row justify-content-end'>
                         {/* 게시글 추가 버튼을 우측 상단에 배치 */}
-                        <button className='bg-green-300 p-2 rounded-full shadow-sm col-md-1 mb-2 mr-2'
-                                onClick={handleboardAdd}>
-                            게시글 추가
-                        </button>
+                        <div className='bg-green-300 p-2 rounded-full shadow-sm col-md-1 mb-2 mr-2'>
+                            <Link to={`/tutorinsert`} class='text-decoration-none text-black'>
+                                게시글 추가
+                            </Link>
+                        </div>
                     </div>
                     <div className='row'>
                         <div className='col-sm-8'>
@@ -223,11 +224,6 @@ export default function TutoringBoardPage() {
 
             {loading ? <div>로딩중</div> :
                 <section class="py-5">
-                    <div class='container px-lg-5'>
-                        <Link to={`/tutorinsert`}>
-                            <button class='float-right bg-green-300 p-2 mr-2 rounded-full shadow-sm text-black'>게시판 추가</button>
-                        </Link>
-                    </div>
                     <div class="container ml-n1 grid-cols-4 gap-[20px] gx-1 px-lg-5 mt-5 flex flex-wrap max-w-full">
                         {ttlist.map((tutor, idx) => (
                             <div key={idx} id={tutor.id}
