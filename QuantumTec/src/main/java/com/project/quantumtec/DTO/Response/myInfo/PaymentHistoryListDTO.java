@@ -1,16 +1,16 @@
 package com.project.quantumtec.DTO.Response.myInfo;
 
 import lombok.Data;
+
+import java.util.List;
+
 /**
  * 임시 DTO
  * 추후 필요한 정보 추가 및 수정
  * */
 @Data
 public class PaymentHistoryListDTO {
-    private int paymentIndex;       // 결제 번호
-    private String paymentDesc;     // 결제 내역
-    private String paymentAmount;   // 결제 금액
-    private String paymentDate;     // 결제 날짜
-    private String paymentType;     // 결제 타입
-    private String paymentStatus;   // 결제 상태
+    private List<PaymentHistoryDTO> paymentHistoryList;     // 결제 내역 리스트
+    private int paymentHistoryCount;                        // 결제 내역 개수
+    private int itemMaxCount;                                // 한 페이지 당 게시글 수
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AvatarItemCheck from './avatarItemCheck';
-import {axiosRequest} from '../../../module/networkUtils';
+import {axiosRequest} from '../../Utils/networkUtils';
 import { useSelector } from 'react-redux';
 
 /**

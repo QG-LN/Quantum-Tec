@@ -2,6 +2,7 @@ package com.project.quantumtec.DAO.user;
 
 import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.DTO.Request.myinfo.PaymentMyInfoDTO;
+import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryListDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserGraceDTO;
@@ -67,8 +68,5 @@ public interface UserDAO {
     
     // 캐시 충전
     public int chargeCash(CashChargeDTO cashChargeDTO);
-
-    // 아바타 결제 내역
-    public List<UserPaymentVO> getPaymentHistory(PaymentMyInfoDTO user);
 
 }

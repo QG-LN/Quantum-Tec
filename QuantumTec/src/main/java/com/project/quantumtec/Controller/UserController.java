@@ -128,7 +128,7 @@ public class UserController {
     }
 
     @PostMapping("/payment/history")
-    public List<PaymentHistoryListDTO> getPaymentHistory(@RequestBody PaymentMyInfoDTO user) throws Exception {
+    public PaymentHistoryListDTO getPaymentHistory(@RequestBody PaymentMyInfoDTO user) throws Exception {
         return userPageService.getPaymentHistory(user);
     }
 }

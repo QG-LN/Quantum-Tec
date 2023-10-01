@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {axiosRequest} from '../../../module/networkUtils';
+import {axiosRequest} from '../../Utils/networkUtils';
 import MySectionInfo from "./MySectionInfo";
 import axios from 'axios';
 import AddressModal from "../LoginPage/AddressModal";

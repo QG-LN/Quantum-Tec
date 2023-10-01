@@ -4,7 +4,7 @@ import Gamelist from './gamelist.js';
 import axios from 'axios';
 import Gamepage from '../GamePage/gamepage.js';
 import {useInView} from 'react-intersection-observer';
-import {axiosRequest} from '../../../module/networkUtils';
+import {axiosRequest} from '../../Utils/networkUtils';
 
 export default function Section() {
     const [gamelist, setGamelist] = useState([]);           // 서버에서 받아온 게임 리스트

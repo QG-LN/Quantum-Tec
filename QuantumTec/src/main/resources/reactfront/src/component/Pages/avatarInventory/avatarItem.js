@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Tooltip from '../../Utils/tooltip';
-import { axiosRequest } from '../../../module/networkUtils';
+import { axiosRequest } from '../../Utils/networkUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAvatarItemList } from '../../../redux/actions/avatarActions';
 import { setCashChange } from '../../../redux/actions/userActions';

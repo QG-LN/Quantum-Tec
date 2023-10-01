@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { axiosRequest } from '../../../module/networkUtils';
+import { axiosRequest } from '../../Utils/networkUtils';
 import '../../../css.scss'
 import AvatarMainInventory from './avatarMainInventory';
 import AvatarMainShop from './avatarMainShop';

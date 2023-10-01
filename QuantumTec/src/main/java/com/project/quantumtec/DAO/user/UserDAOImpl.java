@@ -1,6 +1,8 @@
 package com.project.quantumtec.DAO.user;
 
 import com.project.quantumtec.DTO.Request.myinfo.PaymentMyInfoDTO;
+import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryDTO;
+import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryListDTO;
 import com.project.quantumtec.DTO.user.*;
 import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.VO.user.UserPaymentVO;
@@ -9,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -154,10 +157,5 @@ public class UserDAOImpl implements UserDAO{
             else
                 return -1;
         }
-    }
-
-    @Override
-    public List<UserPaymentVO> getPaymentHistory(PaymentMyInfoDTO user) {
-        return sqlSession.selectList("AvatarService.getPaymentHistory", user);
     }
 }

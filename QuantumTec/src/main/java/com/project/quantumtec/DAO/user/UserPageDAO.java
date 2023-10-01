@@ -1,11 +1,8 @@
-package com.project.quantumtec.Service.user;
+package com.project.quantumtec.DAO.user;
 
 import com.project.quantumtec.DTO.Request.myinfo.PaymentMyInfoDTO;
 import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryListDTO;
 
-import java.util.List;
-
-public interface UserPageService {
-
+public interface UserPageDAO {
     public PaymentHistoryListDTO getPaymentHistory(PaymentMyInfoDTO user) throws Exception;
 }

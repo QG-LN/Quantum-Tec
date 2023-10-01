@@ -5,7 +5,7 @@ import Buyplaybanner from './buyplaybanner.js';
 import GPcomment from './gpcomment.js'
 import {useParams} from "react-router-dom";
 import axios from "axios";
-import {axiosRequest} from "../../../module/networkUtils";
+import {axiosRequest} from "../../Utils/networkUtils";
 
 
 

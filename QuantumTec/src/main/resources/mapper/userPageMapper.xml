@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserPageService">
+    <!-- 결제 내역 리스트 -->
+    <select id="getPaymentHistory" resultType="UserPaymentVO" parameterType="PaymentMyInfoDTO">
+        SELECT PAYMENT_INDEX, phv.USER_INDEX, ITEM_NAME,PAYMENT_DATE, PAYMENT_METHOD, PAYMENT_AMOUNT, PAYMENT_STATUS,SOURCE_TABLE
+        FROM PAYMENT_HISTORY_VW phv ,USER_INFO_TB ui
+        WHERE phv.USER_INDEX = ui.USER_INDEX
+        and USER_ID = #{userID}
+        <if test="searchKeyword != null">
+            AND (
+            ITEM_NAME LIKE CONCAT('%', #{searchKeyword} , '%')
+            OR
+            PAYMENT_METHOD LIKE CONCAT('%', #{searchKeyword} , '%')
+            OR
+            PAYMENT_STATUS LIKE CONCAT('%', #{searchKeyword} , '%')
+            OR
+            PAYMENT_AMOUNT LIKE CONCAT('%',  #{searchKeyword} , '%')
+            )
+        </if>
+        <choose>
+            <when test="listType == 'game'">
+                AND SOURCE_TABLE = 'game'
+            </when>
+            <when test="listType == 'avatar'">
+                AND SOURCE_TABLE = 'avatar'
+            </when>
+            <when test="listType == 'cash'">
+                AND SOURCE_TABLE = 'cash'
+            </when>
+        </choose>
+        ORDER BY PAYMENT_DATE DESC
+        LIMIT #{startNum}, #{endNum};
+    </select>
+
+    <!-- 결제 내역 개수를 확인하기 위한 sql    -->
+    <select id="getPaymentHistoryCount" resultType="int" parameterType="PaymentMyInfoDTO">
+        SELECT  COUNT(*)
+        FROM PAYMENT_HISTORY_VW phv ,USER_INFO_TB ui
+        WHERE phv.USER_INDEX = ui.USER_INDEX
+        and USER_ID = #{userID}
+        <choose>
+            <when test="listType == 'game'">
+                AND SOURCE_TABLE = 'game'
+            </when>
+            <when test="listType == 'avatar'">
+                AND SOURCE_TABLE = 'avatar'
+            </when>
+            <when test="listType == 'cash'">
+                AND SOURCE_TABLE = 'cash'
+            </when>
+        </choose>
+        <choose>
+            <when test="searchKeyword != null">
+                AND (
+                ITEM_NAME LIKE CONCAT('%', #{searchKeyword} , '%')
+                OR
+                PAYMENT_METHOD LIKE CONCAT('%', #{searchKeyword} , '%')
+                OR
+                PAYMENT_STATUS LIKE CONCAT('%', #{searchKeyword} , '%')
+                OR
+                PAYMENT_AMOUNT LIKE CONCAT('%',  #{searchKeyword} , '%')
+                );
+            </when>
+            <otherwise>
+                ;
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>
