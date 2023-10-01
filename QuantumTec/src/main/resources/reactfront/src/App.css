@@ -44,3 +44,56 @@
   padding: 0;
   justify-content: flex-end;
 }
+
+.main-content{
+  width:80%;
+  height: 200vh;
+}
+
+.sticky-menu{
+  position: fixed;
+  right: 7%;
+  width: 150px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  transition: top 0.3s ease-in-out; /* 부드러운 이동을 위한 transition */
+}
+
+.button-container {
+  margin-left:15px;
+}
+
+.image-button {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  padding: 10px;
+  transition: transform 0.3s ease, width 0.3s ease; /* width 속성 추가 */
+  overflow: hidden; /* 자식 요소가 넘치는 경우를 위해 추가 */
+}
+
+.image-button img {
+  max-width: 100%;
+}
+
+.text {
+  display: none;
+  font-size: 16px;
+  font-weight: bold;
+  transition: opacity 0.3s ease;
+  color:#757575;
+  text-decoration: none;
+  position:absolute;
+  padding-left: 40px;
+}
+
+.image-button.expanded {
+  transform: translateX(0px); /* 오른쪽으로 나오는 애니메이션 효과 */
+  width: 200px; /* 버튼 너비 확대 */
+}
+
+.image-button.expanded .text {
+  display: block;
+  opacity: 1;
+}
