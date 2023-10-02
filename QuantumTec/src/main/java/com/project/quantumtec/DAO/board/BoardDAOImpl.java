@@ -3,6 +3,7 @@ package com.project.quantumtec.DAO.board;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 
 import org.apache.ibatis.session.SqlSession;
@@ -228,5 +229,10 @@ public class BoardDAOImpl implements BoardDAO {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request) {
+        return sqlSession.selectList("BoardService.getTutoringList", request);
     }
 }

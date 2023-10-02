@@ -3,6 +3,7 @@ package com.project.quantumtec.Service.board;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 
 
@@ -61,4 +62,7 @@ public interface BoardService {
 
     // 댓글 비추천
     public boolean downvoteComment(CommentVoteDTO request);
+
+    // 튜터링 리스트 불러오기 (검색 포함)
+    public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request);
 }

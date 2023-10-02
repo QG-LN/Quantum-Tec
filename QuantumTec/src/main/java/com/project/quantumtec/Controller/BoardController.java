@@ -5,6 +5,7 @@ import ch.qos.logback.core.model.Model;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 import com.project.quantumtec.Service.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,6 +127,12 @@ public class BoardController {
         return boardService.downvoteComment(request);
     }
 
+    // ################# 튜터링 신청 게시판 ##################
+    // 튜터링 신청 게시판 리스트 조회
+    @PostMapping("/tutoringList")
+    public List<TutoringListResponseDTO> getTutoringList(@RequestBody TutoringListDTO request){
+        return boardService.getTutoringList(request);
+    }
 
 }
 
