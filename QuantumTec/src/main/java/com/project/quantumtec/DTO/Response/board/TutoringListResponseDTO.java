@@ -1,5 +1,8 @@
 package com.project.quantumtec.DTO.Response.board;
 
+import lombok.Data;
+
+@Data
 public class TutoringListResponseDTO {
     private int postIndex;      // 게시글 번호
     private String[] tags;        // 게시글 태그
