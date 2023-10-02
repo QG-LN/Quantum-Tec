@@ -13,7 +13,7 @@ public class TutoringViewResponseDTO {
     private String startDate; // 시작 날짜
     private String period; // 예상 기간
     private String part; // 모집 분야
-    private String participant; // 모집 인원
+    private int participant; // 모집 인원
     private String[] subject; // 과목
     private String postInfo; // 튜터링 소개글
     private String content; // 튜터링 내용
