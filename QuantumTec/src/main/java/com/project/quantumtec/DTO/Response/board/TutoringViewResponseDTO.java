@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class TutoringViewResponseDTO {
-    private String userID; // 유저 아이디(닉네임)
+    private String userNickname; // 작성자 닉네임
+    private String userIcon; // 작성자 아이콘
     private int postTitle; // 튜터링 게시물 제목
     private String postDate; // 게시글 등록일
     private String type; // 모집 구분 (스터디/학습위주)
