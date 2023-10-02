@@ -131,4 +131,19 @@ public class BoardServiceImpl implements BoardService{
         return boardDAO.getTutoringList(request);
     }
 
+    @Override
+    public boolean writeTutoring(TutoringWriteDTO request) {
+        return boardDAO.writeTutoring(request);
+    }
+
+    @Override
+    public boolean modifyTutoring(TutoringModifyDTO request) {
+        return boardDAO.modifyTutoring(request);
+    }
+
+    @Override
+    public boolean deleteTutoring(TutoringDeleteDTO request) {
+        return boardDAO.deleteTutoring(request);
+    }
+
 }

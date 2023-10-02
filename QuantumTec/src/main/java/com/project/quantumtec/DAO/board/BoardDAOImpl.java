@@ -235,4 +235,19 @@ public class BoardDAOImpl implements BoardDAO {
     public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request) {
         return sqlSession.selectList("BoardService.getTutoringList", request);
     }
+
+    @Override
+    public boolean writeTutoring(TutoringWriteDTO request) {
+        return sqlSession.insert("BoardService.writeTutoring", request) > 0;
+    }
+
+    @Override
+    public boolean modifyTutoring(TutoringModifyDTO request) {
+        return sqlSession.update("BoardService.modifyTutoring", request) > 0;
+    }
+
+    @Override
+    public boolean deleteTutoring(TutoringDeleteDTO request) {
+        return sqlSession.delete("BoardService.deleteTutoring", request) > 0;
+    }
 }

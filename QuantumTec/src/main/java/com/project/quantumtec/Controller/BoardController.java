@@ -133,6 +133,21 @@ public class BoardController {
     public List<TutoringListResponseDTO> getTutoringList(@RequestBody TutoringListDTO request){
         return boardService.getTutoringList(request);
     }
+    // 튜터링 게시물 작성
+    @PostMapping("/tutoringWrite")
+    public boolean writeTutoringPost(@RequestBody TutoringWriteDTO request){
+        return boardService.writeTutoring(request);
+    }
+    // 튜터링 게시물 수정
+    @PostMapping("/tutoringModify")
+    public boolean modifyTutoringPost(@RequestBody TutoringModifyDTO request){
+        return boardService.modifyTutoring(request);
+    }
+    // 튜터링 게시물 삭제
+    @PostMapping("/tutoringDelete")
+    public boolean deleteTutoringPost(@RequestBody TutoringDeleteDTO request){
+        return boardService.deleteTutoring(request);
+    }
 
 }
 
