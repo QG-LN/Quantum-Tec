@@ -26,10 +26,12 @@ public class GameController {
     // 게임 ID/ 게임 이름 / 사용자 ID를 받아서 게임 정보와 사용자의 게임 플레이 정보를 가져옴
     @GetMapping("/info")
     public GameDetailsInfoDTO getGameDetailsInfo(@RequestParam(value = "id") int gameID,
-                                          @RequestParam( value = "name") String gameName,
-                                          @RequestParam( value = "userId") String userId){
+                                                    @RequestParam( value = "name") String gameName,
+                                                    @RequestParam( value = "userId") String userId){
+        System.out.println("gameID : " + gameID + " gameName : " + gameName + " userId : " + userId);
+
         gameName = gameName.replace("_", " ");  // 게임 이름에 _가 포함되어 있으면 공백으로 변경
-        if(userId.equals("")) userId = null;    // userId가 빈문자열이면 null로 변경
+        if(userId.isEmpty()) userId = null;    // userId가 빈문자열이면 null로 변경
 ;
         // DTO에 게임 ID와 게임 이름을 세팅
         GameSearchDTO gameSearchDTO = new GameSearchDTO();
