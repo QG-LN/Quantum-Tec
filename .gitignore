@@ -5,7 +5,7 @@ QuantumTec/src/main/resources/config/
 QuantumTec/src/main/resources/static/games/
 QuantumTec/src/main/resources/static/images/
 
-QuantumTec/src/main/resources/reactfront/.evn
+QuantumTec/src/main/resources/reactfront/.env
 
 # IDE
 .idea/
