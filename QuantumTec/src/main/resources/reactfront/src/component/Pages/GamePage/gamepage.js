@@ -100,7 +100,7 @@ export default function GamePage() {
         axios.get(path)
             .then(response => {
                 if (response !== null) {
-                    console.log(response.data.userGamePlayTotalPlayTime);
+                    console.log(response.data);
                     // 게임 정보 저장
                     setDeveloperName(response.data.developerName);
                     setGameReleaseDate(response.data.gameReleaseDate);
@@ -141,8 +141,10 @@ export default function GamePage() {
 
 
     useDidMountEffect(() => {
+        console.log(imageListPath + "/games_" + gameImageLocation)
         axios.get(imageListPath + "/games_" + gameImageLocation)
             .then(response =>  {
+                console.log(response.data);
                 setGameImageList(response.data);
             }).catch(error => {
 
@@ -166,46 +168,83 @@ export default function GamePage() {
             .then(res => {
                 // 현재 게임을 제외한 게임들만 저장
                 const data = res.filter(item => item.gameName !== gameName.replaceAll("_", " "));
-                console.log(data);
                 setCategoryGameList(data);                                          // 카테고리 게임 리스트 저장
             })
 
     },[gameCategoryName])
 
-//평점
-    const handleInputGrade = (e) => {
-      setUserGrade(e.target.value);
-  }
+    //평점
+        const handleInputGrade = (e) => {
+        setUserGrade(e.target.value);
+    }
 
-  //이미지
-    const handleInputImg = (e) => {
-      console.log(e.target.value);
-  }
-  //평가글
-  const HandleSetComment = (e) => {
-    setComment(e.target.value);
-  }
+    //이미지
+        const handleInputImg = (e) => {
+        console.log(e.target.value);
+    }
+    //평가글
+    const HandleSetComment = (e) => {
+        setComment(e.target.value);
+    }
 
-  //만족도를 눌럿을떄 반영값
-  const Clickgrade = (e) => {
-    // console.log(e.target.value);
-  }
-  //평가를 눌럿을떄 반영
-  const Clicksetgrade = (e) => {
-    // console.log(comment);
-    // console.log(usergrade);
-    alert('평가가 등록되었습니다.')
-    setComment('');
-    setUserGrade('0');
-  }
+    //만족도를 눌럿을떄 반영값
+    const Clickgrade = (e) => {
+        // console.log(e.target.value);
+    }
+    //평가를 눌럿을떄 반영
+    const Clicksetgrade = (e) => {
+        // console.log(comment);
+        // console.log(usergrade);
+        alert('평가가 등록되었습니다.')
+        setComment('');
+        setUserGrade('0');
+    }
 
-  // 게임 페이지로 이동하기 위한 함수
-  const gameLink = (id, name) => {
-        console.log(id, name);
-      const gameName = name.replaceAll(" ", "_");
-      window.open(`/game/${id}/${gameName}/`);
-  }
+    // 게임 페이지로 이동하기 위한 함수
+    const gameLink = (id, name) => {
+            console.log(id, name);
+        const gameName = name.replaceAll(" ", "_");
+        window.open(`/game/${id}/${gameName}/`);
+    }
 
+    // 관련 게임 리스트를 랜더링하는 함수
+    const rednerSameCategoryGame = () => {
+
+        // 게임 해더 이미지 경로를 반환하는 함수
+        const gameImageLink = (index) => {
+            let path = `http://localhost:9090/image/game/games_`;
+            path += index > 4 ? 'test' : index; // 추후 이미부분은 수정해야함
+            path += '_0.png';
+            return path;
+        }
+
+        return (
+            <div class='overflow-x-scroll w-[1200px] mt-4'>
+                <div className="image-slider flex">
+                    <fieldset class='imgButtonStyle flex '>
+                        <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] '></legend>
+                        {categoryGameList.map((image, index) => (
+                            <label className='hover:cursor-pointer w-[320px] h-[240px] m-2'>
+                                <input type="radio" class='hidden' name='subimg' id='subimg'
+                                    onChange={handleInputImg}
+                                    value={index}
+                                    onClick={()=>gameLink(image.gameIndex,image.gameName) }/>
+                                <img class='max-w-none w-[320px] h-[180px]' src={gameImageLink(index+1)}/>
+                                <div class='mt-2 font-bold'>
+                                    {image.gameName}
+                                </div>
+                                <div>
+                                    {image.gamePrice}
+                                </div>
+                            </label>
+
+                        ))}
+                    </fieldset>
+                </div>
+            </div>
+        )
+
+    }
 
 
     return (
@@ -295,27 +334,7 @@ export default function GamePage() {
             <div>
                 <h2 class='text-left ml-9'>{gameCategoryName} 관련 게임</h2>
                 <div>
-                    <div class='overflow-x-scroll w-[1200px] mt-4'>
-                        <div className="image-slider flex">
-                            <fieldset class='imgButtonStyle flex '>
-                                <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] '></legend>
-                                {categoryGameList.map((image, index) => (
-                                    <label className='hover:cursor-pointer w-[320px] h-[240px] m-2'>
-                                        <input type="radio" class='hidden' name='subimg' id='subimg'
-                                               onChange={handleInputImg}
-                                               value={index}
-                                               onClick={()=>gameLink(image.gameIndex,image.gameName) }/>
-                                        <img class='max-w-none w-[320px] h-[180px]'
-                                             src={ `http://localhost:9090/image/game/games_${image.gameIndex = image.gameIndex > 4 ? 'test' : image.gameIndex}_0.png` }
-                                             value={ `http://localhost:9090/game${image.gameIndex}/${image.gameName}`}/>
-                                        <div class='mt-2 font-bold'>{image.gameName}</div>
-                                        <div>{image.gamePrice}</div>
-                                    </label>
-
-                                ))}
-                            </fieldset>
-                        </div>
-                    </div>
+                    {rednerSameCategoryGame()}
                 </div>
             </div>
             <div>
