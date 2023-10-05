@@ -22,7 +22,7 @@ import TutorInsertPage from './component/Pages/BoardPage/tutorinsertpage.js'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import AvatarInvetoryPage from "./component/Pages/avatarInventory/avatarMainPage";
-
+import Test from './component/Pages/DashBoardPage/test';
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
@@ -53,6 +53,7 @@ function App() {
           <Route path="/inventory" element={<AvatarInvetory />}/>
           <Route path="/payments/success" element={<PaymentsSuccess />}/>
           <Route path="/payments/fail" element={<PaymentsFail />}/>
+          <Route path="/test" element={<TestPage />}/>
         </Routes>
       </div>
       <Footer style={{height: "20vh"}} />
@@ -181,6 +182,14 @@ function TtInsert(){
   return (
     <div className="Board mt-[10vh]">
         <TutorInsertPage />
+    </div>
+  )
+}
+
+function TestPage(){
+  return (
+    <div className="test mt-[6vh]">
+        <Test />
     </div>
   )
 }
