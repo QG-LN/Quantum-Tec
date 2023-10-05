@@ -11,4 +11,5 @@ public class TutoringListDTO {
     private String[] subject; // 과목
     private String period; // 기간
     private int participant; // 인원
+    private String tutorType; // 튜터, 튜티
 }
