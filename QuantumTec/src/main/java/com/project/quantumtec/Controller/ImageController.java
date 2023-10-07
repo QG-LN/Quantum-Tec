@@ -3,6 +3,7 @@ package com.project.quantumtec.Controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,15 +27,23 @@ public class ImageController {
      * @param imagePath 이미지 경로 (ex: game_1_1.png -> game/1/1.png)를 의미
      * */
     @GetMapping("/game/{path:.+}")
-    public Resource getImage(@PathVariable(value = "path") String imagePath) {
-        try{
-            imagePath = imagePath.replaceAll("_", "/");            // _을 /로 변경
-            String path = "static/images/"+ imagePath;
-            return new ClassPathResource(path);
-        }catch (Exception e){
-            System.out.println("이미지가 없습니다.");
-            System.out.println(e.getMessage());
-            return new ClassPathResource("static/images/test.png");
+    public ResponseEntity<Resource> getImage(@PathVariable(value = "path") String imagePath) {
+        try {
+            imagePath = imagePath.replace("_", "/"); // _을 /로 변경
+            String path = "static/images/" + imagePath;
+            Resource resource = new ClassPathResource(path);
+
+            // 이미지가 존재하면 이미지를 반환
+            if (resource.exists()) {
+                return ResponseEntity.ok().body(resource);
+            } else {
+                System.out.println("이미지가 존재하지 않습니다.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ClassPathResource("static/images/test.png")); // 이미지가 존재하지 않으면 test.png를 반환
+            }
+        } catch (Exception e) {
+            System.out.println("이미지 로드 중 오류가 발생하였습니다.\n"+e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
