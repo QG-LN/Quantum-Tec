@@ -41,7 +41,6 @@ let percentages = gametimeNumbers.map(num => (num / sum) * 100);
             </svg>
             <span class="color-fg-default text-bold mr-1">{game}</span>
             <span>{parseInt(percentages[index])+'%'}</span>
-            {console.log(game)}
           </li>
           )})} 
           </ul>

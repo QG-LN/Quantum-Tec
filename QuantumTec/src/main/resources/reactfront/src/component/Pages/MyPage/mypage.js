@@ -62,7 +62,6 @@ export default function MyMain() {
   //드롭다운 안 메뉴 버튼 클릭시
   const handleType = (e) => {
     setTypeButton(e.target.text);
-    console.log(e.target.text);
     //부모의 부모요소 가져오기
     e.target.parentElement.parentElement.style.display = "none";
   };
@@ -255,7 +254,6 @@ export default function MyMain() {
               </li>
             </ul>
           </div>
-          {console.log(date)}
           <Chart x={date} y={dateplaytimes} />
         </div>
       </div>
