@@ -32,7 +32,7 @@ function App() {
   return (
    <Router>
       <div className="App" style={{overflow:'auto'}}>
-        <Navbar start={truelogin}/>
+        {/* <Navbar start={truelogin}/> */}
         <Routes>
           <Route path="/" exact element={<Home start={truelogin}/>} />
           <Route path="/login" element={<Login start={truelogin} setTruelogin={setTruelogin} />} />
@@ -188,7 +188,7 @@ function TtInsert(){
 
 function TestPage(){
   return (
-    <div className="test mt-[6vh]">
+    <div className="test mt-[10vh]">
         <Test />
     </div>
   )
