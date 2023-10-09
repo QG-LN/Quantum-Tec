@@ -4,11 +4,31 @@ import Myaside from "./myaside";
 import MyPaymentDetails from "./MyPaymentDetails";
 import Dismember from "./dismember";
 import PasswordChk from "./passwordChk";
-import MyMain from "./mypage";
+import MyDashboard from "./mypage";
 
 export default function Mypage() {
   //카테고리 선택에 따른 값 업데이트
   const [select, setSelect] = useState("");
+
+  // 카테고리 클릭시 해당 값을 mypage에 전송
+  const renderMyPage = () => {
+    switch (select) {
+      case "마이페이지":
+        return <MyDashboard/>
+      case "사용자설정":
+        return <PasswordChk/>
+      case "개인정보변경":
+        return <PasswordChk/>
+      case "아바타설정":
+        return <PasswordChk/>
+      case "결제내역":
+        return <MyPaymentDetails/>
+      case "회원탈퇴":
+        return <Dismember/>
+      default:
+        return <MyDashboard/>
+    }
+  }
 
   return (
     <div className="max-w-[1230px] m-auto pb-20 box-border">
@@ -17,18 +37,8 @@ export default function Mypage() {
           <Myaside select={select} setSelect={setSelect} />
         </aside>
         <section style={{ flexBasis: "85%" }}>
-          <div>
-            {select === "마이페이지" || select === "" ? (
-              <MyMain select={select} setSelect={setSelect} />
-            ) : (
-              <div />
-            )}
-            {select === "사용자설정" ? <PasswordChk /> : <div />}
-            {select === "개인정보변경" ? <PasswordChk /> : <div />}
-            {/*아바타 페이지 연결해주세요. 연결 후 삭제 플리즈 */}
-            {select === "아바타설정" ? <PasswordChk /> : <div />}
-            {select === "결제내역" ? <MyPaymentDetails /> : <div />}
-            {select === "회원탈퇴" ? <Dismember /> : <div />}
+          <div class="mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]">
+             {renderMyPage()}
           </div>
         </section>
       </div>
