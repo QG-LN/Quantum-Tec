@@ -99,8 +99,7 @@ export default function Dismember(){
 
 
     return(
-        <div className="mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]">
-            
+        <div>
             <Modal show={show} onHide={handleClose} centered={true} size='lg'>
                 <Modal.Header>
                     <Modal.Title className='w-[100%]'>
