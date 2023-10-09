@@ -6,7 +6,7 @@ export default function Myaside({ select, setSelect }) {
   const [isOpen, setIsOpen] = useState(false); // 카테고리 선택에 서브메뉴 활성화 여부
 
   const [nowChoiceMenu, setNowChoiceMenu] = useState("마이페이지"); // 현재 선택된 메뉴
-  const [nowSubMenu, setNowSubMenu] = useState(""); // 현재 선택된 서브메뉴
+  const [nowSubMenu, setNowSubMenu] = useState("개인정보변경");     // 현재 선택된 서브메뉴
 
   //카테고리 리스트 설정
   const menuItems = [
@@ -18,14 +18,24 @@ export default function Myaside({ select, setSelect }) {
 
   // 카테고리 클릭시 해당 값을 mypage에 전송
   const handleClick = (menuItem) => {
-    if (menuItem.subItems) {
-      // 사용자설정의 하위 아이템을 클릭한 경우에만 isOpen 상태를 유지
-      setIsOpen((prevIsOpen) => menuItem.item === nowChoiceMenu ? !prevIsOpen : true);
+    // 서브메뉴가 있는 경우에만 isOpen 상태를 유지
+    if (menuItem.item === "사용자설정") {
+      // 서브메뉴가 열려있지 않았다면 == 서브메뉴가 닫힌 상태로 사용자설정을 클릭했다면
+      if(!isOpen){
+        setSelect("개인정보변경");
+      }
+      setIsOpen(true);
     } else {
       setIsOpen(false);
+      setNowSubMenu("개인정보변경");  // 하위 아이템이 없는 경우에는 서브메뉴를 초기화
       setSelect(menuItem.item);
     }
     setNowChoiceMenu(menuItem.item);
+  };
+
+  const handleSubMenuClick = (subItem) => {
+    setNowSubMenu(subItem.item);
+    setSelect(subItem.item);
   };
 
   return (
@@ -40,7 +50,9 @@ export default function Myaside({ select, setSelect }) {
               <li
                 className={`text-xl border-b py-3 cursor-pointer`}
                 key = {index}
-                onClick={() => handleClick(menuItem)}
+                onClick={() => {
+                  handleClick(menuItem);
+                }}
               >
                 <div
                   className={`hover:bg-gray-300 rounded-3 ${
@@ -59,8 +71,7 @@ export default function Myaside({ select, setSelect }) {
                         className="text-sm py-3 cursor-pointer"
                         key={subIndex}
                         onClick={() => {
-                          handleClick({ item: subItem.item });
-                          setNowSubMenu(subItem.item);
+                          handleSubMenuClick(subItem);
                         }}
                       >
                         <div
