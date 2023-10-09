@@ -3,6 +3,7 @@ import Myaside from "./myaside";
 import MyPaymentDetails from "./MyPaymentDetails";
 import Dismember from "./dismember";
 import PasswordChk from "./passwordChk";
+import UserSetting from "./UserSetting";
 import MyDashboard from "./mypage";
 
 export default function Mypage() {
@@ -15,11 +16,11 @@ export default function Mypage() {
       case "대시보드":
         return <MyDashboard/>
       case "사용자설정":
-        return <PasswordChk/>
+        return <UserSetting category={select}/>
       case "개인정보변경":
-        return <PasswordChk/>
+        return <UserSetting category={select}/>
       case "내 아바타":
-        return <PasswordChk/>
+        return <UserSetting category={select}/>
       case "결제내역":
         return <MyPaymentDetails/>
       case "회원탈퇴":
