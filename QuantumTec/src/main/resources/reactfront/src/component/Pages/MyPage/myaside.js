@@ -9,7 +9,7 @@ export default function Myaside({ select, setSelect }) {
 
   //카테고리 리스트 설정
   const menuItems = [
-    { item: "마이페이지" },
+    { item: "대시보드" },
     { item: "사용자설정", subItems: ["개인정보변경", "아바타설정"] },
     { item: "결제내역" },
     { item: "회원탈퇴" },

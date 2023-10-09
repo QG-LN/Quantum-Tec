@@ -13,7 +13,7 @@ export default function Mypage() {
   // 카테고리 클릭시 해당 값을 mypage에 전송
   const renderMyPage = () => {
     switch (select) {
-      case "마이페이지":
+      case "대시보드":
         return <MyDashboard/>
       case "사용자설정":
         return <PasswordChk/>
