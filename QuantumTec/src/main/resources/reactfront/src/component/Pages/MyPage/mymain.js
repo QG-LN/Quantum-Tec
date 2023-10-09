@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Mysection from "./mysection";
 import Myaside from "./myaside";
 import MyPaymentDetails from "./MyPaymentDetails";
 import Dismember from "./dismember";
@@ -19,7 +18,7 @@ export default function Mypage() {
         return <PasswordChk/>
       case "개인정보변경":
         return <PasswordChk/>
-      case "아바타설정":
+      case "내 아바타":
         return <PasswordChk/>
       case "결제내역":
         return <MyPaymentDetails/>
