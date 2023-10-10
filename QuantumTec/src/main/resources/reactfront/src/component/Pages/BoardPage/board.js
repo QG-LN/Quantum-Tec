@@ -3,6 +3,7 @@ import { Link , useNavigate} from 'react-router-dom';
 import {axiosRequest} from '../../Utils/networkUtils';
 import {useParams} from "react-router-dom";
 import { extractData } from "../../Utils/dataFormat";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const ITEMS_PER_PAGE = 10; // 페이지 당 아이템 수
 export default function Board() {
@@ -12,7 +13,7 @@ export default function Board() {
     const [Posts, setPosts] = useState([]);
     // 현재 페이지 넘버
     const [currentPage, setCurrentPage] = useState(1);
-    const [boardName, setBoardName] = useState("게시판");
+    const [boardName, setBoardName] = useState("전체");
     const [boardDetails, setBoardDetails] = useState("자연스러운 대화를 추구합니다.");
     const [sortName, setSortName] = useState("최신순");
     const [searchName, setSearchName] = useState("제목");
@@ -243,6 +244,31 @@ export default function Board() {
         }
     }
 
+    // 게시판 타입 드롭다운 메뉴
+    const renderBoardType = () => {
+        return (
+            <Dropdown>
+                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                    {boardName}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    <Dropdown.Item as={Link} to="/board/0">
+                        전체
+                    </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/board/1">
+                        자유
+                    </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/board/2">
+                        튜터링
+                    </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/board/3">
+                        공지사항
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+        )
+    }
+
     const handleSearchButton = (e) => {
         setSearchKeyword(e.target.parentNode.previousSibling.childNodes[1].value);
     }
@@ -257,23 +283,7 @@ export default function Board() {
             <div class="row justify-content-around g-2 mt-5">
                 <div class="row justify-content-start g-3 mt-1 col-6 p-0">
                     <div class="dropdown col-auto">
-                        <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            {boardName}
-                        </button>
-                        <ul class="dropdown-menu w-[100%]" aria-labelledby="dropdownMenuButton1">
-                            <li>
-                                <Link to={`/board/0`} className="dropdown-item hover:cursor-pointer">전체</Link>
-                            </li>
-                            <li>
-                                <Link to={`/board/1`} className="dropdown-item hover:cursor-pointer">자유</Link>
-                            </li>
-                            <li>
-                                <Link to={`/board/2`} className="dropdown-item hover:cursor-pointer">튜터링</Link>
-                            </li>
-                            <li>
-                                <Link to={`/board/3`} className="dropdown-item hover:cursor-pointer">공지사항</Link>
-                            </li>
-                        </ul>
+                        {renderBoardType()}
                     </div>
                     <div class="dropdown col-auto">
                         <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
