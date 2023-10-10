@@ -209,7 +209,6 @@ export default function Board() {
     }
 
     const handleSort = (e) => {
-        e.target.parentNode.parentNode.style.display = "none";
         switch (e.target.innerText) {
             case '최신순':
                 setSortType('latest');
@@ -269,6 +268,28 @@ export default function Board() {
         )
     }
 
+    // 정렬 타입 드롭다운 메뉴
+    const renderSortType = () => {
+        return (
+            <Dropdown>
+                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                    {sortName}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={handleSort}>
+                        최신순
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={handleSort}>
+                        오래된순
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={handleSort}>
+                        별점순
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+        )
+    }
+
     const handleSearchButton = (e) => {
         setSearchKeyword(e.target.parentNode.previousSibling.childNodes[1].value);
     }
@@ -286,14 +307,7 @@ export default function Board() {
                         {renderBoardType()}
                     </div>
                     <div class="dropdown col-auto">
-                        <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            {sortName}
-                        </button>
-                        <ul class="dropdown-menu user-select-none" aria-labelledby="dropdownMenuButton1">
-                            <li><span class="dropdown-item hover:cursor-pointer" onClick={handleSort}>최신순</span></li>
-                            <li><span class="dropdown-item hover:cursor-pointer " onClick={handleSort}>오래된순</span></li>
-                            <li><span className="dropdown-item hover:cursor-pointer" onClick={handleSort}>별점순</span></li>
-                        </ul>
+                        {renderSortType()}
                     </div>
                 </div>
                 <div class="row justify-content-end g-3 mt-1 col-6">
