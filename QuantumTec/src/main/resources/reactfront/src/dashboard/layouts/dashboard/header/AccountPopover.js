@@ -4,6 +4,7 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import account from '../../../_mock/account';
+import AvatarCanvas from "../../../../component/Pages/avatarInventory/avatarCanvas";
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +55,10 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        {/*<Avatar src={account.photoURL} alt="photoURL" />*/}
+        <div className="rounded-circle w-8 h-8">
+          <AvatarCanvas size={[200,200]} position={[128,128]}/>
+        </div>
       </IconButton>
 
       <Popover

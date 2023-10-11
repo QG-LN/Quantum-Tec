@@ -188,7 +188,7 @@ function TtInsert(){
 
 function TestPage(){
   return (
-    <div className="test mt-[10vh]">
+    <div className="test">
         <Test />
     </div>
   )

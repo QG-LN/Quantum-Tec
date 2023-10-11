@@ -55,7 +55,7 @@ function Test() {
                 <StyledChart />
                 <Container maxWidth="xl">
                     <Typography variant="h4" sx={{ mb: 5 }}>
-                    Hi, Welcome back
+                    사이트 요약
                     </Typography>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={6} md={3}>
@@ -250,7 +250,7 @@ function Test() {
                 </Container>
             </ThemeProvider>
             </Main>
-            
+
         </StyledRoot>
     );
 }
