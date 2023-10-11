@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import { Link } from "react-router-dom";
 
 export default function Gamelist(props) {
     const gamelist = props.name;
@@ -16,19 +17,18 @@ export default function Gamelist(props) {
         }
     },[props.img])
 
-    const gamelink = () => {
-        window.open(props.link);
-    }
     return(
         <>
         <div class="col mb-5 hover:cursor-pointer">
-            <div class="card h-100 w-[300px] h-[200px]" id={props.id} onClick={gamelink}>
-                <img class="card-img-top" src={titleImage} alt="..." />
-                <div class="card-body p-4">
-                    <div class="text-center">
-                        <h5 class="fw-bolder">{gamelist}</h5>
+            <div class="card h-100 w-[300px] h-[200px]" id={props.id}>
+                <Link to={props.link} class='text-decoration-none text-dark'>
+                    <img class="card-img-top" src={titleImage} alt="..." />
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">{gamelist}</h5>
+                        </div>
                     </div>
-                </div>
+                </Link>
             </div>
         </div>
         </>
