@@ -88,8 +88,8 @@ export default function Navbar() {
             <nav className="navbar navbar-expand-lg" style={{zIndex: '3' ,backgroundColor :'#f6f8fa', height:'60px'}}>
                 <div class="block w-[100%] relative mt-1">
                     {/*로고(클릭시 메인화면)*/}
-                    <a class="navbar-brand hover:cursor-pointer mb-2" onClick={logoClick}>
-                        <img className='w-[200px] mt-[20px] mx-auto' src={Logo}></img>
+                    <a class="navbar-brand mb-2">
+                        <img className='w-[200px] mt-[20px] mx-auto hover:cursor-pointer' src={Logo} onClick={logoClick} />
                     </a>
                     <form class="log_info d-flex justify-end absolute top-5 right-0 mr-10 ">
                         {/*{getUsername()}*/}
