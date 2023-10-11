@@ -56,8 +56,8 @@ export default function AccountPopover() {
         }}
       >
         {/*<Avatar src={account.photoURL} alt="photoURL" />*/}
-        <div className="rounded-circle w-8 h-8">
-          <AvatarCanvas size={[200,200]} position={[128,128]}/>
+        <div className="w-9 h-9">
+          <AvatarCanvas size={[200,200]} position={[128,128]} circle={true}/>
         </div>
       </IconButton>
 

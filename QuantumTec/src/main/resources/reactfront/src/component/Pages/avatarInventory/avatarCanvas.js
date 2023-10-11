@@ -90,7 +90,7 @@ export default function AvatarCanvas(props) {
 
     return (
         <>
-            <canvas className='w-[100%] h-[100%] rounded border' ref={canvasRef}>캔버스를 지원하지 않는 브라우저 입니다</canvas>
+            <canvas className={`w-[100%] h-[100%] border rounded${props.circle ? '-circle' : ''}`} ref={canvasRef}>캔버스를 지원하지 않는 브라우저 입니다</canvas>
         </>
 
     );
