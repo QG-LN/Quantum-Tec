@@ -176,10 +176,11 @@ export default function TutorInsertPage() {
       <div>
         <h1 className="mb-12 text-4xl font-bold ">튜터링 게시물 작성</h1>
         <div class="form-group row max-w-4xl mx-auto">
-          <div className="mb-3 flex">
-            <label className="mr-[-20px] form-label w-[200px]">
+          <div className="mb-3 flex ">
+            <label className="form-label w-[200px] col-2">
               게시물 제목
             </label>
+            <div class='col-10'>
             <input
               type="text"
               className="form-control"
@@ -187,30 +188,36 @@ export default function TutorInsertPage() {
               onChange={handleInputboardName}
               maxLength={30}
             />
+            </div>
           </div>
           <div className=" flex">
-            <div className="mb-3 flex">
-              <label className="ml-7 form-label w-[200px]">모집 구분</label>
-              <input
+            <div className="mb-3 col-8 flex">
+              <label className="form-label col-3">모집 구분</label>
+              <div class='col-6'>
+                <input
                 type="text"
                 className="form-control"
                 value={selectedTutorType}
                 onChange={(e) => setSelectedTutorType(e.target.value)}
                 readOnly
               />
+              </div>
+              <div class='col-2'>
               <button
                 type="button"
-                className="btn btn-primary ms-2 w-[100px]"
+                className="btn btn-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#tutorTypeModal"
               >
                 선택
               </button>
+              </div>
             </div>
-            <label className="form-label w-[150px]">진행 방식</label>
-            <div className="form-check form-check-inline">
+            <div class='col-4 flex'>
+            <label className="form-label col ml-[-45px] mr-6">진행 방식</label>
+            <div className="form-check form-check-inline col">
               <input
-                className="form-check-input"
+                className="form-check-input "
                 type="radio"
                 name="onlineOffline"
                 id="online"
@@ -222,7 +229,7 @@ export default function TutorInsertPage() {
                 온라인
               </label>
             </div>
-            <div className="form-check form-check-inline">
+            <div className="form-check form-check-inline col">
               <input
                 className="form-check-input"
                 type="radio"
@@ -236,10 +243,12 @@ export default function TutorInsertPage() {
                 오프라인
               </label>
             </div>
+            </div>
           </div>
           <div className="flex">
-            <div className="mb-3 ml-4 flex">
-              <label className="form-label w-[200px]">연락처</label>
+            <div className="mb-3 flex col-8">
+              <label className="form-label col-3">연락처</label>
+              <div class='col-8 pr-5 '>
               <input
                 type="text"
                 className="form-control"
@@ -248,10 +257,11 @@ export default function TutorInsertPage() {
                 placeholder="카카오톡 오픈채팅방 링크"
                 style={{ fontSize: "0.8rem" }}
               />
+              </div>
             </div>
-            <div className="w-[100px]"></div>
-            <div className="mb-3 flex">
-              <label className="form-label w-[200px]">시작일</label>
+            <div className="mb-3 flex col-5 ml-[-75px]">
+              <label className="form-label col-4">시작일</label>
+              <div class='col-8'>
               <DatePicker
                 selected={inputtutorstart}
                 onChange={handleInputtutorstart}
@@ -259,31 +269,36 @@ export default function TutorInsertPage() {
                 dateFormat="yyyy년 MM월 dd일" // 년 월 일 형식으로 지정
               />
             </div>
+            </div>
           </div>
           <div className=" text-sm text-gray-500 mr-auto relative left-[-174px] mb-[7px]" style={{marginTop:"-15px"}}> 예시 : https://open.kakao.com/o/</div>
           <div className="flex">
-            <div className="mb-3 ml-4 flex">
-              <label className="form-label w-[200px]">모집 인원</label>
+            <div className="mb-3 ml-4 flex col-6">
+              <label className="form-label col-3">모집 인원</label>
+              <div class='col pl-5'>
               <input
                 type="text"
                 className="form-control"
                 value={inputtutortype}
                 onChange={handleInputtutorrecruit}
               />
+              </div>
             </div>
-            <div className="w-[100px]"></div>
-            <div className="mb-3 flex">
-              <label className="form-label w-[200px]">예상 기간</label>
+            <div className="mb-3 flex col-6">
+              <label className="form-label col-3">예상 기간</label>
+              <div class='col pr-4'>
               <input
                 type="text"
                 className="form-control"
                 value={inputtutortype}
                 onChange={handleInputduration}
               />
+              </div>
             </div>
           </div>
           <div className="mb-3 flex">
-            <label className="mr-[-20px] form-label w-[200px]">모집 분야</label>
+            <label className=" form-label col-2">모집 분야</label>
+            <div class='col'>
             <input
               type="text"
               className="form-control"
@@ -291,8 +306,10 @@ export default function TutorInsertPage() {
               onChange={handleInputfield}
             />
           </div>
+          </div>
           <div className="mb-3 flex">
-            <label className="form-label w-[200px]">과목</label>
+            <label className="form-label col-2">과목</label>
+            <div class='col-8'>
             <input
               type="text"
               className="form-control"
@@ -300,6 +317,8 @@ export default function TutorInsertPage() {
               onChange={(e) => setSelectedSubject(e.target.value)}
               readOnly
             />
+            </div>
+            <div class='col-2 ml-4'>
             <button
               type="button"
               className="btn btn-primary ms-2 w-[100px]"
@@ -308,11 +327,13 @@ export default function TutorInsertPage() {
             >
               선택
             </button>
+            </div>
           </div>
           <div className="mb-3 flex">
-            <label className="mr-[-20px] form-label w-[200px]">
+            <label className="col-2 form-label">
               튜터링 소개글
             </label>
+            <div class='col-10'>
             <textarea
               className="form-control h-9"
               id="inputTutorIntro"
@@ -321,6 +342,7 @@ export default function TutorInsertPage() {
               onChange={handleInputtutorintro}
               maxLength={50}
             />
+            </div>
           </div>
           <div className="mb-3 text-left">
             <label className="form-label ml-[30px] w-[200px]">

@@ -151,11 +151,9 @@ export default function TutoringBoardPage() {
 
 
   
-    const categories = [
-        '기간', '튜터', '1명','2명','3명', '수학','영어','국어','과학','사회','기타'
-
-      // 원하는 만큼 카테고리를 추가할 수 있습니다.
-    ];
+  const subjectOptions = ["수학", "과학"];
+  const personOptions = ["1명", "2명", "3명"];
+  const dateOptions = ["1일", "2일", "일주일", "한달"];
   
 
       
@@ -167,11 +165,34 @@ export default function TutoringBoardPage() {
         setSelectedCategories([...selectedCategories, category]);
       }
     };
+
+    const renderDropdown = (title, options) => (
+        <Dropdown autoClose='outside'>
+            <div className='float-left mr-4'>
+                <Dropdown.Toggle variant="success" id={`dropdown-${title.toLowerCase()}`}>
+                    {title}
+                </Dropdown.Toggle>
+            </div>
+            <Dropdown.Menu>
+                {options.map((category, index) => (
+                    <Dropdown.Item key={index} onClick={() => toggleCategory(category)}>
+                        <input
+                            className='mr-2'
+                            type="checkbox"
+                            checked={selectedCategories.includes(category)}
+                            readOnly
+                        />
+                        {category}
+                    </Dropdown.Item>
+                ))}
+            </Dropdown.Menu>
+        </Dropdown>
+    );
     
     return(
         <div>
-            <div class=' bg-slate-300 justify-center items-center  mt-auto h-24 flex'>
-                <h1 class='text-black'>{boardName}</h1>
+            <div class=' bg-black  h-[211px] flex'>
+                <h1 class='text-white my-auto ml-80 text-[3.5rem] text-left'>{boardName}</h1>
             </div>
             <div className="w-[1320px] h-[32px] mt-5 mx-auto pl-12 pr-12">
                 <div class='container'>
@@ -184,32 +205,18 @@ export default function TutoringBoardPage() {
                         </div>
                     </div>
                     <div className='row'>
-                        <div className='col-sm-8'>
-                            {/* 카테고리 목록 드롭다운 */}
-                            <Dropdown autoClose='outside'>
-                                <div className='float-left'>
-                                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                        카테고리 목록
-                                    </Dropdown.Toggle>
-                                </div>
-                                <span className='float-left ml-6 mt-1 border-b-2 pb-2 px-2'> {selectedCategories.join(', ')}</span>
-                                <Dropdown.Menu>
-                                    {categories.map((category, index) => (
-                                        <Dropdown.Item key={index} onClick={() => toggleCategory(category)}>
-                                            <input className='mr-2'
-                                                type="checkbox"
-                                                checked={selectedCategories.includes(category)}
-                                                readOnly/>
-                                            {category}
-                                        </Dropdown.Item>
-                                    ))}
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </div>
+                    <div className='col-sm-8'>
+                        {renderDropdown("과목", subjectOptions)}
+                        {renderDropdown("인원", personOptions)}
+                        {renderDropdown("날짜", dateOptions)}
+                <span className='float-left ml-6 mt-1 border-b-2 pb-2 px-2'>
+                    {selectedCategories.join(', ')}
+                </span>
+            </div>
                         <div className='col-sm-4'>
                             {/* 검색 창 */}
                             <div class='relative'>
-                                <input className='w-[100%] h-[44px] pr-[3px] pl-[10px] mr-0 border-b-2 rounded-full bg-[#f2f2f2]'
+                                <input className='w-[100%] h-[44px] pr-[50px] pl-[20px] mr-0 border-b-2 rounded-full bg-[#f2f2f2]'
                                     type='text' placeholder='튜터링 검색' onChange={handleSearch} value={search}></input>
                                 <button type='button' className='absolute right-0 w-[44px] h-[44px]' onClick={onClickSearch}>
                                     <span className='inline-block w-[40px] h-[40px] rounded-full'>
