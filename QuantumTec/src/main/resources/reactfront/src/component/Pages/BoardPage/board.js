@@ -297,92 +297,93 @@ export default function Board() {
       return (
         <div className="container">
             <div class='bg-black h-36 grid scale-[1.469]'>
-            <h1 class='text-white mt-auto ml-52 text-left'>{boardName}</h1>
-            <span class='text-white mb-auto ml-52 text-left'>{boardDetails}</span>
+                <h1 class='text-white mt-auto ml-52 text-left'>{boardName}</h1>
+                <span class='text-white mb-auto ml-52 text-left'>{boardDetails}</span>
             </div>
-
-            <div class="row justify-content-around g-2 mt-5">
-                <div class="row justify-content-start g-3 mt-1 col-6 p-0">
-                    <div class="dropdown col-auto">
-                        {renderBoardType()}
+            <div class='h-[80vh]'>
+                <div class="row justify-content-around g-2 mt-5">
+                    <div class="row justify-content-start g-3 mt-1 col-6 p-0">
+                        <div class="dropdown col-auto">
+                            {renderBoardType()}
+                        </div>
+                        <div class="dropdown col-auto">
+                            {renderSortType()}
+                        </div>
                     </div>
-                    <div class="dropdown col-auto">
-                        {renderSortType()}
+                    <div class="row justify-content-end g-3 mt-1 col-6">
+                        <div class="col-auto">
+                            {id !== '3' &&
+                                <div>
+                                    <Link to={`/board/${id}/write`} className="btn btn-success mb-3">글쓰기</Link>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
-                <div class="row justify-content-end g-3 mt-1 col-6">
-                    <div class="col-auto">
-                        {id !== '3' &&
-                            <>
-                                <Link to={`/board/${id}/write`} className="btn btn-success mb-3">글쓰기</Link>
-                            </>
+                <hr />
+                <table className="table table-striped mt-0 pt-0 table-hover user-select-none">
+                    <thead>
+                        <tr>
+                            <th className="w-[5%]">번호</th>
+                            <th className="w-[10%]">게시판</th>
+                            <th className="w-[46%]">제목</th>
+                            <th className="w-[10%]">작성자</th>
+                            <th className="w-[15%]">작성일</th>
+                            <th className="w-[7%]">조회수</th>
+                            <th className="w-[7%]">추천수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {renderPosts()}
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation example mb-5">
+                    <div className="row justify-content-center">
+                        <div class="dropdown col-auto">
+                            <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                {searchName}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><span onClick={handleSearch} class="dropdown-item hover:cursor-pointer">제목</span></li>
+                                <li><span onClick={handleSearch} class="dropdown-item hover:cursor-pointer">작성자</span></li>
+                                <li><span onClick={handleSearch} class="dropdown-item hover:cursor-pointer">제목 + 작성자</span></li>
+                            </ul>
+                        </div>
+                        <div class="col-auto">
+                            <label for="inputSearch" class="visually-hidden">검색어</label>
+                            <input type="text" class="form-control" id="inputSearch" placeholder="검색어"></input>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success mb-3" onClick={handleSearchButton}>검색</button>
+                        </div>
+                    </div>
+                    <ul className="pagination nav justify-content-center mb-10">
+                        {startPage !== 1 && 
+                            <li key="<" className="page-item nav-item">
+                                <button className="page-link nav-item" onClick={() => handlePageDown()}>
+                                    {"<"}
+                                </button>
+                            </li>
                         }
-                    </div>
-                </div>
-            </div>
-            <hr />
-            <table className="table table-striped mt-0 pt-0 table-hover user-select-none">
-                <thead>
-                    <tr>
-                        <th className="w-[5%]">번호</th>
-                        <th className="w-[10%]">게시판</th>
-                        <th className="w-[46%]">제목</th>
-                        <th className="w-[10%]">작성자</th>
-                        <th className="w-[15%]">작성일</th>
-                        <th className="w-[7%]">조회수</th>
-                        <th className="w-[7%]">추천수</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {renderPosts()}
-                </tbody>
-            </table>
-            <nav aria-label="Page navigation example mb-5">
-                <div className="row justify-content-center">
-                    <div class="dropdown col-auto">
-                        <button onClick={handleDropdown} class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            {searchName}
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><span onClick={handleSearch} class="dropdown-item hover:cursor-pointer">제목</span></li>
-                            <li><span onClick={handleSearch} class="dropdown-item hover:cursor-pointer">작성자</span></li>
-                            <li><span onClick={handleSearch} class="dropdown-item hover:cursor-pointer">제목 + 작성자</span></li>
-                        </ul>
-                    </div>
-                    <div class="col-auto">
-                        <label for="inputSearch" class="visually-hidden">검색어</label>
-                        <input type="text" class="form-control" id="inputSearch" placeholder="검색어"></input>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-success mb-3" onClick={handleSearchButton}>검색</button>
-                    </div>
-                </div>
-                <ul className="pagination nav justify-content-center mb-10">
-                    {startPage !== 1 && 
-                        <li key="<" className="page-item nav-item">
-                            <button className="page-link nav-item" onClick={() => handlePageDown()}>
-                                {"<"}
-                            </button>
-                        </li>
-                    }
-                    {/* 페이징 처리를 위한 컴포넌트 추가 */}
-                    {Array.from({ length: Math.min(10, Math.ceil(postCount/ ITEMS_PER_PAGE) - startPage + 1) }, (_, i) => startPage + i).map(pageNumber => (
-                        <li key={pageNumber} className={`page-item nav-item ${pageNumber === currentPage ? 'active' : ''}`}>
-                            <button className="page-link nav-item" onClick={() => handlePageChange(pageNumber)}>
-                                {pageNumber}
-                            </button>
-                        </li>
-                    ))}
+                        {/* 페이징 처리를 위한 컴포넌트 추가 */}
+                        {Array.from({ length: Math.min(10, Math.ceil(postCount/ ITEMS_PER_PAGE) - startPage + 1) }, (_, i) => startPage + i).map(pageNumber => (
+                            <li key={pageNumber} className={`page-item nav-item ${pageNumber === currentPage ? 'active' : ''}`}>
+                                <button className="page-link nav-item" onClick={() => handlePageChange(pageNumber)}>
+                                    {pageNumber}
+                                </button>
+                            </li>
+                        ))}
 
-                    {Math.ceil(postCount / ITEMS_PER_PAGE) > Math.floor((currentPage-1) / ITEMS_PER_PAGE + 1) * 10 &&
-                        <li key=">" className="page-item nav-item">
-                            <button className="page-link nav-item" onClick={() => handlePageUp()}>
-                                {">"}
-                            </button>
-                        </li>
-                    }
-                </ul>
-            </nav>
+                        {Math.ceil(postCount / ITEMS_PER_PAGE) > Math.floor((currentPage-1) / ITEMS_PER_PAGE + 1) * 10 &&
+                            <li key=">" className="page-item nav-item">
+                                <button className="page-link nav-item" onClick={() => handlePageUp()}>
+                                    {">"}
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
         </div>
     );
 }
