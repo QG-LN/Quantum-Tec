@@ -148,24 +148,33 @@ export default function TutoringBoardPage() {
         },
     ]
 
-    const subjectOptions = ["수학", "과학"];
-    const personOptions = ["1명", "2명", "3명"];
-    const dateOptions = ["1일", "2일", "일주일", "한달"];
+    const categroties = {
+        subject: [ "수학", "과학"],
+        person: [ "1명", "2명", "3명"],
+        date: ["1일", "2일", "일주일", "한달"],
+    }
   
     // 카테고리 선택/해제
-    const toggleCategory = (category) => {
-      if (selectedCategories.includes(category)) {
-        setSelectedCategories(selectedCategories.filter((item) => item !== category));
-      } else {
-        setSelectedCategories([...selectedCategories, category]);
-      }
+    const toggleCategory = (category, categoryList) => {
+        if(category === '전체') {
+            const allSelected = categoryList.every(option => selectedCategories.includes(option));  // 전체 선택 여부 확인
+
+            // 전체 선택 여부에 따라 선택/해제
+            if(allSelected) {
+                setSelectedCategories(selectedCategories.filter((item) => !categoryList.includes(item))); // 전체 해제
+            }else{
+                const uniqueCategories = Array.from(new Set([...selectedCategories, ...categoryList])); // 중복 제거
+                setSelectedCategories(uniqueCategories);    // 전체 선택
+            }
+        }else{
+            selectedCategories.includes(category) ? setSelectedCategories(selectedCategories.filter((item) => item !== category)) : setSelectedCategories([...selectedCategories, category]);
+        }
     };
 
     // 카테고리 전체 선택해제
     const toggleAllCategoriesReset  = () => {
         setSelectedCategories([]);
     }
-
 
 
     const renderDropdown = (title, options) => (
@@ -176,8 +185,17 @@ export default function TutoringBoardPage() {
                 </Dropdown.Toggle>
             </div>
             <Dropdown.Menu>
+                <Dropdown.Item key={-1}  onClick={() => toggleCategory('전체',options)}>
+                    <input
+                        className='mr-2'
+                        type="checkbox"
+                        checked={selectedCategories.includes(...options)}
+                        readOnly
+                    />
+                    전체
+                </Dropdown.Item>
                 {options.map((category, index) => (
-                    <Dropdown.Item key={index} onClick={() => toggleCategory(category)}>
+                    <Dropdown.Item key={index} onClick={() => toggleCategory(category,options)}>
                         <input
                             className='mr-2'
                             type="checkbox"
@@ -208,9 +226,9 @@ export default function TutoringBoardPage() {
                     </div>
                     <div className='row'>
                         <div className='col-sm-8'>
-                            {renderDropdown("과목", subjectOptions)}
-                            {renderDropdown("인원", personOptions)}
-                            {renderDropdown("날짜", dateOptions)}
+                            {renderDropdown("과목", categroties.subject)}
+                            {renderDropdown("인원", categroties.person)}
+                            {renderDropdown("날짜", categroties.date)}
                         </div>
                         <div className='col-sm-4'>
                             {/* 검색 창 */}
