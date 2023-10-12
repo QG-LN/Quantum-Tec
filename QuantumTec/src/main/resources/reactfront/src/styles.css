@@ -11293,3 +11293,25 @@ ul > ul > li > a {
 dd.closed {
   display: none;
 }
+
+.horizontal-menu ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.horizontal-menu ul li {
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.horizontal-menu ul li:last-child {
+  margin-right: 0;
+}
+
+.horizontal-menu ul li:hover {
+  text-decoration: underline;
+}

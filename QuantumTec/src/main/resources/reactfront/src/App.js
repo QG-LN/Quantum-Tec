@@ -163,7 +163,7 @@ function PaymentsFail(){
 
 function TtBoard(){
   return (
-    <div className="Board mt-[10vh]">
+    <div className="Board mt-[6.5vh]">
         <TtBoardPage />
     </div>
   )
