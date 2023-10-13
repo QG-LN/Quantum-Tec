@@ -275,4 +275,16 @@
         SELECT COUNT(*) FROM COMMENT_INFO_TB
         WHERE POST_INDEX = #{postIndex};
     </select>
+
+    <!-- 튜터링 게시판 리스트 불러오기 -->
+    <select id="getTutoringList" resultType="TutoringListResponseDTO"></select>
+
+    <!-- 튜터링 게시물 작성하기 -->
+    <insert id="writeTutoring" parameterType="TutoringWriteDTO"></insert>
+
+    <!-- 튜터링 게시물 수정하기 -->
+    <update id="modifyTutoring" parameterType="TutoringModifyDTO"></update>
+
+    <!-- 튜터링 게시물 삭제하기 -->
+    <delete id="deleteTutoring" parameterType="TutoringDeleteDTO"></delete>
 </mapper>

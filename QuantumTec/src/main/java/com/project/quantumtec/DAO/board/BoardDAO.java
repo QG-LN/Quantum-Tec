@@ -3,6 +3,7 @@ package com.project.quantumtec.DAO.board;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 
 
@@ -62,4 +63,16 @@ public interface BoardDAO {
 
     // 댓글 비추천
     public boolean downvoteComment(CommentVoteDTO request);
+
+    // 튜터링 리스트 불러오기 (검색 포함)
+    public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request);
+
+    // 튜터링 게시물 작성
+    public boolean writeTutoring(TutoringWriteDTO request);
+
+    // 튜터링 게시물 수정
+    public boolean modifyTutoring(TutoringModifyDTO request);
+
+    // 튜터링 게시물 삭제
+    public boolean deleteTutoring(TutoringDeleteDTO request);
 }

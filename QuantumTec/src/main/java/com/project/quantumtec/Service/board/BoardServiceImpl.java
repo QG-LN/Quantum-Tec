@@ -4,6 +4,7 @@ import com.project.quantumtec.DAO.board.BoardDAO;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -123,6 +124,20 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public boolean downvoteComment(CommentVoteDTO request) {
         return boardDAO.downvoteComment(request);
+    }
+
+    @Override
+    public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request) { return boardDAO.getTutoringList(request); }
+
+    @Override
+    public boolean writeTutoring(TutoringWriteDTO request) { return boardDAO.writeTutoring(request); }
+
+    @Override
+    public boolean modifyTutoring(TutoringModifyDTO request) { return boardDAO.modifyTutoring(request); }
+
+    @Override
+    public boolean deleteTutoring(TutoringDeleteDTO request) {
+        return boardDAO.deleteTutoring(request);
     }
 
 }
