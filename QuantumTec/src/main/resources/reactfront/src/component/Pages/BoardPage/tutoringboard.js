@@ -33,6 +33,19 @@ export default function TutoringBoardPage() {
         }
     }
 
+    const tutorInfoList = [
+        {
+            id : 1,
+            title : '제목',
+            date : '2021-09-01',
+            category : ['수학', '과학'],
+            tag : ['튜터링', '학습위주'],
+            userNickname : '닉네임',
+            userIcon : 'http://localhost:9090/image/game/default_icon.png',
+            tutorCount : 1,
+        }
+    ]
+
     const ttlist = [
         {
             id: 1,
@@ -258,17 +271,13 @@ export default function TutoringBoardPage() {
             {loading ? <div>로딩중</div> :
                 <section class="py-5">
                     <div class="container ml-n1 grid-cols-4 gap-[20px] gx-1 px-lg-5 mt-5 flex flex-wrap max-w-full">
-                        {ttlist.map((tutor, idx) => (
+                        {tutorInfoList.map((tutor, idx) => (
                             <div key={idx} id={tutor.id}
                                  className='row gx-0 row-cols-2 row-cols-md-3 row-cols-xl-4'
-                                 ref={idx === ttlist.length - 1 ? ref : null}>
+                                 ref={idx === tutorInfoList.length - 1 ? ref : null}>
                                     <Link to={`/ttboard/${tutor.id}/${tutor.name}`} class='text-decoration-none text-black'>
                                         <Tutoringlist
-                                            name={tutor.name}
-                                            cate={tutor.cate}
-                                            img={tutor.img}
-                                            link={tutor.link}
-                                            id={tutor.id}
+                                            info={tutor}
                                         />    
                                     </Link>
                             </div>
