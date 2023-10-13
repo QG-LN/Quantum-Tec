@@ -262,14 +262,15 @@ export default function TutoringBoardPage() {
                             <div key={idx} id={tutor.id}
                                  className='row gx-0 row-cols-2 row-cols-md-3 row-cols-xl-4'
                                  ref={idx === ttlist.length - 1 ? ref : null}>
-                                <Tutoringlist
-                                    name={tutor.name}
-                                    cate={tutor.cate}
-                                    img={tutor.img}
-                                    link={tutor.link}
-                                    // key={tutor.id}
-                                    id={tutor.id}
-                                />
+                                    <Link to={`/ttboard/${tutor.id}/${tutor.name}`} class='text-decoration-none text-black'>
+                                        <Tutoringlist
+                                            name={tutor.name}
+                                            cate={tutor.cate}
+                                            img={tutor.img}
+                                            link={tutor.link}
+                                            id={tutor.id}
+                                        />    
+                                    </Link>
                             </div>
                         ))}
 
