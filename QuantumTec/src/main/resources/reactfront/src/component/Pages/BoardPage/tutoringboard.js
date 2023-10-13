@@ -6,6 +6,8 @@ import img from '../MainPage/1_logo.png'
 import {Dropdown} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import Tutoringlist from './tutoringlist';
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function TutoringBoardPage() {
 
@@ -30,9 +32,6 @@ export default function TutoringBoardPage() {
            
         }
     }
-
-
-
 
     const ttlist = [
         {
@@ -149,22 +148,34 @@ export default function TutoringBoardPage() {
         },
     ]
 
-
+    const categroties = {
+        subject: [ "수학", "과학"],
+        person: [ "1명", "2명", "3명"],
+        date: ["1일", "2일", "일주일", "한달"],
+    }
   
-  const subjectOptions = ["수학", "과학"];
-  const personOptions = ["1명", "2명", "3명"];
-  const dateOptions = ["1일", "2일", "일주일", "한달"];
-  
+    // 카테고리 선택/해제
+    const toggleCategory = (category, categoryList) => {
+        if(category === '전체') {
+            const allSelected = categoryList.every(option => selectedCategories.includes(option));  // 전체 선택 여부 확인
 
-      
-      // 카테고리 선택/해제
-    const toggleCategory = (category) => {
-      if (selectedCategories.includes(category)) {
-        setSelectedCategories(selectedCategories.filter((item) => item !== category));
-      } else {
-        setSelectedCategories([...selectedCategories, category]);
-      }
+            // 전체 선택 여부에 따라 선택/해제
+            if(allSelected) {
+                setSelectedCategories(selectedCategories.filter((item) => !categoryList.includes(item))); // 전체 해제
+            }else{
+                const uniqueCategories = Array.from(new Set([...selectedCategories, ...categoryList])); // 중복 제거
+                setSelectedCategories(uniqueCategories);    // 전체 선택
+            }
+        }else{
+            selectedCategories.includes(category) ? setSelectedCategories(selectedCategories.filter((item) => item !== category)) : setSelectedCategories([...selectedCategories, category]);
+        }
     };
+
+    // 카테고리 전체 선택해제
+    const toggleAllCategoriesReset  = () => {
+        setSelectedCategories([]);
+    }
+
 
     const renderDropdown = (title, options) => (
         <Dropdown autoClose='outside'>
@@ -174,8 +185,17 @@ export default function TutoringBoardPage() {
                 </Dropdown.Toggle>
             </div>
             <Dropdown.Menu>
+                <Dropdown.Item key={-1}  onClick={() => toggleCategory('전체',options)}>
+                    <input
+                        className='mr-2'
+                        type="checkbox"
+                        checked={selectedCategories.includes(...options)}
+                        readOnly
+                    />
+                    전체
+                </Dropdown.Item>
                 {options.map((category, index) => (
-                    <Dropdown.Item key={index} onClick={() => toggleCategory(category)}>
+                    <Dropdown.Item key={index} onClick={() => toggleCategory(category,options)}>
                         <input
                             className='mr-2'
                             type="checkbox"
@@ -194,7 +214,7 @@ export default function TutoringBoardPage() {
             <div class=' bg-black  h-[211px] flex'>
                 <h1 class='text-white my-auto ml-80 text-[3.5rem] text-left'>{boardName}</h1>
             </div>
-            <div className="w-[1320px] h-[32px] mt-5 mx-auto pl-12 pr-12">
+            <div className="w-[65vw] h-[8vh] mx-auto mt-4">
                 <div class='container'>
                     <div className='row justify-content-end'>
                         {/* 게시글 추가 버튼을 우측 상단에 배치 */}
@@ -205,14 +225,11 @@ export default function TutoringBoardPage() {
                         </div>
                     </div>
                     <div className='row'>
-                    <div className='col-sm-8'>
-                        {renderDropdown("과목", subjectOptions)}
-                        {renderDropdown("인원", personOptions)}
-                        {renderDropdown("날짜", dateOptions)}
-                <span className='float-left ml-6 mt-1 border-b-2 pb-2 px-2'>
-                    {selectedCategories.join(', ')}
-                </span>
-            </div>
+                        <div className='col-sm-8'>
+                            {renderDropdown("과목", categroties.subject)}
+                            {renderDropdown("인원", categroties.person)}
+                            {renderDropdown("날짜", categroties.date)}
+                        </div>
                         <div className='col-sm-4'>
                             {/* 검색 창 */}
                             <div class='relative'>
@@ -226,6 +243,15 @@ export default function TutoringBoardPage() {
                             </div>
                         </div>
                     </div>
+                    <div>
+                    <span className='float-left mt-2 border-b-2 pb-2 px-2'>
+                        {selectedCategories.join(', ')}
+                        {selectedCategories.length > 0 && 
+                           <button class='ml-2' onClick={toggleAllCategoriesReset}>
+                                <FontAwesomeIcon icon={faXmark}/>
+                            </button>}
+                    </span>
+                    </div>
                 </div>
             </div>
 
@@ -236,14 +262,15 @@ export default function TutoringBoardPage() {
                             <div key={idx} id={tutor.id}
                                  className='row gx-0 row-cols-2 row-cols-md-3 row-cols-xl-4'
                                  ref={idx === ttlist.length - 1 ? ref : null}>
-                                <Tutoringlist
-                                    name={tutor.name}
-                                    cate={tutor.cate}
-                                    img={tutor.img}
-                                    link={tutor.link}
-                                    // key={tutor.id}
-                                    id={tutor.id}
-                                />
+                                    <Link to={`/ttboard/${tutor.id}/${tutor.name}`} class='text-decoration-none text-black'>
+                                        <Tutoringlist
+                                            name={tutor.name}
+                                            cate={tutor.cate}
+                                            img={tutor.img}
+                                            link={tutor.link}
+                                            id={tutor.id}
+                                        />    
+                                    </Link>
                             </div>
                         ))}
 
