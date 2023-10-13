@@ -36,6 +36,45 @@ export default function TutoringBoardPage() {
     const tutorInfoList = [
         {
             id : 1,
+            title : '안녕하세요반갑습니다안녕하세요반갑습니다안녕하세요반갑습니다안녕하세요반값습니다',
+            date : '2021-09-01',
+            category : ['수학', '과학'],
+            tag : ['튜터링', '학습위주'],
+            userNickname : '닉네임',
+            userIcon : 'http://localhost:9090/image/game/default_icon.png',
+            tutorCount : 1,
+        },
+        {
+            id : 1,
+            title : '제목',
+            date : '2021-09-01',
+            category : ['수학', '과학'],
+            tag : ['튜터링', '학습위주'],
+            userNickname : '닉네임',
+            userIcon : 'http://localhost:9090/image/game/default_icon.png',
+            tutorCount : 1,
+        },        {
+            id : 1,
+            title : '제목',
+            date : '2021-09-01',
+            category : ['수학', '과학'],
+            tag : ['튜터링', '학습위주'],
+            userNickname : '닉네임',
+            userIcon : 'http://localhost:9090/image/game/default_icon.png',
+            tutorCount : 1,
+        },
+        {
+            id : 1,
+            title : '제목',
+            date : '2021-09-01',
+            category : ['수학', '과학'],
+            tag : ['튜터링', '학습위주'],
+            userNickname : '닉네임',
+            userIcon : 'http://localhost:9090/image/game/default_icon.png',
+            tutorCount : 1,
+        },
+        {
+            id : 1,
             title : '제목',
             date : '2021-09-01',
             category : ['수학', '과학'],
@@ -44,121 +83,7 @@ export default function TutoringBoardPage() {
             userIcon : 'http://localhost:9090/image/game/default_icon.png',
             tutorCount : 1,
         }
-    ]
 
-    const ttlist = [
-        {
-            id: 1,
-            name: '테스트1',
-            cate: '테스트1',
-            img: '테스트1',
-            link: '테스트1'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 1,
-            name: '테스트1',
-            cate: '테스트1',
-            img: '테스트1',
-            link: '테스트1'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 1,
-            name: '테스트1',
-            cate: '테스트1',
-            img: '테스트1',
-            link: '테스트1'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 1,
-            name: '테스트1',
-            cate: '테스트1',
-            img: '테스트1',
-            link: '테스트1'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 1,
-            name: '테스트1',
-            cate: '테스트1',
-            img: '테스트1',
-            link: '테스트1'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
     ]
 
     const categroties = {

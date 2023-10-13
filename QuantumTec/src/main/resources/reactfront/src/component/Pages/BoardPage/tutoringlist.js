@@ -2,11 +2,21 @@ import { useEffect, useState } from "react";
 import newIcon from "./newIcon.png";
 
 export default function Tutoringlist(props) {
+  const info = props.info;
+
+  const id = info.id; // 게시글 번호
+  const title = info.title; // 게시글 제목
+  const date = info.date; // 게시글 등록일
+  const category = info.category; // 게시글 카테고리
+  const tag = info.tag; // 게시글 태그
+  const userNickname = info.userNickname; // 게시글 작성자 닉네임
+  const userIcon = info.userIcon; // 게시글 작성자 아이콘
+  const tutorCount = info.tutorCount; // 튜터링 인원 수
+
   let defaultIconAddress =
     "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png";
 
   const [ttcate, setTtcate] = useState(["튜터링", "학습위주"]); // 튜터링 카테고리
-  const [ttdate, setTtdate] = useState("2020-01-01"); // 튜터링 등록일
   const [tttitle, setTttitle] = useState(
     "안녕하세요반갑습니다안녕하세요반갑습니다안녕하세요반갑습니다"
   ); // 튜터링 제목
@@ -18,30 +28,37 @@ export default function Tutoringlist(props) {
     "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"; // 이미지가 없을 경우 기본 이미지
 
   useEffect(() => {
-    if (props.img === null) {
+    if (userIcon === null) {
       // 이미지가 없을 경우 기본 이미지로 설정
       setTitleImage(defaultImage);
     } else {
       // 이미지가 있을 경우 해당 이미지로 설정
-      setTitleImage(imagePath + props.img + "_0.png");
+      setTitleImage(imagePath + userIcon + "_0.png");
     }
-  }, [props.img]);
-
+  }, [userIcon]);
 
   //글자 제한
-  const handleChange = (e) => {
-    const tttltie = e.target.innerText;
-    if (tttitle.length <= 28) {
-      setTttitle(tttltie);
+  const setTitleSize = (title) => {
+    if (title.length > 28) {
+      return title.slice(0, 28) + "...";
+    } else {
+      return title;
     }
   };
-  return (
+
+  // 튜터링 인원 수 랜더링
+  const renderTutorCount = () => {
+    return (
+      <span class="my-3 text-center text-gray-400 font-bold text-base">
+        {tutorCount}/20
+      </span>
+    );
+  };
+
+return (
     <>
       <div class="col mb-5 hover:cursor-pointer">
-        <div
-          class="card shadow-sm h-100 w-[290px] h-[400px]"
-          id={props.id}
-        >
+        <div class="card shadow-sm h-100 w-[290px] h-[400px]" id={props.id}>
           <img
             src={newIcon}
             class="w-[40px] h-[40px]"
@@ -83,34 +100,25 @@ export default function Tutoringlist(props) {
             style={{ fontSize: "12px" }}
           >
             <p>등록일</p>
-            <span class="ml-2">{ttdate}</span>
+            <span class="ml-2">{date}</span>
           </div>
-          <span class="mx-3.5 text-left font-bold h-20" onInput={handleChange}>
-            {tttitle}
+          <span class="mx-3.5 text-left font-bold h-20">
+            {setTitleSize(title)}
           </span>
-
-          <span class="my-3 text-center text-gray-400 font-bold text-base">
-            1/20
-          </span>
+          {renderTutorCount()}
           <div class="flex ml-5">
-            <div class="text-xs rounded-full bg-green-200 font-bold text-gray-500 p-1">
-              #수학
+          {category.map((cate, idx) => (
+            <div key={idx} 
+                className="text-xs rounded-full bg-green-200 font-bold text-gray-500 p-1 mr-2">
+              #{cate}
             </div>
-            <div class="text-xs rounded-full bg-green-200 font-bold text-gray-500 p-1 ml-2">
-              #과학
-            </div>
-            <div class="text-xs rounded-full bg-green-200 font-bold text-gray-500 p-1 ml-2">
-              #일본어
-            </div>
-            <div class="text-xs rounded-full bg-green-200 font-bold text-gray-500 p-1 ml-2">
-              #세계지리
-            </div>
+          ))}
           </div>
           <hr class="mx-4 text-gray-400 mb-auto" />
           <div class="card-body p-3">
             <div class="flex ml-1">
               <img class="w-8 h-8 rounded-full" src={userIconAddress} />
-              <h5 class="id ml-4">userid</h5>
+              <h5 class="id ml-4">{userNickname}</h5>
             </div>
           </div>
         </div>
