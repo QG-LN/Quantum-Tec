@@ -8,10 +8,10 @@ import { Link } from 'react-router-dom';
 import Tutoringlist from './tutoringlist';
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {axiosRequest} from '../../Utils/networkUtils';
 
 export default function TutoringBoardPage() {
 
-    const boardName = '튜터링 게시판'
     const [items, setItems] = useState([])                  // 보여줄 튜터 리스트
     const [page, setPage] = useState(1)                     // 현재 페이지
     const [ref, inView] = useInView()                       // 스크롤이 끝에 도달했는지 여부
@@ -31,6 +31,25 @@ export default function TutoringBoardPage() {
         }else{                      // 페이지가 1일 경우 기존 게임 목록을 삭제하고 새로 받아옴
            
         }
+    }
+
+    useEffect(() => {
+        getTutoringList();
+    }, []);
+
+    const getTutoringList = () => {
+        const path = 'board/tutoringList';
+        const body = {
+            pageNum : page,
+            keyword : search,
+        }
+        console.log(body);
+        axiosRequest(path, body, 'POST', 'json')
+        .then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     const tutorInfoList = [
@@ -155,7 +174,7 @@ export default function TutoringBoardPage() {
     return(
         <div>
             <div class=' bg-black  h-[211px] flex'>
-                <h1 class='text-white my-auto ml-80 text-[3.5rem] text-left'>{boardName}</h1>
+                <h1 class='text-white my-auto ml-80 text-[3.5rem] text-left'>튜터링 게시판</h1>
             </div>
             <div className="w-[65vw] h-[8vh] mx-auto mt-4">
                 <div class='container'>
