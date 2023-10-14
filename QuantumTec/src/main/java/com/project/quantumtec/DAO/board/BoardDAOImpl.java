@@ -6,6 +6,7 @@ import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 
+import com.project.quantumtec.VO.board.TutoringPostVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -232,7 +233,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request) {
+    public List<TutoringPostVO> getTutoringList(TutoringListDTO request) {
         return sqlSession.selectList("BoardService.getTutoringList", request);
     }
 
