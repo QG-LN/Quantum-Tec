@@ -37,12 +37,13 @@ export default function TutoringBoardPage() {
         {
             id : 1,
             title : '안녕하세요반갑습니다안녕하세요반갑습니다안녕하세요반갑습니다안녕하세요반값습니다',
-            date : '2021-09-01',
+            date : '2023-10-14',
             category : ['수학', '과학'],
-            tag : ['튜터링', '학습위주'],
+            tag : ['튜터링', '학습위주','ㅋㅋㅋㅋㅋ'],
             userNickname : '닉네임',
             userIcon : 'http://localhost:9090/image/game/default_icon.png',
             tutorCount : 1,
+            tutorMaxCount : 3,
         },
         {
             id : 1,
@@ -53,6 +54,7 @@ export default function TutoringBoardPage() {
             userNickname : '닉네임',
             userIcon : 'http://localhost:9090/image/game/default_icon.png',
             tutorCount : 1,
+            tutorMaxCount : 3,
         },        {
             id : 1,
             title : '제목',
@@ -62,6 +64,7 @@ export default function TutoringBoardPage() {
             userNickname : '닉네임',
             userIcon : 'http://localhost:9090/image/game/default_icon.png',
             tutorCount : 1,
+            tutorMaxCount : 3,
         },
         {
             id : 1,
@@ -72,6 +75,7 @@ export default function TutoringBoardPage() {
             userNickname : '닉네임',
             userIcon : 'http://localhost:9090/image/game/default_icon.png',
             tutorCount : 1,
+            tutorMaxCount : 3,
         },
         {
             id : 1,
@@ -82,6 +86,7 @@ export default function TutoringBoardPage() {
             userNickname : '닉네임',
             userIcon : 'http://localhost:9090/image/game/default_icon.png',
             tutorCount : 1,
+            tutorMaxCount : 3,
         }
 
     ]
