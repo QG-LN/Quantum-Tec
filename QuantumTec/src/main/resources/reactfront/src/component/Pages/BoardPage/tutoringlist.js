@@ -12,6 +12,7 @@ export default function Tutoringlist(props) {
   const userNickname = info.userNickname; // 게시글 작성자 닉네임
   const userIcon = info.userIcon; // 게시글 작성자 아이콘
   const tutorCount = info.tutorCount; // 튜터링 인원 수
+  const tutorMaxCount = info.tutorMaxCount; // 튜터링 최대 인원 수
 
   let defaultIconAddress =
     "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png";
@@ -67,11 +68,22 @@ export default function Tutoringlist(props) {
 
   }
 
+  const checkTagColor = (tagList) => {
+    switch(tagList){
+      case '튜터링':
+        return 'bg-green-200 text-gray-500';
+      case '학습위주':
+        return 'bg-yellow-200 text-gray-500';
+      default:
+        return 'bg-green-200 text-gray-500';
+    } 
+  }
+
   // 튜터링 인원 수 랜더링
   const renderTutorCount = () => {
     return (
       <span class="my-3 text-center text-gray-400 font-bold text-base">
-        {tutorCount}/20
+        {tutorCount}/{tutorMaxCount}
       </span>
     );
   };
@@ -88,40 +100,49 @@ export default function Tutoringlist(props) {
     );
   }
 
+  // 상단 태그 랜더링
+  const renderTopTag = () => {
+    return (
+      <>
+        {tag.slice(0, 3).map((cate, idx) => (
+          <div key={idx}>
+            <div
+              className={`text-xs rounded-full font-bold p-1 ml-2 
+              ${checkTagColor(cate)}`}
+            >
+              #{cate}
+            </div>
+          </div>
+        ))}
+      </>
+    )
+  }
+  
+  // 게시글별 상단 랜더링
+  const renderPostTop = () => {
+    return (
+      <>
+        {renderTopTag()}
+        <div class=" absolute right-5">
+          <div
+            class=" h-12 bg-gray-100 border-2 border-green-400 rounded-xl justify-center items-center flex"
+            style={{ width: "3rem" }}
+          >
+            <span class="">N</span>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+
 return (
     <>
       <div class="col mb-5 hover:cursor-pointer">
-        <div class="card shadow-sm h-100 w-[290px] h-[400px]" id={props.id}>
+        <div class="card shadow-sm w-[18rem]" id={props.id}>
           {checkNewTagEnable(1) && renderNewTag()}
-          <div class="flex mt-3 ml-5">
-            {ttcate.slice(0, 2).map((cate, idx) => (
-              <div
-                key={idx}
-                style={{
-                  marginLeft: idx === 0 ? "-0.5rem" : "0", // 첫 번째 요소에만 margin-left 설정
-                }}
-              >
-                <div
-                  className={`text-xs rounded-full font-bold p-1 ml-2 ${
-                    cate === "튜터링"
-                      ? "bg-green-200 text-gray-500"
-                      : cate === "학습위주"
-                      ? "bg-yellow-200 text-gray-500"
-                      : ""
-                  }`}
-                >
-                  #{cate}
-                </div>
-              </div>
-            ))}
-            <div class=" absolute right-5">
-              <div
-                class=" h-12 bg-gray-100 border-2 border-green-400 rounded-xl justify-center items-center flex"
-                style={{ width: "3rem" }}
-              >
-                <span class="">N</span>
-              </div>
-            </div>
+          <div class="flex mt-3">
+            {renderPostTop()}
           </div>
           <div
             class="flex ml-5 mt-2 text-gray-400"
@@ -130,7 +151,7 @@ return (
             <p>등록일</p>
             <span class="ml-2">{date}</span>
           </div>
-          <span class="mx-3.5 text-left font-bold h-20">
+          <span class="text-left font-bold h-[5rem] ml-4 mr-4 p-1">
             {setTitleSize(title)}
           </span>
           {renderTutorCount()}
