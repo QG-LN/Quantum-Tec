@@ -46,6 +46,27 @@ export default function Tutoringlist(props) {
     }
   };
 
+  // new 아이콘 활성화 체크
+  /**
+   * 게시글 등록일로부터 days일 이내에 등록된 게시글인지 체크
+   * @param {int} days 몇일 이내에 등록된 게시글인지 체크 
+   * @returns true/false
+   */
+  const checkNewTagEnable = (days) => {
+    const today = new Date();
+    const date = new Date(info.date);
+    const timeValue = today.getTime() - date.getTime(); // 현재 날짜 - 게시글 등록일
+
+    const day = 1000 * 60 * 60 * 24 * days; // 24시간
+
+    if(timeValue < day) { // 24시간 이내에 등록된 게시글일 경우
+      return true;
+    }else{
+      return false;
+    }
+
+  }
+
   // 튜터링 인원 수 랜더링
   const renderTutorCount = () => {
     return (
@@ -55,16 +76,23 @@ export default function Tutoringlist(props) {
     );
   };
 
+  // new 아이콘 랜더링
+  const renderNewTag = () => {
+    return (
+      <img
+        src={newIcon}
+        class="w-[40px] h-[40px]"
+        alt="New"
+        style={{ position: "absolute", top: "-20px", left: "-20px" }}
+      />
+    );
+  }
+
 return (
     <>
       <div class="col mb-5 hover:cursor-pointer">
         <div class="card shadow-sm h-100 w-[290px] h-[400px]" id={props.id}>
-          <img
-            src={newIcon}
-            class="w-[40px] h-[40px]"
-            alt="New"
-            style={{ position: "absolute", top: "-20px", left: "-20px" }}
-          />
+          {checkNewTagEnable(1) && renderNewTag()}
           <div class="flex mt-3 ml-5">
             {ttcate.slice(0, 2).map((cate, idx) => (
               <div
@@ -115,10 +143,14 @@ return (
           ))}
           </div>
           <hr class="mx-4 text-gray-400 mb-auto" />
-          <div class="card-body p-3">
-            <div class="flex ml-1">
-              <img class="w-8 h-8 rounded-full" src={userIconAddress} />
-              <h5 class="id ml-4">{userNickname}</h5>
+          <div class="card-body p-3 ml-4">
+            <div class="flex row">
+              <div class='col-4'>
+                <img class="w-8 h-8 rounded-full" src={userIconAddress} />
+              </div>
+              <div class='col-auto'>
+                <span class="id text-center">{userNickname}</span>
+              </div>
             </div>
           </div>
         </div>
