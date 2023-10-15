@@ -279,7 +279,15 @@
     <!-- 튜터링 게시판 리스트 불러오기 -->
     <select id="getTutoringList" resultType="TutoringPostVO" parameterType="TutoringListDTO">
         SELECT *
-        FROM POST_TUTORING_INFO_VIEW;
+        FROM POST_TUTORING_INFO_VIEW
+        <choose>
+            <when test="keyword != null">
+                WHERE POST_TUTORING_TITLE LIKE CONCAT('%',#{keyword},'%') or AUTHOR_NICKNAME LIKE CONCAT('%',#{keyword},'%')
+            </when>
+            <otherwise>
+                ;
+            </otherwise>
+        </choose>
     </select>
 
     <!-- 튜터링 게시물 작성하기 -->
@@ -290,4 +298,10 @@
 
     <!-- 튜터링 게시물 삭제하기 -->
     <delete id="deleteTutoring" parameterType="TutoringDeleteDTO"></delete>
+
+    <!-- 튜터링 게시물 카테고리 출력    -->
+    <select id="getTutoringCategoryList" resultType="TutoringPostVO">
+        SELECT GROUP_CONCAT(GAME_CATEGORY_NAME) AS GAME_CATEGORIES
+        FROM GAME_CATEGORY_TB;
+    </select>
 </mapper>

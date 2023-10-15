@@ -68,6 +68,8 @@ public interface BoardDAO {
     // 튜터링 리스트 불러오기 (검색 포함)
     public List<TutoringPostVO> getTutoringList(TutoringListDTO request);
 
+    public TutoringPostVO getTutoringCategoryList();
+
     // 튜터링 게시물 작성
     public boolean writeTutoring(TutoringWriteDTO request);
 

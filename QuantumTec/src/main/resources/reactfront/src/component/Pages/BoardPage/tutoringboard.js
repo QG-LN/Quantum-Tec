@@ -19,6 +19,11 @@ export default function TutoringBoardPage() {
    const [selectedCategories, setSelectedCategories] = useState([]); // 선택한 카테고리
 
    const [tutoringInfoList, setTutoringInfoList] = useState([]); // 튜터링 게시글 목록
+   const [orderCategory, setOrderCategory] = useState({
+        subject : [],
+        person : [],
+        date : [],
+   }); // 정렬 기준
 
     const [search, setSearch] = useState("");   //검색어
     
@@ -31,15 +36,16 @@ export default function TutoringBoardPage() {
         if(page !== 1) {            // 페이지가 1이 아닐 경우 페이지를 1로 초기화하여 page useEffect를 실행
             setPage(1);
         }else{                      // 페이지가 1일 경우 기존 게임 목록을 삭제하고 새로 받아옴
-           
+            getTutoringList();
         }
     }
 
     useEffect(() => {
         getTutoringList();
-
+        getTutoringCategoryList();
     }, []);
 
+    // 게시글 목록 조회
     const getTutoringList = async () => {
         const path = 'board/tutoringList';
         const body = {
@@ -52,11 +58,18 @@ export default function TutoringBoardPage() {
         }
     }
 
+    // 튜터링 카테고리 목록 조회
+    const getTutoringCategoryList = async () => {
+        const path = 'board/tutoringCategoryList';
+        const data = await axiosRequest(path, null, 'POST', 'json');
+        setOrderCategory({subject:data.category.split(',')})
+    }
+
 
     const categroties = {
         subject: [ "수학", "과학"],
-        person: [ "1명", "2명", "3명"],
-        date: ["1일", "2일", "일주일", "한달"],
+        person: [ "2명", "4명", "5명 이상"],
+        date: ["1일", "1주일", "한달", "3개월이상"],
     }
   
     // 카테고리 선택/해제
@@ -131,7 +144,7 @@ export default function TutoringBoardPage() {
                     </div>
                     <div className='row'>
                         <div className='col-sm-8'>
-                            {renderDropdown("과목", categroties.subject)}
+                            {renderDropdown("과목", orderCategory.subject)}
                             {renderDropdown("인원", categroties.person)}
                             {renderDropdown("날짜", categroties.date)}
                         </div>

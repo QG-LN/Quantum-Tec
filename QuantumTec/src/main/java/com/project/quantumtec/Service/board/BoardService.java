@@ -1,10 +1,7 @@
 package com.project.quantumtec.Service.board;
 
 import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
+import com.project.quantumtec.DTO.Response.board.*;
 
 
 import java.util.List;
@@ -65,6 +62,8 @@ public interface BoardService {
 
     // 튜터링 리스트 불러오기 (검색 포함)
     public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request);
+
+    public TutoringCategoryListResponseDTO getTutoringCategoryList();
 
     // 튜터링 게시물 작성
     public boolean writeTutoring(TutoringWriteDTO request);

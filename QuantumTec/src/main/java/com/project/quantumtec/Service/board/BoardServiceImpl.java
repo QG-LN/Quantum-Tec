@@ -2,10 +2,7 @@ package com.project.quantumtec.Service.board;
 
 import com.project.quantumtec.DAO.board.BoardDAO;
 import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
+import com.project.quantumtec.DTO.Response.board.*;
 import com.project.quantumtec.VO.board.TutoringPostVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -131,6 +128,7 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request) {
         List<TutoringListResponseDTO> tutoringListResponseList = new ArrayList<>();
+
         List<TutoringPostVO> tutoringPostVO = boardDAO.getTutoringList(request);
 
 //        System.out.println(tutoringPostVO.get(0).getPostTutoringIndex());
@@ -145,7 +143,16 @@ public class BoardServiceImpl implements BoardService{
         for(int i = 0; i < tutoringPostVO.size(); i++) {
             tutoringListResponseList.add(new TutoringListResponseDTO().mapTutoringPostVOToDTO(tutoringPostVO.get(i)));
         }
+        System.out.println(tutoringListResponseList.get(0).getPostIndex());
         return tutoringListResponseList;
+    }
+
+    @Override
+    public TutoringCategoryListResponseDTO getTutoringCategoryList() {
+        TutoringPostVO vo = boardDAO.getTutoringCategoryList();
+        TutoringCategoryListResponseDTO dto = new TutoringCategoryListResponseDTO();
+        dto.setCategory(vo.getGameCategories());
+        return dto;
     }
 
     @Override

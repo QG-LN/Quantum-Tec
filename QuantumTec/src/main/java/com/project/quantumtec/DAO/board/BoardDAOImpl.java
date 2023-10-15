@@ -238,6 +238,11 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
+    public TutoringPostVO getTutoringCategoryList() {
+        return sqlSession.selectOne("BoardService.getTutoringCategoryList");
+    }
+
+    @Override
     public boolean writeTutoring(TutoringWriteDTO request) {
         return sqlSession.insert("BoardService.writeTutoring", request) > 0;
     }
