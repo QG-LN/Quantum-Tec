@@ -129,21 +129,22 @@ public class BoardServiceImpl implements BoardService{
     public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request) {
         List<TutoringListResponseDTO> tutoringListResponseList = new ArrayList<>();
 
+        // 과목을 배열로
+        String[] subject = request.getSubject();
+            request.setSubject(subject);
+
+        String keyword = request.getKeyword();
+        if(keyword.isEmpty())
+            request.setKeyword("");
+        else
+            request.setKeyword(keyword);
+
         List<TutoringPostVO> tutoringPostVO = boardDAO.getTutoringList(request);
 
-//        System.out.println(tutoringPostVO.get(0).getPostTutoringIndex());
-//        System.out.println(tutoringPostVO.get(0).getAuthorNickname());
-//        System.out.println(tutoringPostVO.get(0).getPostTutoringTitle());
-//        System.out.println(tutoringPostVO.get(0).getPostCreatedDate());
-//        System.out.println(tutoringPostVO.get(0).getPostTutoringUserCount());
-//        System.out.println(tutoringPostVO.get(0).getPostTutoringMaxUserCount());
-//        System.out.println(tutoringPostVO.get(0).getGameCategories());
-//        System.out.println(tutoringPostVO.get(0).getTags());
-
         for(int i = 0; i < tutoringPostVO.size(); i++) {
+
             tutoringListResponseList.add(new TutoringListResponseDTO().mapTutoringPostVOToDTO(tutoringPostVO.get(i)));
         }
-        System.out.println(tutoringListResponseList.get(0).getPostIndex());
         return tutoringListResponseList;
     }
 

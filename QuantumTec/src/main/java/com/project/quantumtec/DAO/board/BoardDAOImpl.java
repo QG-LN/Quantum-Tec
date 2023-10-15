@@ -234,6 +234,7 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     public List<TutoringPostVO> getTutoringList(TutoringListDTO request) {
+        System.out.println(request.getSubject().length);
         return sqlSession.selectList("BoardService.getTutoringList", request);
     }
 

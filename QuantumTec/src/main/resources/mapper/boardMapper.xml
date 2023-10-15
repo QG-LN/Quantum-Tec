@@ -280,9 +280,16 @@
     <select id="getTutoringList" resultType="TutoringPostVO" parameterType="TutoringListDTO">
         SELECT *
         FROM POST_TUTORING_INFO_VIEW
+        WHERE 1 = 1
         <choose>
-            <when test="keyword != null">
-                WHERE POST_TUTORING_TITLE LIKE CONCAT('%',#{keyword},'%') or AUTHOR_NICKNAME LIKE CONCAT('%',#{keyword},'%')
+            <when test="keyword != ''">
+                AND POST_TUTORING_TITLE LIKE CONCAT('%',#{keyword},'%') or AUTHOR_NICKNAME LIKE CONCAT('%',#{keyword},'%')
+            </when>
+            <when test="subject.length != 0">
+                AND
+                <foreach collection="subject" item="item" index="index" separator="OR">
+                    GAME_CATEGORIES LIKE CONCAT('%',#{item},'%')
+                </foreach>
             </when>
             <otherwise>
                 ;

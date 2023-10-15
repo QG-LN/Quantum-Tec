@@ -130,7 +130,6 @@ public class BoardController {
     // 튜터링 신청 게시판 리스트 조회
     @PostMapping("/tutoringList")
     public List<TutoringListResponseDTO> getTutoringList(@RequestBody TutoringListDTO request){
-        System.out.println(request.getKeyword());
         return boardService.getTutoringList(request);
     }
 

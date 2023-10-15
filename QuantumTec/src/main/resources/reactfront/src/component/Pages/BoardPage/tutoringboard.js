@@ -43,14 +43,18 @@ export default function TutoringBoardPage() {
     useEffect(() => {
         getTutoringList();
         getTutoringCategoryList();
-    }, []);
+    }, [selectedCategories]);
 
+    
     // 게시글 목록 조회
     const getTutoringList = async () => {
+        const filteredCategory = selectedCategories.filter(category => orderCategory.subject.includes(category));
+
         const path = 'board/tutoringList';
         const body = {
             pageNum : page,
             keyword : search,
+            subject : filteredCategory,
         }
         const data = await axiosRequest(path, body, 'POST', 'json');
         if(data !== null) {
