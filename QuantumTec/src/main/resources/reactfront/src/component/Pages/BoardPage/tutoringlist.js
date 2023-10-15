@@ -4,15 +4,15 @@ import newIcon from "./newIcon.png";
 export default function Tutoringlist(props) {
   const info = props.info;
 
-  const id = info.id; // 게시글 번호
-  const title = info.title; // 게시글 제목
-  const date = info.date; // 게시글 등록일
+  const id = info.postIndex; // 게시글 번호
+  const title = info.postTitle; // 게시글 제목
+  const date = info.postDate; // 게시글 등록일
   const category = info.category; // 게시글 카테고리
-  const tag = info.tag; // 게시글 태그
+  const tag = info.tags; // 게시글 태그
   const userNickname = info.userNickname; // 게시글 작성자 닉네임
   const userIcon = info.userIcon; // 게시글 작성자 아이콘
-  const tutorCount = info.tutorCount; // 튜터링 인원 수
-  const tutorMaxCount = info.tutorMaxCount; // 튜터링 최대 인원 수
+  const tutorCount = info.userCount; // 튜터링 인원 수
+  const tutorMaxCount = info.maxUserCount; // 튜터링 최대 인원 수
 
   let defaultIconAddress =
     "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png";

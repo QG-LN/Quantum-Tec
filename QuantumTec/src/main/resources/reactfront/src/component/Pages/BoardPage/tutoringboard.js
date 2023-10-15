@@ -18,6 +18,8 @@ export default function TutoringBoardPage() {
     const [loading, setLoading] = useState(false)           // 로딩중인지 여부
    const [selectedCategories, setSelectedCategories] = useState([]); // 선택한 카테고리
 
+   const [tutoringInfoList, setTutoringInfoList] = useState([]); // 튜터링 게시글 목록
+
     const [search, setSearch] = useState("");   //검색어
     
     const searchIcon = 'http://localhost:9090/image/game/default_icon_search.png'; // 검색 아이콘
@@ -25,6 +27,7 @@ export default function TutoringBoardPage() {
         setSearch(e.target.value)
     }
     const onClickSearch = () => {
+        console.log(tutoringInfoList);
         setItems([]);
         if(page !== 1) {            // 페이지가 1이 아닐 경우 페이지를 1로 초기화하여 page useEffect를 실행
             setPage(1);
@@ -35,21 +38,19 @@ export default function TutoringBoardPage() {
 
     useEffect(() => {
         getTutoringList();
+
     }, []);
 
-    const getTutoringList = () => {
+    const getTutoringList = async () => {
         const path = 'board/tutoringList';
         const body = {
             pageNum : page,
             keyword : search,
         }
-        console.log(body);
-        axiosRequest(path, body, 'POST', 'json')
-        .then((res) => {
-            console.log(res);
-        }).catch((err) => {
-            console.log(err);
-        });
+        const data = await axiosRequest(path, body, 'POST', 'json');
+        if(data !== null) {
+            setTutoringInfoList(data);
+        }
     }
 
     const tutorInfoList = [
@@ -220,10 +221,10 @@ export default function TutoringBoardPage() {
             {loading ? <div>로딩중</div> :
                 <section class="py-5">
                     <div class="container ml-n1 grid-cols-4 gap-[20px] gx-1 px-lg-5 mt-5 flex flex-wrap max-w-full">
-                        {tutorInfoList.map((tutor, idx) => (
+                        {tutoringInfoList.map((tutor, idx) => (
                             <div key={idx} id={tutor.id}
                                  className='row gx-0 row-cols-2 row-cols-md-3 row-cols-xl-4'
-                                 ref={idx === tutorInfoList.length - 1 ? ref : null}>
+                                 ref={idx === tutoringInfoList.length - 1 ? ref : null}>
                                     <Link to={`/ttboard/${tutor.id}/${tutor.name}`} class='text-decoration-none text-black'>
                                         <Tutoringlist
                                             info={tutor}
