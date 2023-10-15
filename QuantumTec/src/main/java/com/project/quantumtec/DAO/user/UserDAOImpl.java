@@ -144,7 +144,7 @@ public class UserDAOImpl implements UserDAO{
     
     // 캐시 충전
     @Override
-    public int chargeCash(CashChargeDTO cashChargeDTO){
+    public int chargeCash(CashChargeDTO cashChargeDTO) throws Exception {
         int checkOrderId = sqlSession.selectOne("UserService.checkOrderId", cashChargeDTO);
         if(checkOrderId > 0){
             return -2;
@@ -157,5 +157,11 @@ public class UserDAOImpl implements UserDAO{
             else
                 return -1;
         }
+    }
+    
+    // 유저 메타데이터
+    @Override
+    public void setLogMetadata(LogMetadata logMetadata) throws Exception {
+        sqlSession.insert("UserService.setLogMetadata", logMetadata);
     }
 }

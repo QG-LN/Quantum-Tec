@@ -176,7 +176,14 @@ public class UserServiceImpl implements UserService{
     
     // 캐시 충전
     @Override
-    public int chargeCash(CashChargeDTO cashChargeDTO){
+    public int chargeCash(CashChargeDTO cashChargeDTO) throws Exception{
         return userDAO.chargeCash(cashChargeDTO);
+    }
+
+    
+    // 유저 메타데이터
+    @Override
+    public void setLogMetadata(LogMetadata logMetadata) throws Exception{
+        userDAO.setLogMetadata(logMetadata);
     }
 }

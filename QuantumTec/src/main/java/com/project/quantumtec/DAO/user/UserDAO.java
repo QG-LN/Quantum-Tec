@@ -3,6 +3,7 @@ package com.project.quantumtec.DAO.user;
 import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.DTO.Request.myinfo.PaymentMyInfoDTO;
 import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryListDTO;
+import com.project.quantumtec.DTO.user.LogMetadata;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserGraceDTO;
@@ -67,6 +68,9 @@ public interface UserDAO {
     public List<UserGraceDTO> getGraceUserList() throws Exception;
     
     // 캐시 충전
-    public int chargeCash(CashChargeDTO cashChargeDTO);
+    public int chargeCash(CashChargeDTO cashChargeDTO) throws Exception;
+
+    // 유저 메타데이터
+    public void setLogMetadata(LogMetadata logMetadata) throws Exception;
 
 }

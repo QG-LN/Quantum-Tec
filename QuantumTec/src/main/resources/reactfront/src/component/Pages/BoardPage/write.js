@@ -55,6 +55,7 @@ export default function WritePage() {
 
                 axiosRequest(path,body,'POST','json')
                 .then(res => {
+                    console.log(res);
                     if(res){
                         alert("글을 성공적으로 수정하였습니다.");
                         navigate(`/board/${no}`);
