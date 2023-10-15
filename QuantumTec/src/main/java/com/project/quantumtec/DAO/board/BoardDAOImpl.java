@@ -69,6 +69,7 @@ public class BoardDAOImpl implements BoardDAO {
     @Override
     public boolean modifyPost(ModifyDTO request) {
         try {
+            System.out.println(request);
             // 게시물 수정
             return sqlSession.update("BoardService.modifyPost", request) > 0;
         } catch (Exception e) {
