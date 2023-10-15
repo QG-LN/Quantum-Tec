@@ -1,42 +1,19 @@
 import { useEffect, useState } from "react";
 import newIcon from "./newIcon.png";
+import { extractData } from "../../Utils/dataFormat";
 
 export default function Tutoringlist(props) {
   const info = props.info;
 
-  const id = info.postIndex; // 게시글 번호
-  const title = info.postTitle; // 게시글 제목
-  const date = info.postDate; // 게시글 등록일
-  const category = info.category; // 게시글 카테고리
-  const tag = info.tags; // 게시글 태그
-  const userNickname = info.userNickname; // 게시글 작성자 닉네임
-  const userIcon = info.userIcon; // 게시글 작성자 아이콘
-  const tutorCount = info.userCount; // 튜터링 인원 수
-  const tutorMaxCount = info.maxUserCount; // 튜터링 최대 인원 수
-
-  let defaultIconAddress =
-    "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png";
-
-  const [ttcate, setTtcate] = useState(["튜터링", "학습위주"]); // 튜터링 카테고리
-  const [tttitle, setTttitle] = useState(
-    "안녕하세요반갑습니다안녕하세요반갑습니다안녕하세요반갑습니다"
-  ); // 튜터링 제목
-  const [userIconAddress, setUserIconAddress] = useState(defaultIconAddress); // 사용자 아이콘 주소
-  const [titleImage, setTitleImage] = useState(null); // 게임 타이틀 이미지
-  // const tttitle = props.name;
-  const imagePath = "http://localhost:9090/image/game/games_"; // 게임 이미지 경로
-  const defaultImage =
-    "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"; // 이미지가 없을 경우 기본 이미지
-
-  useEffect(() => {
-    if (userIcon === null) {
-      // 이미지가 없을 경우 기본 이미지로 설정
-      setTitleImage(defaultImage);
-    } else {
-      // 이미지가 있을 경우 해당 이미지로 설정
-      setTitleImage(imagePath + userIcon + "_0.png");
-    }
-  }, [userIcon]);
+  const id = info.postIndex;                      // 게시글 번호
+  const title = info.postTitle;                   // 게시글 제목
+  const date = info.postDate;                     // 게시글 등록일
+  const category = info.category;                 // 게시글 카테고리
+  const tag = info.tags;                          // 게시글 태그
+  const userNickname = info.userNickname;         // 게시글 작성자 닉네임
+  const userIcon = info.userIcon;                 // 게시글 작성자 아이콘
+  const tutorCount = info.userCount;              // 튜터링 인원 수
+  const tutorMaxCount = info.maxUserCount;        // 튜터링 최대 인원 수
 
   //글자 제한
   const setTitleSize = (title) => {
@@ -149,7 +126,7 @@ return (
             style={{ fontSize: "12px" }}
           >
             <p>등록일</p>
-            <span class="ml-2">{date}</span>
+            <span class="ml-2">{extractData(date,"-")}</span>
           </div>
           <span class="text-left font-bold h-[5rem] ml-4 mr-4 p-1">
             {setTitleSize(title)}
@@ -167,7 +144,7 @@ return (
           <div class="card-body p-3 ml-4">
             <div class="flex row">
               <div class='col-4'>
-                <img class="w-8 h-8 rounded-full" src={userIconAddress} />
+                <img class="w-8 h-8 rounded-full" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"/>
               </div>
               <div class='col-auto'>
                 <span class="id text-center">{userNickname}</span>
