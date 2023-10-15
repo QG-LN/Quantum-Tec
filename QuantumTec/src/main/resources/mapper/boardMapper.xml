@@ -278,9 +278,8 @@
 
     <!-- 튜터링 게시판 리스트 불러오기 -->
     <select id="getTutoringList" resultType="TutoringPostVO" parameterType="TutoringListDTO">
-        SELECT POST_TUTORING_INDEX, USER_NICKNAME as AUTHOR_NICKNAME, POST_TUTORING_TITLE,POST_TUTORING_MAX_USER_COUNT,POST_TUTORING_USER_COUNT, POST_TUTORING_CONTENT, POST_CREATED_DATE
-        FROM POST_TUTORING_INFO_TB p, USER_INFO_TB u
-        WHERE p.POST_TUTORING_AUTHOR_INDEX = u.USER_INDEX;
+        SELECT *
+        FROM POST_TUTORING_INFO_VIEW;
     </select>
 
     <!-- 튜터링 게시물 작성하기 -->

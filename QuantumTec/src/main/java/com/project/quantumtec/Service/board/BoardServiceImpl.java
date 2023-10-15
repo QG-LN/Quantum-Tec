@@ -6,9 +6,11 @@ import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
+import com.project.quantumtec.VO.board.TutoringPostVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("BoardServiceImpl")
@@ -127,7 +129,24 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request) { return boardDAO.getTutoringList(request); }
+    public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request) {
+        List<TutoringListResponseDTO> tutoringListResponseList = new ArrayList<>();
+        List<TutoringPostVO> tutoringPostVO = boardDAO.getTutoringList(request);
+
+//        System.out.println(tutoringPostVO.get(0).getPostTutoringIndex());
+//        System.out.println(tutoringPostVO.get(0).getAuthorNickname());
+//        System.out.println(tutoringPostVO.get(0).getPostTutoringTitle());
+//        System.out.println(tutoringPostVO.get(0).getPostCreatedDate());
+//        System.out.println(tutoringPostVO.get(0).getPostTutoringUserCount());
+//        System.out.println(tutoringPostVO.get(0).getPostTutoringMaxUserCount());
+//        System.out.println(tutoringPostVO.get(0).getGameCategories());
+//        System.out.println(tutoringPostVO.get(0).getTags());
+
+        for(int i = 0; i < tutoringPostVO.size(); i++) {
+            tutoringListResponseList.add(new TutoringListResponseDTO().mapTutoringPostVOToDTO(tutoringPostVO.get(i)));
+        }
+        return tutoringListResponseList;
+    }
 
     @Override
     public boolean writeTutoring(TutoringWriteDTO request) { return boardDAO.writeTutoring(request); }
