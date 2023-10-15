@@ -9,8 +9,6 @@ export function extractData(data, format) {
   const datePattern = /^(\d{4})-(\d{2})-(\d{2})/; // 날짜 데이터 추출 패턴 설정
   const match = datePattern.exec(data); // 정규식과 매칭을 통해 날짜 데이터 추출
 
-  console.log(format);
-
   // 날짜 데이터를 올바르게 추출 했을 경우 포맷 변경
   if (match) {
     if(format === null && format === undefined){

@@ -27,7 +27,6 @@ export default function TutoringBoardPage() {
         setSearch(e.target.value)
     }
     const onClickSearch = () => {
-        console.log(tutoringInfoList);
         setItems([]);
         if(page !== 1) {            // 페이지가 1이 아닐 경우 페이지를 1로 초기화하여 page useEffect를 실행
             setPage(1);
@@ -53,63 +52,6 @@ export default function TutoringBoardPage() {
         }
     }
 
-    const tutorInfoList = [
-        {
-            id : 1,
-            title : '안녕하세요반갑습니다안녕하세요반갑습니다안녕하세요반갑습니다안녕하세요반값습니다',
-            date : '2023-10-14',
-            category : ['수학', '과학'],
-            tag : ['튜터링', '학습위주','ㅋㅋㅋㅋㅋ'],
-            userNickname : '닉네임',
-            userIcon : 'http://localhost:9090/image/game/default_icon.png',
-            tutorCount : 1,
-            tutorMaxCount : 3,
-        },
-        {
-            id : 1,
-            title : '제목',
-            date : '2021-09-01',
-            category : ['수학', '과학'],
-            tag : ['튜터링', '학습위주'],
-            userNickname : '닉네임',
-            userIcon : 'http://localhost:9090/image/game/default_icon.png',
-            tutorCount : 1,
-            tutorMaxCount : 3,
-        },        {
-            id : 1,
-            title : '제목',
-            date : '2021-09-01',
-            category : ['수학', '과학'],
-            tag : ['튜터링', '학습위주'],
-            userNickname : '닉네임',
-            userIcon : 'http://localhost:9090/image/game/default_icon.png',
-            tutorCount : 1,
-            tutorMaxCount : 3,
-        },
-        {
-            id : 1,
-            title : '제목',
-            date : '2021-09-01',
-            category : ['수학', '과학'],
-            tag : ['튜터링', '학습위주'],
-            userNickname : '닉네임',
-            userIcon : 'http://localhost:9090/image/game/default_icon.png',
-            tutorCount : 1,
-            tutorMaxCount : 3,
-        },
-        {
-            id : 1,
-            title : '제목',
-            date : '2021-09-01',
-            category : ['수학', '과학'],
-            tag : ['튜터링', '학습위주'],
-            userNickname : '닉네임',
-            userIcon : 'http://localhost:9090/image/game/default_icon.png',
-            tutorCount : 1,
-            tutorMaxCount : 3,
-        }
-
-    ]
 
     const categroties = {
         subject: [ "수학", "과학"],
