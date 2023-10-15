@@ -24,14 +24,14 @@ public class TutoringListResponseDTO {
      */
     public TutoringListResponseDTO mapTutoringPostVOToDTO (TutoringPostVO tutoringPostVO){
         TutoringListResponseDTO dto = new TutoringListResponseDTO();
-        this.postIndex = tutoringPostVO.getPostTutoringIndex();
-        this.userNickname = tutoringPostVO.getAuthorNickname();
-        this.postTitle = tutoringPostVO.getPostTutoringTitle();
-        this.postDate = tutoringPostVO.getPostCreatedDate();
-        this.maxUserCount = tutoringPostVO.getPostTutoringMaxUserCount();
-        this.userCount = tutoringPostVO.getPostTutoringUserCount();
-        this.category = tutoringPostVO.getGameCategories().split(",");
-        this.tags = tutoringPostVO.getTags().split(",");
+        dto.postIndex = tutoringPostVO.getPostTutoringIndex();
+        dto.userNickname = tutoringPostVO.getAuthorNickname();
+        dto.postTitle = tutoringPostVO.getPostTutoringTitle();
+        dto.postDate = tutoringPostVO.getPostCreatedDate();
+        dto.maxUserCount = tutoringPostVO.getPostTutoringMaxUserCount();
+        dto.userCount = tutoringPostVO.getPostTutoringUserCount();
+        dto.category = tutoringPostVO.getGameCategories().split(",");
+        dto.tags = tutoringPostVO.getTags().split(",");
         return dto;
     }
 
