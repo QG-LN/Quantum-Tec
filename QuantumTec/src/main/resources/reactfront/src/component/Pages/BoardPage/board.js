@@ -82,6 +82,22 @@ export default function Board() {
         }
     };
 
+    // 게시판 이름을 받아 게시판 타입으로 변환
+    const boardNameToType = (boardName) => {
+        switch (boardName) {
+            case '전체':
+                return 0;
+            case '자유게시판':
+                return 1;
+            case '튜터링':
+                return 2;
+            case '공지사항':
+                return 3;
+            default:
+                return 1;
+        }
+    }
+
     useEffect(() => {
         loadBoardList();
         setBoardName(boardTypeToName(id));
@@ -130,7 +146,7 @@ export default function Board() {
     // 게시글 랜더링 함수
     const renderPosts = () => {
         return Posts.map((post) => (
-            <tr key={post.postIndex} style={{ cursor: 'pointer' }} onClick={() => navigateToPost(post.postIndex)}>
+            <tr key={post.postIndex} style={{ cursor: 'pointer' }} onClick={() => navigateToPost(post.postIndex, boardNameToType(post.boardTitle))}>
               <td>{post.postIndex}</td>
               <td>
                   <div className={`rounded-md ${changeBoardTitleStyle(post.boardTitle)} text-white`}>
@@ -153,8 +169,8 @@ export default function Board() {
     }
 
     // 게시글로 이동하는 함수
-    const navigateToPost = (postIndex) => {
-        navigate(`/board/${id}/post/${postIndex}`);
+    const navigateToPost = (postIndex, postBoard) => {
+        navigate(`/board/${postBoard}/post/${postIndex}`);
     }
 
 
