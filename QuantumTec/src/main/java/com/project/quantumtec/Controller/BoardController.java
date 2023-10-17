@@ -137,7 +137,7 @@ public class BoardController {
 
     // 튜터링 게시물 작성
     @PostMapping("/tutoringWrite")
-    public boolean writeTutoringPost(@RequestBody TutoringWriteDTO request){
+    public boolean writeTutoringPost(@RequestBody TutoringWriteRequestDTO request) throws Exception {
         return boardService.writeTutoring(request);
     }
     // 튜터링 게시물 수정

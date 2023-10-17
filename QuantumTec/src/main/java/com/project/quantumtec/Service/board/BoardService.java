@@ -66,7 +66,7 @@ public interface BoardService {
     public TutoringOrderDataListResponseDTO getTutoringOrderDataList();
 
     // 튜터링 게시물 작성
-    public boolean writeTutoring(TutoringWriteDTO request);
+    public boolean writeTutoring(TutoringWriteRequestDTO request) throws Exception;
 
     // 튜터링 게시물 수정
     public boolean modifyTutoring(TutoringModifyDTO request);

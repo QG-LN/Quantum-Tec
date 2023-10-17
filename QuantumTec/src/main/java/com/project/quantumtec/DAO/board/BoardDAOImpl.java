@@ -1,9 +1,9 @@
 package com.project.quantumtec.DAO.board;
 
+import com.project.quantumtec.DTO.Board.TutoringWriteDTO;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 
 import com.project.quantumtec.VO.board.TutoringPostVO;
@@ -234,7 +234,6 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     public List<TutoringPostVO> getTutoringList(TutoringListDTO request) {
-        System.out.println(request.getSubject().length);
         return sqlSession.selectList("BoardService.getTutoringList", request);
     }
 
@@ -243,9 +242,26 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.selectOne("BoardService.getTutoringOrderDataList");
     }
 
+    /**
+     * 튜터링 게시물 작성
+     * @param request 튜터링 게시물 작성 데이터
+     * @return 성공 여부
+     * @todo 추후 도중 실패 시 롤백 처리 필요 현재는 트랜잭션 처리 안됨
+     */
     @Override
     public boolean writeTutoring(TutoringWriteDTO request) {
-        return sqlSession.insert("BoardService.writeTutoring", request) > 0;
+        boolean result = sqlSession.insert("BoardService.writeTutoring", request) > 0;
+        if(result){
+
+            // 태그 결과
+            boolean tagResult = sqlSession.insert("BoardService.insertTutoringTag", request) > 0;
+
+            // 카테고리 결과
+            boolean categoryResult = sqlSession.insert("BoardService.insertTutoringCategory", request) > 0;
+
+            return tagResult && categoryResult;
+        }
+        return false;
     }
 
     @Override
