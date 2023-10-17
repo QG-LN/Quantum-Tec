@@ -10,8 +10,6 @@ import emptyuser from "../../../image/emptyuser.png";
 import backpage from "../../../image/backpage.png";
 import check from "../../../image/check.png";
 
-import allsubject from "../../../image/allsubject.png"; //전체과목
-
 export default function TutorPage() {
   const [postTitle, setPostTitle] = useState("오늘은 무엇을 스터디해볼까요?");          // 튜터링 게시글 제목
   const [postIndex, setPostIndex] = useState(1);                                      // 튜터링 게시글 인덱스
@@ -238,7 +236,7 @@ export default function TutorPage() {
               </ul>
               <div className="flex mt-6 pl-8">
                 <li className="flex relative items-center font-bold text-xl flex-1">
-                  <span className="mr-8">모집 분야</span>
+                  <span className="mr-8">과목</span>
                   <ul
                     className="flex items-center gap-3 p-0 m-0"
                     style={{ gridGap: "12px" }}
