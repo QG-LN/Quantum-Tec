@@ -1,15 +1,12 @@
 package com.project.quantumtec.Controller;
 
 
-import ch.qos.logback.core.model.Model;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.*;
 import com.project.quantumtec.Service.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -133,9 +130,9 @@ public class BoardController {
         return boardService.getTutoringList(request);
     }
 
-    @PostMapping("/tutoringCategoryList")
-    public TutoringCategoryListResponseDTO getTutoringCategoryList(){
-        return boardService.getTutoringCategoryList();
+    @PostMapping("/tutoringOrderDataList")
+    public TutoringOrderDataListResponseDTO getTutoringCategoryList(){
+        return boardService.getTutoringOrderDataList();
     }
 
     // 튜터링 게시물 작성

@@ -21,6 +21,7 @@ export default function TutoringBoardPage() {
    const [tutoringInfoList, setTutoringInfoList] = useState([]); // 튜터링 게시글 목록
    const [orderCategory, setOrderCategory] = useState({
         subject : [],
+        tag: [],
         person : [],
         date : [],
    }); // 정렬 기준
@@ -32,6 +33,7 @@ export default function TutoringBoardPage() {
         setSearch(e.target.value)
     }
     const onClickSearch = () => {
+        console.log(orderCategory);
         setItems([]);
         if(page !== 1) {            // 페이지가 1이 아닐 경우 페이지를 1로 초기화하여 page useEffect를 실행
             setPage(1);
@@ -42,7 +44,7 @@ export default function TutoringBoardPage() {
 
     useEffect(() => {
         getTutoringList();
-        getTutoringCategoryList();
+        getTutoringOrderDataList();
     }, [selectedCategories]);
 
     
@@ -62,11 +64,12 @@ export default function TutoringBoardPage() {
         }
     }
 
-    // 튜터링 카테고리 목록 조회
-    const getTutoringCategoryList = async () => {
-        const path = 'board/tutoringCategoryList';
+    // 튜터링 태그/ 카테고리 목록 조회
+    const getTutoringOrderDataList = async () => {
+        const path = 'board/tutoringOrderDataList';
         const data = await axiosRequest(path, null, 'POST', 'json');
-        setOrderCategory({subject:data.category.split(',')})
+        console.log(data.tags);
+        setOrderCategory({subject:data.category.split(','), tag:data.tags.split(',')})
     }
 
 
@@ -141,7 +144,9 @@ export default function TutoringBoardPage() {
                     <div className='row justify-content-end'>
                         {/* 게시글 추가 버튼을 우측 상단에 배치 */}
                         <div className='bg-green-300 p-2 rounded-full shadow-sm col-md-1 mb-2 mr-2'>
-                            <Link to={`/tutorinsert`} class='text-decoration-none text-black'>
+                            <Link to={`/tutorinsert`} class='text-decoration-none text-black'
+                                state={{subject : orderCategory.subject, tag : orderCategory.tag}}
+                            >
                                 게시글 추가
                             </Link>
                         </div>

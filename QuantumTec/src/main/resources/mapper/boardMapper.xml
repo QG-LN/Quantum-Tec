@@ -306,9 +306,11 @@
     <!-- 튜터링 게시물 삭제하기 -->
     <delete id="deleteTutoring" parameterType="TutoringDeleteDTO"></delete>
 
-    <!-- 튜터링 게시물 카테고리 출력    -->
-    <select id="getTutoringCategoryList" resultType="TutoringPostVO">
-        SELECT GROUP_CONCAT(GAME_CATEGORY_NAME) AS GAME_CATEGORIES
-        FROM GAME_CATEGORY_TB;
+    <!-- 튜터링 게시물 카테고리/태그 출력    -->
+    <select id="getTutoringOrderDataList" resultType="TutoringPostVO">
+        SELECT
+                (SELECT GROUP_CONCAT(GAME_CATEGORY_NAME) FROM GAME_CATEGORY_TB) AS GAME_CATEGORIES,
+                (SELECT GROUP_CONCAT(TAG_NAME) FROM TAG_TB) AS TAGS;
     </select>
+
 </mapper>

@@ -176,10 +176,12 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public TutoringCategoryListResponseDTO getTutoringCategoryList() {
-        TutoringPostVO vo = boardDAO.getTutoringCategoryList();
-        TutoringCategoryListResponseDTO dto = new TutoringCategoryListResponseDTO();
+    public TutoringOrderDataListResponseDTO getTutoringOrderDataList() {
+        TutoringPostVO vo = boardDAO.getTutoringOrderDataList();
+
+        TutoringOrderDataListResponseDTO dto = new TutoringOrderDataListResponseDTO();
         dto.setCategory(vo.getGameCategories());
+        dto.setTags(vo.getTags());
         return dto;
     }
 
