@@ -94,10 +94,9 @@ export default function TutorInsertPage() {
     setInputtutorcontent(e.currentTarget.value);
   };
 
+  // 게시글 작성 버튼 클릭시 실행할 함수
   const handleSubmit = () => {
-    // 입력된 데이터를 서버로 전송하거나 다른 처리를 수행할 수 있습니다.
-    // 예: axios.post('/api/createTutorPost', { data });
-    // 성공적으로 게시물을 작성한 후에 사용자를 다른 페이지로 이동시킬 수도 있습니다.
+
   };
 
   //라디오 버튼 부분
@@ -143,24 +142,32 @@ export default function TutorInsertPage() {
     setSelectedSubject(selectedSubjectString);
   };
 
-  /**
-   * Set에 value 추가 후 문자열로 변환하여 반환
-   * @param {*} currentSet  현재 Set
-   * @param {*} value       추가할 값
-   * @param {*} setFunction Set을 변경할 함수
-   * @returns 문자열로 변환된 Set 값을 , 로 구분하여 반환
-   */
-  const updateListSet = (currentSet, value, setFunction ) => {
-    const newSet = new Set(currentSet);
-    newSet.add(value);
-    setFunction(newSet);
-    return [...newSet].join(", ");
+/**
+ * Set에 value 추가 또는 제거 후 문자열로 변환하여 반환
+ * @param {Set} currentSet  현재 Set
+ * @param {*} value       추가 또는 제거할 값
+ * @param {function} setFunction Set을 변경할 함수
+ * @returns 문자열로 변환된 Set 값을 , 로 구분하여 반환
+ */
+const updateListSet = (currentSet, value, setFunction) => {
+  const newSet = new Set(currentSet);
+
+  if (newSet.has(value)) {
+    newSet.delete(value); // 이미 존재하면 제거
+  } else {
+    newSet.add(value); // 존재하지 않으면 추가
   }
 
+  setFunction(newSet);
+  return [...newSet].join(", ");
+};
+
+  // 모집 분야 선택 모달에서 항목 클릭시 실행할 함수
   const handelAddCategory = (category) => {
     setSelectedTutorType(updateListSet(addTutorType, category, setAddTutorType));
   }
 
+  // 모집 구분 선택 모달에서 항목 클릭시 실행할 함수
   const handleAddTag = (tag) => {
     setSelectedSubject(updateListSet(addsubject, tag, setAddsubject));
   }
