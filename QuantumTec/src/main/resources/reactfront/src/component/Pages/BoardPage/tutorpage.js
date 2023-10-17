@@ -285,11 +285,18 @@ export default function TutorPage() {
           튜터링 소개
         </h2>
         <div className=" w-[100%] mt-10 mx-auto mb-0">
-          <p className="m-0 text-left">{postIntro}</p>
-          <p className="m-0">
-            <br />
-          </p>
-          <p className="m-0 text-left">{postContent}</p>
+          <div class='pl-[2rem] pr-[2rem]'>
+            <div class='mb-5'>
+              <p class='m-0 text-left fs-3'>Intro</p>
+              <hr/>
+              <p className="m-3 text-left">{postIntro}</p>
+            </div>
+            <div>
+              <p class='m-0 text-left fs-3'>Content</p>
+              <hr/>
+              <p className="m-3 text-left">{postContent}</p>
+            </div>
+          </div>
         </div>
       </div>
       <div className="sticky-menu" style={{ top: `${top}px` }}>
