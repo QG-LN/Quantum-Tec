@@ -4,17 +4,14 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap CSS 로드
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Bootstrap JavaScript 로드
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // DatePicker CSS 로드
+import { axiosRequest } from "../../Utils/networkUtils";
 
 export default function TutorInsertPage() {
   const [inputboardName, setInputboardName] = useState("");                 //게시물 제목
-  const [inputusername, setInputusername] = useState("");                   //작성자 이름
-  const [inputtutortype, setInputtutortype] = useState("");                 //모집 구분
   const [inputtutorrecruit, setInputtutorrecruit] = useState("");           //모집 인원
-  const [inputtutorstart, setInputtutorstart] = useState(new Date());       //모집 시작일
+  const [inputtutorstart, setInputtutorstart] = useState(new Date());       //튜터링 시작일
   const [inputtutorcontact, setInputtutorcontact] = useState("");           //연락처
   const [inputduration, setInputduration] = useState("");                   //예상 기간
-  const [inputfield, setInputfield] = useState("");                         //모집 분야
-  const [inputtutorsubject, setInputtutorsubject] = useState("");           //과목
   const [inputtutorintro, setInputtutorintro] = useState("");               //튜터링 소개
   const [inputtutorcontent, setInputtutorcontent] = useState("");           //튜터링 내용
 
@@ -22,7 +19,6 @@ export default function TutorInsertPage() {
   const location = useLocation();
   const subjectsList = location.state ? location.state.subject : [];    // Link로 접근한 것이 아닐 경우 null값 부여
   const tagsList = location.state ? location.state.tag : [];    // Link로 접근한 것이 아닐 경우 null값 부여
-
 
   // 모집 구분 모달 관련 state
   const [selectedTutorType, setSelectedTutorType] = useState("");
@@ -32,24 +28,25 @@ export default function TutorInsertPage() {
   const [selectedSubject, setSelectedSubject] = useState("");
   const [addsubject, setAddsubject] = useState(new Set());
 
-    //라디오 버튼 부분 [진행 방식 (온라인/오프라인))]
-    const [inputtutoronline, setInputTutorOnline] = useState(true);
+  //라디오 버튼 부분 [진행 방식 (온라인/오프라인))]
+  const [inputtutoronline, setInputTutorOnline] = useState(true);
 
   const navigate = useNavigate();       // 페이지 이동을 위한 navigate 객체
 
   // input data 초기화 함수
   const initInput = () => {
     setInputboardName("");
-    setInputusername("");
-    setInputtutortype("");
     setInputtutorrecruit("");
     setInputtutorstart("");
     setInputtutorcontact("");
     setInputduration("");
-    setInputfield("");
-    setInputtutorsubject("");
     setInputtutorintro("");
     setInputtutorcontent("");
+
+    setSelectedTutorType("");
+    setAddTutorType(new Set());
+    setSelectedSubject("");
+    setAddsubject(new Set());
   };
 
   // 처음 로드 시에만 실행
@@ -60,12 +57,6 @@ export default function TutorInsertPage() {
   // input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
   const handleInputboardName = (e) => {
     setInputboardName(e.currentTarget.value);
-  };
-  const handleInputusername = (e) => {
-    setInputusername(e.currentTarget.value);
-  };
-  const handleInputtutortype = (e) => {
-    setInputtutortype(e.currentTarget.value);
   };
   const handleInputtutorrecruit = (e) => {
     setInputtutorrecruit(e.currentTarget.value);
@@ -79,12 +70,6 @@ export default function TutorInsertPage() {
   const handleInputduration = (e) => {
     setInputduration(e.currentTarget.value);
   };
-  const handleInputfield = (e) => {
-    setInputfield(e.currentTarget.value);
-  };
-  const handleInputtutorsubject = (e) => {
-    setInputtutorsubject(e.currentTarget.value);
-  };
   const handleInputtutorintro = (e) => {
     setInputtutorintro(e.currentTarget.value);
   };
@@ -94,8 +79,58 @@ export default function TutorInsertPage() {
 
   // 게시글 작성 버튼 클릭시 실행할 함수
   const handleSubmit = () => {
-
+    if(inputboardName === ""){
+      alert("게시물 제목을 입력해주세요.");
+      return;
+    } else if(selectedTutorType === ""){
+      alert("모집 구분을 선택해주세요.");
+      return;
+    } else if(inputtutorcontact === ""){
+      alert("연락처를 입력해주세요.");
+      return;
+    } else if(inputtutorrecruit === ""){
+      alert("모집 인원을 입력해주세요.");
+      return;
+    } else if(inputduration === ""){
+      alert("예상 기간을 입력해주세요.");
+      return;
+    } else if(selectedSubject === ""){
+      alert("과목을 선택해주세요.");
+      return;
+    } else if(inputtutorintro === ""){
+      alert("튜터링 소개글을 입력해주세요.");
+    } else if(inputtutorcontent === ""){
+      alert("튜터링 내용을 입력해주세요.");
+      return;
+    } else{
+      submitData();
+    }
   };
+
+  const submitData = async () => {
+      // 게시글 작성 서버에 전달
+      const path = "board/tutoringWrite";
+      const body = {
+        userID : localStorage.getItem("userID"),
+        postTitle : inputboardName,
+        runningType : inputtutoronline,
+        link : inputtutorcontact,
+        startDate : inputtutorstart,
+        expectedTime : inputduration,
+        maxUserCount : inputtutorrecruit,
+        category : selectedSubject.replace(/(\s*)/g, ""),
+        tag : selectedTutorType.replace(/(\s*)/g, ""),
+        postIntro : inputtutorintro,
+        postContent : inputtutorcontent,
+      }
+      console.log(body);
+      const data = await axiosRequest(path, body, 'POST', 'json');
+      
+      if(data !== null){
+        alert("게시글 작성 완료");
+        navigate("/tutoring");
+      }
+  }
 
   const handleOnlineChange = () => {
     setInputTutorOnline(true);
