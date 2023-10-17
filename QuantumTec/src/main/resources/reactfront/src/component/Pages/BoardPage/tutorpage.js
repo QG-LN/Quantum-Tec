@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Link , useLocation, useNavigate } from "react-router-dom";
+import { Link , useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal"; // Bootstrap Modal 추가
 import Button from "react-bootstrap/Button"; // Bootstrap Button 추가
 import "../../../App.css";
@@ -62,11 +62,8 @@ export default function TutorPage() {
   // 튜터링 게시글 정보를 Link를 통해 전달 받음
   const location = useLocation();
   const info =  location.state ? location.state.info : null;    // Link로 접근한 것이 아닐 경우 null값 부여
-  
-  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(info);
     // 튜터링 게시글 정보가 존재할 경우 상태를 업데이트
     if(info === null){
       return null;
@@ -164,191 +161,200 @@ export default function TutorPage() {
   const top = 250;
 
   return (
-    <div className=" max-w-4xl w-[100%] flex flex-col mx-auto my-0 px-6 pt-6 pb-20">
-      <div className=" mt-10 font-extrabold text-4xl tracking-[-.005em] text-left">
-        {postTitle}
-      </div>
-      <div className=" mt-8 pb-8 border-b-2 flex gap-4 items-center">
-        <div className="flex items-center relative">
-          <img
-            className=" cursor-pointer block h-12 w-[3rem] mr-2 rounded-[50%] object-cover"
-            src={userimg}
-            alt="userImg"
-          />
-          <div className=" cursor-pointer text-lg font-bold">{userNickname}</div>
-        </div>
-        <div className="w-[2px] h-5 bg-slate-300"></div>
-        <div className="text-lg mr-[-11px]">작성일</div>
-        <div className=" text-lg text-slate-700">{postDate}</div>
-      </div>
-
-      <section
-        className=" text-inherit"
-        style={{ boxSizing: "inherit", fontFamily: "inherit" }}
-      >
-        <ul className=" grid gap-y-6 grid-cols-2 mt-[60px]">
-          <li className=" flex relative items-center font-bold text-xl">
-            <span className=" mr-8">모집 구분</span>
-            <ul
-              className="flex items-center gap-3 p-0 m-0"
-              style={{ gridGap: "12px" }}
-            >
-              {tags.map((field, index) => (
-                <li
-                  key={index}
-                  className="px-[10px] py-[6px] bg-slate-300 rounded-2xl font-bold text-sm text-center text-slate-700"
-                >
-                  {field}
-                </li>
-              ))}
-            </ul>
-          </li>
-          <li className="flex relative items-center font-bold text-xl">
-            <span className="mr-8">진행 방식</span>
-            <span className="">{runningType}</span>
-          </li>
-          <li className="flex relative items-center font-bold text-xl">
-            <span className="mr-8">모집 인원</span>
-            <span className="">{userCount} / {maxUserCount}</span>
-          </li>
-          <li className="flex relative items-center font-bold text-xl">
-            <span className="mr-8">시작 예정</span>
-            <span className="">{startDate}</span>
-          </li>
-          <li className="flex relative items-center font-bold text-xl">
-            <span className="mr-8">강사 연락처</span>
-            <div className=" absolute left-32 rounded-xl ">
-              <a
-                className="flex"
-                href={studyLink}
-                target="_blank"
-                rel="noreferrer"
-              >
+    <div className=" max-w-6xl flex flex-col mx-auto px-6 pt-6 pb-20">
+      <div class='container'>
+        <div class='row'>
+          <div class='col-sm-10'>
+            <div className=" mt-10 font-extrabold text-4xl tracking-[-.005em] text-left">
+              {postTitle}
+            </div>
+            <div className=" mt-8 pb-8 border-b-2 flex gap-4 items-center">
+              <div className="flex items-center relative">
                 <img
-                  className=" cursor-pointer block h-[30px] w-[30px] mr-2 rounded-[50%] object-cover"
-                  src={OpenKakao}
-                  alt="openkakao"
+                  className=" cursor-pointer block h-12 w-[3rem] mr-2 rounded-[50%] object-cover"
+                  src={userimg}
+                  alt="userImg"
                 />
-              </a>
+                <div className=" cursor-pointer text-lg font-bold">{userNickname}</div>
+              </div>
+              <div className="w-[2px] h-5 bg-slate-300"></div>
+              <div className="text-lg mr-[-11px]">작성일</div>
+              <div className=" text-lg text-slate-700">{postDate}</div>
             </div>
-          </li>
-          <li className="flex relative items-center font-bold text-xl">
-            <span className="mr-8">예상 기간</span>
-            <span className="">{expectedTime} 개월</span>
-          </li>
-        </ul>
-        <div className="flex mt-6 pl-8">
-          <li className="flex relative items-center font-bold text-xl flex-1">
-            <span className="mr-8">모집 분야</span>
-            <ul
-              className="flex items-center gap-3 p-0 m-0"
-              style={{ gridGap: "12px" }}
+
+            <section
+              className=" text-inherit"
+              style={{ boxSizing: "inherit", fontFamily: "inherit" }}
             >
-              {category.map((field, index) => (
-                <li
-                  key={index}
-                  className="px-[10px] py-[6px] bg-slate-300 rounded-2xl font-bold text-sm text-center text-slate-700"
-                >
-                  {field}
+              <ul className=" grid gap-y-6 grid-cols-2 mt-[60px]">
+                <li className=" flex relative items-center font-bold text-xl">
+                  <span className=" mr-8">모집 구분</span>
+                  <ul
+                    className="flex items-center gap-3 p-0 m-0"
+                    style={{ gridGap: "12px" }}
+                  >
+                    {tags.map((field, index) => (
+                      <li
+                        key={index}
+                        className="px-[10px] py-[6px] bg-slate-300 rounded-2xl font-bold text-sm text-center text-slate-700"
+                      >
+                        {field}
+                      </li>
+                    ))}
+                  </ul>
                 </li>
-              ))}
-            </ul>
-          </li>
-          <li className="flex relative items-center font-bold text-xl flex-1">
-            <span className="mr-8">과목</span>
-            <ul className="my-auto">
-              {tutorsubject.length > 0 ? (
-                tutorsubject.map((subject, index) => (
-                  <li key={index}>
-                    <img
-                      src={subject}
-                      className=" h-[30px] w-[30px]"
-                      alt="과목 이미지"
-                    />
-                  </li>
-                ))
-              ) : (
-                <li>
-                  <img
-                    src={allsubject}
-                    className="h-[30px] w-[30px]"
-                    alt="전체 과목 이미지"
-                  />
+                <li className="flex relative items-center font-bold text-xl">
+                  <span className="mr-8">진행 방식</span>
+                  <span className="">{runningType}</span>
                 </li>
-              )}
-            </ul>
-          </li>
-        </div>
-      </section>
-      <div className=" mt-32 text-lg break-words tracking-[-0.004em]">
-        <h2 className=" font-bold text-2xl pb-6 border-b-4 text-left">
-          튜터링 소개
-        </h2>
-        <div className=" w-[100%] mt-10 mx-auto mb-0">
-          <div class='pl-[2rem] pr-[2rem]'>
-            <div class='mb-5'>
-              <p class='m-0 text-left fs-3'>Intro</p>
-              <hr/>
-              <p className="m-3 text-left">{postIntro}</p>
+                <li className="flex relative items-center font-bold text-xl">
+                  <span className="mr-8">모집 인원</span>
+                  <span className="">{userCount} / {maxUserCount}</span>
+                </li>
+                <li className="flex relative items-center font-bold text-xl">
+                  <span className="mr-8">시작 예정</span>
+                  <span className="">{startDate}</span>
+                </li>
+                <li className="flex relative items-center font-bold text-xl">
+                  <span className="mr-8">강사 연락처</span>
+                  <div className=" absolute left-32 rounded-xl ">
+                    <a
+                      className="flex"
+                      href={studyLink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        className=" cursor-pointer block h-[30px] w-[30px] mr-2 rounded-[50%] object-cover"
+                        src={OpenKakao}
+                        alt="openkakao"
+                      />
+                    </a>
+                  </div>
+                </li>
+                <li className="flex relative items-center font-bold text-xl">
+                  <span className="mr-8">예상 기간</span>
+                  <span className="">{expectedTime} 개월</span>
+                </li>
+              </ul>
+              <div className="flex mt-6 pl-8">
+                <li className="flex relative items-center font-bold text-xl flex-1">
+                  <span className="mr-8">모집 분야</span>
+                  <ul
+                    className="flex items-center gap-3 p-0 m-0"
+                    style={{ gridGap: "12px" }}
+                  >
+                    {category.map((field, index) => (
+                      <li
+                        key={index}
+                        className="px-[10px] py-[6px] bg-slate-300 rounded-2xl font-bold text-sm text-center text-slate-700"
+                      >
+                        {field}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+                <li className="flex relative items-center font-bold text-xl flex-1">
+                  <span className="mr-8">과목</span>
+                  <ul className="my-auto">
+                    {tutorsubject.length > 0 ? (
+                      tutorsubject.map((subject, index) => (
+                        <li key={index}>
+                          <img
+                            src={subject}
+                            className=" h-[30px] w-[30px]"
+                            alt="과목 이미지"
+                          />
+                        </li>
+                      ))
+                    ) : (
+                      <li>
+                        <img
+                          src={allsubject}
+                          className="h-[30px] w-[30px]"
+                          alt="전체 과목 이미지"
+                        />
+                      </li>
+                    )}
+                  </ul>
+                </li>
+              </div>
+            </section>
+            <div className=" mt-32 text-lg break-words tracking-[-0.004em]">
+              <h2 className=" font-bold text-2xl pb-6 border-b-4 text-left">
+                튜터링 소개
+              </h2>
+              <div className=" w-[100%] mt-10 mx-auto mb-0">
+                <div class='pl-[2rem] pr-[2rem]'>
+                  <div class='mb-5'>
+                    <p class='m-0 text-left fs-3'>Intro</p>
+                    <hr/>
+                    <p className="m-3 text-left">{postIntro}</p>
+                  </div>
+                  <div>
+                    <p class='m-0 text-left fs-3'>Content</p>
+                    <hr/>
+                    <p className="m-3 text-left">{postContent}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <p class='m-0 text-left fs-3'>Content</p>
-              <hr/>
-              <p className="m-3 text-left">{postContent}</p>
+          </div>
+          <div class='col-sm-2'>
+            <div className="sticky-menu" style={{ top: `${top}px` }}>
+              <div className="button-container">
+                {buttons.map((button) => (
+                  <div
+                    key={button.id}
+                    className={`image-button ${button.isHovered ? "expanded" : ""}`}
+                    onMouseEnter={() => handleMouseEnter(button.id)}
+                    onMouseLeave={() => handleMouseLeave(button.id)}
+                  >
+                    <div className="button-content flex">
+                      <img
+                        src={button.image}
+                        class="w-[30px] h-[30px]"
+                        alt={button.text}
+                      />
+                      <Link
+                        to={button.to}
+                        className={`text ${button.isHovered ? "visible" : ""}`}
+                        onClick={() => handleButtonClick(button.id)}
+                      >
+                        {button.text}
+                      </Link>
+                    </div>
+                    {button.showModal && (
+                      <Modal
+                        show={true}
+                        onHide={closeModal}
+                        style={customModalStyles}
+                        contentLabel="Example Modal"
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title>Modal Content</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <p>정말로 신청하시겠습니까?</p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="primary" onClick={acceptModal}>
+                            신청하기
+                          </Button>
+                          <Button variant="secondary" onClick={closeModal}>
+                            종료하기
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="sticky-menu" style={{ top: `${top}px` }}>
-        <div className="button-container">
-          {buttons.map((button) => (
-            <div
-              key={button.id}
-              className={`image-button ${button.isHovered ? "expanded" : ""}`}
-              onMouseEnter={() => handleMouseEnter(button.id)}
-              onMouseLeave={() => handleMouseLeave(button.id)}
-            >
-              <div className="button-content flex">
-                <img
-                  src={button.image}
-                  class="w-[30px] h-[30px]"
-                  alt={button.text}
-                />
-                <Link
-                  to={button.to}
-                  className={`text ${button.isHovered ? "visible" : ""}`}
-                  onClick={() => handleButtonClick(button.id)}
-                >
-                  {button.text}
-                </Link>
-              </div>
-              {button.showModal && (
-                <Modal
-                  show={true}
-                  onHide={closeModal}
-                  style={customModalStyles}
-                  contentLabel="Example Modal"
-                >
-                  <Modal.Header closeButton>
-                    <Modal.Title>Modal Content</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <p>정말로 신청하시겠습니까?</p>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="primary" onClick={acceptModal}>
-                      신청하기
-                    </Button>
-                    <Button variant="secondary" onClick={closeModal}>
-                      종료하기
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
+
     </div>
   );
 }
