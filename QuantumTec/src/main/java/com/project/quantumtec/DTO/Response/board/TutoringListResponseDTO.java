@@ -16,6 +16,13 @@ public class TutoringListResponseDTO {
     private String[] category;          // 튜터링 카테고리
     private String[] tags;              // 게시글 태그
 
+    private String postIntro;           // 게시글 소개글
+    private String postContent;         // 게시글 내용
+    private boolean runningType;        // 튜터링 진행 방식 [온라인 - 1 / 오프라인 - 0]
+    private String link;                // 튜터링 링크
+    private String expectedTime;        // 튜터링 예상 소요 시간
+    private String startDate;           // 튜터링 시작 날짜
+
 
     /**
      * 튜터링 게시글 VO를 DTO로 변환

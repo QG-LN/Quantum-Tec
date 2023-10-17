@@ -128,22 +128,49 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public List<TutoringListResponseDTO> getTutoringList(TutoringListDTO request) {
         List<TutoringListResponseDTO> tutoringListResponseList = new ArrayList<>();
+        String separator = "\\[000\\]";
 
         // 과목을 배열로
         String[] subject = request.getSubject();
-            request.setSubject(subject);
+        request.setSubject(subject);
 
+        // 키워드가 비었으면 ""로, 있으면 키워드로
         String keyword = request.getKeyword();
         if(keyword.isEmpty())
             request.setKeyword("");
         else
             request.setKeyword(keyword);
 
+        // 튜터링 데이터 리스트
         List<TutoringPostVO> tutoringPostVO = boardDAO.getTutoringList(request);
 
         for(int i = 0; i < tutoringPostVO.size(); i++) {
+            // DTO 객체 생성
+            TutoringListResponseDTO dto = new TutoringListResponseDTO();
 
-            tutoringListResponseList.add(new TutoringListResponseDTO().mapTutoringPostVOToDTO(tutoringPostVO.get(i)));
+            // VO 객체를 DTO 객체로 변환 [기본 값만]
+            dto = dto.mapTutoringPostVOToDTO(tutoringPostVO.get(i));
+
+            // 정보 데이터에서 필요한 데이터만 추출
+            /**
+             * CONTENT 내부 데이터 구조
+             * postIntro        - 게시글 소개
+             * postContent      - 게시글 내용
+             * runningType      - 진행 방식
+             * link             - 링크
+             * expectedTime     - 예상 소요 시간
+             * startDate        - 시작 날짜
+             * */
+            String[] data = tutoringPostVO.get(i).getPostTutoringContent().split(separator);
+            dto.setPostIntro(data[0].split("\\[-\\]")[1]);                    // 게시글 소개
+            dto.setPostContent(data[1].split("\\[-\\]")[1]);                  // 게시글 내용
+            dto.setRunningType(data[2].split("\\[-\\]")[1].equals("1"));      // 진행 방식
+            dto.setLink(data[3].split("\\[-\\]")[1]);                         // 링크
+            dto.setExpectedTime(data[4].split("\\[-\\]")[1]);                 // 예상 소요 시간
+            dto.setStartDate(data[5].split("\\[-\\]")[1]);                    // 시작 날짜
+
+            tutoringListResponseList.add(dto);
+
         }
         return tutoringListResponseList;
     }
