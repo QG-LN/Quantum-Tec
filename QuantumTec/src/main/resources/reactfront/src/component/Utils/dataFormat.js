@@ -11,7 +11,7 @@ export function extractData(data, format) {
 
   // 날짜 데이터를 올바르게 추출 했을 경우 포맷 변경
   if (match) {
-    if(format === null && format === undefined){
+    if(format === null || format === undefined){
       return match[1] + "년 " + match[2] + "월 " + match[3] + "일";
     }else{
       return match[1] + format + match[2] + format + match[3];
