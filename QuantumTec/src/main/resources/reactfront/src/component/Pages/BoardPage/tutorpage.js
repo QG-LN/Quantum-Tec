@@ -25,7 +25,6 @@ export default function TutorPage() {
   const [studyLink, setStudyLink] = useState("https://open.kakao.com/o/");            // 튜터링 링크
   const [expectedTime, setExpectedTime] = useState(0);                                // 예상 기간
   const [category, setCategory] = useState([]);                                       // 튜터링 카테고리
-  const [tutorsubject, setTutorsubject] = useState([]);                               // 튜터링 과목
   const [postIntro, setPostIntro] = useState("");                                     // 튜터링 소개
   const [postContent, setPostContent] = useState("");                                 // 튜터링 내용
 
@@ -252,30 +251,6 @@ export default function TutorPage() {
                         {field}
                       </li>
                     ))}
-                  </ul>
-                </li>
-                <li className="flex relative items-center font-bold text-xl flex-1">
-                  <span className="mr-8">과목</span>
-                  <ul className="my-auto">
-                    {tutorsubject.length > 0 ? (
-                      tutorsubject.map((subject, index) => (
-                        <li key={index}>
-                          <img
-                            src={subject}
-                            className=" h-[30px] w-[30px]"
-                            alt="과목 이미지"
-                          />
-                        </li>
-                      ))
-                    ) : (
-                      <li>
-                        <img
-                          src={allsubject}
-                          className="h-[30px] w-[30px]"
-                          alt="전체 과목 이미지"
-                        />
-                      </li>
-                    )}
                   </ul>
                 </li>
               </div>
