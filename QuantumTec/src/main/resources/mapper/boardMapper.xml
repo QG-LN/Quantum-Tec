@@ -298,7 +298,36 @@
     </select>
 
     <!-- 튜터링 게시물 작성하기 -->
-    <insert id="writeTutoring" parameterType="TutoringWriteDTO"></insert>
+    <insert id="writeTutoring" parameterType="TutoringWriteDTO">
+        INSERT INTO POST_TUTORING_INFO_TB(POST_TUTORING_AUTHOR_INDEX, POST_TUTORING_TITLE, POST_TUTORING_CONTENT, POST_TUTORING_MAX_USER_COUNT, POST_TUTORING_USER_COUNT)
+        VALUES(
+               (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}),
+               #{postTutoringTitle}, #{postTutoringContent},
+               #{postTutoringMaxUserCount}, #{postTutoringUserCount}
+        );
+
+        <selectKey keyProperty="postTutoringIndex" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID() as postTutoringIndex;
+        </selectKey>
+    </insert>
+
+    <insert id="insertTutoringCategory" parameterType="TutoringWriteDTO">
+        INSERT INTO TUTORING_CATEGORY_LINK_TB(POST_TUTORING_INDEX, GAME_CATEGORY_ID)
+        VALUES
+            <foreach collection="postTutoringCategory" item="item" index="index" separator=",">
+                (#{postTutoringIndex}, (SELECT GAME_CATEGORY_ID FROM GAME_CATEGORY_TB WHERE GAME_CATEGORY_NAME = #{item}))
+            </foreach>
+        ;
+    </insert>
+
+    <insert id="insertTutoringTag" parameterType="TutoringWriteDTO">
+        INSERT INTO TUTORING_TAG_LINK_TB(POST_TUTORING_INDEX, TAG_INDEX)
+        VALUES
+            <foreach collection="postTutoringTags" item="item" index="index" separator=",">
+                (#{postTutoringIndex}, (SELECT TAG_INDEX FROM TAG_TB WHERE TAG_NAME = #{item}))
+            </foreach>
+        ;
+    </insert>
 
     <!-- 튜터링 게시물 수정하기 -->
     <update id="modifyTutoring" parameterType="TutoringModifyDTO"></update>
