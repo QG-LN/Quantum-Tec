@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
-import axios from "axios";
-// import { isDisabled } from '@testing-library/user-event/dist/utils';
+import { useNavigate, useLocation } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap CSS 로드
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Bootstrap JavaScript 로드
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // DatePicker CSS 로드
 
-const subjectsList = ["수학", "과학", "영어", "국어", "한국사"];
-const tutorsList = ["스터디", "학습위주"];
-
 export default function TutorInsertPage() {
   const [inputboardName, setInputboardName] = useState("");                 //게시물 제목
   const [inputusername, setInputusername] = useState("");                   //작성자 이름
   const [inputtutortype, setInputtutortype] = useState("");                 //모집 구분
-  const [inputtutorplaying, setInputtutorplaying] = useState("");           //진행 방식
   const [inputtutorrecruit, setInputtutorrecruit] = useState("");           //모집 인원
   const [inputtutorstart, setInputtutorstart] = useState(new Date());       //모집 시작일
   const [inputtutorcontact, setInputtutorcontact] = useState("");           //연락처
@@ -23,6 +17,11 @@ export default function TutorInsertPage() {
   const [inputtutorsubject, setInputtutorsubject] = useState("");           //과목
   const [inputtutorintro, setInputtutorintro] = useState("");               //튜터링 소개
   const [inputtutorcontent, setInputtutorcontent] = useState("");           //튜터링 내용
+
+  // 튜터링 게시글 정보를 Link를 통해 전달 받음
+  const location = useLocation();
+  const subjectsList = location.state ? location.state.subject : [];    // Link로 접근한 것이 아닐 경우 null값 부여
+  const tagsList = location.state ? location.state.tag : [];    // Link로 접근한 것이 아닐 경우 null값 부여
 
 
   // 모집 구분 모달 관련 state
@@ -33,14 +32,16 @@ export default function TutorInsertPage() {
   const [selectedSubject, setSelectedSubject] = useState("");
   const [addsubject, setAddsubject] = useState(new Set());
 
+    //라디오 버튼 부분 [진행 방식 (온라인/오프라인))]
+    const [inputtutoronline, setInputTutorOnline] = useState(true);
 
   const navigate = useNavigate();       // 페이지 이동을 위한 navigate 객체
 
+  // input data 초기화 함수
   const initInput = () => {
     setInputboardName("");
     setInputusername("");
     setInputtutortype("");
-    setInputtutorplaying("");
     setInputtutorrecruit("");
     setInputtutorstart("");
     setInputtutorcontact("");
@@ -65,9 +66,6 @@ export default function TutorInsertPage() {
   };
   const handleInputtutortype = (e) => {
     setInputtutortype(e.currentTarget.value);
-  };
-  const handleInputtutorplaying = (e) => {
-    setInputtutorplaying(e.currentTarget.value);
   };
   const handleInputtutorrecruit = (e) => {
     setInputtutorrecruit(e.currentTarget.value);
@@ -99,47 +97,17 @@ export default function TutorInsertPage() {
 
   };
 
-  //라디오 버튼 부분
-  const [inputtutoronline, setInputTutorOnline] = useState(true);
-
   const handleOnlineChange = () => {
     setInputTutorOnline(true);
-    setInputtutorplaying("오프라인");
-    console.log(inputtutorplaying);
   };
 
   const handleOfflineChange = () => {
     setInputTutorOnline(false);
-    setInputtutorplaying("온라인");
-    console.log(inputtutorplaying);
   };
 
   const OnClickCancel = () => {
     // 취소 버튼 클릭시 튜터링 메인 페이지로 이동
     navigate("/tutoring")
-  };
-
-  const handleAddTutorType = (tutortype) => {
-    // Set에 subject 추가
-    const newSet = new Set(addTutorType);
-    newSet.add(tutortype);
-    setAddTutorType(newSet);
-
-    // Set을 문자열로 변환하여 selectedSubject에 할당
-    const selectedTutorTypeString = [...newSet].join(", ");
-    setSelectedTutorType(selectedTutorTypeString);
-  };
-
-
-  const handleAddSubject = (subject) => {
-    // Set에 subject 추가
-    const newSet = new Set(addsubject);
-    newSet.add(subject);
-    setAddsubject(newSet);
-
-    // Set을 문자열로 변환하여 selectedSubject에 할당
-    const selectedSubjectString = [...newSet].join(", ");
-    setSelectedSubject(selectedSubjectString);
   };
 
 /**
@@ -179,6 +147,7 @@ const updateListSet = (currentSet, value, setFunction) => {
    * @param {Array<string>} list 모달에 표시할 목록
    * @param {function} handler 목록 클릭시 실행할 함수
    * @param {string} showId 모달의 id
+   * @todo 이미 선택된 항목은 구별할 수 있도록 스타일링
    */
   const renderModal = (title, list, handler, showId) =>{
     return (
@@ -326,7 +295,8 @@ const updateListSet = (currentSet, value, setFunction) => {
               <input
                 type="text"
                 className="form-control"
-                value={inputtutortype}
+                placeholder="3"
+                value={inputtutorrecruit}
                 onChange={handleInputtutorrecruit}
               />
               </div>
@@ -337,22 +307,12 @@ const updateListSet = (currentSet, value, setFunction) => {
               <input
                 type="text"
                 className="form-control"
-                value={inputtutortype}
+                placeholder="3"
+                value={inputduration}
                 onChange={handleInputduration}
               />
               </div>
             </div>
-          </div>
-          <div className="mb-3 flex">
-            <label className=" form-label col-2">모집 분야</label>
-            <div class='col'>
-            <input
-              type="text"
-              className="form-control"
-              value={inputtutortype}
-              onChange={handleInputfield}
-            />
-          </div>
           </div>
           <div className="mb-3 flex">
             <label className="form-label col-2">과목</label>
@@ -427,7 +387,7 @@ const updateListSet = (currentSet, value, setFunction) => {
       {/* 모달 종료 */}
 
       {/* 모집 구분 선택 모달 */}
-      {renderModal("모집 구분", tutorsList, handelAddCategory, "tutorTypeModal")}
+      {renderModal("모집 구분", tagsList, handelAddCategory, "tutorTypeModal")}
       {/* 모달 종료 */}
     </>
   );
