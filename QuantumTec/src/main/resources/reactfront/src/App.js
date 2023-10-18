@@ -32,7 +32,7 @@ function App() {
   return (
    <Router>
       <div className="App" style={{overflow:'auto'}}>
-        {/* <Navbar start={truelogin}/> */}
+      {window.location.pathname !== '/test' && <Navbar start={truelogin}/>}
         <Routes>
           <Route path="/" exact element={<Home start={truelogin}/>} />
           <Route path="/login" element={<Login start={truelogin} setTruelogin={setTruelogin} />} />
@@ -56,7 +56,7 @@ function App() {
           <Route path="/test" element={<TestPage />}/>
         </Routes>
       </div>
-      <Footer style={{height: "20vh"}} />
+      {window.location.pathname !== '/test' && <Footer style={{ height: "20vh" }} />}
     </Router>
   );
 }

@@ -148,6 +148,7 @@ function Test() {
                         </Grid>
 
                         <Grid item xs={12} md={6} lg={4}>
+                            {/* 펜타곤 그래프*/}
                             {/* <AppCurrentSubject
                             title="Current Subject"
                             chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
@@ -158,6 +159,7 @@ function Test() {
                             ]}
                             chartColors={[...Array(6)].map(() => theme.palette.text.secondary)}
                             /> */}
+                            {/* 타임라인 그래프 */}
                             <AppOrderTimeline
                             title="최근 결제 건"
                             list={[...Array(5)].map((_, index) => ({
@@ -175,6 +177,73 @@ function Test() {
                             />
                         </Grid>
 
+                        <Grid item xs={12} md={6} lg={8}>
+                            <AppWebsiteVisits
+                            title="튜터링 이용자 수"
+                            // subheader="(+43%) than last year"
+                            chartLabels={[
+                                '01/01/2003',
+                                '02/01/2003',
+                                '03/01/2003',
+                                '04/01/2003',
+                                '05/01/2003',
+                                '06/01/2003',
+                                '07/01/2003',
+                                '08/01/2003',
+                                '09/01/2003',
+                                '10/01/2003',
+                                '11/01/2003',
+                            ]}
+                            chartData={[
+                                {
+                                name: '국어',
+                                type: 'line',
+                                fill: 'solid',
+                                data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                                },
+                                {
+                                name: '수학',
+                                type: 'line',
+                                fill: 'solid',
+                                data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                                },
+                                {
+                                name: '과학',
+                                type: 'line',
+                                fill: 'solid',
+                                data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+                                },
+                            ]}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} md={6} lg={4}>
+                            <AppTrafficBySite
+                            title="서버 정보"
+                            list={[
+                                {
+                                name: '총 데이터베이스 사용량',
+                                value: (100/200)*100,
+                                icon: <Iconify icon={'eva:facebook-fill'} color="#1877F2" width={32} />,
+                                },
+                                {
+                                name: 'Google',
+                                value: (100/200)*100,
+                                icon: <Iconify icon={'eva:google-fill'} color="#DF3E30" width={32} />,
+                                },
+                                {
+                                name: 'Linkedin',
+                                value: (10/100)*100,
+                                icon: <Iconify icon={'eva:linkedin-fill'} color="#006097" width={32} />,
+                                },
+                                {
+                                name: 'Twitter',
+                                value: (20/100)*100,
+                                icon: <Iconify icon={'eva:twitter-fill'} color="#1C9CEA" width={32} />,
+                                },
+                            ]}
+                            />
+                        </Grid>
                         {/* <Grid item xs={12} md={6} lg={8}>
                             <AppNewsUpdate
                             title="News Update"
@@ -186,27 +255,10 @@ function Test() {
                                 postedAt: faker.date.recent(),
                             }))}
                             />
-                        </Grid>
+                        </Grid> */}
 
-                        <Grid item xs={12} md={6} lg={4}>
-                            <AppOrderTimeline
-                            title="Order Timeline"
-                            list={[...Array(5)].map((_, index) => ({
-                                id: faker.datatype.uuid(),
-                                title: [
-                                '1983, orders, $4220',
-                                '12 Invoices have been paid',
-                                'Order #37745 from September',
-                                'New order placed #XF-2356',
-                                'New order placed #XF-2346',
-                                ][index],
-                                type: `order${index + 1}`,
-                                time: faker.date.past(),
-                            }))}
-                            />
-                        </Grid>
-
-                        <Grid item xs={12} md={6} lg={4}>
+                        {/* 카드형식 */}
+                        {/* <Grid item xs={12} md={6} lg={4}>
                             <AppTrafficBySite
                             title="Traffic by Site"
                             list={[
@@ -232,7 +284,7 @@ function Test() {
                                 },
                             ]}
                             />
-                        </Grid>
+                        </Grid> */}
 
                         <Grid item xs={12} md={6} lg={8}>
                             <AppTasks
@@ -245,7 +297,7 @@ function Test() {
                                 { id: '5', label: 'Sprint Showcase' },
                             ]}
                             />
-                        </Grid> */}
+                        </Grid>
                     </Grid>
                 </Container>
             </ThemeProvider>
