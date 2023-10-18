@@ -144,7 +144,7 @@ export default function TutoringBoardPage() {
                     <div className='row justify-content-end'>
                         {/* 게시글 추가 버튼을 우측 상단에 배치 */}
                         <div className='bg-green-300 p-2 rounded-full shadow-sm col-md-1 mb-2 mr-2'>
-                            <Link to={`/tutorinsert`} class='text-decoration-none text-black'
+                            <Link to={`/tutoringPost`} class='text-decoration-none text-black'
                                 state={{subject : orderCategory.subject, tag : orderCategory.tag}}
                             >
                                 게시글 추가
@@ -190,7 +190,7 @@ export default function TutoringBoardPage() {
                                  className='row gx-0 row-cols-2 row-cols-md-3 row-cols-xl-4'
                                  ref={idx === tutoringInfoList.length - 1 ? ref : null}>
                                     <Link to={`/tutoring/${tutor.postIndex}/${tutor.userNickname}`} class='text-decoration-none text-black'
-                                            state={{info : tutor}}    
+                                            state={{ info: { info: tutor, orderCategory: orderCategory } }}    
                                     >
                                         <Tutoringlist
                                             info={tutor}

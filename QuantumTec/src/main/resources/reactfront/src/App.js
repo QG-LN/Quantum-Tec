@@ -44,7 +44,8 @@ function App() {
           <Route path="/board/:no/write" element={<Write />}/>
           <Route path="/board/:no/post/:id/edit" element={<Write />}/>
           <Route path="/tutoring" element={<TtBoard />}/>
-          <Route path="/tutorinsert" element={<TtInsert />}/>
+          <Route path="/tutoringPost" element={<TtInsert />}/>
+          <Route path="/tutoringPost/:id/edit" element={<TtInsert />}/>
           <Route path="/tutoring/:id/:tutor" element={<TtPage />}/>
           <Route path="/post/:id" element={<Post />}/>
           <Route path="/write" element={<Write />}/>
