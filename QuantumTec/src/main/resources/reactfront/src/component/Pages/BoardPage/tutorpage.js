@@ -9,7 +9,7 @@ import OpenKakao from "../../../image/kakaoOpenChat.png";
 import emptyuser from "../../../image/emptyuser.png";
 import backpage from "../../../image/backpage.png";
 import check from "../../../image/check.png";
-import { faTrash , faArrowLeft, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faTrash , faArrowLeft, faCheck, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { axiosRequest } from "../../Utils/networkUtils";
 
@@ -29,48 +29,8 @@ export default function TutorPage() {
   const [postIntro, setPostIntro] = useState("");                                     // 튜터링 소개
   const [postContent, setPostContent] = useState("");                                 // 튜터링 내용
 
-  const naviagte = useNavigate();
 
-  const [buttons, setButtons] = useState([
-    {
-      id: 1,
-      text: "뒤로가기",
-      to: "/tutoring",
-      image: backpage,
-      isHovered: false,
-      icon : faArrowLeft,
-    },
-    {
-      id: 2,
-      text: "신청하기",
-      showModal: false,
-      image: check,
-      isHovered: false,
-      icon : faCheck,     
-      comment : "정말로 신청하겠습니까??",
-      buttonOK : {
-        title: "신청하기",
-        event: () =>{
-          acceptModal();
-        }
-      }
-    },
-    {
-      id: 3,
-      text: "삭제하기",
-      showModal: false,
-      image: "image3.jpg",
-      isHovered: false,
-      icon : faTrash,
-      comment : "정말로 삭제하시겠습니까??",
-      buttonOK : {
-        title: "삭제하기",
-        event: () =>{
-          deleteModal();
-        }
-      }
-    },
-  ]);
+  const naviagte = useNavigate();
 
     //스크롤 퀵메뉴
     const [scrollY, setScrollY] = useState(0);
@@ -79,7 +39,8 @@ export default function TutorPage() {
 
   // 튜터링 게시글 정보를 Link를 통해 전달 받음
   const location = useLocation();
-  const info =  location.state ? location.state.info : null;    // Link로 접근한 것이 아닐 경우 null값 부여
+  const info =  location.state ? location.state.info.info : null;    // Link로 접근한 것이 아닐 경우 null값 부여
+  const orderCategory = location.state ? location.state.info.orderCategory : null;    // Link로 접근한 것이 아닐 경우 null값 부여
 
   useEffect(() => {
     // 튜터링 게시글 정보가 존재할 경우 상태를 업데이트
@@ -101,9 +62,61 @@ export default function TutorPage() {
       setStudyLink(info.link);
       setExpectedTime(info.expectedTime);
       setStartDate(extractData(info.startDate));
-    }
 
+      buttons[1].to = `/tutoringPost/${info.postIndex}/edit`;
+    }
   }, []);
+
+  const [buttons, setButtons] = useState([
+    {
+      id: 1,
+      text: "뒤로가기",
+      to: "/tutoring",
+      image: backpage,
+      isHovered: false,
+      icon : faArrowLeft,
+    },
+    {
+      id: 2,
+      text: "수정하기",
+      to: "",
+      info : info,
+      showModal: false,
+      image: check,
+      isHovered: false,
+      icon : faRepeat,     
+    },
+    {
+      id: 3,
+      text: "삭제하기",
+      showModal: false,
+      image: "image3.jpg",
+      isHovered: false,
+      icon : faTrash,
+      comment : "정말로 삭제하시겠습니까??",
+      buttonOK : {
+        title: "삭제하기",
+        event: () =>{
+          confirmModal("delete");
+        }
+      }
+    },
+    {
+      id: 4,
+      text: "신청하기",
+      showModal: false,
+      image: check,
+      isHovered: false,
+      icon : faCheck,     
+      comment : "정말로 신청하겠습니까??",
+      buttonOK : {
+        title: "신청하기",
+        event: () =>{
+          confirmModal("inert");
+        }
+      }
+    },
+  ]);
   
   // userimg가 비어있으면 emptyuser를 넣고 아니면 userimg를 넣는다.
   if (userimg === "") {
@@ -144,31 +157,7 @@ export default function TutorPage() {
       )
     );
   };
-
-  //모달창-신청하기
-  const acceptModal = () => {
-    // 신청하기 하면 실행되야되는부분
-    console.log("신청됨");
-    // 모달 닫기
-    setButtons((prevButtons) =>
-      prevButtons.map((button) =>
-        button.id !== 0 ? { ...button, showModal: false } : button
-      )
-    );
-  };
-
-  //모달창-삭제하기
-  const deleteModal = () =>{
-    // 삭제하기 하면 실행되야되는부분
-    deletePostEvent();
-
-    setButtons((prevButtons) =>
-      prevButtons.map((button) =>
-        button.id !== 0 ? { ...button, showModal: false } : button
-      )
-    );
-  }
-
+  // 삭제하기 이벤트
   const deletePostEvent = async () => {
     const path = "board/tutoringDelete";
     const body = {
@@ -184,6 +173,29 @@ export default function TutorPage() {
       naviagte("/tutoring");
     }
   }
+
+  // 모달창 - 확인버튼
+  const confirmModal = (type) => {
+    switch(type){
+      case "accept":
+        console.log("신청됨");
+        break;
+      case "delete":
+        console.log("삭제됨");
+        deletePostEvent();
+        break;
+      default:
+        break;
+    }
+
+    // 모달 닫기
+    setButtons((prevButtons) =>
+      prevButtons.map((button) =>
+        button.id !== 0 ? { ...button, showModal: false } : button
+      )
+    );
+  }
+
 
   //모달창-닫기버튼
   const closeModal = () => {
@@ -345,28 +357,33 @@ export default function TutorPage() {
           <div class='col-sm-2'>
             <div className="sticky-menu" style={{ top: `${top}px` }}>
               <div className="button-container">
-                { buttons.slice(0, userNickname === localStorage.getItem("userNickname") ? 3 : 2).map((button) => (
-                  <div
-                    key={button.id}
-                    className={`image-button ${button.isHovered ? "expanded" : ""}`}
-                    onMouseEnter={() => handleMouseEnter(button.id)}
-                    onMouseLeave={() => handleMouseLeave(button.id)}
-                  >
-                    <div className="button-content flex">
-                      <FontAwesomeIcon icon={button.icon} className="w-[1.5rem] h-[1.5rem]"/>
-                      <Link
-                        to={button.to}
-                        className={`text ${button.isHovered ? "visible" : ""}`}
-                        onClick={() => handleButtonClick(button.id)}
-                      >
-                        {button.text}
-                      </Link>
+                { buttons.filter(button =>
+                    userNickname === localStorage.getItem("userNickname") 
+                    ? [1, 2, 3].includes(button.id) 
+                    : [1, 4].includes(button.id)
+                  ).map((button) => (
+                    <div
+                      key={button.id}
+                      className={`image-button ${button.isHovered ? "expanded" : ""}`}
+                      onMouseEnter={() => handleMouseEnter(button.id)}
+                      onMouseLeave={() => handleMouseLeave(button.id)}
+                    >
+                      <div className="button-content flex">
+                        <FontAwesomeIcon icon={button.icon} className="w-[1.5rem] h-[1.5rem]"/>
+                        <Link
+                          to={button.to}
+                          state={{ info: { info: info, orderCategory: orderCategory }}}
+                          className={`text ${button.isHovered ? "visible" : ""}`}
+                          onClick={() => handleButtonClick(button.id)}
+                        >
+                          {button.text}
+                        </Link>
+                      </div>
+                      {button.showModal && (
+                        renderModal(button) 
+                      )}
                     </div>
-                    {button.showModal && (
-                      renderModal(button) 
-                    )}
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>
