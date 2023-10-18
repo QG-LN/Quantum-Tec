@@ -269,8 +269,17 @@ public class BoardDAOImpl implements BoardDAO {
         return sqlSession.update("BoardService.modifyTutoring", request) > 0;
     }
 
+    /**
+     * 튜터링 게시물 삭제 (태그, 카테고리, 게시물)
+     * @todo 추후 도중 실패 시 롤백 처리 필요 현재는 트랜잭션 처리 안됨
+     */
     @Override
     public boolean deleteTutoring(TutoringDeleteDTO request) {
-        return sqlSession.delete("BoardService.deleteTutoring", request) > 0;
+        boolean tagResult = sqlSession.delete("BoardService.deleteTutoringTag", request) > 0;
+        boolean categoryResult = sqlSession.delete("BoardService.deleteTutoringCategory", request) > 0;
+        if(tagResult && categoryResult){
+            return sqlSession.delete("BoardService.deleteTutoring", request) > 0;
+        }
+        return false;
     }
 }

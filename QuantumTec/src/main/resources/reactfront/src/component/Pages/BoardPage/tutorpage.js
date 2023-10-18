@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Link , useLocation } from "react-router-dom";
+import { Link , useLocation, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal"; // Bootstrap Modal 추가
 import Button from "react-bootstrap/Button"; // Bootstrap Button 추가
 import "../../../App.css";
@@ -11,10 +11,11 @@ import backpage from "../../../image/backpage.png";
 import check from "../../../image/check.png";
 import { faTrash , faArrowLeft, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { axiosRequest } from "../../Utils/networkUtils";
 
 export default function TutorPage() {
   const [postTitle, setPostTitle] = useState("오늘은 무엇을 스터디해볼까요?");          // 튜터링 게시글 제목
-  const [postIndex, setPostIndex] = useState(1);                                      // 튜터링 게시글 인덱스
+  const [postIndex, setPostIndex] = useState(0);                                      // 튜터링 게시글 인덱스
   const [userNickname, setUserNickname] = useState("marais");                         // 튜터링 게시글 작성자 닉네임
   const [tags, setTags] = useState([]);                                               // 튜터링 태그
   const [postDate, setPostDate] = useState("2023.09.16");                             // 튜터링 게시글 작성 날짜
@@ -27,6 +28,8 @@ export default function TutorPage() {
   const [category, setCategory] = useState([]);                                       // 튜터링 카테고리
   const [postIntro, setPostIntro] = useState("");                                     // 튜터링 소개
   const [postContent, setPostContent] = useState("");                                 // 튜터링 내용
+
+  const naviagte = useNavigate();
 
   const [buttons, setButtons] = useState([
     {
@@ -63,7 +66,7 @@ export default function TutorPage() {
       buttonOK : {
         title: "삭제하기",
         event: () =>{
-          acceptModal();
+          deleteModal();
         }
       }
     },
@@ -83,6 +86,7 @@ export default function TutorPage() {
     if(info === null){
       return null;
     }else{
+      console.log(info);
       setPostTitle(info.postTitle);
       setUserNickname(info.userNickname);
       setPostDate(extractData(info.postDate));
@@ -141,7 +145,7 @@ export default function TutorPage() {
     );
   };
 
-  //모달창-신청하기 이벤트
+  //모달창-신청하기
   const acceptModal = () => {
     // 신청하기 하면 실행되야되는부분
     console.log("신청됨");
@@ -153,19 +157,32 @@ export default function TutorPage() {
     );
   };
 
-  //모달창-삭제하기 이벤트
+  //모달창-삭제하기
   const deleteModal = () =>{
-    const path = "/board/tutoringDelete";
-    const body = {
-      postIndex : postIndex,
-      userID : localStorage.getItem("userID"),
-    }
+    // 삭제하기 하면 실행되야되는부분
+    deletePostEvent();
 
     setButtons((prevButtons) =>
       prevButtons.map((button) =>
         button.id !== 0 ? { ...button, showModal: false } : button
       )
     );
+  }
+
+  const deletePostEvent = async () => {
+    const path = "board/tutoringDelete";
+    const body = {
+      postIndex : info.postIndex,
+      userID : localStorage.getItem("userID"),
+    }
+    const data = await axiosRequest(path, body, 'POST', 'json');
+
+    if(data === null || data === false || data === undefined){
+      alert("삭제 실패");
+    }else if(data){
+      alert("삭제 성공");
+      naviagte("/tutoring");
+    }
   }
 
   //모달창-닫기버튼

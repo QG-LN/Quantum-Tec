@@ -148,6 +148,7 @@ public class BoardController {
     // 튜터링 게시물 삭제
     @PostMapping("/tutoringDelete")
     public boolean deleteTutoringPost(@RequestBody TutoringDeleteDTO request){
+        System.out.println(request);
         return boardService.deleteTutoring(request);
     }
 

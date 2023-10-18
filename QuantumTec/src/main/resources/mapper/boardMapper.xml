@@ -333,7 +333,19 @@
     <update id="modifyTutoring" parameterType="TutoringModifyDTO"></update>
 
     <!-- 튜터링 게시물 삭제하기 -->
-    <delete id="deleteTutoring" parameterType="TutoringDeleteDTO"></delete>
+    <delete id="deleteTutoringCategory" parameterType="TutoringDeleteDTO">
+        DELETE FROM TUTORING_CATEGORY_LINK_TB
+        WHERE POST_TUTORING_INDEX = #{postIndex};
+    </delete>
+    <delete id="deleteTutoringTag" parameterType="TutoringDeleteDTO">
+        DELETE FROM TUTORING_TAG_LINK_TB
+        WHERE POST_TUTORING_INDEX = #{postIndex};
+    </delete>
+    <delete id="deleteTutoring" parameterType="TutoringDeleteDTO">
+        DELETE FROM POST_TUTORING_INFO_TB
+        WHERE POST_TUTORING_INDEX = #{postIndex}
+            AND POST_TUTORING_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
+    </delete>
 
     <!-- 튜터링 게시물 카테고리/태그 출력    -->
     <select id="getTutoringOrderDataList" resultType="TutoringPostVO">
