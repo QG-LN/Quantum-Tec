@@ -9,6 +9,8 @@ import OpenKakao from "../../../image/kakaoOpenChat.png";
 import emptyuser from "../../../image/emptyuser.png";
 import backpage from "../../../image/backpage.png";
 import check from "../../../image/check.png";
+import { faTrash , faArrowLeft, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function TutorPage() {
   const [postTitle, setPostTitle] = useState("오늘은 무엇을 스터디해볼까요?");          // 튜터링 게시글 제목
@@ -33,6 +35,7 @@ export default function TutorPage() {
       to: "/tutoring",
       image: backpage,
       isHovered: false,
+      icon : faArrowLeft,
     },
     {
       id: 2,
@@ -40,13 +43,29 @@ export default function TutorPage() {
       showModal: false,
       image: check,
       isHovered: false,
+      icon : faCheck,     
+      comment : "정말로 신청하겠습니까??",
+      buttonOK : {
+        title: "신청하기",
+        event: () =>{
+          acceptModal();
+        }
+      }
     },
     {
       id: 3,
-      text: "Button 3",
-      to: "/button3",
+      text: "삭제하기",
+      showModal: false,
       image: "image3.jpg",
       isHovered: false,
+      icon : faTrash,
+      comment : "정말로 삭제하시겠습니까??",
+      buttonOK : {
+        title: "삭제하기",
+        event: () =>{
+          acceptModal();
+        }
+      }
     },
   ]);
 
@@ -54,7 +73,6 @@ export default function TutorPage() {
     const [scrollY, setScrollY] = useState(0);
 
   let userimg = "";
-
 
   // 튜터링 게시글 정보를 Link를 통해 전달 받음
   const location = useLocation();
@@ -88,12 +106,6 @@ export default function TutorPage() {
     userimg = emptyuser;
   }
 
-  const backbutton = () => {
-    console.log("신청하기");
-  };
-  const tutorbutton = () => {
-    console.log("신청하기");
-  };
   const customModalStyles = {
     content: {
       position: "fixed",
@@ -121,39 +133,79 @@ export default function TutorPage() {
   };
 
   const handleButtonClick = (id) => {
-    // 버튼 클릭 이벤트
-    if (id === 2) {
-      // 버튼 2를 클릭하면 모달을 열도록 설정
-      setButtons((prevButtons) =>
-        prevButtons.map((button) =>
-          button.id === id ? { ...button, showModal: true } : button
-        )
-      );
-    }
+    // 버튼 클릭하면 모달을 열도록 설정
+    setButtons((prevButtons) =>
+      prevButtons.map((button) =>
+        button.id === id ? { ...button, showModal: true } : button
+      )
+    );
   };
 
-  //모달창-신청하기버튼
+  //모달창-신청하기 이벤트
   const acceptModal = () => {
     // 신청하기 하면 실행되야되는부분
     console.log("신청됨");
     // 모달 닫기
     setButtons((prevButtons) =>
       prevButtons.map((button) =>
-        button.id === 2 ? { ...button, showModal: false } : button
+        button.id !== 0 ? { ...button, showModal: false } : button
       )
     );
   };
+
+  //모달창-삭제하기 이벤트
+  const deleteModal = () =>{
+    const path = "/board/tutoringDelete";
+    const body = {
+      postIndex : postIndex,
+      userID : localStorage.getItem("userID"),
+    }
+
+    setButtons((prevButtons) =>
+      prevButtons.map((button) =>
+        button.id !== 0 ? { ...button, showModal: false } : button
+      )
+    );
+  }
 
   //모달창-닫기버튼
   const closeModal = () => {
     // 모달 닫기
     setButtons((prevButtons) =>
       prevButtons.map((button) =>
-        button.id === 2 ? { ...button, showModal: false } : button
+        button.id !== 0 ? { ...button, showModal: false } : button
       )
     );
   };
 
+  const renderModal = (button) => {
+    if(button.buttonOK === undefined){
+      return null;
+    }
+    return(
+      <Modal
+        show={true}
+        onHide={closeModal}
+        style={customModalStyles}
+        contentLabel = "Example Modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{button.text === undefined ? "Example Modal" : button.text}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>{button.comment}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={button.buttonOK.event}>
+            {button.text}
+          </Button>
+          <Button variant="secondary" onClick={closeModal}>
+            취소하기
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    )
+  }
 
   const top = 250;
 
@@ -276,7 +328,7 @@ export default function TutorPage() {
           <div class='col-sm-2'>
             <div className="sticky-menu" style={{ top: `${top}px` }}>
               <div className="button-container">
-                {buttons.map((button) => (
+                { buttons.slice(0, userNickname === localStorage.getItem("userNickname") ? 3 : 2).map((button) => (
                   <div
                     key={button.id}
                     className={`image-button ${button.isHovered ? "expanded" : ""}`}
@@ -284,11 +336,7 @@ export default function TutorPage() {
                     onMouseLeave={() => handleMouseLeave(button.id)}
                   >
                     <div className="button-content flex">
-                      <img
-                        src={button.image}
-                        class="w-[30px] h-[30px]"
-                        alt={button.text}
-                      />
+                      <FontAwesomeIcon icon={button.icon} className="w-[1.5rem] h-[1.5rem]"/>
                       <Link
                         to={button.to}
                         className={`text ${button.isHovered ? "visible" : ""}`}
@@ -298,27 +346,7 @@ export default function TutorPage() {
                       </Link>
                     </div>
                     {button.showModal && (
-                      <Modal
-                        show={true}
-                        onHide={closeModal}
-                        style={customModalStyles}
-                        contentLabel="Example Modal"
-                      >
-                        <Modal.Header closeButton>
-                          <Modal.Title>Modal Content</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <p>정말로 신청하시겠습니까?</p>
-                        </Modal.Body>
-                        <Modal.Footer>
-                          <Button variant="primary" onClick={acceptModal}>
-                            신청하기
-                          </Button>
-                          <Button variant="secondary" onClick={closeModal}>
-                            종료하기
-                          </Button>
-                        </Modal.Footer>
-                      </Modal>
+                      renderModal(button) 
                     )}
                   </div>
                 ))}
