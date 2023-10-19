@@ -32,8 +32,8 @@ export default function TutorPage() {
 
   const naviagte = useNavigate();
 
-    //스크롤 퀵메뉴
-    const [scrollY, setScrollY] = useState(0);
+  //스크롤 퀵메뉴
+  const [scrollY, setScrollY] = useState(0);
 
   let userimg = "";
 
