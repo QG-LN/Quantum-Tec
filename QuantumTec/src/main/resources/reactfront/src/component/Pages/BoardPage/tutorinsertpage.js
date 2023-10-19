@@ -17,8 +17,13 @@ export default function TutorInsertPage() {
 
   // 튜터링 게시글 정보를 Link를 통해 전달 받음
   const location = useLocation();
-  const subjectsList = location.state ? location.state.subject : [];    // Link로 접근한 것이 아닐 경우 null값 부여
-  const tagsList = location.state ? location.state.tag : [];    // Link로 접근한 것이 아닐 경우 null값 부여
+  
+  const [subjectList, setSubjectList] = useState(location.state ? location.state.subject : []);                       //과목 목록
+  const [tagList, setTagList] = useState(location.state ? location.state.tag : []);                //모집 구분 목록
+
+
+  const info = location.state.info ? location.state.info.info : undefined;    // Link로 접근한 것이 아닐 경우 null값 부여 [수정진행시 필요]
+  const orderCategory = location.state.info ? location.state.info.orderCategory : undefined;    // Link로 접근한 것이 아닐 경우 null값 부여 [수정진행시 필요]
 
   // 모집 구분 모달 관련 state
   const [selectedTutorType, setSelectedTutorType] = useState("");
@@ -35,23 +40,42 @@ export default function TutorInsertPage() {
 
   // input data 초기화 함수
   const initInput = () => {
-    setInputboardName("");
-    setInputtutorrecruit("");
-    setInputtutorstart("");
-    setInputtutorcontact("");
-    setInputduration("");
-    setInputtutorintro("");
-    setInputtutorcontent("");
+    if(info === undefined){
+      setInputboardName("");
+      setInputtutorrecruit("");
+      setInputtutorstart("");
+      setInputtutorcontact("");
+      setInputduration("");
+      setInputtutorintro("");
+      setInputtutorcontent("");
+  
+      setSelectedTutorType("");
+      setAddTutorType(new Set());
+      setSelectedSubject("");
+      setAddsubject(new Set());
+    }else{
+      setInputboardName(info.postTitle);
+      setInputtutorrecruit(info.maxUserCount);
+      setInputtutorstart(new Date(info.startDate));
+      setInputtutorcontact(info.link);
+      setInputduration(info.expectedTime);
+      setInputtutorintro(info.postIntro);
+      setInputtutorcontent(info.postContent);
 
-    setSelectedTutorType("");
-    setAddTutorType(new Set());
-    setSelectedSubject("");
-    setAddsubject(new Set());
+      setSelectedTutorType(info.tags.join(', '));
+      setAddTutorType(new Set(info.tags));
+      setSelectedSubject(info.category.join(', '));
+      setAddsubject(new Set(info.category));
+
+      setSubjectList(orderCategory.subject);
+      setTagList(orderCategory.tag);
+    }
   };
 
   // 처음 로드 시에만 실행
   useEffect(() => {
     initInput();
+
   }, []);
 
   // input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
@@ -103,11 +127,16 @@ export default function TutorInsertPage() {
       alert("튜터링 내용을 입력해주세요.");
       return;
     } else{
-      submitData();
+      if(info !== undefined){
+        submitDataModify();
+      }else{
+        submitDataInsert();
+      }
     }
   };
 
-  const submitData = async () => {
+
+  const submitDataInsert = async () => {
       // 게시글 작성 서버에 전달
       const path = "board/tutoringWrite";
       const body = {
@@ -131,6 +160,36 @@ export default function TutorInsertPage() {
         navigate("/tutoring");
       }
   }
+  
+  const submitDataModify = async () => {
+    // 게시글 작성 서버에 전달
+    const path = "board/tutoringModify";
+    const body = {
+      postIndex : info.postIndex,
+      userID : localStorage.getItem("userID"),
+      postTitle : inputboardName,
+      runningType : inputtutoronline,
+      link : inputtutorcontact,
+      startDate : inputtutorstart,
+      expectedTime : inputduration,
+      maxUserCount : inputtutorrecruit,
+      category : selectedSubject.replace(/(\s*)/g, ""),
+      tag : selectedTutorType.replace(/(\s*)/g, ""),
+      postIntro : inputtutorintro,
+      postContent : inputtutorcontent,
+    }
+    console.log(body);
+    const data = await axiosRequest(path, body, 'POST', 'json');
+    
+    if(data !== null && data){
+      alert("게시글 수정 완료");
+      navigate("/tutoring");
+    }else{
+      alert("게시글 수정 실패");
+    }
+}
+
+
 
   const handleOnlineChange = () => {
     setInputTutorOnline(true);
@@ -208,7 +267,7 @@ const updateListSet = (currentSet, value, setFunction) => {
             </div>
             <div className="modal-body">
               <ul className="list-group">
-                {list.map((value) => (
+                {list !== undefined && list.map((value) => (
                   <li
                     key={value}
                     className="list-group-item"
@@ -404,7 +463,7 @@ const updateListSet = (currentSet, value, setFunction) => {
               onClick={handleSubmit}
               className="btn btn-primary me-12"
             >
-              작성하기
+              {info !== undefined ? "수정" : "작성"}하기
             </button>
             <button
               type="button"
@@ -418,11 +477,11 @@ const updateListSet = (currentSet, value, setFunction) => {
       </div>
 
       {/* 과목 선택 모달 */}
-      {renderModal("과목", subjectsList, handleAddTag, "subjectModal")}
+      {renderModal("과목", subjectList, handleAddTag, "subjectModal")}
       {/* 모달 종료 */}
 
       {/* 모집 구분 선택 모달 */}
-      {renderModal("모집 구분", tagsList, handelAddCategory, "tutorTypeModal")}
+      {renderModal("모집 구분", tagList, handelAddCategory, "tutorTypeModal")}
       {/* 모달 종료 */}
     </>
   );
