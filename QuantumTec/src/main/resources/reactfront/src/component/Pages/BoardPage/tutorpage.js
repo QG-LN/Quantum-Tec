@@ -373,7 +373,7 @@ export default function TutorPage() {
                         <Link
                           to={button.to}
                           state={{ info: { info: info, orderCategory: orderCategory }}}
-                          className={`text ${button.isHovered ? "visible" : ""}`}
+                          className={`text-${button.isHovered ? "dark" : "secondary"} text-decoration-none ml-3`}
                           onClick={() => handleButtonClick(button.id)}
                         >
                           {button.text}
