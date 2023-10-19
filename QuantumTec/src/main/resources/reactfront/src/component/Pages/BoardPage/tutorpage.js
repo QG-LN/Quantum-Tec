@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Link , useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal"; // Bootstrap Modal 추가
 import Button from "react-bootstrap/Button"; // Bootstrap Button 추가
 import "../../../App.css";
@@ -9,28 +9,36 @@ import OpenKakao from "../../../image/kakaoOpenChat.png";
 import emptyuser from "../../../image/emptyuser.png";
 import backpage from "../../../image/backpage.png";
 import check from "../../../image/check.png";
-import { faTrash , faArrowLeft, faCheck, faRepeat } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faArrowLeft,
+  faCheck,
+  faRepeat,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { axiosRequest } from "../../Utils/networkUtils";
 
 export default function TutorPage() {
-  const [postTitle, setPostTitle] = useState("오늘은 무엇을 스터디해볼까요?");          // 튜터링 게시글 제목
-  const [postIndex, setPostIndex] = useState(0);                                      // 튜터링 게시글 인덱스
-  const [userNickname, setUserNickname] = useState("marais");                         // 튜터링 게시글 작성자 닉네임
-  const [tags, setTags] = useState([]);                                               // 튜터링 태그
-  const [postDate, setPostDate] = useState("2023.09.16");                             // 튜터링 게시글 작성 날짜
-  const [runningType, setRunningType] = useState("");                                 // 튜터링 진행 방식
-  const [maxUserCount, setMaxUserCount] = useState(0);                                // 최대 신청 가능 인원
-  const [userCount , setUserCount] = useState(0);                                     // 현재 신청한 인원
-  const [startDate, setStartDate] = useState("");                                     // 튜터링 시작 날짜
-  const [studyLink, setStudyLink] = useState("https://open.kakao.com/o/");            // 튜터링 링크
-  const [expectedTime, setExpectedTime] = useState(0);                                // 예상 기간
-  const [category, setCategory] = useState([]);                                       // 튜터링 카테고리
-  const [postIntro, setPostIntro] = useState("");                                     // 튜터링 소개
-  const [postContent, setPostContent] = useState("");                                 // 튜터링 내용
+  const [postTitle, setPostTitle] = useState("오늘은 무엇을 스터디해볼까요?"); // 튜터링 게시글 제목
+  const [postIndex, setPostIndex] = useState(0); // 튜터링 게시글 인덱스
+  const [userNickname, setUserNickname] = useState("marais"); // 튜터링 게시글 작성자 닉네임
+  const [tags, setTags] = useState([]); // 튜터링 태그
+  const [postDate, setPostDate] = useState("2023.09.16"); // 튜터링 게시글 작성 날짜
+  const [runningType, setRunningType] = useState(""); // 튜터링 진행 방식
+  const [maxUserCount, setMaxUserCount] = useState(0); // 최대 신청 가능 인원
+  const [userCount, setUserCount] = useState(0); // 현재 신청한 인원
+  const [startDate, setStartDate] = useState(""); // 튜터링 시작 날짜
+  const [studyLink, setStudyLink] = useState("https://open.kakao.com/o/"); // 튜터링 링크
+  const [expectedTime, setExpectedTime] = useState(0); // 예상 기간
+  const [category, setCategory] = useState([]); // 튜터링 카테고리
+  const [postIntro, setPostIntro] = useState(""); // 튜터링 소개
+  const [postContent, setPostContent] = useState(""); // 튜터링 내용
 
-  const [applyList, setApplyList] = useState([]);                                     // 튜터링 신청자 목록
-  const [isShowApplyList, setIsShowApplyList] = useState(false);                      // 튜터링 신청자 목록 보여주기 여부
+  const [applyList, setApplyList] = useState([]); // 튜터링 신청자 목록
+  const [isShowApplyList, setIsShowApplyList] = useState(false); // 튜터링 신청자 목록 보여주기 여부
+
+  const [isApply, setIsApply] = useState(false); // 튜터링 신청 여부
+  const [isApplyButtonDisabled, setIsApplyButtonDisabled] = useState(false); // 튜터링 신청 버튼 활성화 여부
 
   const naviagte = useNavigate();
 
@@ -41,14 +49,74 @@ export default function TutorPage() {
 
   // 튜터링 게시글 정보를 Link를 통해 전달 받음
   const location = useLocation();
-  const info =  location.state ? location.state.info.info : null;    // Link로 접근한 것이 아닐 경우 null값 부여
-  const orderCategory = location.state ? location.state.info.orderCategory : null;    // Link로 접근한 것이 아닐 경우 null값 부여
+  const info = location.state ? location.state.info.info : null; // Link로 접근한 것이 아닐 경우 null값 부여
+  const orderCategory = location.state
+    ? location.state.info.orderCategory
+    : null; // Link로 접근한 것이 아닐 경우 null값 부여
+
+
+  const [buttons, setButtons] = useState([
+    {
+      id: 1,
+      text: "뒤로가기",
+      to: "/tutoring",
+      image: backpage,
+      isHovered: false,
+      icon: faArrowLeft,
+    },
+    {
+      id: 2,
+      text: "수정하기",
+      to: "",
+      info: info,
+      showModal: false,
+      image: check,
+      isHovered: false,
+      icon: faRepeat,
+    },
+    {
+      id: 3,
+      text: "삭제하기",
+      showModal: false,
+      image: "image3.jpg",
+      isHovered: false,
+      icon: faTrash,
+      comment: "정말로 삭제하시겠습니까??",
+      buttonOK: {
+        title: "삭제하기",
+        event: () => {
+          confirmModal("delete");
+        },
+      },
+    },
+    {
+      id: 4,
+      text: "신청하기",
+      showModal: false,
+      image: check,
+      isHovered: false,
+      icon: faCheck,
+      comment: "정말로 신청하겠습니까??",
+      buttonOK: {
+        title: "신청하기",
+        event: () => {
+          confirmModal("insert");
+        },
+      },
+    },
+    {
+      id: 5,
+      text: "신청자 목록",
+      isHovered: false,
+      icon: faCheck,
+    },
+  ]);
 
   useEffect(() => {
     // 튜터링 게시글 정보가 존재할 경우 상태를 업데이트
-    if(info === null){
+    if (info === null) {
       return null;
-    }else{
+    } else {
       setPostTitle(info.postTitle);
       setUserNickname(info.userNickname);
       setPostDate(extractData(info.postDate));
@@ -65,66 +133,46 @@ export default function TutorPage() {
       setStartDate(extractData(info.startDate));
 
       buttons[1].to = `/tutoringPost/${info.postIndex}/edit`;
+
+      // 튜터링 신청자 목록 불러오기
+      if (info.userNickname === localStorage.getItem("userNickname")) {
+        loadEnrollList();
+      }
+      // 튜터링 신청 여부 확인
     }
   }, []);
 
-  const [buttons, setButtons] = useState([
-    {
-      id: 1,
-      text: "뒤로가기",
-      to: "/tutoring",
-      image: backpage,
-      isHovered: false,
-      icon : faArrowLeft,
-    },
-    {
-      id: 2,
-      text: "수정하기",
-      to: "",
-      info : info,
-      showModal: false,
-      image: check,
-      isHovered: false,
-      icon : faRepeat,     
-    },
-    {
-      id: 3,
-      text: "삭제하기",
-      showModal: false,
-      image: "image3.jpg",
-      isHovered: false,
-      icon : faTrash,
-      comment : "정말로 삭제하시겠습니까??",
-      buttonOK : {
-        title: "삭제하기",
-        event: () =>{
-          confirmModal("delete");
-        }
-      }
-    },
-    {
-      id: 4,
-      text: "신청하기",
-      showModal: false,
-      image: check,
-      isHovered: false,
-      icon : faCheck,     
-      comment : "정말로 신청하겠습니까??",
-      buttonOK : {
-        title: "신청하기",
-        event: () =>{
-          confirmModal("inert");
-        }
-      }
-    },
-    {
-      id : 5,
-      text : "신청자 목록",
-      isHovered : false,
-      icon : faCheck,
+  useEffect(() => {
+    buttons[3].text = isApply ? "신청취소" : "신청하기";
+    buttons[3].comment = isApply
+      ? "정말로 신청을 취소하시겠습니까?"
+      : "정말로 신청하시겠습니까?";
+  }, [isApply]);
+
+  const checkPostWriter = () => {
+    if (userNickname === localStorage.getItem("userNickname")) {
+      return true;
+    } else {
+      return false;
     }
-  ]);
-  
+  };
+
+  // 신청 리스트 불러오기
+  const loadEnrollList = async () => {
+    const path = "board/tutoringEnrollList";
+    const body = {
+      postTutoringIndex: info.postIndex,
+      userID: localStorage.getItem("userID"),
+    };
+    const data = await axiosRequest(path, body, "POST", "json");
+
+    if (data === null || data === false || data === undefined) {
+      alert("불러오기 실패");
+    } else if (data) {
+      setApplyList(data);
+    }
+  };
+
   // userimg가 비어있으면 emptyuser를 넣고 아니면 userimg를 넣는다.
   if (userimg === "") {
     userimg = emptyuser;
@@ -138,7 +186,7 @@ export default function TutorPage() {
       transform: "translate(-50%, -50%)",
     },
   };
-  
+
   //버튼위에 마우스 올렸을때
   const handleMouseEnter = (id) => {
     setButtons((prevButtons) =>
@@ -158,9 +206,9 @@ export default function TutorPage() {
 
   const handleButtonClick = (id) => {
     // 신청자 목록 버튼 클릭시 신청자 목록을 활성화
-    if(id === 5){
-      setIsShowApplyList(!isShowApplyList);                               // 신청자 목록 활성화 여부
-      buttons[4].text = isShowApplyList ? "신청자 목록" : "튜터링 소개";    // 버튼 텍스트 변경
+    if (id === 5) {
+      setIsShowApplyList(!isShowApplyList); // 신청자 목록 활성화 여부
+      buttons[4].text = isShowApplyList ? "신청자 목록" : "튜터링 소개"; // 버튼 텍스트 변경
       return;
     }
 
@@ -175,23 +223,24 @@ export default function TutorPage() {
   const deletePostEvent = async () => {
     const path = "board/tutoringDelete";
     const body = {
-      postIndex : info.postIndex,
-      userID : localStorage.getItem("userID"),
-    }
-    const data = await axiosRequest(path, body, 'POST', 'json');
+      postIndex: info.postIndex,
+      userID: localStorage.getItem("userID"),
+    };
+    const data = await axiosRequest(path, body, "POST", "json");
 
-    if(data === null || data === false || data === undefined){
+    if (data === null || data === false || data === undefined) {
       alert("삭제 실패");
-    }else if(data){
+    } else if (data) {
       alert("삭제 성공");
       naviagte("/tutoring");
     }
-  }
+  };
 
   // 모달창 - 확인버튼
   const confirmModal = (type) => {
-    switch(type){
-      case "accept":
+    switch (type) {
+      case "insert":
+        setIsApply(!isApply);
         console.log("신청됨");
         break;
       case "delete":
@@ -208,8 +257,7 @@ export default function TutorPage() {
         button.id !== 0 ? { ...button, showModal: false } : button
       )
     );
-  }
-
+  };
 
   //모달창-닫기버튼
   const closeModal = () => {
@@ -222,18 +270,20 @@ export default function TutorPage() {
   };
 
   const renderModal = (button) => {
-    if(button.buttonOK === undefined){
+    if (button.buttonOK === undefined) {
       return null;
     }
-    return(
+    return (
       <Modal
         show={true}
         onHide={closeModal}
         style={customModalStyles}
-        contentLabel = "Example Modal"
+        contentLabel="Example Modal"
       >
         <Modal.Header closeButton>
-          <Modal.Title>{button.text === undefined ? "Example Modal" : button.text}</Modal.Title>
+          <Modal.Title>
+            {button.text === undefined ? "Example Modal" : button.text}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>{button.comment}</p>
@@ -247,8 +297,8 @@ export default function TutorPage() {
           </Button>
         </Modal.Footer>
       </Modal>
-    )
-  }
+    );
+  };
 
   const top = 250;
 
@@ -260,26 +310,26 @@ export default function TutorPage() {
           튜터링 소개
         </h2>
         <div className=" w-[100%] mt-10 mx-auto mb-0">
-          <div class='pl-[2rem] pr-[2rem]'>
-            <div class='mb-5'>
-              <p class='m-0 text-left fs-3'>Intro</p>
-              <hr/>
+          <div class="pl-[2rem] pr-[2rem]">
+            <div class="mb-5">
+              <p class="m-0 text-left fs-3">Intro</p>
+              <hr />
               <p className="m-3 text-left">{postIntro}</p>
             </div>
             <div>
-              <p class='m-0 text-left fs-3'>Content</p>
-              <hr/>
+              <p class="m-0 text-left fs-3">Content</p>
+              <hr />
               <p className="m-3 text-left">{postContent}</p>
             </div>
           </div>
         </div>
       </div>
     );
-  }
+  };
 
   // 튜터링 신청자 목록 렌더링
   const rednerTutoringApplyList = () => {
-    return(
+    return (
       <div className=" mt-32 text-lg break-words tracking-[-0.004em]">
         <h2 className=" font-bold text-2xl pb-6 border-b-4 text-left">
           튜터링 신청자 목록
@@ -295,35 +345,59 @@ export default function TutorPage() {
                 <th className="w-[20%]">신청여부</th>
               </tr>
             </thead>
-            <tbody>
-              {renderApplyLists()}
-            </tbody>
+            <tbody>{renderApplyList()}</tbody>
           </table>
         </div>
       </div>
     );
-  }
+  };
 
-  const renderApplyLists = () => {
-    return applyList.map((apply, index) => () => {
+  // 튜터링 신청자 목록 렌더링
+  const renderApplyList = () => {
+    return applyList.map((apply, index) => (
       <tr key={index} style={{ cursor: "pointer" }}>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>
-          <button className="btn btn-primary">수락</button>
-          <button className="btn btn-danger">거절</button>
+        <td className="text-center" style={{ lineHeight: "2" }}>{index+1}</td>
+        <td className="text-center" style={{ lineHeight: "2" }}>{apply.userNickname}</td>
+        <td className="text-center" style={{ lineHeight: "2" }}>{extractData(apply.enrollCreatedAt)}</td>
+        <td className="text-center" style={{ lineHeight: "2" }}>{apply.enrollState}</td>
+        <td className="text-center" >
+          <button className="btn btn-primary mr-2" disabled={apply.enrollState !== "신청" || isApplyButtonDisabled}
+            onClick={()=>handleButtonApply('수락',apply)}>
+            수락
+          </button>
+          <button className="btn btn-danger" disabled={apply.enrollState !== "신청" || isApplyButtonDisabled}
+            onClick={()=>handleButtonApply('거절',apply)}>
+            거절
+          </button>
         </td>
       </tr>
-    });
+    ));
   };
+
+  // 신청자 목록에서 수락 또는 거절 버튼 클릭시
+  const handleButtonApply = (type,apply) => {
+    const path = "board/updateTutoringEnroll";
+    const body ={
+      postTutoringIndex: info.postIndex,
+      userNickname: apply.userNickname,
+      enrollState: type,
+    }
+
+    const data = axiosRequest(path, body, "POST", "boolean");
+    if(data === null || data === false || data === undefined){
+      alert("수정 실패");
+      setIsApplyButtonDisabled(false);
+    }else{
+      alert("수정 성공");
+      setIsApplyButtonDisabled(true);
+    }
+  }
 
   return (
     <div className=" max-w-6xl flex flex-col mx-auto px-6 pt-6 pb-20">
-      <div class='container'>
-        <div class='row'>
-          <div class='col-sm-10'>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-10">
             <div className=" mt-10 font-extrabold text-4xl tracking-[-.005em] text-left">
               {postTitle}
             </div>
@@ -334,7 +408,9 @@ export default function TutorPage() {
                   src={userimg}
                   alt="userImg"
                 />
-                <div className=" cursor-pointer text-lg font-bold">{userNickname}</div>
+                <div className=" cursor-pointer text-lg font-bold">
+                  {userNickname}
+                </div>
               </div>
               <div className="w-[2px] h-5 bg-slate-300"></div>
               <div className="text-lg mr-[-11px]">작성일</div>
@@ -368,7 +444,9 @@ export default function TutorPage() {
                 </li>
                 <li className="flex relative items-center font-bold text-xl">
                   <span className="mr-8">모집 인원</span>
-                  <span className="">{userCount} / {maxUserCount}</span>
+                  <span className="">
+                    {userCount} / {maxUserCount}
+                  </span>
                 </li>
                 <li className="flex relative items-center font-bold text-xl">
                   <span className="mr-8">시작 예정</span>
@@ -415,38 +493,47 @@ export default function TutorPage() {
                 </li>
               </div>
             </section>
-            {
-              isShowApplyList ? rednerTutoringApplyList() : rednerTutoringIntro()
-            }
+            {isShowApplyList
+              ? rednerTutoringApplyList()
+              : rednerTutoringIntro()}
           </div>
-          <div class='col-sm-2'>
+          <div class="col-sm-2">
             <div className="sticky-menu" style={{ top: `${top}px` }}>
               <div className="button-container">
-                { buttons.filter(button =>
-                    userNickname === localStorage.getItem("userNickname") 
-                    ? [1, 2, 3, 5].includes(button.id) 
-                    : [1, 4].includes(button.id)
-                  ).map((button) => (
+                {buttons
+                  .filter((button) =>
+                    checkPostWriter()
+                      ? [1, 2, 3, 5].includes(button.id)
+                      : [1, 4].includes(button.id)
+                  )
+                  .map((button) => (
                     <div
                       key={button.id}
-                      className={`image-button ${button.isHovered ? "expanded" : ""}`}
+                      className={`image-button ${
+                        button.isHovered ? "expanded" : ""
+                      }`}
                       onMouseEnter={() => handleMouseEnter(button.id)}
                       onMouseLeave={() => handleMouseLeave(button.id)}
                     >
                       <div className="button-content flex">
-                        <FontAwesomeIcon icon={button.icon} className="w-[1.5rem] h-[1.5rem]"/>
+                        <FontAwesomeIcon
+                          icon={button.icon}
+                          className="w-[1.5rem] h-[1.5rem]"
+                        />
                         <Link
                           to={button.to}
-                          state={{ info: { info: info, orderCategory: orderCategory }}}
-                          className={`text-${button.isHovered ? "dark" : "secondary"} text-decoration-none ml-3`}
+                          state={{
+                            info: { info: info, orderCategory: orderCategory },
+                          }}
+                          className={`text-${
+                            button.isHovered ? "dark" : "secondary"
+                          } text-decoration-none ml-3`}
                           onClick={() => handleButtonClick(button.id)}
                         >
                           {button.text}
                         </Link>
                       </div>
-                      {button.showModal && (
-                        renderModal(button) 
-                      )}
+                      {button.showModal && renderModal(button)}
                     </div>
                   ))}
               </div>
@@ -454,7 +541,6 @@ export default function TutorPage() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
