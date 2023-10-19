@@ -330,7 +330,12 @@
     </insert>
 
     <!-- 튜터링 게시물 수정하기 -->
-    <update id="modifyTutoring" parameterType="TutoringModifyDTO"></update>
+    <update id="modifyTutoring" parameterType="TutoringWriteDTO">
+        UPDATE POST_TUTORING_INFO_TB
+        SET POST_TUTORING_TITLE = #{postTutoringTitle}, POST_TUTORING_CONTENT = #{postTutoringContent}, POST_TUTORING_MAX_USER_COUNT = #{postTutoringMaxUserCount}
+        WHERE POST_TUTORING_INDEX = #{postTutoringIndex}
+            AND POST_TUTORING_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
+    </update>
 
     <!-- 튜터링 게시물 삭제하기 -->
     <delete id="deleteTutoringCategory" parameterType="TutoringDeleteDTO">

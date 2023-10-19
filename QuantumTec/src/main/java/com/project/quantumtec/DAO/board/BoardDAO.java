@@ -75,7 +75,7 @@ public interface BoardDAO {
     public boolean writeTutoring(TutoringWriteDTO request);
 
     // 튜터링 게시물 수정
-    public boolean modifyTutoring(TutoringModifyDTO request);
+    public boolean modifyTutoring(TutoringWriteDTO request);
 
     // 튜터링 게시물 삭제
     public boolean deleteTutoring(TutoringDeleteDTO request);

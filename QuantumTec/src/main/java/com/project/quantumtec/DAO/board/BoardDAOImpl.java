@@ -265,8 +265,20 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public boolean modifyTutoring(TutoringModifyDTO request) {
-        return sqlSession.update("BoardService.modifyTutoring", request) > 0;
+    public boolean modifyTutoring(TutoringWriteDTO request) {
+        TutoringDeleteDTO dto = new TutoringDeleteDTO();
+        dto.setPostIndex(request.getPostTutoringIndex());
+
+        boolean tagDelete = sqlSession.delete("BoardService.deleteTutoringTag", dto) > 0;
+        boolean categoryDelete = sqlSession.delete("BoardService.deleteTutoringCategory", dto) > 0;
+        boolean tutoringModify = sqlSession.update("BoardService.modifyTutoring", request) > 0;
+
+        if(tagDelete && categoryDelete && tutoringModify){
+            boolean tagResult = sqlSession.insert("BoardService.insertTutoringTag", request) > 0;
+            boolean categoryResult = sqlSession.insert("BoardService.insertTutoringCategory", request) > 0;
+            return tagResult && categoryResult;
+        }
+        return false;
     }
 
     /**

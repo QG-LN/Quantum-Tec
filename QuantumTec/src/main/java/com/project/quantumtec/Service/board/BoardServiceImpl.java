@@ -190,9 +190,7 @@ public class BoardServiceImpl implements BoardService{
     public boolean writeTutoring(TutoringWriteRequestDTO request) throws Exception {
         TutoringWriteDTO dto = new TutoringWriteDTO();
         String separator = "[000]";
-        System.out.println(1);
         dto.setPostTutoringTitle(request.getPostTitle());           //  게시글 제목
-        System.out.println(2);
         dto.setUserID(request.getUserID());                         // 유저 아이디
 
         dto.setPostTutoringUserCount(0);                            // 현재 모집 인원
@@ -213,7 +211,30 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public boolean modifyTutoring(TutoringModifyDTO request) { return boardDAO.modifyTutoring(request); }
+    public boolean modifyTutoring(TutoringModifyDTO request) {
+        TutoringWriteDTO dto = new TutoringWriteDTO();
+        String separator = "[000]";
+        dto.setPostTutoringTitle(request.getPostTitle());           //  게시글 제목
+        dto.setUserID(request.getUserID());                         // 유저 아이디
+
+        dto.setPostTutoringUserCount(0);                            // 현재 모집 인원
+        dto.setPostTutoringMaxUserCount(request.getMaxUserCount()); // 최대 모집 인원
+        // content에 들어갈 데이터를 세팅
+        String content = "postIntro[-]" + request.getPostIntro() + separator +
+                "postContent[-]" + request.getPostContent() + separator +
+                "runningType[-]" + (request.isRunningType() ? "1" : "0") + separator +
+                "link[-]" + request.getLink() + separator +
+                "expectedTime[-]" + request.getExpectedTime() + separator +
+                "startDate[-]" + request.getStartDate();
+        dto.setPostTutoringContent(content);                        // 게시글 내용
+
+        dto.setPostTutoringCategory(request.getCategory().split(",")); // 게시글 카테고리
+        dto.setPostTutoringTags(request.getTag().split(","));         // 게시글 태그
+
+        dto.setPostTutoringIndex(request.getPostIndex());
+
+        return boardDAO.modifyTutoring(dto);
+    }
 
     @Override
     public boolean deleteTutoring(TutoringDeleteDTO request) {
