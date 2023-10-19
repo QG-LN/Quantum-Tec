@@ -29,6 +29,8 @@ export default function TutorPage() {
   const [postIntro, setPostIntro] = useState("");                                     // 튜터링 소개
   const [postContent, setPostContent] = useState("");                                 // 튜터링 내용
 
+  const [applyList, setApplyList] = useState([]);                                     // 튜터링 신청자 목록
+  const [isShowApplyList, setIsShowApplyList] = useState(false);                      // 튜터링 신청자 목록 보여주기 여부
 
   const naviagte = useNavigate();
 
@@ -47,7 +49,6 @@ export default function TutorPage() {
     if(info === null){
       return null;
     }else{
-      console.log(info);
       setPostTitle(info.postTitle);
       setUserNickname(info.userNickname);
       setPostDate(extractData(info.postDate));
@@ -116,6 +117,12 @@ export default function TutorPage() {
         }
       }
     },
+    {
+      id : 5,
+      text : "신청자 목록",
+      isHovered : false,
+      icon : faCheck,
+    }
   ]);
   
   // userimg가 비어있으면 emptyuser를 넣고 아니면 userimg를 넣는다.
@@ -150,6 +157,13 @@ export default function TutorPage() {
   };
 
   const handleButtonClick = (id) => {
+    // 신청자 목록 버튼 클릭시 신청자 목록을 활성화
+    if(id === 5){
+      setIsShowApplyList(!isShowApplyList);                               // 신청자 목록 활성화 여부
+      buttons[4].text = isShowApplyList ? "신청자 목록" : "튜터링 소개";    // 버튼 텍스트 변경
+      return;
+    }
+
     // 버튼 클릭하면 모달을 열도록 설정
     setButtons((prevButtons) =>
       prevButtons.map((button) =>
@@ -237,6 +251,73 @@ export default function TutorPage() {
   }
 
   const top = 250;
+
+  // 튜터링 소개 렌더링
+  const rednerTutoringIntro = () => {
+    return (
+      <div className=" mt-32 text-lg break-words tracking-[-0.004em]">
+        <h2 className=" font-bold text-2xl pb-6 border-b-4 text-left">
+          튜터링 소개
+        </h2>
+        <div className=" w-[100%] mt-10 mx-auto mb-0">
+          <div class='pl-[2rem] pr-[2rem]'>
+            <div class='mb-5'>
+              <p class='m-0 text-left fs-3'>Intro</p>
+              <hr/>
+              <p className="m-3 text-left">{postIntro}</p>
+            </div>
+            <div>
+              <p class='m-0 text-left fs-3'>Content</p>
+              <hr/>
+              <p className="m-3 text-left">{postContent}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 튜터링 신청자 목록 렌더링
+  const rednerTutoringApplyList = () => {
+    return(
+      <div className=" mt-32 text-lg break-words tracking-[-0.004em]">
+        <h2 className=" font-bold text-2xl pb-6 border-b-4 text-left">
+          튜터링 신청자 목록
+        </h2>
+        <div className=" w-[100%] mt-10 mx-auto mb-0">
+          <table className="table table-striped mt-0 pt-0 table-hover user-select-none">
+            <thead>
+              <tr class="border-top">
+                <th className="w-[20%]">신청번호</th>
+                <th className="w-[20%]">닉네임</th>
+                <th className="w-[20%]">신청일자</th>
+                <th className="w-[20%]">신청상태</th>
+                <th className="w-[20%]">신청여부</th>
+              </tr>
+            </thead>
+            <tbody>
+              {renderApplyLists()}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  const renderApplyLists = () => {
+    return applyList.map((apply, index) => () => {
+      <tr key={index} style={{ cursor: "pointer" }}>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>
+          <button className="btn btn-primary">수락</button>
+          <button className="btn btn-danger">거절</button>
+        </td>
+      </tr>
+    });
+  };
 
   return (
     <div className=" max-w-6xl flex flex-col mx-auto px-6 pt-6 pb-20">
@@ -334,32 +415,16 @@ export default function TutorPage() {
                 </li>
               </div>
             </section>
-            <div className=" mt-32 text-lg break-words tracking-[-0.004em]">
-              <h2 className=" font-bold text-2xl pb-6 border-b-4 text-left">
-                튜터링 소개
-              </h2>
-              <div className=" w-[100%] mt-10 mx-auto mb-0">
-                <div class='pl-[2rem] pr-[2rem]'>
-                  <div class='mb-5'>
-                    <p class='m-0 text-left fs-3'>Intro</p>
-                    <hr/>
-                    <p className="m-3 text-left">{postIntro}</p>
-                  </div>
-                  <div>
-                    <p class='m-0 text-left fs-3'>Content</p>
-                    <hr/>
-                    <p className="m-3 text-left">{postContent}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {
+              isShowApplyList ? rednerTutoringApplyList() : rednerTutoringIntro()
+            }
           </div>
           <div class='col-sm-2'>
             <div className="sticky-menu" style={{ top: `${top}px` }}>
               <div className="button-container">
                 { buttons.filter(button =>
                     userNickname === localStorage.getItem("userNickname") 
-                    ? [1, 2, 3].includes(button.id) 
+                    ? [1, 2, 3, 5].includes(button.id) 
                     : [1, 4].includes(button.id)
                   ).map((button) => (
                     <div
