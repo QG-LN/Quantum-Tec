@@ -6,6 +6,7 @@ import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
 
+import com.project.quantumtec.VO.board.TutoringEnrollVO;
 import com.project.quantumtec.VO.board.TutoringPostVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -293,5 +294,20 @@ public class BoardDAOImpl implements BoardDAO {
             return sqlSession.delete("BoardService.deleteTutoring", request) > 0;
         }
         return false;
+    }
+
+    @Override
+    public List<TutoringEnrollVO> getTutoringEnrollList(TutoringEnrollRequestDTO request) {
+        return sqlSession.selectList("BoardService.getTutoringEnrollList", request);
+    }
+
+    @Override
+    public boolean insertTutoringEnroll(TutoringEnrollRequestDTO request) {
+        return sqlSession.insert("BoardService.insertTutoring", request) > 0;
+    }
+
+    @Override
+    public boolean updateTutoringEnroll(TutoringEnrollRequestDTO request) {
+        return sqlSession.update("BoardService.updateTutoringEnroll", request) > 0;
     }
 }

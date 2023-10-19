@@ -4,6 +4,7 @@ package com.project.quantumtec.Controller;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.*;
 import com.project.quantumtec.Service.board.BoardService;
+import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -150,6 +151,16 @@ public class BoardController {
     public boolean deleteTutoringPost(@RequestBody TutoringDeleteDTO request){
         System.out.println(request);
         return boardService.deleteTutoring(request);
+    }
+
+    @PostMapping("/tutoringEnrollList")
+    public List<TutoringEnrollResponseDTO> getTutoringEnrollList(@RequestBody TutoringEnrollRequestDTO request){
+        return boardService.getTutoringEnrollList(request);
+    }
+
+    @PostMapping("/updateTutoringEnroll")
+    public boolean updateTutoringEnroll(@RequestBody TutoringEnrollRequestDTO request){
+        return boardService.updateTutoringEnroll(request);
     }
 
 }

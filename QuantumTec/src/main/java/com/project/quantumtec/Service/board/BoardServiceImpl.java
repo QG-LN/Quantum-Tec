@@ -4,6 +4,7 @@ import com.project.quantumtec.DAO.board.BoardDAO;
 import com.project.quantumtec.DTO.Board.TutoringWriteDTO;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.*;
+import com.project.quantumtec.VO.board.TutoringEnrollVO;
 import com.project.quantumtec.VO.board.TutoringPostVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -239,6 +240,34 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public boolean deleteTutoring(TutoringDeleteDTO request) {
         return boardDAO.deleteTutoring(request);
+    }
+
+    @Override
+    public boolean insertTutoringEnroll(TutoringEnrollRequestDTO request) {
+        return boardDAO.insertTutoringEnroll(request);
+    }
+
+    @Override
+    public boolean updateTutoringEnroll(TutoringEnrollRequestDTO request) {
+        return boardDAO.updateTutoringEnroll(request);
+    }
+
+    @Override
+    public List<TutoringEnrollResponseDTO> getTutoringEnrollList(TutoringEnrollRequestDTO request) {
+        List<TutoringEnrollResponseDTO> dtos = new ArrayList<>();
+        List<TutoringEnrollVO> vos = boardDAO.getTutoringEnrollList(request);
+
+        // VO -> DTO
+        for(int i = 0; i< vos.size(); i++){
+            TutoringEnrollResponseDTO dto = new TutoringEnrollResponseDTO();
+            dto.setEnrollCreatedAt(vos.get(i).getEnrollCreatedAt());
+            dto.setEnrollUpdatedAt(vos.get(i).getEnrollUpdatedAt());
+            dto.setEnrollState(vos.get(i).getEnrollState());
+            dto.setUserNickname(vos.get(i).getUserNickname());
+            dtos.add(dto);
+        }
+
+        return dtos;
     }
 
 }

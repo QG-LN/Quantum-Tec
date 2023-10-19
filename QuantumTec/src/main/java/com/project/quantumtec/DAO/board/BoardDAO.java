@@ -5,6 +5,7 @@ import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
 import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
+import com.project.quantumtec.VO.board.TutoringEnrollVO;
 import com.project.quantumtec.VO.board.TutoringPostVO;
 
 
@@ -79,4 +80,12 @@ public interface BoardDAO {
 
     // 튜터링 게시물 삭제
     public boolean deleteTutoring(TutoringDeleteDTO request);
+
+    // 튜터링 게시물 신청 리스트 출력
+    public List<TutoringEnrollVO> getTutoringEnrollList(TutoringEnrollRequestDTO request);
+
+    // 튜터링 게시물 신청 추가
+    public boolean insertTutoringEnroll(TutoringEnrollRequestDTO request);
+
+    public boolean updateTutoringEnroll(TutoringEnrollRequestDTO request);
 }
