@@ -6,6 +6,7 @@ import com.project.quantumtec.DTO.Response.board.*;
 import com.project.quantumtec.Service.board.BoardService;
 import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -161,6 +162,20 @@ public class BoardController {
     @PostMapping("/updateTutoringEnroll")
     public boolean updateTutoringEnroll(@RequestBody TutoringEnrollRequestDTO request){
         return boardService.updateTutoringEnroll(request);
+    }
+
+    @PostMapping("/checkTutoringEnroll")
+    public ResponseEntity<Boolean> checkTutoringEnroll(@RequestBody TutoringEnrollRequestDTO request){
+        try{
+            if (boardService.checkTutoringEnroll(request)){
+                return ResponseEntity.ok().body(true);
+            } else {
+                return ResponseEntity.ok().body(false);
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(500).body(false);
+        }
     }
 
 }

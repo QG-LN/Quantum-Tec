@@ -303,11 +303,16 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     public boolean insertTutoringEnroll(TutoringEnrollRequestDTO request) {
-        return sqlSession.insert("BoardService.insertTutoring", request) > 0;
+        return sqlSession.insert("BoardService.insertTutoringEnroll", request) > 0;
     }
 
     @Override
     public boolean updateTutoringEnroll(TutoringEnrollRequestDTO request) {
         return sqlSession.update("BoardService.updateTutoringEnroll", request) > 0;
+    }
+
+    @Override
+    public String checkTutoringEnroll(TutoringEnrollRequestDTO request){
+        return sqlSession.selectOne("BoardService.checkTutoringEnroll", request);
     }
 }

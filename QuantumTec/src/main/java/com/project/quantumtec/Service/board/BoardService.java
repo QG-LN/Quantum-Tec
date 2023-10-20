@@ -74,10 +74,12 @@ public interface BoardService {
     // 튜터링 게시물 삭제
     public boolean deleteTutoring(TutoringDeleteDTO request);
 
-    // 튜터링 게시물 신청
-    public boolean insertTutoringEnroll(TutoringEnrollRequestDTO request);
-
+    // 튜터링 게시물 신청 상태 변경
     public boolean updateTutoringEnroll(TutoringEnrollRequestDTO request);
 
+    // 튜터링 게시물 신청 리스트 출력
     public List<TutoringEnrollResponseDTO> getTutoringEnrollList(TutoringEnrollRequestDTO request);
+
+    // 튜터링 게시물 신청 여부 확인
+    public boolean checkTutoringEnroll(TutoringEnrollRequestDTO request);
 }

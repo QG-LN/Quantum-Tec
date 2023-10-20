@@ -88,4 +88,7 @@ public interface BoardDAO {
     public boolean insertTutoringEnroll(TutoringEnrollRequestDTO request);
 
     public boolean updateTutoringEnroll(TutoringEnrollRequestDTO request);
+
+    // 튜터링 게시물 신청 여부 확인
+    public String checkTutoringEnroll(TutoringEnrollRequestDTO request);
 }

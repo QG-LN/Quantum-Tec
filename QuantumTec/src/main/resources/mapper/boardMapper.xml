@@ -361,7 +361,7 @@
 
     <!-- 튜터링 게시물 신청   -->
     <insert id="insertTutoringEnroll" parameterType="TutoringEnrollRequestDTO">
-        INSERT INTO TUTORING_ENROLL_TB(POST_TUTORING_INDEX, USER_INDEX)
+        INSERT INTO TUTORING_ENROLL_INFO_TB(POST_TUTORING_INDEX, USER_INDEX)
         VALUES(#{postTutoringIndex}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}));
     </insert>
 
@@ -382,6 +382,14 @@
         FROM TUTORING_ENROLL_INFO_TB te, USER_INFO_TB ut
         WHERE te.USER_INDEX = ut.USER_INDEX
             AND POST_TUTORING_INDEX = #{postTutoringIndex};
+    </select>
+
+    <!-- 튜터링 게시물 신청 여부 -->
+    <select id="checkTutoringEnroll" parameterType="TutoringEnrollRequestDTO" resultType="String">
+        SELECT ENROLL_STATE
+        FROM TUTORING_ENROLL_INFO_TB
+        WHERE POST_TUTORING_INDEX = #{postTutoringIndex}
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
     </select>
 
 </mapper>

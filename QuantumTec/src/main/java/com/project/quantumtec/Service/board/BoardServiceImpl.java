@@ -243,12 +243,15 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public boolean insertTutoringEnroll(TutoringEnrollRequestDTO request) {
-        return boardDAO.insertTutoringEnroll(request);
-    }
-
-    @Override
     public boolean updateTutoringEnroll(TutoringEnrollRequestDTO request) {
+
+        String check = boardDAO.checkTutoringEnroll(request);
+
+        // 신청 여부값이 null -> 신청기록 없음
+        if(check == null){
+            return boardDAO.insertTutoringEnroll(request);
+        }
+
         return boardDAO.updateTutoringEnroll(request);
     }
 
@@ -268,6 +271,20 @@ public class BoardServiceImpl implements BoardService{
         }
 
         return dtos;
+    }
+
+    @Override
+    public boolean checkTutoringEnroll(TutoringEnrollRequestDTO request){
+        String enrollResult = boardDAO.checkTutoringEnroll(request);
+
+        if(enrollResult != null){
+            if(enrollResult.equals("신청"))
+                return true;
+            else
+                return false;
+        }
+
+        return false;
     }
 
 }
