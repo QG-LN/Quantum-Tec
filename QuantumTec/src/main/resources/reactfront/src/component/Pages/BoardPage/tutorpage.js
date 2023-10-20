@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal"; // Bootstrap Modal 추가
 import Button from "react-bootstrap/Button"; // Bootstrap Button 추가
@@ -19,26 +19,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { axiosRequest } from "../../Utils/networkUtils";
 
 export default function TutorPage() {
-  const [postTitle, setPostTitle] = useState("오늘은 무엇을 스터디해볼까요?"); // 튜터링 게시글 제목
-  const [postIndex, setPostIndex] = useState(0); // 튜터링 게시글 인덱스
-  const [userNickname, setUserNickname] = useState("marais"); // 튜터링 게시글 작성자 닉네임
-  const [tags, setTags] = useState([]); // 튜터링 태그
-  const [postDate, setPostDate] = useState("2023.09.16"); // 튜터링 게시글 작성 날짜
-  const [runningType, setRunningType] = useState(""); // 튜터링 진행 방식
-  const [maxUserCount, setMaxUserCount] = useState(0); // 최대 신청 가능 인원
-  const [userCount, setUserCount] = useState(0); // 현재 신청한 인원
-  const [startDate, setStartDate] = useState(""); // 튜터링 시작 날짜
-  const [studyLink, setStudyLink] = useState("https://open.kakao.com/o/"); // 튜터링 링크
-  const [expectedTime, setExpectedTime] = useState(0); // 예상 기간
-  const [category, setCategory] = useState([]); // 튜터링 카테고리
-  const [postIntro, setPostIntro] = useState(""); // 튜터링 소개
-  const [postContent, setPostContent] = useState(""); // 튜터링 내용
+  const [postTitle, setPostTitle] = useState("오늘은 무엇을 스터디해볼까요?");    // 튜터링 게시글 제목
+  const [postIndex, setPostIndex] = useState(0);                                // 튜터링 게시글 인덱스
+  const [userNickname, setUserNickname] = useState("marais");                   // 튜터링 게시글 작성자 닉네임
+  const [tags, setTags] = useState([]);                                         // 튜터링 태그
+  const [postDate, setPostDate] = useState("2023.09.16");                       // 튜터링 게시글 작성 날짜
+  const [runningType, setRunningType] = useState("");                           // 튜터링 진행 방식
+  const [maxUserCount, setMaxUserCount] = useState(0);                          // 최대 신청 가능 인원
+  const [userCount, setUserCount] = useState(0);                                // 현재 신청한 인원
+  const [startDate, setStartDate] = useState("");                               // 튜터링 시작 날짜
+  const [studyLink, setStudyLink] = useState("https://open.kakao.com/o/");      // 튜터링 링크
+  const [expectedTime, setExpectedTime] = useState(0);                          // 예상 기간
+  const [category, setCategory] = useState([]);                                 // 튜터링 카테고리
+  const [postIntro, setPostIntro] = useState("");                               // 튜터링 소개
+  const [postContent, setPostContent] = useState("");                           // 튜터링 내용
 
-  const [applyList, setApplyList] = useState([]); // 튜터링 신청자 목록
-  const [isShowApplyList, setIsShowApplyList] = useState(false); // 튜터링 신청자 목록 보여주기 여부
+  const [applyList, setApplyList] = useState([]);                               // 튜터링 신청자 목록
+  const [isShowApplyList, setIsShowApplyList] = useState(false);                // 튜터링 신청자 목록 보여주기 여부
 
-  const [isApply, setIsApply] = useState(false); // 튜터링 신청 여부
-  const [isApplyButtonDisabled, setIsApplyButtonDisabled] = useState(false); // 튜터링 신청 버튼 활성화 여부
+  const [isEnroll, setIsEnroll] = useState(false);                                // 튜터링 신청 여부 [ false -> 신청전 true -> 신청완료]
+  const [isEnrollButtonDisabled, setIsEnrollButtonDisabled] = useState(false);    // 튜터링 신청 버튼 활성화 여부
 
   const naviagte = useNavigate();
 
@@ -91,14 +91,14 @@ export default function TutorPage() {
     },
     {
       id: 4,
-      text: "신청하기",
+      text: "",
       showModal: false,
       image: check,
       isHovered: false,
       icon: faCheck,
-      comment: "정말로 신청하겠습니까??",
+      comment: "??",
       buttonOK: {
-        title: "신청하기",
+        title: "",
         event: () => {
           confirmModal("insert");
         },
@@ -135,27 +135,50 @@ export default function TutorPage() {
       buttons[1].to = `/tutoringPost/${info.postIndex}/edit`;
 
       // 튜터링 신청자 목록 불러오기
-      if (info.userNickname === localStorage.getItem("userNickname")) {
+      if (checkPostWriter(info.userNickname)) {
         loadEnrollList();
+      }else{
+        // 튜터링 신청 여부 확인
+        checkEnroll();
       }
-      // 튜터링 신청 여부 확인
     }
   }, []);
 
+  //튜터링 신청 여부에 따른 버튼 변경
   useEffect(() => {
-    buttons[3].text = isApply ? "신청취소" : "신청하기";
-    buttons[3].comment = isApply
-      ? "정말로 신청을 취소하시겠습니까?"
-      : "정말로 신청하시겠습니까?";
-  }, [isApply]);
+    setButtons(
+      buttons.map((button) =>{
+        if(button.id === 4){
+          return {
+            ...button,
+            text: isEnroll ? "신청취소" : "신청하기",
+            comment: isEnroll
+            ? "정말로 신청을 취소하시겠습니까?"
+            : "정말로 신청하시겠습니까?",
+            buttonOK: {
+              title: isEnroll ? "신청 취소하기" : "신청하기",
+              event: () => {
+                confirmModal("update");
+              },
+            },
+          }
+        }else{
+          return button;
+        }
+      })
+    )
+    console.log( isEnroll)
+  }, [isEnroll]);
 
-  const checkPostWriter = () => {
-    if (userNickname === localStorage.getItem("userNickname")) {
+  
+  // 게시글 작성자와 로그인한 유저가 같은지 확인
+  const checkPostWriter = useCallback((nickName) => {
+    if (nickName === localStorage.getItem("userNickname")) {
       return true;
     } else {
       return false;
     }
-  };
+  }, [userNickname]);  
 
   // 신청 리스트 불러오기
   const loadEnrollList = async () => {
@@ -170,6 +193,23 @@ export default function TutorPage() {
       alert("불러오기 실패");
     } else if (data) {
       setApplyList(data);
+    }
+  };
+
+  // 신청 여부 확인
+  const checkEnroll = async () => {
+    const path = "board/checkTutoringEnroll";
+    const body = {
+      postTutoringIndex: info.postIndex,
+      userID: localStorage.getItem("userID"),
+    };
+
+    const data = await axiosRequest(path, body, "POST", "json");
+    console.log("data : " + data);
+    if(data === null || data === false || data === undefined){
+      setIsEnroll(false); 
+    }else{
+      setIsEnroll(data);
     }
   };
 
@@ -188,21 +228,21 @@ export default function TutorPage() {
   };
 
   //버튼위에 마우스 올렸을때
-  const handleMouseEnter = (id) => {
+  const handleMouseEnter = useCallback((id) => {
     setButtons((prevButtons) =>
       prevButtons.map((button) =>
         button.id === id ? { ...button, isHovered: true } : button
       )
     );
-  };
+  }, []);
   //버튼위에 마우스 떠날때
-  const handleMouseLeave = (id) => {
+  const handleMouseLeave = useCallback((id) => {
     setButtons((prevButtons) =>
       prevButtons.map((button) =>
         button.id === id ? { ...button, isHovered: false } : button
       )
     );
-  };
+  }, []);
 
   const handleButtonClick = (id) => {
     // 신청자 목록 버튼 클릭시 신청자 목록을 활성화
@@ -236,12 +276,34 @@ export default function TutorPage() {
     }
   };
 
+  /**
+   * 신청 정보를 변경하기 위해 서버에 요청하는 함수
+   * @param {String} type 서버에 요청할 신청 정보[내가 원하는 상태를 전달]
+   */
+  const updateTutoringEnroll = async (type) => {
+    const path = "board/updateTutoringEnroll";
+    const body = {
+      postTutoringIndex: info.postIndex,
+      userNickname : localStorage.getItem("userNickname"),
+      userID: localStorage.getItem("userID"),
+      enrollState: type,
+    };
+
+    console.log(body);
+    const data = await axiosRequest(path, body, "POST", "boolean");
+    if (data === null || data === false || data === undefined) {
+      alert("수정 실패");
+    } else if (data) {
+      alert("수정 성공");
+      setIsEnroll(!isEnroll);
+    }
+  };
+
   // 모달창 - 확인버튼
   const confirmModal = (type) => {
     switch (type) {
-      case "insert":
-        setIsApply(!isApply);
-        console.log("신청됨");
+      case "update":
+        updateTutoringEnroll(isEnroll ? "취소" : "신청"); // isEnroll가 true -> 신청 상태라는 것이기에 취소로 
         break;
       case "delete":
         console.log("삭제됨");
@@ -361,11 +423,11 @@ export default function TutorPage() {
         <td className="text-center" style={{ lineHeight: "2" }}>{extractData(apply.enrollCreatedAt)}</td>
         <td className="text-center" style={{ lineHeight: "2" }}>{apply.enrollState}</td>
         <td className="text-center" >
-          <button className="btn btn-primary mr-2" disabled={apply.enrollState !== "신청" || isApplyButtonDisabled}
+          <button className="btn btn-primary mr-2" disabled={apply.enrollState !== "신청" || isEnrollButtonDisabled}
             onClick={()=>handleButtonApply('수락',apply)}>
             수락
           </button>
-          <button className="btn btn-danger" disabled={apply.enrollState !== "신청" || isApplyButtonDisabled}
+          <button className="btn btn-danger" disabled={apply.enrollState !== "신청" || isEnrollButtonDisabled}
             onClick={()=>handleButtonApply('거절',apply)}>
             거절
           </button>
@@ -386,10 +448,10 @@ export default function TutorPage() {
     const data = axiosRequest(path, body, "POST", "boolean");
     if(data === null || data === false || data === undefined){
       alert("수정 실패");
-      setIsApplyButtonDisabled(false);
+      setIsEnrollButtonDisabled(false);
     }else{
       alert("수정 성공");
-      setIsApplyButtonDisabled(true);
+      setIsEnrollButtonDisabled(true);
     }
   }
 
@@ -502,7 +564,7 @@ export default function TutorPage() {
               <div className="button-container">
                 {buttons
                   .filter((button) =>
-                    checkPostWriter()
+                    checkPostWriter(userNickname)
                       ? [1, 2, 3, 5].includes(button.id)
                       : [1, 4].includes(button.id)
                   )
