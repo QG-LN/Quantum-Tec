@@ -23,7 +23,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import AvatarInvetoryPage from "./component/Pages/avatarInventory/avatarMainPage";
 import DashBoard from './component/Pages/DashBoardPage/dashboard.js';
-import UserDashBoard from './component/Pages/DashBoardPage/userPage'
+import UserDashBoard from './component/Pages/DashBoardPage/userPage';
+import DashBoardLayout from './component/Pages/DashBoardPage/dashboardLayout';
+import DashboardHome from './component/Pages/DashBoardPage/dashboardHome';
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
@@ -33,7 +35,7 @@ function App() {
   return (
    <Router>
       <div className="App" style={{overflow:'auto'}}>
-      {window.location.pathname.includes('dashboard') ? null : <Navbar style={{ height: "20vh" }} />}
+      {window.location.pathname.includes('dashboard') ? <DashBoardLayout /> : <Navbar style={{ height: "20vh" }} />}
         <Routes>
           <Route path="/" exact element={<Home start={truelogin}/>} />
           <Route path="/login" element={<Login start={truelogin} setTruelogin={setTruelogin} />} />
@@ -54,8 +56,9 @@ function App() {
           <Route path="/inventory" element={<AvatarInvetory />}/>
           <Route path="/payments/success" element={<PaymentsSuccess />}/>
           <Route path="/payments/fail" element={<PaymentsFail />}/>
-          <Route path="/dashboard" element={<DashBoardPage />}/>
+          {/* <Route path="/dashboard" element={<DashBoardPage />}/> */}
           <Route path="/dashboard/user" element={<UserDashBoardPage />}/>
+          <Route path="/dashboard/home" element={<HomeDashBoardPage />}/>
         </Routes>
       </div>
       {window.location.pathname.includes('dashboard') ? null : <Footer style={{ height: "20vh" }} />}
@@ -200,6 +203,14 @@ function UserDashBoardPage(){
   return (
     <div className="dashboard">
         <UserDashBoard />
+    </div>
+  )
+}
+
+function HomeDashBoardPage(){
+  return (
+    <div className="dashboard">
+        <DashboardHome />
     </div>
   )
 }

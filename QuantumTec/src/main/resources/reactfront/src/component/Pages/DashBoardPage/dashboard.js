@@ -17,7 +17,7 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from "../../../dashboard/sections/@dashboard/app";
-import Home from "./home"
+import Home from "./dashboardHome"
 import { Grid, Container, Typography } from "@mui/material";
 import Nav from "../../../dashboard/layouts/dashboard/nav";
 import Header from "../../../dashboard/layouts/dashboard/header";

@@ -190,10 +190,16 @@ const taskList = [
     { id: "4", label: "Scoping & Estimations" },
     { id: "5", label: "Sprint Showcase" },
 ];
-function Home(){
+function DashboardHome(){
+  const Styles = styled("div")({
+    "@media (min-width: 1200px)": {
+      marginLeft: "290px",
+    },
+  });
     const theme = useTheme();
     return (
-<Main>
+      <Styles>
+      <Main>
         <ThemeProvider>
           <ScrollToTop />
           <StyledChart />
@@ -406,7 +412,8 @@ function Home(){
           </Container>
         </ThemeProvider>
       </Main>
+      </Styles>
     )
 }
 
-export default Home;
+export default DashboardHome;
