@@ -38,7 +38,7 @@ export default function TutorPage() {
   const [isShowApplyList, setIsShowApplyList] = useState(false);                // 튜터링 신청자 목록 보여주기 여부
 
   const [isEnroll, setIsEnroll] = useState(false);                                // 튜터링 신청 여부 [ false -> 신청전 true -> 신청완료]
-  const [isEnrollButtonDisabled, setIsEnrollButtonDisabled] = useState(false);    // 튜터링 신청 버튼 활성화 여부
+  const [isEnrollButtonDisabled, setIsEnrollButtonDisabled] = useState(Array(applyList.length).fill(false));   // 튜터링 신청 버튼 활성화 여부
 
   const naviagte = useNavigate();
 
@@ -167,9 +167,11 @@ export default function TutorPage() {
         }
       })
     )
-    console.log( isEnroll)
   }, [isEnroll]);
 
+  useEffect(() => {
+    console.log(isEnrollButtonDisabled)
+  }, [isEnrollButtonDisabled]);
   
   // 게시글 작성자와 로그인한 유저가 같은지 확인
   const checkPostWriter = useCallback((nickName) => {
@@ -179,6 +181,7 @@ export default function TutorPage() {
       return false;
     }
   }, [userNickname]);  
+  
 
   // 신청 리스트 불러오기
   const loadEnrollList = async () => {
@@ -193,6 +196,9 @@ export default function TutorPage() {
       alert("불러오기 실패");
     } else if (data) {
       setApplyList(data);
+
+      // 신청자 목록에서 신청 버튼 활성화 여부 확인
+      setIsEnrollButtonDisabled(Array.from({ length: data.length }, (_, index) => data[index].enrollState !== '신청'));
     }
   };
 
@@ -423,11 +429,11 @@ export default function TutorPage() {
         <td className="text-center" style={{ lineHeight: "2" }}>{extractData(apply.enrollCreatedAt)}</td>
         <td className="text-center" style={{ lineHeight: "2" }}>{apply.enrollState}</td>
         <td className="text-center" >
-          <button className="btn btn-primary mr-2" disabled={apply.enrollState !== "신청" || isEnrollButtonDisabled}
+          <button className="btn btn-primary mr-2" disabled={isEnrollButtonDisabled[index]}
             onClick={()=>handleButtonApply('수락',apply)}>
             수락
           </button>
-          <button className="btn btn-danger" disabled={apply.enrollState !== "신청" || isEnrollButtonDisabled}
+          <button className="btn btn-danger" disabled={isEnrollButtonDisabled[index]}
             onClick={()=>handleButtonApply('거절',apply)}>
             거절
           </button>
@@ -437,7 +443,7 @@ export default function TutorPage() {
   };
 
   // 신청자 목록에서 수락 또는 거절 버튼 클릭시
-  const handleButtonApply = (type,apply) => {
+  const handleButtonApply = async (type,apply) => {
     const path = "board/updateTutoringEnroll";
     const body ={
       postTutoringIndex: info.postIndex,
@@ -445,13 +451,22 @@ export default function TutorPage() {
       enrollState: type,
     }
 
-    const data = axiosRequest(path, body, "POST", "boolean");
-    if(data === null || data === false || data === undefined){
-      alert("수정 실패");
-      setIsEnrollButtonDisabled(false);
-    }else{
-      alert("수정 성공");
-      setIsEnrollButtonDisabled(true);
+    const data = await axiosRequest(path, body, "POST", "boolean");
+    try {
+      if (data === null || data === false || data === undefined) {
+        alert("신청자 목록을 업데이트 하는데 실패하였습니다.");
+      } else {
+        alert("신청자 목록을 업데이트 하였습니다.");
+        
+        // 신청자 목록 업데이트
+        loadEnrollList();
+
+        // 신청자 수 업데이트 [임시 코드]
+        setUserCount(type === '수락' ? userCount+1 : userCount);
+      }
+    } catch (error) {
+      console.error("Error updating enrollment:", error);
+      alert("신청자 목록 업데이트 중 오류가 발생했습니다.");
     }
   }
 

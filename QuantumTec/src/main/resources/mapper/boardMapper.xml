@@ -389,7 +389,14 @@
         SELECT ENROLL_STATE
         FROM TUTORING_ENROLL_INFO_TB
         WHERE POST_TUTORING_INDEX = #{postTutoringIndex}
-            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
+            <choose>
+                <when test="enrollState =='수락' || enrollState =='거절'">
+                    AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_NICKNAME = #{userNickname});
+                </when>
+                <otherwise>
+                    AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
+                </otherwise>
+            </choose>
     </select>
 
 </mapper>
