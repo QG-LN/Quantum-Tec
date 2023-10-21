@@ -36,7 +36,7 @@ export default function UserPage() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -96,7 +96,7 @@ export default function UserPage() {
   const notFound = !dataFiltered.length && !!filterName;
   const Styles = styled("div")({
     "@media (min-width: 1200px)": {
-      marginLeft: "290px",
+      marginLeft: "279px",
     },
   });
   return (
@@ -129,12 +129,14 @@ export default function UserPage() {
                   onRequestSort={handleSort}
                   onSelectAllClick={handleSelectAllClick}
                   headLabel={[
-                    { id: 'name', label: 'Name' },
-                    { id: 'company', label: 'Company' },
-                    { id: 'role', label: 'Role' },
-                    { id: 'isVerified', label: 'Verified', align: 'center' },
-                    { id: 'status', label: 'Status' },
-                    { id: '' },
+                    { id: 'index', label: '번호' },
+                    { id: 'level', label: '레벨' },
+                    { id: 'nickname', label: '닉네임', align: 'center'},
+                    { id: 'name', label: '이름', align: 'center' },
+                    { id: 'status', label: '현재 상태' },
+                    { id: 'cash', label: '보유 캐시' },
+                    { id: 'days', label: '출석 일수' },
+                    { id: ''},
                   ]}
                   />
                 <TableBody>
@@ -142,13 +144,15 @@ export default function UserPage() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
                       <UserTableRow
+                      index={row.index}
                       key={row.id}
+                      nickname={row.nickname}
                       name={row.name}
-                      role={row.role}
+                      level={row.level}
+                      cash={row.cash}
+                      days={row.days}
                       status={row.status}
-                      company={row.company}
                       avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                       />

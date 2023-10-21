@@ -13,18 +13,21 @@ import IconButton from '@mui/material/IconButton';
 
 import Label from '../../dashboard/components/label';
 import Iconify from '../../dashboard/components/iconify';
+import AvatarCanvas from './avatarInventory/avatarCanvas';
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
   selected,
+  nickname,
   name,
   avatarUrl,
-  company,
-  role,
-  isVerified,
+  index,
+  level,
+  cash,
   status,
   handleClick,
+  days,
 }) {
   const [open, setOpen] = useState(null);
 
@@ -43,25 +46,40 @@ export default function UserTableRow({
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
 
-        <TableCell component="th" scope="row" padding="none">
+        <TableCell align='center'>{index}</TableCell>
+
+        <TableCell align='center'>{level}</TableCell>
+
+        <TableCell component="th" scope="row" align='center'>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={name} src={avatarUrl} />
+            {/* <Avatar alt={name} src={avatarUrl} /> */}
+            {/* 아바타 수정 */}
+            <div className="w-9 h-9">
+              <AvatarCanvas size={[200,200]} position={[128,128]} circle={true}/>
+            </div>
             <Typography variant="subtitle2" noWrap>
-              {name}
+              {nickname}
             </Typography>
           </Stack>
         </TableCell>
 
-        <TableCell>{company}</TableCell>
+        <TableCell align="center">
+          {name}
+        </TableCell>
 
-        <TableCell>{role}</TableCell>
-
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
-
-        <TableCell>
+        <TableCell align='center'>
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
         </TableCell>
 
+        <TableCell align='center'>
+          {cash}
+        </TableCell>
+
+        <TableCell align='center'>
+          {days}
+        </TableCell>
+
+        {/* 크기 줄여야 하는데... */}
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
