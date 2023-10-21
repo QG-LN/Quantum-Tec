@@ -52,8 +52,7 @@
 
 .sticky-menu{
   position: fixed;
-  right: 7%;
-  width: 150px;
+  width: 10rem;
   background-color: #f4f4f4;
   border-radius: 10px;
   transition: top 0.3s ease-in-out; /* 부드러운 이동을 위한 transition */

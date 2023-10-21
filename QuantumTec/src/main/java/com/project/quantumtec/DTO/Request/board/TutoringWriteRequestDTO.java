@@ -3,8 +3,7 @@ package com.project.quantumtec.DTO.Request.board;
 import lombok.Data;
 
 @Data
-public class TutoringModifyDTO {
-    private int postIndex;                          // 게시글 번호
+public class TutoringWriteRequestDTO {
     private String userID;                          // 유저 아이디
     private String postTitle;                       // 튜터링 게시물 제목
     private boolean runningType;                    // 온라인 여부

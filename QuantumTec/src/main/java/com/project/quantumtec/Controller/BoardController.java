@@ -1,14 +1,12 @@
 package com.project.quantumtec.Controller;
 
 
-import ch.qos.logback.core.model.Model;
 import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
+import com.project.quantumtec.DTO.Response.board.*;
 import com.project.quantumtec.Service.board.BoardService;
+import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -133,9 +131,15 @@ public class BoardController {
     public List<TutoringListResponseDTO> getTutoringList(@RequestBody TutoringListDTO request){
         return boardService.getTutoringList(request);
     }
+
+    @PostMapping("/tutoringOrderDataList")
+    public TutoringOrderDataListResponseDTO getTutoringCategoryList(){
+        return boardService.getTutoringOrderDataList();
+    }
+
     // 튜터링 게시물 작성
     @PostMapping("/tutoringWrite")
-    public boolean writeTutoringPost(@RequestBody TutoringWriteDTO request){
+    public boolean writeTutoringPost(@RequestBody TutoringWriteRequestDTO request) throws Exception {
         return boardService.writeTutoring(request);
     }
     // 튜터링 게시물 수정
@@ -146,7 +150,32 @@ public class BoardController {
     // 튜터링 게시물 삭제
     @PostMapping("/tutoringDelete")
     public boolean deleteTutoringPost(@RequestBody TutoringDeleteDTO request){
+        System.out.println(request);
         return boardService.deleteTutoring(request);
+    }
+
+    @PostMapping("/tutoringEnrollList")
+    public List<TutoringEnrollResponseDTO> getTutoringEnrollList(@RequestBody TutoringEnrollRequestDTO request){
+        return boardService.getTutoringEnrollList(request);
+    }
+
+    @PostMapping("/updateTutoringEnroll")
+    public boolean updateTutoringEnroll(@RequestBody TutoringEnrollRequestDTO request){
+        return boardService.updateTutoringEnroll(request);
+    }
+
+    @PostMapping("/checkTutoringEnroll")
+    public ResponseEntity<Boolean> checkTutoringEnroll(@RequestBody TutoringEnrollRequestDTO request){
+        try{
+            if (boardService.checkTutoringEnroll(request)){
+                return ResponseEntity.ok().body(true);
+            } else {
+                return ResponseEntity.ok().body(false);
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(500).body(false);
+        }
     }
 
 }

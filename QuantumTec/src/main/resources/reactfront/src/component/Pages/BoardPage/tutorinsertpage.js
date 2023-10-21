@@ -1,60 +1,86 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-// import { isDisabled } from '@testing-library/user-event/dist/utils';
+import { useNavigate, useLocation } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap CSS 로드
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Bootstrap JavaScript 로드
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // DatePicker CSS 로드
-
-const subjectsList = ["수학", "과학", "영어", "국어", "한국사"];
-const tutorsList = ["스터디", "학습위주"];
+import { axiosRequest } from "../../Utils/networkUtils";
 
 export default function TutorInsertPage() {
-  const [inputboardName, setInputboardName] = useState(""); //게시물 제목
-  const [inputusername, setInputusername] = useState(""); //작성자 이름
-  const [inputtutortype, setInputtutortype] = useState(""); //모집 구분
-  const [inputtutorplaying, setInputtutorplaying] = useState(""); //진행 방식
-  const [inputtutorrecruit, setInputtutorrecruit] = useState(""); //모집 인원
-  const [inputtutorstart, setInputtutorstart] = useState(new Date()); //모집 시작일
-  const [inputtutorcontact, setInputtutorcontact] = useState(""); //연락처
-  const [inputduration, setInputduration] = useState(""); //예상 기간
-  const [inputfield, setInputfield] = useState(""); //모집 분야
-  const [inputtutorsubject, setInputtutorsubject] = useState(""); //과목
-  const [inputtutorintro, setInputtutorintro] = useState(""); //튜터링 소개
-  const [inputtutorcontent, setInputtutorcontent] = useState(""); //튜터링 내용
+  const [inputboardName, setInputboardName] = useState("");                 //게시물 제목
+  const [inputtutorrecruit, setInputtutorrecruit] = useState("");           //모집 인원
+  const [inputtutorstart, setInputtutorstart] = useState(new Date());       //튜터링 시작일
+  const [inputtutorcontact, setInputtutorcontact] = useState("");           //연락처
+  const [inputduration, setInputduration] = useState("");                   //예상 기간
+  const [inputtutorintro, setInputtutorintro] = useState("");               //튜터링 소개
+  const [inputtutorcontent, setInputtutorcontent] = useState("");           //튜터링 내용
 
+  // 튜터링 게시글 정보를 Link를 통해 전달 받음
+  const location = useLocation();
+  
+  const [subjectList, setSubjectList] = useState(location.state ? location.state.subject : []);                       //과목 목록
+  const [tagList, setTagList] = useState(location.state ? location.state.tag : []);                //모집 구분 목록
+
+
+  const info = location.state.info ? location.state.info.info : undefined;    // Link로 접근한 것이 아닐 경우 null값 부여 [수정진행시 필요]
+  const orderCategory = location.state.info ? location.state.info.orderCategory : undefined;    // Link로 접근한 것이 아닐 경우 null값 부여 [수정진행시 필요]
+
+  // 모집 구분 모달 관련 state
+  const [selectedTutorType, setSelectedTutorType] = useState("");
+  const [addTutorType, setAddTutorType] = useState(new Set());
+
+  // 과목 선택 모달 관련 state
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [addsubject, setAddsubject] = useState(new Set());
+
+  //라디오 버튼 부분 [진행 방식 (온라인/오프라인))]
+  const [inputtutoronline, setInputTutorOnline] = useState(true);
+
+  const navigate = useNavigate();       // 페이지 이동을 위한 navigate 객체
+
+  // input data 초기화 함수
   const initInput = () => {
-    setInputboardName("");
-    setInputusername("");
-    setInputtutortype("");
-    setInputtutorplaying("");
-    setInputtutorrecruit("");
-    setInputtutorstart("");
-    setInputtutorcontact("");
-    setInputduration("");
-    setInputfield("");
-    setInputtutorsubject("");
-    setInputtutorintro("");
-    setInputtutorcontent("");
+    if(info === undefined){
+      setInputboardName("");
+      setInputtutorrecruit("");
+      setInputtutorstart("");
+      setInputtutorcontact("");
+      setInputduration("");
+      setInputtutorintro("");
+      setInputtutorcontent("");
+  
+      setSelectedTutorType("");
+      setAddTutorType(new Set());
+      setSelectedSubject("");
+      setAddsubject(new Set());
+    }else{
+      setInputboardName(info.postTitle);
+      setInputtutorrecruit(info.maxUserCount);
+      setInputtutorstart(new Date(info.startDate));
+      setInputtutorcontact(info.link);
+      setInputduration(info.expectedTime);
+      setInputtutorintro(info.postIntro);
+      setInputtutorcontent(info.postContent);
+
+      setSelectedTutorType(info.tags.join(', '));
+      setAddTutorType(new Set(info.tags));
+      setSelectedSubject(info.category.join(', '));
+      setAddsubject(new Set(info.category));
+
+      setSubjectList(orderCategory.subject);
+      setTagList(orderCategory.tag);
+    }
   };
 
   // 처음 로드 시에만 실행
   useEffect(() => {
     initInput();
+
   }, []);
 
   // input data 의 변화가 있을 때마다 value 값을 변경해서 useState 해준다
   const handleInputboardName = (e) => {
     setInputboardName(e.currentTarget.value);
-  };
-  const handleInputusername = (e) => {
-    setInputusername(e.currentTarget.value);
-  };
-  const handleInputtutortype = (e) => {
-    setInputtutortype(e.currentTarget.value);
-  };
-  const handleInputtutorplaying = (e) => {
-    setInputtutorplaying(e.currentTarget.value);
   };
   const handleInputtutorrecruit = (e) => {
     setInputtutorrecruit(e.currentTarget.value);
@@ -68,12 +94,6 @@ export default function TutorInsertPage() {
   const handleInputduration = (e) => {
     setInputduration(e.currentTarget.value);
   };
-  const handleInputfield = (e) => {
-    setInputfield(e.currentTarget.value);
-  };
-  const handleInputtutorsubject = (e) => {
-    setInputtutorsubject(e.currentTarget.value);
-  };
   const handleInputtutorintro = (e) => {
     setInputtutorintro(e.currentTarget.value);
   };
@@ -81,95 +101,189 @@ export default function TutorInsertPage() {
     setInputtutorcontent(e.currentTarget.value);
   };
 
+  // 게시글 작성 버튼 클릭시 실행할 함수
   const handleSubmit = () => {
-    // 입력된 데이터를 서버로 전송하거나 다른 처리를 수행할 수 있습니다.
-    // 예: axios.post('/api/createTutorPost', { data });
-    // 성공적으로 게시물을 작성한 후에 사용자를 다른 페이지로 이동시킬 수도 있습니다.
-  };
-
-  const [selectedTutorType, setSelectedTutorType] = useState("");
-  const [addTutorType, setAddTutorType] = useState(new Set());
-  // ... Other state and functions ...
-
-  const handleAddTutorType = (tutortype) => {
-    // Set에 subject 추가
-    const newSet = new Set(addTutorType);
-    newSet.add(tutortype);
-    setAddTutorType(newSet);
-
-    // Set을 문자열로 변환하여 selectedSubject에 할당
-    const selectedTutorTypeString = [...newSet].join(", ");
-    setSelectedTutorType(selectedTutorTypeString);
-  };
-
-  // 과목 선택 모달 관련 state
-  const [selectedSubject, setSelectedSubject] = useState("");
-  const [addsubject, setAddsubject] = useState(new Set());
-  // ... Other state and functions ...
-
-  const handleAddSubject = (subject) => {
-    // Set에 subject 추가
-    const newSet = new Set(addsubject);
-    newSet.add(subject);
-    setAddsubject(newSet);
-
-    // Set을 문자열로 변환하여 selectedSubject에 할당
-    const selectedSubjectString = [...newSet].join(", ");
-    setSelectedSubject(selectedSubjectString);
-  };
-
-  /**
-   * 서버와 데이터 통신을 진행하고 결과 데이터를 반환 받는 함수
-   * @param path 데이터를 전송할 서버의 주소
-   * @param body 전송할 데이터의 body JSON
-   * @param methodType 전송할 메소드 타입
-   * @return data 중복여부에따라 true/false 값이 미존재시 false반환
-   */
-  async function checkData(path, body, methodType) {
-    try {
-      const response = await fetch(path, {
-        method: methodType,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
-
-      // response 객체가 반환될때까지 기다린후 데이터가 전달되면 json 데이터를 반환
-      const data = await response.json();
-
-      // 반환값이 중복일 경우 true, 중복이 아닐 경우 false 이므로 !data로 반환
-      // 서버에서 받은 값이 없을 경우 false 반환
-      if (data !== null && data !== undefined && data !== "") {
-        return !data;
-      } else {
-        return false;
+    if(inputboardName === ""){
+      alert("게시물 제목을 입력해주세요.");
+      return;
+    } else if(selectedTutorType === ""){
+      alert("모집 구분을 선택해주세요.");
+      return;
+    } else if(inputtutorcontact === ""){
+      alert("연락처를 입력해주세요.");
+      return;
+    } else if(inputtutorrecruit === ""){
+      alert("모집 인원을 입력해주세요.");
+      return;
+    } else if(inputduration === ""){
+      alert("예상 기간을 입력해주세요.");
+      return;
+    } else if(selectedSubject === ""){
+      alert("과목을 선택해주세요.");
+      return;
+    } else if(inputtutorintro === ""){
+      alert("튜터링 소개글을 입력해주세요.");
+    } else if(inputtutorcontent === ""){
+      alert("튜터링 내용을 입력해주세요.");
+      return;
+    } else{
+      if(info !== undefined){
+        submitDataModify();
+      }else{
+        submitDataInsert();
       }
-    } catch (error) {
-      console.log(error);
-      return null;
     }
-  }
+  };
 
-  //라디오 버튼 부분
-  const [inputtutoronline, setInputTutorOnline] = useState(true);
+
+  const submitDataInsert = async () => {
+      // 게시글 작성 서버에 전달
+      const path = "board/tutoringWrite";
+      const body = {
+        userID : localStorage.getItem("userID"),
+        postTitle : inputboardName,
+        runningType : inputtutoronline,
+        link : inputtutorcontact,
+        startDate : inputtutorstart,
+        expectedTime : inputduration,
+        maxUserCount : inputtutorrecruit,
+        category : selectedSubject.replace(/(\s*)/g, ""),
+        tag : selectedTutorType.replace(/(\s*)/g, ""),
+        postIntro : inputtutorintro,
+        postContent : inputtutorcontent,
+      }
+      console.log(body);
+      const data = await axiosRequest(path, body, 'POST', 'json');
+      
+      if(data !== null){
+        alert("게시글 작성 완료");
+        navigate("/tutoring");
+      }
+  }
+  
+  const submitDataModify = async () => {
+    // 게시글 작성 서버에 전달
+    const path = "board/tutoringModify";
+    const body = {
+      postIndex : info.postIndex,
+      userID : localStorage.getItem("userID"),
+      postTitle : inputboardName,
+      runningType : inputtutoronline,
+      link : inputtutorcontact,
+      startDate : inputtutorstart,
+      expectedTime : inputduration,
+      maxUserCount : inputtutorrecruit,
+      category : selectedSubject.replace(/(\s*)/g, ""),
+      tag : selectedTutorType.replace(/(\s*)/g, ""),
+      postIntro : inputtutorintro,
+      postContent : inputtutorcontent,
+    }
+    console.log(body);
+    const data = await axiosRequest(path, body, 'POST', 'json');
+    
+    if(data !== null && data){
+      alert("게시글 수정 완료");
+      navigate("/tutoring");
+    }else{
+      alert("게시글 수정 실패");
+    }
+}
+
+
 
   const handleOnlineChange = () => {
     setInputTutorOnline(true);
-    setInputtutorplaying("오프라인");
-    console.log(inputtutorplaying);
   };
 
   const handleOfflineChange = () => {
     setInputTutorOnline(false);
-    setInputtutorplaying("온라인");
-    console.log(inputtutorplaying);
   };
 
   const OnClickCancel = () => {
-    // 취소 버튼 클릭시 메인 페이지로 이동
-    document.location.href = "/";
+    // 취소 버튼 클릭시 튜터링 메인 페이지로 이동
+    navigate("/tutoring")
   };
+
+/**
+ * Set에 value 추가 또는 제거 후 문자열로 변환하여 반환
+ * @param {Set} currentSet  현재 Set
+ * @param {*} value       추가 또는 제거할 값
+ * @param {function} setFunction Set을 변경할 함수
+ * @returns 문자열로 변환된 Set 값을 , 로 구분하여 반환
+ */
+const updateListSet = (currentSet, value, setFunction) => {
+  const newSet = new Set(currentSet);
+
+  if (newSet.has(value)) {
+    newSet.delete(value); // 이미 존재하면 제거
+  } else {
+    newSet.add(value); // 존재하지 않으면 추가
+  }
+
+  setFunction(newSet);
+  return [...newSet].join(", ");
+};
+
+  // 모집 분야 선택 모달에서 항목 클릭시 실행할 함수
+  const handelAddCategory = (category) => {
+    setSelectedTutorType(updateListSet(addTutorType, category, setAddTutorType));
+  }
+
+  // 모집 구분 선택 모달에서 항목 클릭시 실행할 함수
+  const handleAddTag = (tag) => {
+    setSelectedSubject(updateListSet(addsubject, tag, setAddsubject));
+  }
+
+
+  /**
+   * 모달 렌더링 함수 (모달의 title, list, handler를 인자로 받아 모달을 렌더링)
+   * @param {string} title 모달의 제목
+   * @param {Array<string>} list 모달에 표시할 목록
+   * @param {function} handler 목록 클릭시 실행할 함수
+   * @param {string} showId 모달의 id
+   * @todo 이미 선택된 항목은 구별할 수 있도록 스타일링
+   */
+  const renderModal = (title, list, handler, showId) =>{
+    return (
+      <div
+        className="modal fade"
+        id={showId}
+        tabIndex="-1"
+        aria-labelledby={showId + "Label"}
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id={showId + "Label"}>
+                {title}
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="닫기"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <ul className="list-group">
+                {list !== undefined && list.map((value) => (
+                  <li
+                    key={value}
+                    className="list-group-item"
+                    onClick={() => handler(value)}
+                    data-bs-dismiss="modal"
+                  >
+                    {value}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -203,12 +317,8 @@ export default function TutorInsertPage() {
               />
               </div>
               <div class='col-2'>
-              <button
-                type="button"
-                className="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#tutorTypeModal"
-              >
+              <button type="button" className="btn btn-primary"
+                data-bs-toggle="modal" data-bs-target="#tutorTypeModal">
                 선택
               </button>
               </div>
@@ -279,7 +389,8 @@ export default function TutorInsertPage() {
               <input
                 type="text"
                 className="form-control"
-                value={inputtutortype}
+                placeholder="3"
+                value={inputtutorrecruit}
                 onChange={handleInputtutorrecruit}
               />
               </div>
@@ -290,22 +401,12 @@ export default function TutorInsertPage() {
               <input
                 type="text"
                 className="form-control"
-                value={inputtutortype}
+                placeholder="3"
+                value={inputduration}
                 onChange={handleInputduration}
               />
               </div>
             </div>
-          </div>
-          <div className="mb-3 flex">
-            <label className=" form-label col-2">모집 분야</label>
-            <div class='col'>
-            <input
-              type="text"
-              className="form-control"
-              value={inputtutortype}
-              onChange={handleInputfield}
-            />
-          </div>
           </div>
           <div className="mb-3 flex">
             <label className="form-label col-2">과목</label>
@@ -362,7 +463,7 @@ export default function TutorInsertPage() {
               onClick={handleSubmit}
               className="btn btn-primary me-12"
             >
-              작성하기
+              {info !== undefined ? "수정" : "작성"}하기
             </button>
             <button
               type="button"
@@ -376,84 +477,11 @@ export default function TutorInsertPage() {
       </div>
 
       {/* 과목 선택 모달 */}
-
-      <div
-        className="modal fade"
-        id="subjectModal"
-        tabIndex="-1"
-        aria-labelledby="subjectModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="subjectModalLabel">
-                과목 선택
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="닫기"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <ul className="list-group">
-                {subjectsList.map((subject) => (
-                  <li
-                    key={subject}
-                    className="list-group-item"
-                    onClick={() => handleAddSubject(subject)}
-                    data-bs-dismiss="modal"
-                  >
-                    {subject}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      {renderModal("과목", subjectList, handleAddTag, "subjectModal")}
       {/* 모달 종료 */}
 
       {/* 모집 구분 선택 모달 */}
-      <div
-        className="modal fade"
-        id="tutorTypeModal"
-        tabIndex="-1"
-        aria-labelledby="TutorTypeLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="tutorTypeLabel">
-                모집 구분
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="닫기"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <ul className="list-group">
-                {tutorsList.map((tutortype) => (
-                  <li
-                    key={tutortype}
-                    className="list-group-item"
-                    onClick={() => handleAddTutorType(tutortype)}
-                    data-bs-dismiss="modal"
-                  >
-                    {tutortype}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      {renderModal("모집 구분", tagList, handelAddCategory, "tutorTypeModal")}
       {/* 모달 종료 */}
     </>
   );

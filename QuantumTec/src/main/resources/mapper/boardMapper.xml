@@ -277,14 +277,119 @@
     </select>
 
     <!-- 튜터링 게시판 리스트 불러오기 -->
-    <select id="getTutoringList" resultType="TutoringListResponseDTO"></select>
+    <select id="getTutoringList" resultType="TutoringPostVO" parameterType="TutoringListDTO">
+        SELECT *
+        FROM POST_TUTORING_INFO_VIEW
+        WHERE 1 = 1
+        <choose>
+            <when test="keyword != ''">
+                AND POST_TUTORING_TITLE LIKE CONCAT('%',#{keyword},'%') or AUTHOR_NICKNAME LIKE CONCAT('%',#{keyword},'%')
+            </when>
+            <when test="subject.length != 0">
+                AND
+                <foreach collection="subject" item="item" index="index" separator="OR">
+                    GAME_CATEGORIES LIKE CONCAT('%',#{item},'%')
+                </foreach>
+            </when>
+            <otherwise>
+                ;
+            </otherwise>
+        </choose>
+    </select>
 
     <!-- 튜터링 게시물 작성하기 -->
-    <insert id="writeTutoring" parameterType="TutoringWriteDTO"></insert>
+    <insert id="writeTutoring" parameterType="TutoringWriteDTO">
+        INSERT INTO POST_TUTORING_INFO_TB(POST_TUTORING_AUTHOR_INDEX, POST_TUTORING_TITLE, POST_TUTORING_CONTENT, POST_TUTORING_MAX_USER_COUNT, POST_TUTORING_USER_COUNT)
+        VALUES(
+               (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}),
+               #{postTutoringTitle}, #{postTutoringContent},
+               #{postTutoringMaxUserCount}, #{postTutoringUserCount}
+        );
+
+        <selectKey keyProperty="postTutoringIndex" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID() as postTutoringIndex;
+        </selectKey>
+    </insert>
+
+    <insert id="insertTutoringCategory" parameterType="TutoringWriteDTO">
+        INSERT INTO TUTORING_CATEGORY_LINK_TB(POST_TUTORING_INDEX, GAME_CATEGORY_ID)
+        VALUES
+            <foreach collection="postTutoringCategory" item="item" index="index" separator=",">
+                (#{postTutoringIndex}, (SELECT GAME_CATEGORY_ID FROM GAME_CATEGORY_TB WHERE GAME_CATEGORY_NAME = #{item}))
+            </foreach>
+        ;
+    </insert>
+
+    <insert id="insertTutoringTag" parameterType="TutoringWriteDTO">
+        INSERT INTO TUTORING_TAG_LINK_TB(POST_TUTORING_INDEX, TAG_INDEX)
+        VALUES
+            <foreach collection="postTutoringTags" item="item" index="index" separator=",">
+                (#{postTutoringIndex}, (SELECT TAG_INDEX FROM TAG_TB WHERE TAG_NAME = #{item}))
+            </foreach>
+        ;
+    </insert>
 
     <!-- 튜터링 게시물 수정하기 -->
-    <update id="modifyTutoring" parameterType="TutoringModifyDTO"></update>
+    <update id="modifyTutoring" parameterType="TutoringWriteDTO">
+        UPDATE POST_TUTORING_INFO_TB
+        SET POST_TUTORING_TITLE = #{postTutoringTitle}, POST_TUTORING_CONTENT = #{postTutoringContent}, POST_TUTORING_MAX_USER_COUNT = #{postTutoringMaxUserCount}
+        WHERE POST_TUTORING_INDEX = #{postTutoringIndex}
+            AND POST_TUTORING_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
+    </update>
 
     <!-- 튜터링 게시물 삭제하기 -->
-    <delete id="deleteTutoring" parameterType="TutoringDeleteDTO"></delete>
+    <delete id="deleteTutoringCategory" parameterType="TutoringDeleteDTO">
+        DELETE FROM TUTORING_CATEGORY_LINK_TB
+        WHERE POST_TUTORING_INDEX = #{postIndex};
+    </delete>
+    <delete id="deleteTutoringTag" parameterType="TutoringDeleteDTO">
+        DELETE FROM TUTORING_TAG_LINK_TB
+        WHERE POST_TUTORING_INDEX = #{postIndex};
+    </delete>
+    <delete id="deleteTutoring" parameterType="TutoringDeleteDTO">
+        DELETE FROM POST_TUTORING_INFO_TB
+        WHERE POST_TUTORING_INDEX = #{postIndex}
+            AND POST_TUTORING_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
+    </delete>
+
+    <!-- 튜터링 게시물 카테고리/태그 출력    -->
+    <select id="getTutoringOrderDataList" resultType="TutoringPostVO">
+        SELECT
+                (SELECT GROUP_CONCAT(GAME_CATEGORY_NAME) FROM GAME_CATEGORY_TB) AS GAME_CATEGORIES,
+                (SELECT GROUP_CONCAT(TAG_NAME) FROM TAG_TB) AS TAGS;
+    </select>
+
+    <!-- 튜터링 게시물 신청   -->
+    <insert id="insertTutoringEnroll" parameterType="TutoringEnrollRequestDTO">
+        INSERT INTO TUTORING_ENROLL_INFO_TB(POST_TUTORING_INDEX, USER_INDEX)
+        VALUES(#{postTutoringIndex}, (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID}));
+    </insert>
+
+    <!-- 튜터링 게시물 신청 상태 변경 -->
+    <update id="updateTutoringEnroll" parameterType="TutoringEnrollRequestDTO">
+        UPDATE TUTORING_ENROLL_INFO_TB
+        SET ENROLL_STATE = #{enrollState}
+        WHERE POST_TUTORING_INDEX = #{postTutoringIndex}
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_NICKNAME = #{userNickname});
+        UPDATE POST_TUTORING_INFO_TB
+        SET POST_TUTORING_USER_COUNT = (SELECT COUNT(*) FROM TUTORING_ENROLL_INFO_TB WHERE POST_TUTORING_INDEX = #{postTutoringIndex} AND ENROLL_STATE = '수락')
+        WHERE POST_TUTORING_INDEX = #{postTutoringIndex};
+    </update>
+
+    <!-- 튜터링 게시물 신청 리스트 출력 -->
+    <select id="getTutoringEnrollList" parameterType="TutoringEnrollRequestDTO" resultType="TutoringEnrollVO">
+        SELECT te.POST_TUTORING_INDEX, te.USER_INDEX, ut.USER_NICKNAME, te.ENROLL_CREATED_AT, te.ENROLL_UPDATED_AT, te.ENROLL_STATE
+        FROM TUTORING_ENROLL_INFO_TB te, USER_INFO_TB ut
+        WHERE te.USER_INDEX = ut.USER_INDEX
+            AND POST_TUTORING_INDEX = #{postTutoringIndex};
+    </select>
+
+    <!-- 튜터링 게시물 신청 여부 -->
+    <select id="checkTutoringEnroll" parameterType="TutoringEnrollRequestDTO" resultType="String">
+        SELECT ENROLL_STATE
+        FROM TUTORING_ENROLL_INFO_TB
+        WHERE POST_TUTORING_INDEX = #{postTutoringIndex}
+            AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID});
+    </select>
+
 </mapper>

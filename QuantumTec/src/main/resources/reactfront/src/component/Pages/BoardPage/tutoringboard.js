@@ -8,15 +8,23 @@ import { Link } from 'react-router-dom';
 import Tutoringlist from './tutoringlist';
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {axiosRequest} from '../../Utils/networkUtils';
 
 export default function TutoringBoardPage() {
 
-    const boardName = '튜터링 게시판'
     const [items, setItems] = useState([])                  // 보여줄 튜터 리스트
     const [page, setPage] = useState(1)                     // 현재 페이지
     const [ref, inView] = useInView()                       // 스크롤이 끝에 도달했는지 여부
     const [loading, setLoading] = useState(false)           // 로딩중인지 여부
    const [selectedCategories, setSelectedCategories] = useState([]); // 선택한 카테고리
+
+   const [tutoringInfoList, setTutoringInfoList] = useState([]); // 튜터링 게시글 목록
+   const [orderCategory, setOrderCategory] = useState({
+        subject : [],
+        tag: [],
+        person : [],
+        date : [],
+   }); // 정렬 기준
 
     const [search, setSearch] = useState("");   //검색어
     
@@ -25,133 +33,50 @@ export default function TutoringBoardPage() {
         setSearch(e.target.value)
     }
     const onClickSearch = () => {
+        console.log(orderCategory);
         setItems([]);
         if(page !== 1) {            // 페이지가 1이 아닐 경우 페이지를 1로 초기화하여 page useEffect를 실행
             setPage(1);
         }else{                      // 페이지가 1일 경우 기존 게임 목록을 삭제하고 새로 받아옴
-           
+            getTutoringList();
         }
     }
 
-    const ttlist = [
-        {
-            id: 1,
-            name: '테스트1',
-            cate: '테스트1',
-            img: '테스트1',
-            link: '테스트1'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 1,
-            name: '테스트1',
-            cate: '테스트1',
-            img: '테스트1',
-            link: '테스트1'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 1,
-            name: '테스트1',
-            cate: '테스트1',
-            img: '테스트1',
-            link: '테스트1'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 1,
-            name: '테스트1',
-            cate: '테스트1',
-            img: '테스트1',
-            link: '테스트1'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 1,
-            name: '테스트1',
-            cate: '테스트1',
-            img: '테스트1',
-            link: '테스트1'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-        {
-            id: 2,
-            name: '테스트2',
-            cate: '테스트2',
-            img: '테스트2',
-            link: '테스트2'
-        },
-    ]
+    useEffect(() => {
+        getTutoringList();
+        getTutoringOrderDataList();
+    }, [selectedCategories]);
+
+    
+    // 게시글 목록 조회
+    const getTutoringList = async () => {
+        const filteredCategory = selectedCategories.filter(category => orderCategory.subject.includes(category));
+
+        const path = 'board/tutoringList';
+        const body = {
+            pageNum : page,
+            keyword : search,
+            subject : filteredCategory,
+        }
+        const data = await axiosRequest(path, body, 'POST', 'json');
+        if(data !== null) {
+            setTutoringInfoList(data);
+        }
+    }
+
+    // 튜터링 태그/ 카테고리 목록 조회
+    const getTutoringOrderDataList = async () => {
+        const path = 'board/tutoringOrderDataList';
+        const data = await axiosRequest(path, null, 'POST', 'json');
+        console.log(data.tags);
+        setOrderCategory({subject:data.category.split(','), tag:data.tags.split(',')})
+    }
+
 
     const categroties = {
         subject: [ "수학", "과학"],
-        person: [ "1명", "2명", "3명"],
-        date: ["1일", "2일", "일주일", "한달"],
+        person: [ "2명", "4명", "5명 이상"],
+        date: ["1일", "1주일", "한달", "3개월이상"],
     }
   
     // 카테고리 선택/해제
@@ -212,21 +137,23 @@ export default function TutoringBoardPage() {
     return(
         <div>
             <div class=' bg-black  h-[211px] flex'>
-                <h1 class='text-white my-auto ml-80 text-[3.5rem] text-left'>{boardName}</h1>
+                <h1 class='text-white my-auto ml-80 text-[3.5rem] text-left'>튜터링 게시판</h1>
             </div>
             <div className="w-[65vw] h-[8vh] mx-auto mt-4">
                 <div class='container'>
                     <div className='row justify-content-end'>
                         {/* 게시글 추가 버튼을 우측 상단에 배치 */}
                         <div className='bg-green-300 p-2 rounded-full shadow-sm col-md-1 mb-2 mr-2'>
-                            <Link to={`/tutorinsert`} class='text-decoration-none text-black'>
+                            <Link to={`/tutoringPost`} class='text-decoration-none text-black'
+                                state={{subject : orderCategory.subject, tag : orderCategory.tag}}
+                            >
                                 게시글 추가
                             </Link>
                         </div>
                     </div>
                     <div className='row'>
                         <div className='col-sm-8'>
-                            {renderDropdown("과목", categroties.subject)}
+                            {renderDropdown("과목", orderCategory.subject)}
                             {renderDropdown("인원", categroties.person)}
                             {renderDropdown("날짜", categroties.date)}
                         </div>
@@ -258,17 +185,15 @@ export default function TutoringBoardPage() {
             {loading ? <div>로딩중</div> :
                 <section class="py-5">
                     <div class="container ml-n1 grid-cols-4 gap-[20px] gx-1 px-lg-5 mt-5 flex flex-wrap max-w-full">
-                        {ttlist.map((tutor, idx) => (
-                            <div key={idx} id={tutor.id}
+                        {tutoringInfoList.map((tutor, idx) => (
+                            <div key={idx} id={tutor.postIndex}
                                  className='row gx-0 row-cols-2 row-cols-md-3 row-cols-xl-4'
-                                 ref={idx === ttlist.length - 1 ? ref : null}>
-                                    <Link to={`/ttboard/${tutor.id}/${tutor.name}`} class='text-decoration-none text-black'>
+                                 ref={idx === tutoringInfoList.length - 1 ? ref : null}>
+                                    <Link to={`/tutoring/${tutor.postIndex}/${tutor.userNickname}`} class='text-decoration-none text-black'
+                                            state={{ info: { info: tutor, orderCategory: orderCategory } }}    
+                                    >
                                         <Tutoringlist
-                                            name={tutor.name}
-                                            cate={tutor.cate}
-                                            img={tutor.img}
-                                            link={tutor.link}
-                                            id={tutor.id}
+                                            info={tutor}
                                         />    
                                     </Link>
                             </div>
