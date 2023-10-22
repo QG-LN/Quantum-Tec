@@ -23,9 +23,17 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import AvatarInvetoryPage from "./component/Pages/avatarInventory/avatarMainPage";
 import DashBoard from './component/Pages/DashBoardPage/dashboard.js';
-import UserDashBoard from './component/Pages/DashBoardPage/userPage';
+import TablePage from './component/Pages/DashBoardPage/userPage';
 import DashBoardLayout from './component/Pages/DashBoardPage/dashboardLayout';
 import DashboardHome from './component/Pages/DashBoardPage/dashboardHome';
+
+import UserTableRow from './component/Pages/user-table-row';
+import users from './dashboard/_mock/user';
+import userHeadLabel from './dashboard/_mock/userHeadLabel';
+
+import GameTableRow from './component/Pages/game-table-row';
+import games from './dashboard/_mock/game';
+import gameHeadLabel from './dashboard/_mock/gameHeadLabel';
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
@@ -58,6 +66,7 @@ function App() {
           <Route path="/payments/fail" element={<PaymentsFail />}/>
           {/* <Route path="/dashboard" element={<DashBoardPage />}/> */}
           <Route path="/dashboard/user" element={<UserDashBoardPage />}/>
+          <Route path="/dashboard/game" element={<GameDashBoardPage />}/>
           <Route path="/dashboard/home" element={<HomeDashBoardPage />}/>
         </Routes>
       </div>
@@ -202,7 +211,15 @@ function DashBoardPage(){
 function UserDashBoardPage(){
   return (
     <div className="dashboard">
-        <UserDashBoard />
+        <TablePage dataRow={UserTableRow} dataLabel={userHeadLabel} data={users}/>
+    </div>
+  )
+}
+
+function GameDashBoardPage(){
+  return (
+    <div className="dashboard">
+        <TablePage dataRow={GameTableRow} dataLabel={gameHeadLabel} data={games}/>
     </div>
   )
 }

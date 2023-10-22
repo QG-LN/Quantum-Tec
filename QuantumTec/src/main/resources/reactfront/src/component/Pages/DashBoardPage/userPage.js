@@ -11,21 +11,18 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import users from '../../../dashboard/_mock/user';
-
 import Iconify from '../../../dashboard/components/iconify';
 import Scrollbar from '../../../dashboard/components/scrollbar';
 
 import TableNoData from '../table-no-data';
-import UserTableRow from '../user-table-row';
-import UserTableHead from '../user-table-head';
+import DataTableHead from '../table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
+export default function TablePage(props) {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -48,7 +45,7 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name);
+      const newSelecteds = props.data.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -88,7 +85,7 @@ export default function UserPage() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: users,
+    inputData: props.data,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -121,46 +118,29 @@ export default function UserPage() {
           <Scrollbar>
             <TableContainer sx={{ overflow: 'unset' }}>
               <Table sx={{ minWidth: 800 }}>
-                <UserTableHead
+                <DataTableHead
                   order={order}
                   orderBy={orderBy}
-                  rowCount={users.length}
+                  rowCount={props.data.length}
                   numSelected={selected.length}
                   onRequestSort={handleSort}
                   onSelectAllClick={handleSelectAllClick}
-                  headLabel={[
-                    { id: 'index', label: '번호' },
-                    { id: 'level', label: '레벨' },
-                    { id: 'nickname', label: '닉네임', align: 'center'},
-                    { id: 'name', label: '이름', align: 'center' },
-                    { id: 'status', label: '현재 상태' },
-                    { id: 'cash', label: '보유 캐시' },
-                    { id: 'days', label: '출석 일수' },
-                    { id: ''},
-                  ]}
+                  headLabel={props.dataLabel}
                   />
                 <TableBody>
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <UserTableRow
-                      index={row.index}
-                      key={row.id}
-                      nickname={row.nickname}
-                      name={row.name}
-                      level={row.level}
-                      cash={row.cash}
-                      days={row.days}
-                      status={row.status}
-                      avatarUrl={row.avatarUrl}
-                      selected={selected.indexOf(row.name) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
-                      />
+                      <props.dataRow
+                        row={row} 
+                        selected={selected.indexOf(row.name) !== -1}
+                        handleClick={(event) => handleClick(event, row.name)}
+                         />
                       ))}
 
                   <TableEmptyRows
                     height={77}
-                    emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                    emptyRows={emptyRows(page, rowsPerPage, props.data.length)}
                     />
 
                   {notFound && <TableNoData query={filterName} />}
@@ -172,7 +152,7 @@ export default function UserPage() {
           <TablePagination
             page={page}
             component="div"
-            count={users.length}
+            count={props.data.length}
             rowsPerPage={rowsPerPage}
             onPageChange={handleChangePage}
             rowsPerPageOptions={[5, 10, 25]}

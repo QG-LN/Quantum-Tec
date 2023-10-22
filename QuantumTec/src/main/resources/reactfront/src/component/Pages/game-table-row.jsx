@@ -1,35 +1,27 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import Label from '../../dashboard/components/label';
 import Iconify from '../../dashboard/components/iconify';
-import AvatarCanvas from './avatarInventory/avatarCanvas';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({row, selected, handleClick
+export default function GameTableRow({row, selected, handleClick
 }) {
 
-  const index = row.index;
-  const key = row.id;
-  const nickname = row.nickname;
   const name = row.name;
-  const level = row.level;
-  const cash = row.cash;
-  const days = row.days;
-  const status = row.status;
-  const avatarUrl = row.avatarUrl;
-
+  const price = row.price;
+  const company = row.company;
+  const category = row.category;
+  const review = row.review;
+  const index = row.index;
+  const day = row.day;
   const [open, setOpen] = useState(null);
 
   const handleOpenMenu = (event) => {
@@ -49,35 +41,26 @@ export default function UserTableRow({row, selected, handleClick
 
         <TableCell align='center'>{index}</TableCell>
 
-        <TableCell align='center'>{level}</TableCell>
-
-        <TableCell component="th" scope="row" align='center'>
-          <Stack direction="row" alignItems="center" spacing={2}>
-            {/* <Avatar alt={name} src={avatarUrl} /> */}
-            {/* 아바타 수정 */}
-            <div className="w-9 h-9">
-              <AvatarCanvas size={[200,200]} position={[128,128]} circle={true}/>
-            </div>
-            <Typography variant="subtitle2" noWrap>
-              {nickname}
-            </Typography>
-          </Stack>
-        </TableCell>
+        <TableCell align='center'>{name}</TableCell>
 
         <TableCell align="center">
-          {name}
+          {price}
         </TableCell>
 
         <TableCell align='center'>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
+          {company}
         </TableCell>
 
         <TableCell align='center'>
-          {cash}
+          {category}
         </TableCell>
 
         <TableCell align='center'>
-          {days}
+          {day}
+        </TableCell>
+
+        <TableCell align='center'>
+          {review}
         </TableCell>
 
         {/* 크기 줄여야 하는데... */}
@@ -112,13 +95,14 @@ export default function UserTableRow({row, selected, handleClick
   );
 }
 
-UserTableRow.propTypes = {
-  avatarUrl: PropTypes.any,
+GameTableRow.propTypes = {
+  gameName: PropTypes.any,
+  price: PropTypes.any,
   company: PropTypes.any,
+  category: PropTypes.any,
+  review: PropTypes.any,
+  index: PropTypes.any,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
-  name: PropTypes.any,
-  role: PropTypes.any,
+  day: PropTypes.any,
   selected: PropTypes.any,
-  status: PropTypes.string,
 };
