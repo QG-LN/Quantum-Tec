@@ -25,15 +25,17 @@ public class EmailApiImpl implements EmailApi{
     @Autowired
     private TemplateEngine templateEngine;
 
-
     private @Getter String key = null;
+    private SecureRandom random = new SecureRandom();   // 난수 생성을 위한 Random 클래스
+
+    private static final int KEY_LENGTH = 4;            // 인증키 길이
 
    @Value("${spring.mail.username}")
     private  String email;
     
     // 인증키 이메일 전송
     public boolean sendKeyEmail(String to, String subject, String text) throws Exception {
-        if (text.equals("") || text == null) {
+        if (text.isEmpty()) {
             return false;
         }
         else{
@@ -50,13 +52,14 @@ public class EmailApiImpl implements EmailApi{
     // 인증번호 생성
     public String createKey() throws Exception {
         Random random = new Random();
-        key = String.format("%04d", random.nextInt(10000)); // 4자리 랜덤 숫자 생성
+        key = String.format("%0"+ KEY_LENGTH +"d"
+                , random.nextInt((int) Math.pow(10,KEY_LENGTH))); // KEY_LENGTH 자리의 난수 생성
         return key;
     }
 
     // 인증번호 확인
-    public boolean checkKey(String key2) throws Exception {
-        return key == key2;
+    public boolean checkKey(String key) throws Exception {
+        return this.key.equals(key);
     }
 
     // 인증번호 삭제
@@ -67,7 +70,7 @@ public class EmailApiImpl implements EmailApi{
     @Override
     public boolean sendPwEmail(String to, String subject, String text) throws Exception {
 
-        if (text.equals("") || text == null) {
+        if (text.isEmpty()) {
             return false;
         }
         else{
@@ -100,13 +103,12 @@ public class EmailApiImpl implements EmailApi{
                 '!', '@', '#', '$', '%', '^', '&' };
 
         StringBuffer sb = new StringBuffer();
-        SecureRandom sr = new SecureRandom();
-        sr.setSeed(new Date().getTime());
+        random.setSeed(new Date().getTime());
 
         int idx = 0;
         int len = charSet.length;
         for (int i=0; i<size; i++) {
-            idx = sr.nextInt(len);
+            idx = random.nextInt(len);
             sb.append(charSet[idx]);
         }
         return sb.toString();
