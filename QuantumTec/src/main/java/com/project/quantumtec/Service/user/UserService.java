@@ -1,6 +1,7 @@
 package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
+import com.project.quantumtec.DTO.user.LogMetadata;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
 import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
@@ -67,5 +68,8 @@ public interface UserService {
     public void checkUserGrace() throws Exception;
     
     // 캐시 충전
-    public int chargeCash(CashChargeDTO cashChargeDTO);
+    public int chargeCash(CashChargeDTO cashChargeDTO) throws Exception;
+    
+    // 유저 메타데이터
+    public void setLogMetadata(LogMetadata logMetadata) throws Exception;
 }
