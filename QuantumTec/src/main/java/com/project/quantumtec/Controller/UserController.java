@@ -4,6 +4,7 @@ import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.DTO.Request.myinfo.PaymentMyInfoDTO;
 import com.project.quantumtec.DTO.Request.myinfo.requestMyInfoDTO;
 import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryListDTO;
+import com.project.quantumtec.DTO.user.LogMetadata;
 import com.project.quantumtec.DTO.user.LoginRequestDTO;
 import com.project.quantumtec.DTO.user.LoginResponseDTO;
 import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
@@ -123,7 +124,7 @@ public class UserController {
 
     // 캐시 충전
     @PostMapping("/cash/charge")
-    public int chargeCash(@RequestBody CashChargeDTO cashChargeDTO) {
+    public int chargeCash(@RequestBody CashChargeDTO cashChargeDTO) throws Exception {
         return userService.chargeCash(cashChargeDTO);
     }
 
@@ -131,4 +132,11 @@ public class UserController {
     public PaymentHistoryListDTO getPaymentHistory(@RequestBody PaymentMyInfoDTO user) throws Exception {
         return userPageService.getPaymentHistory(user);
     }
+
+    // 유저 메타데이터
+    @PostMapping("/log")
+    public void setLogMetadata(@RequestBody LogMetadata logMetadata) throws Exception {
+        userService.setLogMetadata(logMetadata);
+    }
+
 }

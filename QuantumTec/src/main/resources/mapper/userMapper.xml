@@ -140,4 +140,9 @@
         INSERT INTO CASH_PAYMENT_HISTORY_TB(USER_INDEX, ORDER_ID, PAYMENT_AMOUNT, PAYMENT_METHOD, PAYMENT_STATUS)
         VALUES((SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userId}), #{orderId}, #{amount}, "토스페이먼츠", "결제 완료");
     </insert>
+
+    <insert id="setLogMetadata" parameterType="LogMetadata">
+        SET @USER_ID = #{userId};
+        SET @USER_IP = #{userIp};
+    </insert>
 </mapper>
