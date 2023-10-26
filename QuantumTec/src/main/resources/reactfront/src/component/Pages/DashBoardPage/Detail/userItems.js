@@ -71,7 +71,7 @@ function UserItems() {
                 </tr>
             </tbody>
         </table> */}
-        <table className='d-flex justify-content-center table table-hover text-center align-middle'>
+        <table className='d-flex justify-content-center table text-center align-middle'>
             <tbody>
                 <tr>
                     <th>현재 레벨</th>
@@ -96,7 +96,7 @@ function UserItems() {
             <input className='form-check-input m-2' type="radio" name="filter" value="avatar" checked={filter === "avatar"} onChange={(e) => setFilter(e.target.value)} /> 아바타
             <input className='form-check-input m-2' type="radio" name="filter" value="game" checked={filter === "game"} onChange={(e) => setFilter(e.target.value)} /> 게임
         </div>
-        <table className='table table-hover text-center align-middle'>
+        <table className='table text-center align-middle'>
             <tbody>
                 <tr>
                     <th className='w-[5%]'>주문 번호</th>
