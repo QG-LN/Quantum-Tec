@@ -29,7 +29,7 @@ function TableCell({ id, content, className, onUpdate }) {
     // 테이블 셀에서 포커스가 벗어나면 수정 모드 종료
     const handleBlur = () => {
         if (originalContent !== inputValue) {
-            if (window.confirm("수정이 된 게 있습니다. 저장하시겠습니까?")) {
+            if (window.confirm("수정사항이 있습니다. 저장하시겠습니까?")) {
                 handleSave();
             }
             else{
