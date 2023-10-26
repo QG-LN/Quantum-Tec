@@ -31,6 +31,8 @@ import UserTableRow from './component/Pages/user-table-row';
 import users from './dashboard/_mock/user';
 import userHeadLabel from './dashboard/_mock/userHeadLabel';
 
+import UserProfile from './component/Pages/DashBoardPage/userProfile';
+
 import GameTableRow from './component/Pages/game-table-row';
 import games from './dashboard/_mock/game';
 import gameHeadLabel from './dashboard/_mock/gameHeadLabel';
@@ -67,6 +69,7 @@ function App() {
           <Route path="/payments/fail" element={<PaymentsFail />}/>
           {/* <Route path="/dashboard" element={<DashBoardPage />}/> */}
           <Route path="/dashboard/user" element={<UserDashBoardPage />}/>
+          <Route path="/dashboard/user/:id" element={<UserProfilePage />}/>
           <Route path="/dashboard/game" element={<GameDashBoardPage />}/>
           <Route path="/dashboard/home" element={<HomeDashBoardPage />}/>
         </Routes>
@@ -213,6 +216,14 @@ function UserDashBoardPage(){
   return (
     <div className="dashboard">
         <TablePage dataRow={UserTableRow} dataLabel={userHeadLabel} data={users}/>
+    </div>
+  )
+}
+
+function UserProfilePage(){
+  return (
+    <div className="dashboard">
+        <UserProfile />
     </div>
   )
 }
