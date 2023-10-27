@@ -30,11 +30,11 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserDAO userDAO;
-    @Autowired
-    private EmailApi emailApi;
 
     @Autowired
     private KeyService keyService;
+    @Autowired
+    private PasswordService passwordService;
 
     @Override
     public List<UserVO> getUserListAll() throws Exception {
@@ -126,9 +126,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean findPw(String userName, String userEmail, String userID) throws Exception {
         if (userDAO.findPw(userName, userEmail, userID)){
-            String tempPW = emailApi.createRandomPW(10);
-            changePw(userName, userEmail, userID, tempPW);
-            return emailApi.sendPwEmail(userEmail, "임시 비밀번호가 생성되었습니다", tempPW);
+            String tmpPassword = passwordService.createRandomPassword(10);          // 임시 비밀번호 생성
+            changePw(userName, userEmail, userID, tmpPassword);                           // 임시 비밀번호로 변경
+            return passwordService.sendPasswordResetEmail(userEmail, tmpPassword);        // 임시 비밀번호 이메일 전송
         }
         else return false;
     }
