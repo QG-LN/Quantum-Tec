@@ -3,12 +3,15 @@ package com.project.quantumtec.Service.user;
 import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.DTO.user.*;
 import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
-import com.project.quantumtec.Utils.user.emailApi.EmailApi;
+import com.project.quantumtec.Service.auth.KeyService;
+import com.project.quantumtec.Service.auth.PasswordService;
+import com.project.quantumtec.Service.utils.EmailApi;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +32,9 @@ public class UserServiceImpl implements UserService{
     private UserDAO userDAO;
     @Autowired
     private EmailApi emailApi;
+
+    @Autowired
+    private KeyService keyService;
 
     @Override
     public List<UserVO> getUserListAll() throws Exception {
@@ -66,7 +72,7 @@ public class UserServiceImpl implements UserService{
         boolean result = checkSignUp == 1;
 
         // 인증키 제거
-        emailApi.removeKey();
+        keyService.removeKey();
 
         return result;
     }
@@ -91,13 +97,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean sendEmailAuth(UserVO user) throws Exception {
-        emailApi.createKey();
-        return emailApi.sendKeyEmail(user.getUserEmail(), "TestTitle", emailApi.getKey());
+        keyService.createKey();
+        return keyService.sendKeyEmail(user.getUserEmail(), "TestTitle", keyService.getKey());
     }
     @Override
     public boolean checkEmailAuth(singupEmailCodeDTO key) throws Exception {
         // 이메일 인증키 확인
-        return emailApi.getKey().equals(key.getKey());
+        return keyService.getKey().equals(key.getKey());
     }
 
     @Override
