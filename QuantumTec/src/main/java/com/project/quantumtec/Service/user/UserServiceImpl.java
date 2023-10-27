@@ -5,13 +5,11 @@ import com.project.quantumtec.DTO.user.*;
 import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.Service.auth.KeyService;
 import com.project.quantumtec.Service.auth.PasswordService;
-import com.project.quantumtec.Service.utils.EmailApi;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;

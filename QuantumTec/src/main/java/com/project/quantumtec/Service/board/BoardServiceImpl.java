@@ -4,10 +4,13 @@ import com.project.quantumtec.DAO.board.BoardDAO;
 import com.project.quantumtec.DTO.Board.TutoringWriteDTO;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.*;
+import com.project.quantumtec.Service.utils.EmailService;
 import com.project.quantumtec.VO.board.TutoringEnrollVO;
 import com.project.quantumtec.VO.board.TutoringPostVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,12 @@ public class BoardServiceImpl implements BoardService{
 
     @Autowired
     private BoardDAO boardDAO;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private TemplateEngine templateEngine;  // 이메일 템플릿 엔진
 
     @Override
     public List<ListResponseDTO> getPostSearchList(ListDTO request) {
@@ -247,9 +256,32 @@ public class BoardServiceImpl implements BoardService{
 
         String check = boardDAO.checkTutoringEnroll(request);
 
-        // 신청 여부값이 null -> 신청기록 없음
+        // 신청 여부값이 null -> 신청 기록 없음
         if(check == null){
             return boardDAO.insertTutoringEnroll(request);
+        }else{
+            Context context = new Context();
+            context.setVariable("tutoringLink", request.getTutoringLink());    // 템플릿에 전달할 변수 설정
+
+            String title = "튜터링 신청 ";
+
+            if(request.getEnrollState().equals("수락")){
+                context.setVariable("accepted", true);
+                title += "수락";
+            }else {
+                context.setVariable("accepted", false);
+                title += "거절";
+            }
+            String htmlContent = templateEngine.process("html/emailTemplate/TutoringEnrollAccept.html", context);
+
+            try{
+                // 이메일로 알림 보내기 [카카오톡 링크와 함께]
+                emailService.sendEmail(request.getUserEmail(), title, htmlContent);
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
         return boardDAO.updateTutoringEnroll(request);
@@ -267,6 +299,7 @@ public class BoardServiceImpl implements BoardService{
             dto.setEnrollUpdatedAt(vos.get(i).getEnrollUpdatedAt());
             dto.setEnrollState(vos.get(i).getEnrollState());
             dto.setUserNickname(vos.get(i).getUserNickname());
+            dto.setUserEmail(vos.get(i).getUserEmail());
             dtos.add(dto);
         }
 

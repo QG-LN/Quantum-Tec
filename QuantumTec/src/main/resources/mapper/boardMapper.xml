@@ -378,7 +378,7 @@
 
     <!-- 튜터링 게시물 신청 리스트 출력 -->
     <select id="getTutoringEnrollList" parameterType="TutoringEnrollRequestDTO" resultType="TutoringEnrollVO">
-        SELECT te.POST_TUTORING_INDEX, te.USER_INDEX, ut.USER_NICKNAME, te.ENROLL_CREATED_AT, te.ENROLL_UPDATED_AT, te.ENROLL_STATE
+        SELECT te.POST_TUTORING_INDEX, te.USER_INDEX, ut.USER_NICKNAME, ut.USER_EMAIL, te.ENROLL_CREATED_AT, te.ENROLL_UPDATED_AT, te.ENROLL_STATE
         FROM TUTORING_ENROLL_INFO_TB te, USER_INFO_TB ut
         WHERE te.USER_INDEX = ut.USER_INDEX
             AND POST_TUTORING_INDEX = #{postTutoringIndex};
