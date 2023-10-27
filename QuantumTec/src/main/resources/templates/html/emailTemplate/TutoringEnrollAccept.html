@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>튜터링 신청 결과</title>
+</head>
+<body>
+<h1>튜터링 신청 결과</h1>
+
+<!-- 수락 여부에 따른 조건문 -->
+    <th:block th:if="${accepted==true}">
+        <div>
+            <p>안녕하세요,</p>
+            <p>튜터링 신청이 수락되었습니다. </p>
+            <ul>
+                <li><strong>튜터링 링크 :</strong> <span th:text="${tutoringLink}"></span></li>
+            </ul>
+        </div>
+    </th:block>
+
+    <th:block th:unless="${accepted==true}">
+        <div>
+            <p>안녕하세요,</p>
+            <p>죄송합니다. 튜터링 신청이 거절되었습니다. </p>
+        </div>
+    </th:block>
+</body>
+</html>
