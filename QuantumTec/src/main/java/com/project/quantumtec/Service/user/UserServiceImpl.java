@@ -3,7 +3,8 @@ package com.project.quantumtec.Service.user;
 import com.project.quantumtec.DAO.user.UserDAO;
 import com.project.quantumtec.DTO.user.*;
 import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
-import com.project.quantumtec.Utils.user.emailApi.EmailApi;
+import com.project.quantumtec.Service.auth.KeyService;
+import com.project.quantumtec.Service.auth.PasswordService;
 import com.project.quantumtec.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,8 +28,11 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserDAO userDAO;
+
     @Autowired
-    private EmailApi emailApi;
+    private KeyService keyService;
+    @Autowired
+    private PasswordService passwordService;
 
     @Override
     public List<UserVO> getUserListAll() throws Exception {
@@ -66,7 +70,7 @@ public class UserServiceImpl implements UserService{
         boolean result = checkSignUp == 1;
 
         // 인증키 제거
-        emailApi.removeKey();
+        keyService.removeKey();
 
         return result;
     }
@@ -91,13 +95,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean sendEmailAuth(UserVO user) throws Exception {
-        emailApi.createKey();
-        return emailApi.sendKeyEmail(user.getUserEmail(), "TestTitle", emailApi.getKey());
+        keyService.createKey();
+        return keyService.sendKeyEmail(user.getUserEmail(), "TestTitle", keyService.getKey());
     }
     @Override
     public boolean checkEmailAuth(singupEmailCodeDTO key) throws Exception {
         // 이메일 인증키 확인
-        return emailApi.getKey().equals(key.getKey());
+        return keyService.getKey().equals(key.getKey());
     }
 
     @Override
@@ -120,9 +124,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean findPw(String userName, String userEmail, String userID) throws Exception {
         if (userDAO.findPw(userName, userEmail, userID)){
-            String tempPW = emailApi.createRandomPW(10);
-            changePw(userName, userEmail, userID, tempPW);
-            return emailApi.sendPwEmail(userEmail, "임시 비밀번호가 생성되었습니다", tempPW);
+            String tmpPassword = passwordService.createRandomPassword(10);          // 임시 비밀번호 생성
+            changePw(userName, userEmail, userID, tmpPassword);                           // 임시 비밀번호로 변경
+            return passwordService.sendPasswordResetEmail(userEmail, tmpPassword);        // 임시 비밀번호 이메일 전송
         }
         else return false;
     }

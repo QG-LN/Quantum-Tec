@@ -449,6 +449,8 @@ export default function TutorPage() {
       postTutoringIndex: info.postIndex,
       userNickname: apply.userNickname,
       enrollState: type,
+      tutoringLink: info.link,
+      userEmail: apply.userEmail
     }
 
     const data = await axiosRequest(path, body, "POST", "boolean");
