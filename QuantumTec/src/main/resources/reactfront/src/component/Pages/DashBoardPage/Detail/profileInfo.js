@@ -30,7 +30,7 @@ function ProfileInfo({ userId }) {
         userIndex: 12345,
         userName: "홍길동",
         userNickname: "Gildong",
-        userId: "gildong123",
+        userId: "MMMMMMMMMMMMMMMMMMMM",
         userBirth: "1990-01-01",
         userEmail: "gildong@example.com",
         userGender: "m",
@@ -63,7 +63,7 @@ function ProfileInfo({ userId }) {
         <EditingContext.Provider value={{ editingId, setEditingId, originalContent, setOriginalContent }}>
             <Grid container>
                 <Grid item xs={12} sm={12} md={4}>
-                    <table className='table m-0'>
+                    <table className='table mb-0'>
                         <tbody>
                             <tr>
                                 <th className="w-[40%]">사용자 번호</th>
@@ -82,6 +82,8 @@ function ProfileInfo({ userId }) {
                                     onUpdate={handleContentUpdate} />
                             </tr>
                             <tr>
+                                {/* 글자 위로 아이콘 올라가는 거 해결 부탁 */}
+                                {/* 글자 크기 제한 추가 */}
                                 <th className="w-[40%]">아이디</th>
                                 <TableCell 
                                     id="userId"
@@ -204,6 +206,8 @@ function ProfileInfo({ userId }) {
             <table className='table'>
                 <tbody>
                     <tr>
+                        {/* 글자 위로 아이콘 올라가는 거 해결 부탁 */}
+                        {/* textarea로 변경 */}
                         <th className="w-[13%]">메모</th>
                         <TableCell 
                             id="memo"

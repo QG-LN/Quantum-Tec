@@ -52,9 +52,14 @@ function TableCell({ id, content, className, onUpdate }) {
         }
     }, [isEditing]);
 
+
+    //input
+    const test = () => {
+    };
+
     return (
         <td 
-            className={className} 
+            className={className+" position-relative cursor-text"} 
             onClick={handleEdit}
             onMouseEnter={() => setShowIcon(true)}
             onMouseLeave={() => setShowIcon(false)}
@@ -72,7 +77,7 @@ function TableCell({ id, content, className, onUpdate }) {
             ) : (
                 <>
                     {content}
-                    {showIcon && <FontAwesomeIcon icon={faPencilAlt} />}
+                    {showIcon && <FontAwesomeIcon className='position-absolute top-50 end-0 translate-middle' icon={faPencilAlt} />}
                 </>
             )}
         </td>

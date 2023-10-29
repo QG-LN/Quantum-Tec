@@ -25,7 +25,8 @@ function ActivityLog() {
     return (
         <div className="activity-log">
             <h2>활동 로그</h2>
-            <table className='table table-hover'>
+            <hr />
+            <table className='table'>
                 <tbody>
                     <tr>
                         <th className='w-[10%]'>변경 사항</th>

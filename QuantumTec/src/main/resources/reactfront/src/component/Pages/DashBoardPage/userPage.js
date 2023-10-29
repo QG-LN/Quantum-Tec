@@ -97,13 +97,14 @@ export default function TablePage(props) {
     },
   });
   return (
-    <Styles>
+    <Styles className='mt-[12vh]'>
       
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">Users</Typography>
+          <Typography variant="h4">{props.title}</Typography>
 
           <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+            {/* 수정할 것 */}
             New User
           </Button>
         </Stack>

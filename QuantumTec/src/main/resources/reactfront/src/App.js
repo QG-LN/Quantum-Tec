@@ -37,6 +37,8 @@ import GameTableRow from './component/Pages/game-table-row';
 import games from './dashboard/_mock/game';
 import gameHeadLabel from './dashboard/_mock/gameHeadLabel';
 
+import LogDetail from './component/Pages/DashBoardPage/Detail/logDetail.js';
+
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
@@ -70,6 +72,7 @@ function App() {
           {/* <Route path="/dashboard" element={<DashBoardPage />}/> */}
           <Route path="/dashboard/user" element={<UserDashBoardPage />}/>
           <Route path="/dashboard/user/:id" element={<UserProfilePage />}/>
+          <Route path="/dashboard/user/:id/log" element={<LogDetailPage />}/>
           <Route path="/dashboard/game" element={<GameDashBoardPage />}/>
           <Route path="/dashboard/home" element={<HomeDashBoardPage />}/>
         </Routes>
@@ -215,7 +218,7 @@ function DashBoardPage(){
 function UserDashBoardPage(){
   return (
     <div className="dashboard">
-        <TablePage dataRow={UserTableRow} dataLabel={userHeadLabel} data={users}/>
+        <TablePage title={"Users"} dataRow={UserTableRow} dataLabel={userHeadLabel} data={users}/>
     </div>
   )
 }
@@ -231,7 +234,7 @@ function UserProfilePage(){
 function GameDashBoardPage(){
   return (
     <div className="dashboard">
-        <TablePage dataRow={GameTableRow} dataLabel={gameHeadLabel} data={games}/>
+        <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={games}/>
     </div>
   )
 }
@@ -244,5 +247,12 @@ function HomeDashBoardPage(){
   )
 }
 
+function LogDetailPage(){
+  return (
+    <div className="dashboard">
+        <LogDetail />
+    </div>
+  )
+}
 
 export default App;
