@@ -11,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class GameCategoryListInfoDTO {
+public class GameCategoryInfoDTO {
     private int gameIndex;              // 게임 번호
     private String gameName;            // 게임 이름
     private String gamePrice;           // 게임 가격

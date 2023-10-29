@@ -53,7 +53,7 @@ public class GameController {
 
     // 게임과 동일한 카테고리를 가지고 있는 게임 리스트를 가져옴
     @PostMapping("/info/sameCategory")
-    public List<GameCategoryListInfoDTO> getGameCategoryInfo(@RequestBody GameCategoryListRequestDTO request){
+    public List<GameCategoryInfoDTO> getGameCategoryInfo(@RequestBody GameCategoryRequestDTO request){
         return gameService.getGameCategoryInfo(request);
     }
 

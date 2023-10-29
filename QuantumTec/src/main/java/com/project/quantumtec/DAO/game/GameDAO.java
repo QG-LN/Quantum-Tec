@@ -13,5 +13,8 @@ public interface GameDAO {
 
     public List<GameCommentDTO> getPostGameComment(GameCommentListDTO request);
 
-    public List<GameCategoryListInfoDTO> getGameCategoryInfo(GameCategoryListRequestDTO request);
+    public List<GameCategoryInfoDTO> getGameCategoryInfo(GameCategoryRequestDTO request);
+
+    // 게임 카테고리 리스트 가져오기
+    public List<GameCategoryDTO> getGameCategoryNameList();
 }

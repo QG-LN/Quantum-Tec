@@ -11,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class GameCategoryListRequestDTO {
+public class GameCategoryRequestDTO {
     private String gameCategoryName;
     private int startIndex;
     private int endIndex;
