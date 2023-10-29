@@ -47,12 +47,17 @@ public class GameDAOImpl implements GameDAO{
     }
 
     @Override
-    public List<GameCategoryListInfoDTO> getGameCategoryInfo(GameCategoryListRequestDTO request) {
+    public List<GameCategoryInfoDTO> getGameCategoryInfo(GameCategoryRequestDTO request) {
         try{
             return sqlSession.selectList("GameService.getGameCategoryList", request);
         }catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<GameCategoryDTO> getGameCategoryNameList() {
+        return sqlSession.selectList("GameService.getGameCategoryNameList");
     }
 }

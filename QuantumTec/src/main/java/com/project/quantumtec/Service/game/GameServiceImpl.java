@@ -36,8 +36,13 @@ public class GameServiceImpl implements GameService{
     }
 
     @Override
-    public List<GameCategoryListInfoDTO> getGameCategoryInfo(GameCategoryListRequestDTO request) {
+    public List<GameCategoryInfoDTO> getGameCategoryInfo(GameCategoryRequestDTO request) {
         return gameDAO.getGameCategoryInfo(request);
+    }
+
+    @Override
+    public List<GameCategoryDTO> getGameCategoryNameList() {
+        return gameDAO.getGameCategoryNameList();
     }
 
 }
