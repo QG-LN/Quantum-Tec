@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Stack from '@mui/material/Stack';
@@ -19,6 +20,7 @@ import AvatarCanvas from './avatarInventory/avatarCanvas';
 
 export default function UserTableRow({row, selected, handleClick
 }) {
+  const navigate = useNavigate();
 
   const index = row.index;
   const key = row.id;
@@ -40,9 +42,13 @@ export default function UserTableRow({row, selected, handleClick
     setOpen(null);
   };
 
+  const handleClickRow = (event) => {
+    navigate(`/dashboard/user/${index}`);
+  };
+
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+      <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClickRow}>
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>

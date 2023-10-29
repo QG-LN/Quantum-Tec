@@ -4,10 +4,10 @@ import LogDetailTableRow from '../../log-detail-table-row';
 
 function LogDetail() {
     const logDetailHeadLabel = [
-        { id: 'title', label: '변경사항' },
+        { id: 'title', label: '변경사항', align: 'center' },
         { id: 'content', label: '변경내용' },
-        { id: 'changer', label: '변경자' },
-        { id: 'changeDate', label: '변경 시간'},
+        { id: 'changer', label: '변경자', align: 'center' },
+        { id: 'changeDate', label: '변경 시간', align: 'center'},
         { id: ''}
     ];
 

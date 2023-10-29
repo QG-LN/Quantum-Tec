@@ -128,6 +128,7 @@ export default function TablePage(props) {
                   onSelectAllClick={handleSelectAllClick}
                   headLabel={props.dataLabel}
                   />
+                
                 <TableBody>
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

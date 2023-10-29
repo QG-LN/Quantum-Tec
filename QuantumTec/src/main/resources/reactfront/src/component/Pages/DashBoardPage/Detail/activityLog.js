@@ -1,6 +1,10 @@
 import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-function ActivityLog() {
+function ActivityLog({ userIndex }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+
     // 변경 사항, 변경 내용, 변경 자, 변경 시간
     const activityLog = [{
         changeDetails: "게시글",
@@ -22,11 +26,14 @@ function ActivityLog() {
     }
     ];
 
+    const handleClickRow = (e) => {
+        navigate(`${location.pathname}/log`);
+    };
     return (
         <div className="activity-log">
             <h2>활동 로그</h2>
             <hr />
-            <table className='table'>
+            <table className='table table-hover'>
                 <tbody>
                     <tr>
                         <th className='w-[10%]'>변경 사항</th>
@@ -34,9 +41,9 @@ function ActivityLog() {
                         <th className='w-[10%]'>변경 자</th>
                         <th className='w-[20%]'>변경 시간</th>
                     </tr>
-                    {activityLog.map((activity, index) => {
+                    {activityLog.map((activity, _) => {
                         return (
-                            <tr key={index}>
+                            <tr key={activity.changeDetails} onClick={handleClickRow}>
                                 <td>{activity.changeDetails}</td>
                                 <td>{activity.changeDescription}</td>
                                 <td>{activity.changer}</td>
