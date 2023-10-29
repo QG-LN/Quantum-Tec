@@ -1,8 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {useEffect} from 'react';
 import Gamelist from './gamelist.js';
-import axios from 'axios';
-import Gamepage from '../GamePage/gamepage.js';
 import {useInView} from 'react-intersection-observer';
 import {axiosRequest} from '../../Utils/networkUtils';
 
@@ -19,9 +17,7 @@ export default function Section() {
 
     const searchIcon = 'http://localhost:9090/image/game/default_icon_search.png'; // 검색 아이콘
 
-    const [categoryList , setCategoryList] = useState([
-        "전체", "수학", "국어", "과학", "영어", "사회", "일본어"
-    ]);  // 카테고리 리스트
+    const [categoryList , setCategoryList] = useState([]);  // 카테고리 리스트
 
     const handleInputCate = (e) => {
         setInputCate(e.target.value)
@@ -95,59 +91,32 @@ export default function Section() {
 
     // 최초 렌더링 시 카테고리 리스트를 받아옴
     useEffect(() => {
-        const path = "/loadCategory";
-        axios.get(path)
-            .then(res => {
-                setCategoryList(res.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        loadCategoryList();
     }, [])
+
+    // 서버에서 카테고리 리스트를 받아오는 함수
+    const loadCategoryList = async () => {
+        const path = "loadCategory";
+        const data = await axiosRequest(path, {}, 'post', 'list')
+        if(data !== null) {
+            setCategoryList(data.map((category) => category.gameCategoryName));
+            console.log(data);
+        }else{
+            setCategoryList([]);
+            alert("카테고리를 불러오는데 실패하였습니다.");
+        }
+    }
 
     // 카테고리 리스트 렌더링
     const renderCategory = () => {
-        return (
-            <fieldset class='radioButtonStyle'>
-                <legend class='absolute overflow-hidden h-1 w-1 m-[-1px]'/>
-                {categoryList.map((category, idx) => () => {
-                    return (
-                        <label className='radioStyle hover:cursor-pointer'>
-                            <input type="radio" name='cate' id='cate' onChange={handleInputCate} value={category} checked={inputCate === category}/>
-                            <span onClick={Clickcate}>#{category}</span>
-                        </label>
-                    )
-                })}
-                {/* <label className='radioStyle hover:cursor-pointer'>
-                    <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='전체' checked={inputCate === '전체'}/>
-                    <span onClick={Clickcate}>#전체</span>
-                </label>
-                <label className='radioStyle hover:cursor-pointer'>
-                    <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='수학' checked={inputCate === '수학'}/>
-                    <span onClick={Clickcate}>#수학</span>
-                </label>
-                <label className='radioStyle hover:cursor-pointer'>
-                    <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='국어' checked={inputCate === '국어'}/>
-                    <span onClick={Clickcate}>#국어</span>
-                </label>
-                <label className='radioStyle hover:cursor-pointer'>
-                    <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='과학' checked={inputCate === '과학'}/>
-                    <span onClick={Clickcate}>#과학</span>
-                </label>
-                <label className='radioStyle hover:cursor-pointer'>
-                    <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='영어' checked={inputCate === '영어'}/>
-                    <span onClick={Clickcate}>#영어</span>
-                </label>
-                <label className='radioStyle hover:cursor-pointer'>
-                    <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='사회' checked={inputCate === '사회'}/>
-                    <span onClick={Clickcate}>#사회</span>
-                </label>
-                <label className='radioStyle hover:cursor-pointer'>
-                    <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='일본어' checked={inputCate === '일본어'}/>
-                    <span onClick={Clickcate}>#일본어</span>
-                </label> */}
-            </fieldset>
-        )
+        return categoryList.map((category, idx) => (
+            <label className='radioStyle hover:cursor-pointer'>
+                <input type="radio" name='cate' id='cate' onChange={handleInputCate} 
+                    value={category} 
+                    checked={inputCate === category}/>
+                <span onClick={Clickcate}>#{category}</span>
+            </label>
+        ))
     }
 
 
@@ -176,7 +145,6 @@ export default function Section() {
     },[inputCate]);
 
 
-
     const Clickcate = (e) => {
         let index = e.target;
     }
@@ -188,7 +156,6 @@ export default function Section() {
             getGameList();
         }
     }
-
 
     return (
 
@@ -208,7 +175,14 @@ export default function Section() {
             </div>
             <section>
                 <div class=' bg-white relative pt-[20px] pr-[30px] pb-[30px] pl-[3px]  text-center rounded-md'>
+                <fieldset class='radioButtonStyle'>
+                    <legend class='absolute overflow-hidden h-1 w-1 m-[-1px]'/>
+                    <label className='radioStyle hover:cursor-pointer'>
+                        <input type="radio" name='cate' id='cate' onChange={handleInputCate} value='전체' checked={inputCate === '전체'}/>
+                        <span onClick={Clickcate}>#전체</span>
+                    </label>
                     {renderCategory()}
+                </fieldset>
                 </div>
             </section>
 
