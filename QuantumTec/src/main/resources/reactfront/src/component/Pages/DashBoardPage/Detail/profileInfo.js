@@ -71,7 +71,8 @@ function ProfileInfo({ userId }) {
                                     id="userIndex"
                                     content={profileInfo.userIndex}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate}
+                                    editable={false} />
                             </tr>
                             <tr>
                                 <th className="w-[40%]">이름</th>
@@ -89,7 +90,8 @@ function ProfileInfo({ userId }) {
                                     id="userId"
                                     content={profileInfo.userId}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false} />
                             </tr>
                             <tr>
                                 <th className="w-[40%]">닉네임</th>
@@ -135,7 +137,8 @@ function ProfileInfo({ userId }) {
                                     id="attendance"
                                     content={additionalInfo.attendance}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false} />
                             </tr>
                             <tr>
                                 <th className="w-[40%]">아바타수</th>
@@ -143,7 +146,8 @@ function ProfileInfo({ userId }) {
                                     id="avatarCount"
                                     content={additionalInfo.avatarCount}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false} />
                             </tr>
                             <tr>
                                 <th className="w-[40%]">차단 횟수</th>
@@ -151,7 +155,8 @@ function ProfileInfo({ userId }) {
                                     id="blockCount"
                                     content={additionalInfo.blockCount}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false} />
                             </tr>
                         </tbody>
                     </table>
@@ -189,7 +194,8 @@ function ProfileInfo({ userId }) {
                                     id="userCreateAt"
                                     content={profileInfo.userCreateAt}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false} />
                             </tr>
                             <tr>
                                 <th className="w-[40%]">개인정보 수정 기록</th>
@@ -197,7 +203,8 @@ function ProfileInfo({ userId }) {
                                     id="editHistory"
                                     content={additionalInfo.editHistory.join(', ')}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false} />
                             </tr>
                         </tbody>
                     </table>

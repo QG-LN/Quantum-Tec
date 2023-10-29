@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import {EditingContext} from './Detail/profileInfo';
 
-function TableCell({ id, content, className, onUpdate }) {
+function TableCell({ id, content, className, onUpdate, editable = true }) {
     const { editingId, setEditingId, originalContent, setOriginalContent } = useContext(EditingContext);
     const [inputValue, setInputValue] = useState(content); // 수정 중인 셀의 값
     const [showIcon, setShowIcon] = useState(false); // 수정(연필) 아이콘 표시 여부
@@ -22,7 +22,7 @@ function TableCell({ id, content, className, onUpdate }) {
     };
     // 테이블 셀을 클릭하면 수정 모드로 변경
     const handleEdit = () => {
-        if (isEditing) return;  // 추가된 코드
+        if (isEditing || !editable) return;  // 추가된 코드
         setEditingId(id);
         setOriginalContent(inputValue);
     };
@@ -59,9 +59,9 @@ function TableCell({ id, content, className, onUpdate }) {
 
     return (
         <td 
-            className={className+" position-relative cursor-text"} 
+            className={className+" position-relative"+ (editable ? " cursor-text" : " cursor-not-allowed")} 
             onClick={handleEdit}
-            onMouseEnter={() => setShowIcon(true)}
+            onMouseEnter={() => setShowIcon(editable?true:false)}
             onMouseLeave={() => setShowIcon(false)}
         >
             {isEditing ? (
