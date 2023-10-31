@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Grid, Table } from '@mui/material';
 import TableCell from '../tableCell';
+import AvatarCanvas from '../../avatarInventory/avatarCanvas';
 
 export const EditingContext = React.createContext();
 
@@ -22,7 +23,6 @@ function ProfileInfo({ userId }) {
                 [id]: newContent
             }));
         }
-        console.log(newContent)
     };
     
 
@@ -30,7 +30,7 @@ function ProfileInfo({ userId }) {
         userIndex: 12345,
         userName: "홍길동",
         userNickname: "Gildong",
-        userId: "MMMMMMMMMMMMMMMMMMMM",
+        userId: "asdasd",
         userBirth: "1990-01-01",
         userEmail: "gildong@example.com",
         userGender: "m",
@@ -48,21 +48,18 @@ function ProfileInfo({ userId }) {
         blockCount: 2
     });
 
-    // useEffect(() => {
-    //     axios.get(`/api/users/${userId}/profile`).then(response => {
-    //     setProfile(response.data);
-    //     });
-    // }, [userId]);
-
-    // if (!profile) return <div>Loading...</div>;
-
   return (
     <div className="profile-info">
         <h2>프로필 정보</h2>
         <hr />
         <EditingContext.Provider value={{ editingId, setEditingId, originalContent, setOriginalContent }}>
             <Grid container>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={2} className='pt-3'>
+                    <div>
+                        <AvatarCanvas size={[512,512]} />
+                    </div>
+                </Grid>
+                <Grid item xs={12} sm={12} md={3.6}>
                     <table className='table mb-0'>
                         <tbody>
                             <tr>
@@ -112,9 +109,25 @@ function ProfileInfo({ userId }) {
                         </tbody>
                     </table>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={3.6}>
                     <table className='table m-0'>
                         <tbody>
+                            <tr>
+                                <th className="w-[40%]">생년월일</th>
+                                <TableCell 
+                                    id="userAddress"
+                                    content={profileInfo.userAddress}
+                                    className="w-[60%]"
+                                    onUpdate={handleContentUpdate} />
+                            </tr>
+                            <tr>
+                                <th className="w-[40%]">이메일</th>
+                                <TableCell 
+                                    id="userEmail"
+                                    content={profileInfo.userEmail}
+                                    className="w-[60%]"
+                                    onUpdate={handleContentUpdate} />
+                            </tr>
                             <tr>
                                 <th className="w-[40%]">생년월일</th>
                                 <TableCell 
@@ -124,7 +137,39 @@ function ProfileInfo({ userId }) {
                                     onUpdate={handleContentUpdate} />
                             </tr>
                             <tr>
-                                <th className="w-[40%]">사용자 권한</th>
+                                <th className="w-[40%]">가입 날짜</th>
+                                <TableCell 
+                                    id="userCreateAt"
+                                    content={profileInfo.userCreateAt}
+                                    className="w-[60%]"
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false} />
+                            </tr>
+                            <tr>
+                                <th className="w-[40%]">수정 기록</th>
+                                <TableCell 
+                                    id="editHistory"
+                                    content={additionalInfo.editHistory.join(', ')}
+                                    className="w-[60%]"
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false} />
+                            </tr>
+                        </tbody>
+                    </table>
+                </Grid>
+                <Grid item xs={12} sm={12} md={2.7}>
+                    <table className='table m-0'>
+                        <tbody>
+                            <tr>
+                                <th className="w-[40%]">블랙리스트</th>
+                                <TableCell 
+                                    id="blacklist"
+                                    content={additionalInfo.blacklist ? "Yes" : "No"}
+                                    className="w-[60%]"
+                                    onUpdate={handleContentUpdate} />
+                            </tr>
+                            <tr>
+                                <th className="w-[40%]">권한</th>
                                 <TableCell 
                                     id="permissions"
                                     content={additionalInfo.permissions.join(', ')}
@@ -161,61 +206,13 @@ function ProfileInfo({ userId }) {
                         </tbody>
                     </table>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
-                    <table className='table m-0'>
-                        <tbody>
-                            <tr>
-                                <th className="w-[40%]">블랙리스트</th>
-                                <TableCell 
-                                    id="blacklist"
-                                    content={additionalInfo.blacklist ? "Yes" : "No"}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
-                            </tr>
-                            <tr>
-                                <th className="w-[40%]">주소</th>
-                                <TableCell 
-                                    id="userAddress"
-                                    content={profileInfo.userAddress}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
-                            </tr>
-                            <tr>
-                                <th className="w-[40%]">이메일</th>
-                                <TableCell 
-                                    id="userEmail"
-                                    content={profileInfo.userEmail}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
-                            </tr>
-                            <tr>
-                                <th className="w-[40%]">가입 날짜</th>
-                                <TableCell 
-                                    id="userCreateAt"
-                                    content={profileInfo.userCreateAt}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} 
-                                    editable={false} />
-                            </tr>
-                            <tr>
-                                <th className="w-[40%]">개인정보 수정 기록</th>
-                                <TableCell 
-                                    id="editHistory"
-                                    content={additionalInfo.editHistory.join(', ')}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} 
-                                    editable={false} />
-                            </tr>
-                        </tbody>
-                    </table>
-                </Grid>
             </Grid>
             <table className='table'>
                 <tbody>
                     <tr>
                         {/* 글자 위로 아이콘 올라가는 거 해결 부탁 */}
                         {/* textarea로 변경 */}
-                        <th className="w-[13%]">메모</th>
+                        <th className="w-[5%]">메모</th>
                         <TableCell 
                             id="memo"
                             content={additionalInfo.memo}
