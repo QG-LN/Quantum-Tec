@@ -9,8 +9,6 @@ function UserItems() {
         exp: 50000000,
         freeCash: 100000,
         paidCash: 20000,
-        avatars: ["아바타1", "아바타2"],
-        games: ["게임A", "게임B"]
     };
       
     const paymentHistory = [
@@ -43,34 +41,6 @@ function UserItems() {
         <div className="user-items">
         <h2>사용자 보유 항목</h2>
         <hr />
-        {/* <table className='d-flex justify-content-start table table-hover'>
-            <tbody>
-                <tr>
-                    <th>현재 레벨</th>
-                    <td>{userItems.level}</td>
-                </tr>
-                <tr>
-                    <th>경험치</th>
-                    <td>{userItems.exp}</td>
-                </tr>
-                <tr>
-                    <th>무료 캐시</th>
-                    <td>{userItems.freeCash}</td>
-                </tr>
-                <tr>
-                    <th>유료 캐시</th>
-                    <td>{userItems.paidCash}</td>
-                </tr>
-                <tr>
-                    <th>보유 아바타</th>
-                    <td>{userItems.avatars.join(', ')}</td>
-                </tr>
-                <tr>
-                    <th>보유 게임</th>
-                    <td>{userItems.games.join(', ')}</td>
-                </tr>
-            </tbody>
-        </table> */}
         <table className='d-flex justify-content-center table text-center align-middle'>
             <tbody>
                 <tr>
@@ -78,16 +48,12 @@ function UserItems() {
                     <th>경험치</th>
                     <th>무료 캐시</th>
                     <th>유료 캐시</th>
-                    {/* <th>보유 아바타</th>
-                    <th>보유 게임</th> */}
                 </tr>
                 <tr>
                     <td>{userItems.level}</td>
                     <td>{userItems.exp}</td>
                     <td>{userItems.freeCash}</td>
                     <td>{userItems.paidCash}</td>
-                    {/* <td>{userItems.avatars.join(', ')}</td>
-                    <td>{userItems.games.join(', ')}</td> */}
                 </tr>
             </tbody>
         </table>
@@ -99,7 +65,7 @@ function UserItems() {
         <table className='table text-center align-middle'>
             <tbody>
                 <tr>
-                    <th className='w-[5%]'>주문 번호</th>
+                    <th className='w-[5%]'>번호</th>
                     <th className='w-[10%]'>상품 종류</th>
                     <th className='w-[20%]'>상품 명칭</th>
                     <th className='w-[10%]'>결제 금액</th>
