@@ -122,6 +122,29 @@ export default function TutorPage() {
     }
   ]);
 
+  /**
+   * 이벤트가 없는 빈 버튼으로 초기화
+   * @param {*} id 버튼 인덱스
+   * @param {*} title 버튼 텍스트
+   * @param {*} newIcon 변경할 버튼의 새 아이콘
+   */
+  const initButtonEvent = (id, title, newIcon) => {
+    setButtons(
+      buttons.map((button) => {
+        if(button.id === id){
+          return {
+            ...button,
+            text: title,
+            icon: newIcon,
+            buttonOK: undefined,
+          }
+        }else{
+          return button;
+        }
+      })
+    )
+  }
+
   useEffect(() => {
     // 튜터링 게시글 정보가 존재할 경우 상태를 업데이트
     if (info === null) {
@@ -157,56 +180,71 @@ export default function TutorPage() {
 
   //튜터링 신청 여부에 따른 버튼 변경
   useEffect(() => {
-    setButtons(
-      buttons.map((button) =>{
-        if(button.id === 4){
-          return {
-            ...button,
-            text: isEnroll ? "신청취소" : "신청하기",
-            comment: isEnroll
-            ? "정말로 신청을 취소하시겠습니까?"
-            : "정말로 신청하시겠습니까?",
-            buttonOK: {
-              title: isEnroll ? "신청 취소하기" : "신청하기",
-              event: () => {
-                confirmModal("update");
+    if(userCount === maxUserCount){
+      initButtonEvent(4,"모집 완료",faCheck);
+    }else{
+      setButtons(
+        buttons.map((button) =>{
+          if(button.id === 4){
+            return {
+              ...button,
+              text: isEnroll ? "신청취소" : "신청하기",
+              comment: isEnroll
+              ? "정말로 신청을 취소하시겠습니까?"
+              : "정말로 신청하시겠습니까?",
+              buttonOK: {
+                title: isEnroll ? "신청 취소하기" : "신청하기",
+                event: () => {
+                  confirmModal("update");
+                },
               },
-            },
+            }
+          }else{
+            return button;
           }
-        }else{
-          return button;
-        }
-      })
-    )
+        })
+      )
+    }
   }, [isEnroll]);
 
   //튜터링 게시글 상태 변동에 따른 버튼 변경
   useEffect(() => {
-    setButtons(
-      buttons.map((button) =>{
-        if(button.id === 6){
-          return {
-            ...button,
-            text: postState ? "모집 중지" : "모집 진행",
-            comment: postState ? "정말로 모집을 중지하시겠습니까?" : "모집을 진행상태로 변경하시겠습니까?",
-            icon : postState ? faBan : faUserPlus,
-            buttonOK: {
-              title: postState ? "모집 중지" : "모집 진행",
-              event: () => {
-                confirmModal("postUpdate");
+    if(userCount === maxUserCount){
+      initButtonEvent(6,"모집 완료",faBan);
+    }else{
+      setButtons(
+        buttons.map((button) =>{
+          if(button.id === 6){
+            return {
+              ...button,
+              text: postState ? "모집 중지" : "모집 진행",
+              comment: postState ? "정말로 모집을 중지하시겠습니까?" : "모집을 진행상태로 변경하시겠습니까?",
+              icon : postState ? faBan : faUserPlus,
+              buttonOK: {
+                title: postState ? "모집 중지" : "모집 진행",
+                event: () => {
+                  confirmModal("postUpdate");
+                },
               },
-            },
+            }
+          }else{
+            return button;
           }
-        }else{
-          return button;
-        }
-      })
-    )
+        })
+      )
+    }
+
   }, [postState]);
 
   useEffect(() => {
     console.log(isEnrollButtonDisabled)
   }, [isEnrollButtonDisabled]);
+
+  useEffect(() => {
+    if(userCount === maxUserCount){
+      initButtonEvent(6,"모집 완료",faBan);
+    }
+  },[userCount]);
   
   // 게시글 작성자와 로그인한 유저가 같은지 확인
   const checkPostWriter = useCallback((nickName) => {
@@ -246,7 +284,6 @@ export default function TutorPage() {
     };
 
     const data = await axiosRequest(path, body, "POST", "json");
-    console.log("data : " + data);
     if(data === null || data === false || data === undefined){
       setIsEnroll(false); 
     }else{
@@ -319,15 +356,12 @@ export default function TutorPage() {
   // 게시글 상태 변경 이벤트
   const postStateUpdateEvent = async () => {
     const path = "board/tutoringPostStateUpdate";
-    console.log(postState)
     const body = {
       postIndex: info.postIndex,
       userID: localStorage.getItem("userID"),
       postStatus: !postState,
     };
-    console.log(body);
     const data = await axiosRequest(path, body, "POST", "json");
-    console.log(data);
     if(data === null || data === false || data === undefined){
       alert("모집 상태 변경 실패");
     }else if(data){

@@ -14,7 +14,9 @@ export default function Tutoringlist(props) {
   const userIcon = info.userIcon;                 // 게시글 작성자 아이콘
   const tutorCount = info.userCount;              // 튜터링 인원 수
   const tutorMaxCount = info.maxUserCount;        // 튜터링 최대 인원 수
-  const postState = info.postState;               // 게시글 상태
+
+  // 모집 인원과 현재 인원이 같을 경우 게시글 상태를 false[비활성화]로 변경
+  const postState = info.userCount === info.maxUserCount ? false : info.postState;               // 게시글 상태
 
   //글자 제한
   const setTitleSize = (title) => {

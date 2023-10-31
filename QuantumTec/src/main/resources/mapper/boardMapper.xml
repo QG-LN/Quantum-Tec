@@ -367,13 +367,21 @@
 
     <!-- 튜터링 게시물 신청 상태 변경 -->
     <update id="updateTutoringEnroll" parameterType="TutoringEnrollRequestDTO">
+-- 튜터링 게시물 신청 상태 변경
         UPDATE TUTORING_ENROLL_INFO_TB
         SET ENROLL_STATE = #{enrollState}
         WHERE POST_TUTORING_INDEX = #{postTutoringIndex}
             AND USER_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_NICKNAME = #{userNickname});
+-- 튜터링 게시물 신청 인원 변경
         UPDATE POST_TUTORING_INFO_TB
         SET POST_TUTORING_USER_COUNT = (SELECT COUNT(*) FROM TUTORING_ENROLL_INFO_TB WHERE POST_TUTORING_INDEX = #{postTutoringIndex} AND ENROLL_STATE = '수락')
         WHERE POST_TUTORING_INDEX = #{postTutoringIndex};
+-- 튜터링 게시물 신청 인원이 최대 인원과 같을 경우 게시물 상태 변경
+        UPDATE POST_TUTORING_INFO_TB
+        SET POST_TUTORING_STATE = false
+        WHERE POST_TUTORING_INDEX = #{postTutoringIndex}
+            AND POST_TUTORING_USER_COUNT = POST_TUTORING_MAX_USER_COUNT;
+
     </update>
 
     <!-- 튜터링 게시물 신청 리스트 출력 -->
