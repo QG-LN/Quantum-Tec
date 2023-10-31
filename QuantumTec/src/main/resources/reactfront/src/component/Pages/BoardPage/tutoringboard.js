@@ -33,7 +33,6 @@ export default function TutoringBoardPage() {
         setSearch(e.target.value)
     }
     const onClickSearch = () => {
-        console.log(orderCategory);
         setItems([]);
         if(page !== 1) {            // 페이지가 1이 아닐 경우 페이지를 1로 초기화하여 page useEffect를 실행
             setPage(1);

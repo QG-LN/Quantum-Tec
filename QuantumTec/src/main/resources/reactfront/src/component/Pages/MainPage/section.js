@@ -100,7 +100,6 @@ export default function Section() {
         const data = await axiosRequest(path, {}, 'post', 'list')
         if(data !== null) {
             setCategoryList(data.map((category) => category.gameCategoryName));
-            console.log(data);
         }else{
             setCategoryList([]);
             alert("카테고리를 불러오는데 실패하였습니다.");
