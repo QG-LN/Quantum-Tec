@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TutoringServiceImpl implements TutoringBoardService{
+public class TutoringBoardServiceImpl implements TutoringBoardService{
 
     @Autowired
     private TutoringBoardDAO tutoringBoardDAO;
