@@ -168,17 +168,8 @@ public class BoardController {
     }
 
     @PostMapping("/checkTutoringEnroll")
-    public ResponseEntity<Boolean> checkTutoringEnroll(@RequestBody TutoringEnrollRequestDTO request){
-        try{
-            if (tutoringBoardService.checkTutoringEnroll(request)){
-                return ResponseEntity.ok().body(true);
-            } else {
-                return ResponseEntity.ok().body(false);
-            }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-            return ResponseEntity.status(500).body(false);
-        }
+    public ResponseEntity<String> checkTutoringEnroll(@RequestBody TutoringEnrollRequestDTO request){
+        return ResponseEntity.ok(tutoringBoardService.checkTutoringEnroll(request));
     }
 
     @PostMapping("/tutoringPostStateUpdate")

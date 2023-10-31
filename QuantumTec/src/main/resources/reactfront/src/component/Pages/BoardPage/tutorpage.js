@@ -39,15 +39,12 @@ export default function TutorPage() {
   const [applyList, setApplyList] = useState([]);                               // 튜터링 신청자 목록
   const [isShowApplyList, setIsShowApplyList] = useState(false);                // 튜터링 신청자 목록 보여주기 여부
 
-  const [isEnroll, setIsEnroll] = useState(false);                                // 튜터링 신청 여부 [ false -> 신청전 true -> 신청완료]
+  const [enroll, setEnroll] = useState("");                                     // 튜터링 신청 상태 [신청 / 취소 / 수락 / 거절]
   const [isEnrollButtonDisabled, setIsEnrollButtonDisabled] = useState(Array(applyList.length).fill(false));   // 튜터링 신청 버튼 활성화 여부
 
   const [postState, setPostState] = useState(false);                            // 튜터링 게시글 상태 [ false -> 모집완료 / 모집 중단 true -> 모집 중]
 
   const naviagte = useNavigate();
-
-  //스크롤 퀵메뉴
-  const [scrollY, setScrollY] = useState(0);
 
   let userimg = "";
 
@@ -180,20 +177,23 @@ export default function TutorPage() {
 
   //튜터링 신청 여부에 따른 버튼 변경
   useEffect(() => {
+    console.log(enroll);
     if(userCount === maxUserCount){
       initButtonEvent(4,"모집 완료",faCheck);
+    }else if(enroll === "수락" || enroll === "거절"){
+      initButtonEvent(4,enroll==="수락"? "신청수락" : "신청거절",faCheck);
     }else{
       setButtons(
         buttons.map((button) =>{
           if(button.id === 4){
             return {
               ...button,
-              text: isEnroll ? "신청취소" : "신청하기",
-              comment: isEnroll
+              text: enroll === "신청" ? "신청취소" : "신청하기",
+              comment: enroll === "신청"
               ? "정말로 신청을 취소하시겠습니까?"
               : "정말로 신청하시겠습니까?",
               buttonOK: {
-                title: isEnroll ? "신청 취소하기" : "신청하기",
+                title: enroll === "신청" ? "신청 취소하기" : "신청하기",
                 event: () => {
                   confirmModal("update");
                 },
@@ -205,7 +205,7 @@ export default function TutorPage() {
         })
       )
     }
-  }, [isEnroll]);
+  }, [enroll]);
 
   //튜터링 게시글 상태 변동에 따른 버튼 변경
   useEffect(() => {
@@ -284,10 +284,10 @@ export default function TutorPage() {
     };
 
     const data = await axiosRequest(path, body, "POST", "json");
-    if(data === null || data === false || data === undefined){
-      setIsEnroll(false); 
+    if(data === null || data === undefined){
+      setEnroll("신청"); 
     }else{
-      setIsEnroll(data);
+      setEnroll(data);
     }
   };
 
@@ -383,13 +383,12 @@ export default function TutorPage() {
       userID: localStorage.getItem("userID"),
       enrollState: type,
     };
-
     const data = await axiosRequest(path, body, "POST", "boolean");
     if (data === null || data === false || data === undefined) {
       alert("수정 실패");
-    } else if (data) {
+    } else{
       alert("수정 성공");
-      setIsEnroll(!isEnroll);
+      setEnroll(enroll === "신청" ? "취소" : "신청");
     }
   };
 
@@ -397,7 +396,7 @@ export default function TutorPage() {
   const confirmModal = (type) => {
     switch (type) {
       case "update":
-        updateTutoringEnroll(isEnroll ? "취소" : "신청"); // isEnroll가 true -> 신청 상태라는 것이기에 취소로 
+        updateTutoringEnroll(enroll === "신청" ? "취소" : "신청");
         break;
       case "delete":
         deletePostEvent();
@@ -624,18 +623,11 @@ export default function TutorPage() {
                 <li className="flex relative items-center font-bold text-xl">
                   <span className="mr-8">강사 연락처</span>
                   <div className=" absolute left-32 rounded-xl ">
-                    <a
-                      className="flex"
-                      href={studyLink}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img
-                        className=" cursor-pointer block h-[30px] w-[30px] mr-2 rounded-[50%] object-cover"
-                        src={OpenKakao}
-                        alt="openkakao"
-                      />
-                    </a>
+                    <img
+                      className=" cursor-pointer block h-[30px] w-[30px] mr-2 rounded-[50%] object-cover"
+                      src={OpenKakao}
+                      alt="openkakao"
+                    />
                   </div>
                 </li>
                 <li className="flex relative items-center font-bold text-xl">

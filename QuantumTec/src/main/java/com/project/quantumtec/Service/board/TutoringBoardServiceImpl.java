@@ -146,13 +146,21 @@ public class TutoringBoardServiceImpl implements TutoringBoardService{
 
     @Override
     public boolean updateTutoringEnroll(TutoringEnrollRequestDTO request) {
+        System.out.println(request.getEnrollState());
 
         String check = tutoringBoardDAO.checkTutoringEnroll(request);
+        System.out.println(check);
 
         // 신청 여부값이 null -> 신청 기록 없음
         if(check == null){
             return tutoringBoardDAO.insertTutoringEnroll(request);
         }else{
+            // 신청 여부 결과 값이 신청 또는 취소 => 신청자가 신청을 취소 또는 신청
+            if(check.equals("신청") || check.equals("취소")){
+                return true;
+            }
+
+            // 신청 여부 결과 값이 거절 또는 수락이 아닌 경우 => 튜터가 신청을 수락 또는 거절
             Context context = new Context();
             context.setVariable("tutoringLink", request.getTutoringLink());    // 템플릿에 전달할 변수 설정
 
@@ -199,18 +207,15 @@ public class TutoringBoardServiceImpl implements TutoringBoardService{
         return dtos;
     }
 
+    // 튜터링 게시물 신청 상태를 반환
     @Override
-    public boolean checkTutoringEnroll(TutoringEnrollRequestDTO request){
-        String enrollResult = tutoringBoardDAO.checkTutoringEnroll(request);
+    public String checkTutoringEnroll(TutoringEnrollRequestDTO request){
+        String result = tutoringBoardDAO.checkTutoringEnroll(request);
 
-        if(enrollResult != null){
-            if(enrollResult.equals("신청"))
-                return true;
-            else
-                return false;
+        if(result == null){
+            return "없음";
         }
-
-        return false;
+        return result;
     }
 
     /**

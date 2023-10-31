@@ -28,8 +28,8 @@ public interface TutoringBoardService {
     // 튜터링 게시물 신청 리스트 출력
     public List<TutoringEnrollResponseDTO> getTutoringEnrollList(TutoringEnrollRequestDTO request);
 
-    // 튜터링 게시물 신청 여부 확인
-    public boolean checkTutoringEnroll(TutoringEnrollRequestDTO request);
+    // 튜터링 게시물 신청 상태를 반환
+    public String checkTutoringEnroll(TutoringEnrollRequestDTO request);
 
     // 튜터링 게시물 활성화 상태 변경
     public boolean updateTutoringPostStatus(TutoringPostStatusUpdateDTO request);
