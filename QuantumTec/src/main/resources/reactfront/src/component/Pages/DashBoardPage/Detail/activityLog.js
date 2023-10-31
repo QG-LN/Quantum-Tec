@@ -36,10 +36,10 @@ function ActivityLog({ userIndex }) {
             <table className='table table-hover'>
                 <tbody>
                     <tr>
-                        <th className='w-[10%]'>변경 사항</th>
-                        <th className='w-[60%]'>변경 내용</th>
-                        <th className='w-[10%]'>변경 자</th>
-                        <th className='w-[20%]'>변경 시간</th>
+                        <th className='w-[10%]'>활동 사항</th>
+                        <th className='w-[60%]'>활동 내용</th>
+                        <th className='w-[10%]'>활동 자</th>
+                        <th className='w-[20%]'>활동 시간</th>
                     </tr>
                     {activityLog.map((activity, _) => {
                         return (
