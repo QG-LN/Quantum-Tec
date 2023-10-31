@@ -14,6 +14,8 @@ import {
   faArrowLeft,
   faCheck,
   faRepeat,
+  faBan,
+  faUserPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { axiosRequest } from "../../Utils/networkUtils";
@@ -39,6 +41,8 @@ export default function TutorPage() {
 
   const [isEnroll, setIsEnroll] = useState(false);                                // 튜터링 신청 여부 [ false -> 신청전 true -> 신청완료]
   const [isEnrollButtonDisabled, setIsEnrollButtonDisabled] = useState(Array(applyList.length).fill(false));   // 튜터링 신청 버튼 활성화 여부
+
+  const [postState, setPostState] = useState(false);                            // 튜터링 게시글 상태 [ false -> 모집완료 / 모집 중단 true -> 모집 중]
 
   const naviagte = useNavigate();
 
@@ -110,6 +114,12 @@ export default function TutorPage() {
       isHovered: false,
       icon: faCheck,
     },
+    {
+      id: 6,
+      text: "모집 중지",
+      isHovered: false,
+      icon: faBan,
+    }
   ]);
 
   useEffect(() => {
@@ -131,6 +141,7 @@ export default function TutorPage() {
       setStudyLink(info.link);
       setExpectedTime(info.expectedTime);
       setStartDate(extractData(info.startDate));
+      setPostState(info.postState);
 
       buttons[1].to = `/tutoringPost/${info.postIndex}/edit`;
 
@@ -168,6 +179,30 @@ export default function TutorPage() {
       })
     )
   }, [isEnroll]);
+
+  //튜터링 게시글 상태 변동에 따른 버튼 변경
+  useEffect(() => {
+    setButtons(
+      buttons.map((button) =>{
+        if(button.id === 6){
+          return {
+            ...button,
+            text: postState ? "모집 중지" : "모집 진행",
+            comment: postState ? "정말로 모집을 중지하시겠습니까?" : "모집을 진행상태로 변경하시겠습니까?",
+            icon : postState ? faBan : faUserPlus,
+            buttonOK: {
+              title: postState ? "모집 중지" : "모집 진행",
+              event: () => {
+                confirmModal("postUpdate");
+              },
+            },
+          }
+        }else{
+          return button;
+        }
+      })
+    )
+  }, [postState]);
 
   useEffect(() => {
     console.log(isEnrollButtonDisabled)
@@ -281,6 +316,26 @@ export default function TutorPage() {
       naviagte("/tutoring");
     }
   };
+  // 게시글 상태 변경 이벤트
+  const postStateUpdateEvent = async () => {
+    const path = "board/tutoringPostStateUpdate";
+    console.log(postState)
+    const body = {
+      postIndex: info.postIndex,
+      userID: localStorage.getItem("userID"),
+      postStatus: !postState,
+    };
+    console.log(body);
+    const data = await axiosRequest(path, body, "POST", "json");
+    console.log(data);
+    if(data === null || data === false || data === undefined){
+      alert("모집 상태 변경 실패");
+    }else if(data){
+      alert("모집 상태 변경 성공");
+      // naviagte("/tutoring");
+      setPostState(!postState);
+    }
+  }
 
   /**
    * 신청 정보를 변경하기 위해 서버에 요청하는 함수
@@ -295,7 +350,6 @@ export default function TutorPage() {
       enrollState: type,
     };
 
-    console.log(body);
     const data = await axiosRequest(path, body, "POST", "boolean");
     if (data === null || data === false || data === undefined) {
       alert("수정 실패");
@@ -312,8 +366,10 @@ export default function TutorPage() {
         updateTutoringEnroll(isEnroll ? "취소" : "신청"); // isEnroll가 true -> 신청 상태라는 것이기에 취소로 
         break;
       case "delete":
-        console.log("삭제됨");
         deletePostEvent();
+        break;
+      case "postUpdate":
+        postStateUpdateEvent();
         break;
       default:
         break;
@@ -582,7 +638,7 @@ export default function TutorPage() {
                 {buttons
                   .filter((button) =>
                     checkPostWriter(userNickname)
-                      ? [1, 2, 3, 5].includes(button.id)
+                      ? [1, 2, 3, 5,6].includes(button.id)
                       : [1, 4].includes(button.id)
                   )
                   .map((button) => (
