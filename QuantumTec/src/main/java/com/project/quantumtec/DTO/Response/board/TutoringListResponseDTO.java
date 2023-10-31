@@ -13,6 +13,7 @@ public class TutoringListResponseDTO {
     private String postDate;            // 게시글 등록일
     private int maxUserCount ;          // 튜터링 참여 최대 인원
     private int userCount;              // 튜터링 참여 인원
+    private boolean postState;          // 게시글 상태
     private String[] category;          // 튜터링 카테고리
     private String[] tags;              // 게시글 태그
 
@@ -37,6 +38,7 @@ public class TutoringListResponseDTO {
         dto.postDate = tutoringPostVO.getPostCreatedDate();
         dto.maxUserCount = tutoringPostVO.getPostTutoringMaxUserCount();
         dto.userCount = tutoringPostVO.getPostTutoringUserCount();
+        dto.postState = tutoringPostVO.isPostTutoringState();
         dto.category = tutoringPostVO.getGameCategories().split(",");
         dto.tags = tutoringPostVO.getTags().split(",");
         return dto;
