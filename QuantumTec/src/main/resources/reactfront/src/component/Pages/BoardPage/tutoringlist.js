@@ -14,6 +14,7 @@ export default function Tutoringlist(props) {
   const userIcon = info.userIcon;                 // 게시글 작성자 아이콘
   const tutorCount = info.userCount;              // 튜터링 인원 수
   const tutorMaxCount = info.maxUserCount;        // 튜터링 최대 인원 수
+  const postState = info.postState;               // 게시글 상태
 
   //글자 제한
   const setTitleSize = (title) => {
@@ -47,10 +48,10 @@ export default function Tutoringlist(props) {
 
   const checkTagColor = (tagList) => {
     switch(tagList){
-      case '튜터링':
-        return 'bg-green-200 text-gray-500';
+      case '실습위주':
+        return `${postState ? 'bg-green-200' : 'bg-gray-200' } text-gray-500`;
       case '학습위주':
-        return 'bg-yellow-200 text-gray-500';
+        return `${postState ? 'bg-yellow-200' : 'bg-gray-200'} text-gray-500`;
       default:
         return 'bg-green-200 text-gray-500';
     } 
@@ -102,7 +103,7 @@ export default function Tutoringlist(props) {
         {renderTopTag()}
         <div class=" absolute right-5">
           <div
-            class=" h-12 bg-gray-100 border-2 border-green-400 rounded-xl justify-center items-center flex"
+            class={`h-12 bg-gray-100 border-2 ${postState ? 'border-green-400' : 'bg-gray-200'} rounded-xl justify-center items-center flex`}
             style={{ width: "3rem" }}
           >
             <span class="">N</span>
@@ -115,7 +116,7 @@ export default function Tutoringlist(props) {
 
 return (
     <>
-      <div class="col mb-5 hover:cursor-pointer">
+      <div class={`col mb-5 hover:cursor-pointer ${postState ? '' : 'bg-gray-200'}`}>
         <div class="card shadow-sm w-[18rem]" id={props.id}>
           {checkNewTagEnable(1) && renderNewTag()}
           <div class="flex mt-3">
@@ -128,14 +129,14 @@ return (
             <p>등록일</p>
             <span class="ml-2">{extractData(date,"-")}</span>
           </div>
-          <span class="text-left font-bold h-[5rem] ml-4 mr-4 p-1">
+          <span class={`text-left font-bold h-[5rem] ml-4 mr-4 p-1 ${postState ? '' : 'text-gray-500'}`}>
             {setTitleSize(title)}
           </span>
           {renderTutorCount()}
           <div class="flex ml-5">
           {category.map((cate, idx) => (
             <div key={idx} 
-                className="text-xs rounded-full bg-green-200 font-bold text-gray-500 p-1 mr-2">
+                className={`text-xs rounded-full font-bold ${postState ? 'bg-green-200' : 'bg-gray-200'} text-gray-500 p-1 mr-2`}>
               #{cate}
             </div>
           ))}
