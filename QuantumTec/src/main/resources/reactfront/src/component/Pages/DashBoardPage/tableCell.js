@@ -59,7 +59,7 @@ function TableCell({ id, content, className, onUpdate, editable = true }) {
 
     return (
         <td 
-            className={className+" position-relative"+ (editable ? " cursor-text" : " cursor-not-allowed")} 
+            className={className+" position-relative pe-4"+ (editable ? " cursor-text" : " cursor-not-allowed")} 
             onClick={handleEdit}
             onMouseEnter={() => setShowIcon(editable?true:false)}
             onMouseLeave={() => setShowIcon(false)}
