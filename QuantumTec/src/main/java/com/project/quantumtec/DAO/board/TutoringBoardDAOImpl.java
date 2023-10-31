@@ -4,6 +4,7 @@ import com.project.quantumtec.DTO.Board.TutoringWriteDTO;
 import com.project.quantumtec.DTO.Request.board.TutoringDeleteDTO;
 import com.project.quantumtec.DTO.Request.board.TutoringEnrollRequestDTO;
 import com.project.quantumtec.DTO.Request.board.TutoringListDTO;
+import com.project.quantumtec.DTO.Request.board.TutoringPostStatusUpdateDTO;
 import com.project.quantumtec.VO.board.TutoringEnrollVO;
 import com.project.quantumtec.VO.board.TutoringPostVO;
 import org.apache.ibatis.session.SqlSession;
@@ -98,5 +99,10 @@ public class TutoringBoardDAOImpl implements TutoringBoardDAO{
     @Override
     public String checkTutoringEnroll(TutoringEnrollRequestDTO request){
         return sqlSession.selectOne("BoardService.checkTutoringEnroll", request);
+    }
+
+    @Override
+    public boolean updateTutoringPostStatus(TutoringPostStatusUpdateDTO request) {
+        return sqlSession.update("BoardService.updateTutoringPostStatus", request) > 0;
     }
 }

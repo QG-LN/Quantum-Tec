@@ -212,4 +212,12 @@ public class TutoringBoardServiceImpl implements TutoringBoardService{
 
         return false;
     }
+
+    /**
+     * 튜터링 게시물 활성화 상태 변경 후 결과 반환
+     */
+    @Override
+    public boolean updateTutoringPostStatus(TutoringPostStatusUpdateDTO request) {
+        return tutoringBoardDAO.updateTutoringPostStatus(request);
+    }
 }

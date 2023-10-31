@@ -5,7 +5,6 @@ import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.*;
 import com.project.quantumtec.Service.board.BoardService;
 import com.project.quantumtec.Service.board.TutoringBoardService;
-import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -180,6 +179,11 @@ public class BoardController {
             System.out.println(e.getMessage());
             return ResponseEntity.status(500).body(false);
         }
+    }
+
+    @PostMapping("/tutoringPostStateUpdate")
+    public boolean updateTutoringPostStatus(@RequestBody TutoringPostStatusUpdateDTO request){
+        return tutoringBoardService.updateTutoringPostStatus(request);
     }
 
 }

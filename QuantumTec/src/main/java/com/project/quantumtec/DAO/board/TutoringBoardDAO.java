@@ -36,4 +36,7 @@ public interface TutoringBoardDAO {
 
     // 튜터링 게시물 신청 여부 확인
     public String checkTutoringEnroll(TutoringEnrollRequestDTO request);
+
+    // 튜터링 게시물 활성화 상태 변경
+    public boolean updateTutoringPostStatus(TutoringPostStatusUpdateDTO request);
 }

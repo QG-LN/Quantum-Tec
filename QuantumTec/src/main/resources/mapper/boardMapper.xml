@@ -399,4 +399,11 @@
             </choose>
     </select>
 
+    <!-- 튜터링 게시물 상태 변경   -->
+    <update id="updateTutoringPostStatus" parameterType="TutoringPostStatusUpdateDTO">
+        UPDATE POST_TUTORING_INFO_TB
+        SET POST_TUTORING_STATE = #{postStatus}
+        WHERE POST_TUTORING_INDEX = #{postIndex};
+    </update>
+
 </mapper>
