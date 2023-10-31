@@ -4,6 +4,7 @@ package com.project.quantumtec.Controller;
 import com.project.quantumtec.DTO.Request.board.*;
 import com.project.quantumtec.DTO.Response.board.*;
 import com.project.quantumtec.Service.board.BoardService;
+import com.project.quantumtec.Service.board.TutoringBoardService;
 import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private TutoringBoardService tutoringBoardService;
 
     @PostMapping("/listCount")
     public int getPostListCount(@RequestBody ListDTO request){
@@ -129,45 +133,45 @@ public class BoardController {
     // 튜터링 신청 게시판 리스트 조회
     @PostMapping("/tutoringList")
     public List<TutoringListResponseDTO> getTutoringList(@RequestBody TutoringListDTO request){
-        return boardService.getTutoringList(request);
+        return tutoringBoardService.getTutoringList(request);
     }
 
     @PostMapping("/tutoringOrderDataList")
     public TutoringOrderDataListResponseDTO getTutoringCategoryList(){
-        return boardService.getTutoringOrderDataList();
+        return tutoringBoardService.getTutoringOrderDataList();
     }
 
     // 튜터링 게시물 작성
     @PostMapping("/tutoringWrite")
     public boolean writeTutoringPost(@RequestBody TutoringWriteRequestDTO request) throws Exception {
-        return boardService.writeTutoring(request);
+        return tutoringBoardService.writeTutoring(request);
     }
     // 튜터링 게시물 수정
     @PostMapping("/tutoringModify")
     public boolean modifyTutoringPost(@RequestBody TutoringModifyDTO request){
-        return boardService.modifyTutoring(request);
+        return tutoringBoardService.modifyTutoring(request);
     }
     // 튜터링 게시물 삭제
     @PostMapping("/tutoringDelete")
     public boolean deleteTutoringPost(@RequestBody TutoringDeleteDTO request){
         System.out.println(request);
-        return boardService.deleteTutoring(request);
+        return tutoringBoardService.deleteTutoring(request);
     }
 
     @PostMapping("/tutoringEnrollList")
     public List<TutoringEnrollResponseDTO> getTutoringEnrollList(@RequestBody TutoringEnrollRequestDTO request){
-        return boardService.getTutoringEnrollList(request);
+        return tutoringBoardService.getTutoringEnrollList(request);
     }
 
     @PostMapping("/updateTutoringEnroll")
     public boolean updateTutoringEnroll(@RequestBody TutoringEnrollRequestDTO request){
-        return boardService.updateTutoringEnroll(request);
+        return tutoringBoardService.updateTutoringEnroll(request);
     }
 
     @PostMapping("/checkTutoringEnroll")
     public ResponseEntity<Boolean> checkTutoringEnroll(@RequestBody TutoringEnrollRequestDTO request){
         try{
-            if (boardService.checkTutoringEnroll(request)){
+            if (tutoringBoardService.checkTutoringEnroll(request)){
                 return ResponseEntity.ok().body(true);
             } else {
                 return ResponseEntity.ok().body(false);
