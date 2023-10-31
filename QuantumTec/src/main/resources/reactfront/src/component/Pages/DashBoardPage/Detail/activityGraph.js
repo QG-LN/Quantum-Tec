@@ -64,16 +64,6 @@ const dayUserAgeData = [
     { label: "아바타", value: 4443 },
 ]
 
-//게임별 이용자 수
-const gameUserData =[
-    { label: "Game1", value: 20 },
-    { label: "Game2", value: 30 },
-    { label: "Game3", value: 26 },
-    { label: "Game4", value: 20 },
-    { label: "Game5", value: 30 },
-    { label: "Game6", value: 43 },
-]
-
 function ActivityGraph() {
     const theme = useTheme();
     return (
