@@ -113,7 +113,7 @@ function ProfileInfo({ userId }) {
                     <table className='table m-0'>
                         <tbody>
                             <tr>
-                                <th className="w-[40%]">생년월일</th>
+                                <th className="w-[40%]">주소</th>
                                 <TableCell 
                                     id="userAddress"
                                     content={profileInfo.userAddress}
