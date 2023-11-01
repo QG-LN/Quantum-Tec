@@ -18,4 +18,5 @@ public class TutoringPostVO {
     private boolean postTutoringState;          // 게시글 상태
     private String gameCategories;              // 게임 카테고리
     private String tags;                        // 게시글 태그
+    private String avatarItemList;                // 아바타 아이템 리스트
 }

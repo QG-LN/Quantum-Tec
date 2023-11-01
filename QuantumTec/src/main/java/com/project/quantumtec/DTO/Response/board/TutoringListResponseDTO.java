@@ -1,8 +1,14 @@
 package com.project.quantumtec.DTO.Response.board;
 
+import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
 import com.project.quantumtec.VO.board.TutoringPostVO;
-import lombok.Data;
 
+import lombok.Data;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,6 +22,7 @@ public class TutoringListResponseDTO {
     private boolean postState;          // 게시글 상태
     private String[] category;          // 튜터링 카테고리
     private String[] tags;              // 게시글 태그
+    private List<AvatarInventoryDTO> avatarItemList;      // 아바타 아이템 리스트
 
     private String postIntro;           // 게시글 소개글
     private String postContent;         // 게시글 내용
@@ -41,6 +48,18 @@ public class TutoringListResponseDTO {
         dto.postState = tutoringPostVO.isPostTutoringState();
         dto.category = tutoringPostVO.getGameCategories().split(",");
         dto.tags = tutoringPostVO.getTags().split(",");
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            if (tutoringPostVO.getAvatarItemList() != null) {
+                List<AvatarInventoryDTO> items = objectMapper.readValue(tutoringPostVO.getAvatarItemList(), new TypeReference<List<AvatarInventoryDTO>>() {});
+                dto.avatarItemList = items;
+            } else {
+                // avatarItemList가 null인 경우를 처리.
+                dto.avatarItemList = new ArrayList<>();
+}
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         return dto;
     }
 

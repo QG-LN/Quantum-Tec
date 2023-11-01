@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import newIcon from "./newIcon.png";
 import { extractData } from "../../Utils/dataFormat";
 import { set } from "react-hook-form";
+import AvatarCanvas from "../avatarInventory/avatarCanvas";
 
 export default function Tutoringlist(props) {
   const [info, setInfo] = useState(props.info);                           // 게시글 정보
@@ -15,6 +16,7 @@ export default function Tutoringlist(props) {
   const [tutorCount , setTutorCount] = useState(info.userCount);          // 튜터링 인원 수
   const [tutorMaxCount , setTutorMaxCount] = useState(info.maxUserCount); // 튜터링 최대 인원 수
   const [postState , setPostState] = useState(info.postState);            // 게시글 상태
+  const [avatarItemList, setAvatarItemList] = useState(info.avatarItemList); // 착용중인 아이템 목록
 
 
   // const id = info.postIndex;                      // 게시글 번호
@@ -47,6 +49,7 @@ export default function Tutoringlist(props) {
     // console.log(info.userCount, info.maxUserCount);
     // console.log(info.userCount === info.maxUserCount, info.postState);
     setPostState(info.userCount === info.maxUserCount ? false : info.postState);
+    setAvatarItemList(info.avatarItemList)
     console.log(postState);
   }, [info]);
 
@@ -176,13 +179,15 @@ return (
           ))}
           </div>
           <hr class="mx-4 text-gray-400 mb-auto" />
-          <div class="card-body p-3 ml-4">
+          <div class="card-body p-2 ml-4">
             <div class="flex row">
               <div class='col-4'>
-                <img class="w-8 h-8 rounded-full" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"/>
+                <div className='w-[40px] h-[40px] p-0 m-0 rounded-full'>
+                    <AvatarCanvas size={[220,220]} position={[128,128]} circle={true} avatarItemList={avatarItemList}/>
+                </div>
               </div>
               <div class='col-auto'>
-                <span class="id text-center">{userNickname}</span>
+                <span class="id text-center align-middle">{userNickname}</span>
               </div>
             </div>
           </div>
