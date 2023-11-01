@@ -1,22 +1,54 @@
 import { useEffect, useState } from "react";
 import newIcon from "./newIcon.png";
 import { extractData } from "../../Utils/dataFormat";
+import { set } from "react-hook-form";
 
 export default function Tutoringlist(props) {
-  const info = props.info;
+  const [info, setInfo] = useState(props.info);                           // 게시글 정보
+  const [index , setIndex] = useState(info.postIndex);                    // 게시글 인덱스
+  const [title , setTitle] = useState(info.postTitle);                    // 게시글 제목
+  const [date , setDate] = useState(info.postDate);                       // 게시글 등록일
+  const [category , setCategory] = useState(info.category);               // 게시글 카테고리
+  const [tag , setTag] = useState(info.tags);                             // 게시글 태그
+  const [userNickname , setUserNickname] = useState(info.userNickname);   // 게시글 작성자 닉네임
+  const [userIcon , setUserIcon] = useState(info.userIcon);               // 게시글 작성자 아이콘
+  const [tutorCount , setTutorCount] = useState(info.userCount);          // 튜터링 인원 수
+  const [tutorMaxCount , setTutorMaxCount] = useState(info.maxUserCount); // 튜터링 최대 인원 수
+  const [postState , setPostState] = useState(info.postState);            // 게시글 상태
 
-  const id = info.postIndex;                      // 게시글 번호
-  const title = info.postTitle;                   // 게시글 제목
-  const date = info.postDate;                     // 게시글 등록일
-  const category = info.category;                 // 게시글 카테고리
-  const tag = info.tags;                          // 게시글 태그
-  const userNickname = info.userNickname;         // 게시글 작성자 닉네임
-  const userIcon = info.userIcon;                 // 게시글 작성자 아이콘
-  const tutorCount = info.userCount;              // 튜터링 인원 수
-  const tutorMaxCount = info.maxUserCount;        // 튜터링 최대 인원 수
+
+  // const id = info.postIndex;                      // 게시글 번호
+  // const title = info.postTitle;                   // 게시글 제목
+  // const date = info.postDate;                     // 게시글 등록일
+  // const category = info.category;                 // 게시글 카테고리
+  // const tag = info.tags;                          // 게시글 태그
+  // const userNickname = info.userNickname;         // 게시글 작성자 닉네임
+  // const userIcon = info.userIcon;                 // 게시글 작성자 아이콘
+  // const tutorCount = info.userCount;              // 튜터링 인원 수
+  // const tutorMaxCount = info.maxUserCount;        // 튜터링 최대 인원 수
 
   // 모집 인원과 현재 인원이 같을 경우 게시글 상태를 false[비활성화]로 변경
-  const postState = info.userCount === info.maxUserCount ? false : info.postState;               // 게시글 상태
+  // const postState = info.userCount === info.maxUserCount ? false : info.postState;               // 게시글 상태
+
+  useEffect(() => {
+    setInfo(props.info);
+  }, []);
+
+  useEffect(() => {
+    setIndex(info.postIndex);
+    setTitle(info.postTitle);
+    setDate(info.postDate);
+    setCategory(info.category);
+    setTag(info.tags);
+    setUserNickname(info.userNickname);
+    setUserIcon(info.userIcon);
+    setTutorCount(info.userCount);
+    setTutorMaxCount(info.maxUserCount);
+    // console.log(info.userCount, info.maxUserCount);
+    // console.log(info.userCount === info.maxUserCount, info.postState);
+    setPostState(info.userCount === info.maxUserCount ? false : info.postState);
+    console.log(postState);
+  }, [info]);
 
   //글자 제한
   const setTitleSize = (title) => {

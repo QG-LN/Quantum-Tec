@@ -149,7 +149,6 @@ public class TutoringBoardServiceImpl implements TutoringBoardService{
         System.out.println(request.getEnrollState());
 
         String check = tutoringBoardDAO.checkTutoringEnroll(request);
-        System.out.println(check);
 
         // 신청 여부값이 null -> 신청 기록 없음
         if(check == null){
@@ -157,7 +156,7 @@ public class TutoringBoardServiceImpl implements TutoringBoardService{
         }else{
             // 신청 여부 결과 값이 신청 또는 취소 => 신청자가 신청을 취소 또는 신청
             if(check.equals("신청") || check.equals("취소")){
-                return true;
+                return tutoringBoardDAO.updateTutoringEnroll(request);
             }
 
             // 신청 여부 결과 값이 거절 또는 수락이 아닌 경우 => 튜터가 신청을 수락 또는 거절

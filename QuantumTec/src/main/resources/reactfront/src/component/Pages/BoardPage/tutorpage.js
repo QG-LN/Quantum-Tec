@@ -113,10 +113,18 @@ export default function TutorPage() {
     },
     {
       id: 6,
-      text: "모집 중지",
+      text: "",
+      showModal: false,
       isHovered: false,
       icon: faBan,
-    }
+      comment: "",
+      buttonOK: {
+        title: "",
+        event: () => {
+          confirmModal("postUpdate");
+        },
+      },
+    },
   ]);
 
   /**
@@ -128,19 +136,19 @@ export default function TutorPage() {
   const initButtonEvent = (id, title, newIcon) => {
     setButtons(
       buttons.map((button) => {
-        if(button.id === id){
+        if (button.id === id) {
           return {
             ...button,
             text: title,
             icon: newIcon,
             buttonOK: undefined,
-          }
-        }else{
+          };
+        } else {
           return button;
         }
       })
-    )
-  }
+    );
+  };
 
   useEffect(() => {
     // 튜터링 게시글 정보가 존재할 경우 상태를 업데이트
@@ -168,93 +176,88 @@ export default function TutorPage() {
       // 튜터링 신청자 목록 불러오기
       if (checkPostWriter(info.userNickname)) {
         loadEnrollList();
-      }else{
+      } else {
         // 튜터링 신청 여부 확인
-        checkEnroll();
+        loadCheckEnroll();
       }
     }
   }, []);
-
   //튜터링 신청 여부에 따른 버튼 변경
   useEffect(() => {
-    console.log(enroll);
-    if(userCount === maxUserCount){
-      initButtonEvent(4,"모집 완료",faCheck);
-    }else if(enroll === "수락" || enroll === "거절"){
-      initButtonEvent(4,enroll==="수락"? "신청수락" : "신청거절",faCheck);
-    }else{
-      setButtons(
-        buttons.map((button) =>{
-          if(button.id === 4){
-            return {
-              ...button,
-              text: enroll === "신청" ? "신청취소" : "신청하기",
-              comment: enroll === "신청"
-              ? "정말로 신청을 취소하시겠습니까?"
-              : "정말로 신청하시겠습니까?",
-              buttonOK: {
-                title: enroll === "신청" ? "신청 취소하기" : "신청하기",
-                event: () => {
-                  confirmModal("update");
+    console.log("enroll : " + enroll);
+    if (enroll === "수락" || enroll === "거절") {                                // 튜터가 수락 또는 거절을 했을 경우
+      initButtonEvent(4, enroll === "수락" ? "신청수락" : "신청거절", faCheck);   // 버튼 텍스트 변경
+    } else {                                                                    // 튜터가 수락 또는 거절을 하지 않았을 경우
+      if (info.userCount !== info.maxUserCount && info.postState) {             // 현재 인원이 최대 인원보다 작은지를 확인
+        setButtons(                                                             // enroll 상태에 따라 버튼 텍스트 변경
+          buttons.map((button) => {
+            if (button.id === 4) {
+              return {
+                ...button,
+                text: enroll === "신청" ? "신청취소" : "신청하기",
+                comment:
+                  enroll === "신청"
+                    ? "정말로 신청을 취소하시겠습니까?"
+                    : "정말로 신청하시겠습니까?",
+                buttonOK: {
+                  title: enroll === "신청" ? "신청 취소하기" : "신청하기",
+                  event: () => {
+                    confirmModal("update");
+                  },
                 },
-              },
+              };
+            } else {
+              return button;
             }
-          }else{
-            return button;
-          }
-        })
-      )
+          })
+        );
+      }else {                        
+        initButtonEvent(4, "모집 완료", faBan);
+      }
     }
   }, [enroll]);
 
   //튜터링 게시글 상태 변동에 따른 버튼 변경
   useEffect(() => {
-    if(userCount === maxUserCount){
-      initButtonEvent(6,"모집 완료",faBan);
-    }else{
+    if (info.userCount !== info.maxUserCount) {
       setButtons(
-        buttons.map((button) =>{
-          if(button.id === 6){
+        buttons.map((button) => {
+          if (button.id === 6) {
             return {
               ...button,
               text: postState ? "모집 중지" : "모집 진행",
-              comment: postState ? "정말로 모집을 중지하시겠습니까?" : "모집을 진행상태로 변경하시겠습니까?",
-              icon : postState ? faBan : faUserPlus,
+              comment: postState
+                ? "정말로 모집을 중지하시겠습니까?"
+                : "모집을 진행상태로 변경하시겠습니까?",
+              icon: postState ? faBan : faUserPlus,
               buttonOK: {
                 title: postState ? "모집 중지" : "모집 진행",
                 event: () => {
                   confirmModal("postUpdate");
                 },
               },
-            }
-          }else{
+            };
+          } else {
             return button;
           }
         })
-      )
+      );
+    }else{
+      initButtonEvent(6, "모집 완료", faBan);
     }
-
   }, [postState]);
 
-  useEffect(() => {
-    console.log(isEnrollButtonDisabled)
-  }, [isEnrollButtonDisabled]);
-
-  useEffect(() => {
-    if(userCount === maxUserCount){
-      initButtonEvent(6,"모집 완료",faBan);
-    }
-  },[userCount]);
-  
   // 게시글 작성자와 로그인한 유저가 같은지 확인
-  const checkPostWriter = useCallback((nickName) => {
-    if (nickName === localStorage.getItem("userNickname")) {
-      return true;
-    } else {
-      return false;
-    }
-  }, [userNickname]);  
-  
+  const checkPostWriter = useCallback(
+    (nickName) => {
+      if (nickName === localStorage.getItem("userNickname")) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    [userNickname]
+  );
 
   // 신청 리스트 불러오기
   const loadEnrollList = async () => {
@@ -271,12 +274,22 @@ export default function TutorPage() {
       setApplyList(data);
 
       // 신청자 목록에서 신청 버튼 활성화 여부 확인
-      setIsEnrollButtonDisabled(Array.from({ length: data.length }, (_, index) => data[index].enrollState !== '신청'));
+      setIsEnrollButtonDisabled(
+        Array.from(
+          { length: data.length },
+          (_, index) => data[index].enrollState !== "신청"
+        )
+      );
     }
   };
 
-  // 신청 여부 확인
-  const checkEnroll = async () => {
+  /**
+   * 신청 여부를 확인하기 위해 서버에 요청하는 함수
+   * enroll -> 현재 해당 게시글에 대한 신청 상태에 대한 정보를 담고 있음
+   * 신청 -> 신청상태 , 취소 -> 신청 취소 상태, 수락 -> 수락 상태, 거절 -> 거절 상태, 없음 -> 한번도 신청하지 않은 상태
+   */
+
+  const loadCheckEnroll = async () => {
     const path = "board/checkTutoringEnroll";
     const body = {
       postTutoringIndex: info.postIndex,
@@ -284,9 +297,8 @@ export default function TutorPage() {
     };
 
     const data = await axiosRequest(path, body, "POST", "json");
-    if(data === null || data === undefined){
-      setEnroll("신청"); 
-    }else{
+    console.log(data);
+    if (data !== null && data !== undefined) {
       setEnroll(data);
     }
   };
@@ -295,6 +307,29 @@ export default function TutorPage() {
   if (userimg === "") {
     userimg = emptyuser;
   }
+
+    /**
+   * 신청 정보를 변경하기 위해 서버에 요청하는 함수
+   * @param {String} type 서버에 요청할 신청 정보[내가 원하는 상태를 전달]
+   */
+  const updateTutoringEnroll = async (type) => {
+    const path = "board/updateTutoringEnroll";
+    const body = {
+      postTutoringIndex: info.postIndex,
+      userNickname: localStorage.getItem("userNickname"),
+      userID: localStorage.getItem("userID"),
+      enrollState: type,      
+    };
+  
+    // 성공 여부를 반환
+    const data = await axiosRequest(path, body, "POST", "boolean");
+    if (data === null || data === false || data === undefined) {
+      alert("수정 실패");      
+    } else {
+      alert("수정 성공");
+      setEnroll(enroll === "신청" ? "취소" : "신청");
+    }
+  };
 
   const customModalStyles = {
     content: {
@@ -362,33 +397,12 @@ export default function TutorPage() {
       postStatus: !postState,
     };
     const data = await axiosRequest(path, body, "POST", "json");
-    if(data === null || data === false || data === undefined){
+    if (data === null || data === false || data === undefined) {
       alert("모집 상태 변경 실패");
-    }else if(data){
+    } else if (data) {
       alert("모집 상태 변경 성공");
       // naviagte("/tutoring");
       setPostState(!postState);
-    }
-  }
-
-  /**
-   * 신청 정보를 변경하기 위해 서버에 요청하는 함수
-   * @param {String} type 서버에 요청할 신청 정보[내가 원하는 상태를 전달]
-   */
-  const updateTutoringEnroll = async (type) => {
-    const path = "board/updateTutoringEnroll";
-    const body = {
-      postTutoringIndex: info.postIndex,
-      userNickname : localStorage.getItem("userNickname"),
-      userID: localStorage.getItem("userID"),
-      enrollState: type,
-    };
-    const data = await axiosRequest(path, body, "POST", "boolean");
-    if (data === null || data === false || data === undefined) {
-      alert("수정 실패");
-    } else{
-      alert("수정 성공");
-      setEnroll(enroll === "신청" ? "취소" : "신청");
     }
   };
 
@@ -396,7 +410,7 @@ export default function TutorPage() {
   const confirmModal = (type) => {
     switch (type) {
       case "update":
-        updateTutoringEnroll(enroll === "신청" ? "취소" : "신청");
+        updateTutoringEnroll(enroll === "신청" ? "취소" : "신청");  // 신청 정보 변경을 위한 요청
         break;
       case "delete":
         deletePostEvent();
@@ -426,6 +440,7 @@ export default function TutorPage() {
     );
   };
 
+  // 모달창 렌더링
   const renderModal = (button) => {
     if (button.buttonOK === undefined) {
       return null;
@@ -513,17 +528,31 @@ export default function TutorPage() {
   const renderApplyList = () => {
     return applyList.map((apply, index) => (
       <tr key={index} style={{ cursor: "pointer" }}>
-        <td className="text-center" style={{ lineHeight: "2" }}>{index+1}</td>
-        <td className="text-center" style={{ lineHeight: "2" }}>{apply.userNickname}</td>
-        <td className="text-center" style={{ lineHeight: "2" }}>{extractData(apply.enrollCreatedAt)}</td>
-        <td className="text-center" style={{ lineHeight: "2" }}>{apply.enrollState}</td>
-        <td className="text-center" >
-          <button className="btn btn-primary mr-2" disabled={isEnrollButtonDisabled[index]}
-            onClick={()=>handleButtonApply('수락',apply)}>
+        <td className="text-center" style={{ lineHeight: "2" }}>
+          {index + 1}
+        </td>
+        <td className="text-center" style={{ lineHeight: "2" }}>
+          {apply.userNickname}
+        </td>
+        <td className="text-center" style={{ lineHeight: "2" }}>
+          {extractData(apply.enrollCreatedAt)}
+        </td>
+        <td className="text-center" style={{ lineHeight: "2" }}>
+          {apply.enrollState}
+        </td>
+        <td className="text-center">
+          <button
+            className="btn btn-primary mr-2"
+            disabled={isEnrollButtonDisabled[index]}
+            onClick={() => handleButtonApply("수락", apply)}
+          >
             수락
           </button>
-          <button className="btn btn-danger" disabled={isEnrollButtonDisabled[index]}
-            onClick={()=>handleButtonApply('거절',apply)}>
+          <button
+            className="btn btn-danger"
+            disabled={isEnrollButtonDisabled[index]}
+            onClick={() => handleButtonApply("거절", apply)}
+          >
             거절
           </button>
         </td>
@@ -531,16 +560,53 @@ export default function TutorPage() {
     ));
   };
 
+  // 퀵 버튼 렌더링
+  const renderQuickButton = () => {
+    return buttons.filter((button) =>
+        checkPostWriter(userNickname)
+          ? [1, 2, 3, 5, 6].includes(button.id)
+          : [1, 4].includes(button.id)
+      )
+      .map((button) => (
+        <div
+          key={button.id}
+          className={`image-button ${button.isHovered ? "expanded" : ""}`}
+          onMouseEnter={() => handleMouseEnter(button.id)}
+          onMouseLeave={() => handleMouseLeave(button.id)}
+        >
+          <div className="button-content flex">
+            <FontAwesomeIcon
+              icon={button.icon}
+              className="w-[1.5rem] h-[1.5rem]"
+            />
+            <Link
+              to={button.to}
+              state={{
+                info: { info: info, orderCategory: orderCategory },
+              }}
+              className={`text-${
+                button.isHovered ? "dark" : "secondary"
+              } text-decoration-none ml-3`}
+              onClick={() => handleButtonClick(button.id)}
+            >
+              {button.text}
+            </Link>
+          </div>
+          {button.showModal && renderModal(button)}
+        </div>
+      ));
+  };
+
   // 신청자 목록에서 수락 또는 거절 버튼 클릭시
-  const handleButtonApply = async (type,apply) => {
+  const handleButtonApply = async (type, apply) => {
     const path = "board/updateTutoringEnroll";
-    const body ={
+    const body = {
       postTutoringIndex: info.postIndex,
       userNickname: apply.userNickname,
       enrollState: type,
       tutoringLink: info.link,
-      userEmail: apply.userEmail
-    }
+      userEmail: apply.userEmail,
+    };
 
     const data = await axiosRequest(path, body, "POST", "boolean");
     try {
@@ -548,18 +614,18 @@ export default function TutorPage() {
         alert("신청자 목록을 업데이트 하는데 실패하였습니다.");
       } else {
         alert("신청자 목록을 업데이트 하였습니다.");
-        
+
         // 신청자 목록 업데이트
         loadEnrollList();
 
         // 신청자 수 업데이트 [임시 코드]
-        setUserCount(type === '수락' ? userCount+1 : userCount);
+        setUserCount(type === "수락" ? userCount + 1 : userCount);
       }
     } catch (error) {
       console.error("Error updating enrollment:", error);
       alert("신청자 목록 업데이트 중 오류가 발생했습니다.");
     }
-  }
+  };
 
   return (
     <div className=" max-w-6xl flex flex-col mx-auto px-6 pt-6 pb-20">
@@ -661,42 +727,7 @@ export default function TutorPage() {
           <div class="col-sm-2">
             <div className="sticky-menu" style={{ top: `${top}px` }}>
               <div className="button-container">
-                {buttons
-                  .filter((button) =>
-                    checkPostWriter(userNickname)
-                      ? [1, 2, 3, 5,6].includes(button.id)
-                      : [1, 4].includes(button.id)
-                  )
-                  .map((button) => (
-                    <div
-                      key={button.id}
-                      className={`image-button ${
-                        button.isHovered ? "expanded" : ""
-                      }`}
-                      onMouseEnter={() => handleMouseEnter(button.id)}
-                      onMouseLeave={() => handleMouseLeave(button.id)}
-                    >
-                      <div className="button-content flex">
-                        <FontAwesomeIcon
-                          icon={button.icon}
-                          className="w-[1.5rem] h-[1.5rem]"
-                        />
-                        <Link
-                          to={button.to}
-                          state={{
-                            info: { info: info, orderCategory: orderCategory },
-                          }}
-                          className={`text-${
-                            button.isHovered ? "dark" : "secondary"
-                          } text-decoration-none ml-3`}
-                          onClick={() => handleButtonClick(button.id)}
-                        >
-                          {button.text}
-                        </Link>
-                      </div>
-                      {button.showModal && renderModal(button)}
-                    </div>
-                  ))}
+                {renderQuickButton()}
               </div>
             </div>
           </div>

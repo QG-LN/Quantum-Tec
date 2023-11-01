@@ -16,7 +16,7 @@ export default function TutoringBoardPage() {
     const [page, setPage] = useState(1)                     // 현재 페이지
     const [ref, inView] = useInView()                       // 스크롤이 끝에 도달했는지 여부
     const [loading, setLoading] = useState(false)           // 로딩중인지 여부
-   const [selectedCategories, setSelectedCategories] = useState([]); // 선택한 카테고리
+    const [selectedCategories, setSelectedCategories] = useState([]); // 선택한 카테고리
 
    const [tutoringInfoList, setTutoringInfoList] = useState([]); // 튜터링 게시글 목록
    const [orderCategory, setOrderCategory] = useState({
@@ -67,7 +67,6 @@ export default function TutoringBoardPage() {
     const getTutoringOrderDataList = async () => {
         const path = 'board/tutoringOrderDataList';
         const data = await axiosRequest(path, null, 'POST', 'json');
-        console.log(data.tags);
         setOrderCategory({subject:data.category.split(','), tag:data.tags.split(',')})
     }
 
