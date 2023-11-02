@@ -33,7 +33,7 @@ export default function Login(props){
             alert('아이디를 입력해주세요');
         }else if(inputPw === ''){
             alert('비밀번호를 입력해주세요');
-        }else if(inputPw < 8 ){
+        }else if(inputPw.length < 8 ){
             alert('비밀번호는 8자리 이상이어야 합니다');
         }else{
             try{
