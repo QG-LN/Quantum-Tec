@@ -10,6 +10,8 @@ import axios from 'axios';
  * @returns {JSX.Element} - AvatarItem 컴포넌트.
  * @author MayoneJY <mayone6063@kakao.com>
  */
+
+////////////////////////////////////// 로그인 오류 해결 필요 //////////////////////////////////////
 export default function AvatarCanvas(props) {
     // 아바타 크기 (가로, 세로) (px) 기본값: [512, 512]
     const size = (props.size === undefined ? [512, 512] : props.size);
@@ -22,17 +24,16 @@ export default function AvatarCanvas(props) {
 
     /**
      * 카테고리 목록을 받아오는 함수
-     * @returns {void} 로컬 스토리지에 카테고리 목록(avatarCategoryList)을 저장
+     * @returns {Promise<void>} 로컬 스토리지에 카테고리 목록(avatarCategoryList)을 저장
      */
-    const loadCategoryList = () => {
-        axios.get('http://localhost:9090/avatar/category')
-        .then((response) => {
-            const catrgoryList = response.data;
-            localStorage.setItem('avatarCategoryList', JSON.stringify(catrgoryList));
-        })
-        .catch((error) => {
+    const loadCategoryList = async () => {
+        try{
+            const response = await axios.get('http://localhost:9090/avatar/category');
+            localStorage.setItem('avatarCategoryList', JSON.stringify(response.data));
+        }catch(error){
             console.log(error);
-        });
+            throw error;                // 에러를 다시 throw하여 해당 함수를 호출한 곳에서 에러 처리를 할 수 있도록
+        }
     }
 
     /**
@@ -99,23 +100,26 @@ export default function AvatarCanvas(props) {
     const drawAvatarItems = (ctx, imgBg, imgStickman, avatarItemList, canvas) => {        
         const categoryList = JSON.parse(localStorage.getItem('avatarCategoryList'));
 
-        for(let j = 0; j < categoryList.length; j++){                               // 카테고리 목록을 순회
-            // 착용중인 아바타 아이템들을 그림
-            for(let i = 0; i < avatarItemList.length; i++){                         // 착용중인 아바타 아이템 목록을 순회
-                if (categoryList[j] === avatarItemList[i].itemCategoryName) {       // 카테고리 목록과 착용중인 아바타 아이템의 카테고리가 같다면
-                    if (avatarItemList[0].itemCategoryName !== '배경') {            // 착용중인 아바타 아이템이 배경이 아니라면
-                        drawBackground(ctx, imgBg, canvas);                         // 배경 이미지 그리기
-                        drawStickman(ctx, imgStickman, position, size, canvas);      // 스틱맨 이미지 그리기
+        if(categoryList !== null){
+            for(let j = 0; j < categoryList.length; j++){                               // 카테고리 목록을 순회
+                // 착용중인 아바타 아이템들을 그림
+                for(let i = 0; i < avatarItemList.length; i++){                         // 착용중인 아바타 아이템 목록을 순회
+                    if (categoryList[j] === avatarItemList[i].itemCategoryName) {       // 카테고리 목록과 착용중인 아바타 아이템의 카테고리가 같다면
+                        if (avatarItemList[0].itemCategoryName !== '배경') {            // 착용중인 아바타 아이템이 배경이 아니라면
+                            drawBackground(ctx, imgBg, canvas);                         // 배경 이미지 그리기
+                            drawStickman(ctx, imgStickman, position, size, canvas);      // 스틱맨 이미지 그리기
+                        }
+    
+                        const img = new Image();                                        // 아바타 아이템 이미지 출력을 위한 변수
+                        img.src = `${process.env.PUBLIC_URL}/image/${avatarItemList[i].itemCategoryName}/${avatarItemList[i].itemName}.png`; // 아바타 아이템 기본값 설정
+    
+                        // 아바타 아이템 이미지 출력
+                        drawAvatarItem(ctx, img, position, size, canvas, (avatarItemList[i].itemCategoryName === '배경' ? imgStickman : null));
                     }
-
-                    const img = new Image();                                        // 아바타 아이템 이미지 출력을 위한 변수
-                    img.src = `${process.env.PUBLIC_URL}/image/${avatarItemList[i].itemCategoryName}/${avatarItemList[i].itemName}.png`; // 아바타 아이템 기본값 설정
-
-                    // 아바타 아이템 이미지 출력
-                    drawAvatarItem(ctx, img, position, size, canvas, (avatarItemList[i].itemCategoryName === '배경' ? imgStickman : null));
                 }
             }
         }
+
     }
 
     /**
@@ -141,10 +145,6 @@ export default function AvatarCanvas(props) {
             // 기본 스틱맨 이미지 그리기
             drawStickman(ctx, imgStickman, position, size, canvas);
         }else if(avatarItemList !== null){
-            // 카테고리 목록 받아오기
-            if(localStorage.getItem('avatarCategoryList') === null) 
-                loadCategoryList();
-            
             // 캔버스에 아바타 아이템들을 그림
             drawAvatarItems(ctx, imgBg, imgStickman, avatarItemList, canvas);
         }else{
@@ -154,19 +154,26 @@ export default function AvatarCanvas(props) {
             document.location.href = "/";
         }
     }
-    
+
     // 착용중인 아바타 아이템 목록이 변경되었을 때 캔버스를 다시 그림
     useEffect(() => {
-        const canvas = canvasRef.current;                                       // 캔버스 참조
-        const ctx = canvas.getContext('2d');                                    // 캔버스 컨텍스트 참조
-
-        const imgBg = new Image();                                              // 배경 이미지 출력을 위한 변수
-        const imgStickman = new Image();                                        // 스틱맨 이미지 출력을 위한 변수
-
-        imgBg.src = `${process.env.PUBLIC_URL}/image/bg.png`;                   // 배경 기본값 설정 
-        imgStickman.src = `${process.env.PUBLIC_URL}/image/stickman.png`;       // 스틱맨 기본값 설정
-
-        drawCanvas(canvas, ctx, imgBg, imgStickman, position, size, avatarItemList);
+        const fatchData = async () => {
+            const canvas = canvasRef.current;                                       // 캔버스 참조
+            const ctx = canvas.getContext('2d');                                    // 캔버스 컨텍스트 참조
+    
+            const imgBg = new Image();                                              // 배경 이미지 출력을 위한 변수
+            const imgStickman = new Image();                                        // 스틱맨 이미지 출력을 위한 변수
+    
+            imgBg.src = `${process.env.PUBLIC_URL}/image/bg.png`;                   // 배경 기본값 설정 
+            imgStickman.src = `${process.env.PUBLIC_URL}/image/stickman.png`;       // 스틱맨 기본값 설정
+    
+            if(localStorage.getItem('avatarCategoryList') === null){
+                await loadCategoryList()
+            }
+    
+            drawCanvas(canvas, ctx, imgBg, imgStickman, position, size, avatarItemList);
+        }
+        fatchData();
 ;
     }, [canvasRef, avatarItemList]);
 
