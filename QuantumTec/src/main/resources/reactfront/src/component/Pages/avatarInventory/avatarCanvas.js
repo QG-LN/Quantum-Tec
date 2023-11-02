@@ -19,8 +19,9 @@ export default function AvatarCanvas(props) {
     // 캔버스를 그리기 위한 참조
     const canvasRef = useRef(null);
     // 착용중인 아바타 아이템 목록
-    const avatarItemList = useSelector(state => state.avatar.itemList);
-
+    const reduxAvatarItemList = useSelector(state => state.avatar.itemList);
+    // 다른 사용자의 착용중인 아이템 목록
+    const avatarItemList = props.avatarItemList || reduxAvatarItemList;
     /**
      * 카테고리 목록을 받아오는 함수
      * @returns {Promise<void>} 로컬 스토리지에 카테고리 목록(avatarCategoryList)을 저장
