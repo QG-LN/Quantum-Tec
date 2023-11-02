@@ -11,7 +11,6 @@ import axios from 'axios';
  * @author MayoneJY <mayone6063@kakao.com>
  */
 
-////////////////////////////////////// 로그인 오류 해결 필요 //////////////////////////////////////
 export default function AvatarCanvas(props) {
     // 아바타 크기 (가로, 세로) (px) 기본값: [512, 512]
     const size = (props.size === undefined ? [512, 512] : props.size);
