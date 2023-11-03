@@ -21,20 +21,44 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { axiosRequest } from "../../Utils/networkUtils";
 
 export default function TutorPage() {
-  const [postTitle, setPostTitle] = useState("오늘은 무엇을 스터디해볼까요?");    // 튜터링 게시글 제목
-  const [postIndex, setPostIndex] = useState(0);                                // 튜터링 게시글 인덱스
-  const [userNickname, setUserNickname] = useState("marais");                   // 튜터링 게시글 작성자 닉네임
-  const [tags, setTags] = useState([]);                                         // 튜터링 태그
-  const [postDate, setPostDate] = useState("2023.09.16");                       // 튜터링 게시글 작성 날짜
-  const [runningType, setRunningType] = useState("");                           // 튜터링 진행 방식
-  const [maxUserCount, setMaxUserCount] = useState(0);                          // 최대 신청 가능 인원
-  const [userCount, setUserCount] = useState(0);                                // 현재 신청한 인원
-  const [startDate, setStartDate] = useState("");                               // 튜터링 시작 날짜
-  const [studyLink, setStudyLink] = useState("https://open.kakao.com/o/");      // 튜터링 링크
-  const [expectedTime, setExpectedTime] = useState(0);                          // 예상 기간
-  const [category, setCategory] = useState([]);                                 // 튜터링 카테고리
-  const [postIntro, setPostIntro] = useState("");                               // 튜터링 소개
-  const [postContent, setPostContent] = useState("");                           // 튜터링 내용
+  // state 초기화 함수
+  const initialState  = {
+    postTitle: "오늘은 무엇을 스터디해볼까요?",    // 튜터링 게시글 제목
+    postIndex: 0,                                // 튜터링 게시글 인덱스
+    userNickname: "marais",                      // 튜터링 게시글 작성자 닉네임
+    tags: [],                                    // 튜터링 태그
+    postDate: "2023.09.16",                      // 튜터링 게시글 작성 날짜
+    runningType: "",                             // 튜터링 진행 방식
+    maxUserCount: 0,                             // 최대 신청 가능 인원
+    userCount: 0,                                // 현재 신청한 인원
+    startDate: "",                               // 튜터링 시작 날짜
+    studyLink: "https://open.kakao.com/o/",      // 튜터링 링크
+    expectedTime: 0,                             // 예상 기간
+    category: [],                                // 튜터링 카테고리
+    postIntro: "",                               // 튜터링 소개
+    postContent: "",                             // 튜터링 내용
+    postState: false,                            // 튜터링 게시글 상태
+  }
+
+  const [state , setState] = useState(initialState); // 튜터링 게시글 정보
+
+  // state 정보를 분리
+  const { postTitle, 
+    postIndex, 
+    userNickname, 
+    tags, 
+    postDate, 
+    runningType, 
+    maxUserCount, 
+    userCount, 
+    startDate, 
+    studyLink, 
+    expectedTime, 
+    category, 
+    postIntro, 
+    postContent,
+    postState
+  } = state;
 
   const [applyList, setApplyList] = useState([]);                               // 튜터링 신청자 목록
   const [isShowApplyList, setIsShowApplyList] = useState(false);                // 튜터링 신청자 목록 보여주기 여부
@@ -42,19 +66,15 @@ export default function TutorPage() {
   const [enroll, setEnroll] = useState("");                                     // 튜터링 신청 상태 [신청 / 취소 / 수락 / 거절]
   const [isEnrollButtonDisabled, setIsEnrollButtonDisabled] = useState(Array(applyList.length).fill(false));   // 튜터링 신청 버튼 활성화 여부
 
-  const [postState, setPostState] = useState(false);                            // 튜터링 게시글 상태 [ false -> 모집완료 / 모집 중단 true -> 모집 중]
-
   const naviagte = useNavigate();
 
   let userimg = "";
 
   // 튜터링 게시글 정보를 Link를 통해 전달 받음
   const location = useLocation();
-  const info = location.state ? location.state.info.info : null; // Link로 접근한 것이 아닐 경우 null값 부여
-  const orderCategory = location.state
-    ? location.state.info.orderCategory
-    : null; // Link로 접근한 것이 아닐 경우 null값 부여
-
+  // info[튜터링 게시글 정보], orderCategory[정렬 기준]를 전달 받음
+  const info = location.state ? location.state.info.info : null;                    
+  const orderCategory = location.state ? location.state.info.orderCategory : null;  // Link로 접근한 것이 아닐 경우 null값 부여
 
   const [buttons, setButtons] = useState([
     {
@@ -155,21 +175,24 @@ export default function TutorPage() {
     if (info === null) {
       return null;
     } else {
-      setPostTitle(info.postTitle);
-      setUserNickname(info.userNickname);
-      setPostDate(extractData(info.postDate));
-      setMaxUserCount(info.maxUserCount);
-      setUserCount(info.userCount);
-      setCategory(info.category);
-      setTags(info.tags);
-      setExpectedTime(info.expectedTime);
-      setPostIntro(info.postIntro);
-      setPostContent(info.postContent);
-      setRunningType(info.runningType ? "온라인" : "오프라인");
-      setStudyLink(info.link);
-      setExpectedTime(info.expectedTime);
-      setStartDate(extractData(info.startDate));
-      setPostState(info.postState);
+      // 튜터링 게시글 정보를 state에 저장
+      setState({
+        ...state,
+        postTitle: info.postTitle,
+        userNickname: info.userNickname,
+        postDate: extractData(info.postDate),
+        maxUserCount: info.maxUserCount,
+        userCount: info.userCount,
+        category: info.category,
+        tags: info.tags,
+        expectedTime: info.expectedTime,
+        postIntro: info.postIntro,
+        postContent: info.postContent,
+        runningType: info.runningType ? "온라인" : "오프라인",
+        studyLink: info.link,
+        startDate: extractData(info.startDate),
+        postState: info.postState,
+      });
 
       buttons[1].to = `/tutoringPost/${info.postIndex}/edit`;
 
@@ -182,6 +205,7 @@ export default function TutorPage() {
       }
     }
   }, []);
+
   //튜터링 신청 여부에 따른 버튼 변경
   useEffect(() => {
     console.log("enroll : " + enroll);
@@ -402,7 +426,10 @@ export default function TutorPage() {
     } else if (data) {
       alert("모집 상태 변경 성공");
       // naviagte("/tutoring");
-      setPostState(!postState);
+      setState({
+        ...state,
+        postState: !postState,
+      })
     }
   };
 
@@ -619,7 +646,10 @@ export default function TutorPage() {
         loadEnrollList();
 
         // 신청자 수 업데이트 [임시 코드]
-        setUserCount(type === "수락" ? userCount + 1 : userCount);
+        setState({
+          ...state,
+          userCount: type === "수락" ? userCount + 1 : userCount,
+        });
       }
     } catch (error) {
       console.error("Error updating enrollment:", error);
