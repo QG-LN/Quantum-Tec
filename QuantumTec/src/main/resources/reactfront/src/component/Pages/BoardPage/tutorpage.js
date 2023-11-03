@@ -7,18 +7,14 @@ import { extractData } from "../../Utils/dataFormat";
 //이미지
 import OpenKakao from "../../../image/kakaoOpenChat.png";
 import emptyuser from "../../../image/emptyuser.png";
-import backpage from "../../../image/backpage.png";
-import check from "../../../image/check.png";
 import {
-  faTrash,
-  faArrowLeft,
   faCheck,
-  faRepeat,
   faBan,
   faUserPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { axiosRequest } from "../../Utils/networkUtils";
+import { initialButtons, NONE_BUTTON, BACK_BUTTON, EDIT_BUTTON, DELETE_BUTTON, CHECK_BUTTON, APPLICANT_LIST_BUTTON, BAN_BUTTON } from './QuicButtonConfig';
 
 export default function TutorPage() {
   // state 초기화 함수
@@ -63,7 +59,7 @@ export default function TutorPage() {
   const [applyList, setApplyList] = useState([]);                               // 튜터링 신청자 목록
   const [isShowApplyList, setIsShowApplyList] = useState(false);                // 튜터링 신청자 목록 보여주기 여부
 
-  const [enroll, setEnroll] = useState("");                                     // 튜터링 신청 상태 [신청 / 취소 / 수락 / 거절]
+  const [enroll, setEnroll] = useState("");                                     // 튜터링 등록 상태 [신청 / 취소 / 수락 / 거절]
   const [isEnrollButtonDisabled, setIsEnrollButtonDisabled] = useState(Array(applyList.length).fill(false));   // 튜터링 신청 버튼 활성화 여부
 
   const naviagte = useNavigate();
@@ -76,76 +72,38 @@ export default function TutorPage() {
   const info = location.state ? location.state.info.info : null;                    
   const orderCategory = location.state ? location.state.info.orderCategory : null;  // Link로 접근한 것이 아닐 경우 null값 부여
 
-  const [buttons, setButtons] = useState([
-    {
-      id: 1,
-      text: "뒤로가기",
-      to: "/tutoring",
-      image: backpage,
-      isHovered: false,
-      icon: faArrowLeft,
-    },
-    {
-      id: 2,
-      text: "수정하기",
-      to: "",
-      info: info,
-      showModal: false,
-      image: check,
-      isHovered: false,
-      icon: faRepeat,
-    },
-    {
-      id: 3,
-      text: "삭제하기",
-      showModal: false,
-      image: "image3.jpg",
-      isHovered: false,
-      icon: faTrash,
-      comment: "정말로 삭제하시겠습니까??",
-      buttonOK: {
-        title: "삭제하기",
-        event: () => {
-          confirmModal("delete");
-        },
-      },
-    },
-    {
-      id: 4,
-      text: "",
-      showModal: false,
-      image: check,
-      isHovered: false,
-      icon: faCheck,
-      comment: "??",
-      buttonOK: {
-        title: "",
-        event: () => {
-          confirmModal("insert");
-        },
-      },
-    },
-    {
-      id: 5,
-      text: "신청자 목록",
-      isHovered: false,
-      icon: faCheck,
-    },
-    {
-      id: 6,
-      text: "",
-      showModal: false,
-      isHovered: false,
-      icon: faBan,
-      comment: "",
-      buttonOK: {
-        title: "",
-        event: () => {
-          confirmModal("postUpdate");
-        },
-      },
-    },
-  ]);
+  const [buttons, setButtons] = useState(initialButtons);                           // 버튼 정보
+
+  /**
+   * 초기 버튼 정보로 초기화 함수
+   * 기존 버튼 정보에 showModal, isHovered, buttonOK 추가
+   * showModal -> 모달창 활성화 여부
+   * isHovered -> 버튼 위에 마우스 올려져 있는지 여부
+   * buttonOK -> 모달창에서 확인 버튼 클릭시 실행할 모달창 데이터 [title, event]
+   * title -> 모달창에서 확인 버튼 텍스트
+   * event -> 모달창에서 확인 버튼 클릭시 실행할 함수
+   */
+  const initializeButtons = () => {
+    setButtons(
+      initialButtons.map((button) => {
+        return {
+          ...button,
+          showModal: false,
+          isHovered: false,
+          buttonOK: button.id === DELETE_BUTTON ? {
+            title: "삭제하기",
+            event: () => confirmModal("delete"),
+          } : button.id === CHECK_BUTTON ? {
+            title: "",
+            event: () => confirmModal("insert"),
+          } : button.id === BAN_BUTTON ? {
+            title: "",
+            event: () => confirmModal("postUpdate"),
+          } : undefined,
+        };
+      })
+    );
+  };
 
   /**
    * 이벤트가 없는 빈 버튼으로 초기화
@@ -175,6 +133,10 @@ export default function TutorPage() {
     if (info === null) {
       return null;
     } else {
+
+      // 초기 버튼 정보로 초기화
+      initializeButtons();
+
       // 튜터링 게시글 정보를 state에 저장
       setState({
         ...state,
@@ -194,7 +156,7 @@ export default function TutorPage() {
         postState: info.postState,
       });
 
-      buttons[1].to = `/tutoringPost/${info.postIndex}/edit`;
+      buttons[BACK_BUTTON].to = `/tutoringPost/${info.postIndex}/edit`;
 
       // 튜터링 신청자 목록 불러오기
       if (checkPostWriter(info.userNickname)) {
@@ -215,7 +177,7 @@ export default function TutorPage() {
       if (info.userCount !== info.maxUserCount && info.postState) {             // 현재 인원이 최대 인원보다 작은지를 확인
         setButtons(                                                             // enroll 상태에 따라 버튼 텍스트 변경
           buttons.map((button) => {
-            if (button.id === 4) {
+            if (button.id === CHECK_BUTTON) {
               return {
                 ...button,
                 text: enroll === "신청" ? "신청취소" : "신청하기",
@@ -246,7 +208,7 @@ export default function TutorPage() {
     if (info.userCount !== info.maxUserCount) {
       setButtons(
         buttons.map((button) => {
-          if (button.id === 6) {
+          if (button.id === BAN_BUTTON) {
             return {
               ...button,
               text: postState ? "모집 중지" : "모집 진행",
@@ -383,9 +345,9 @@ export default function TutorPage() {
 
   const handleButtonClick = (id) => {
     // 신청자 목록 버튼 클릭시 신청자 목록을 활성화
-    if (id === 5) {
+    if (id === APPLICANT_LIST_BUTTON) {
       setIsShowApplyList(!isShowApplyList); // 신청자 목록 활성화 여부
-      buttons[4].text = isShowApplyList ? "신청자 목록" : "튜터링 소개"; // 버튼 텍스트 변경
+      buttons[CHECK_BUTTON].text = isShowApplyList ? "신청자 목록" : "튜터링 소개"; // 버튼 텍스트 변경
       return;
     }
 
@@ -452,7 +414,7 @@ export default function TutorPage() {
     // 모달 닫기
     setButtons((prevButtons) =>
       prevButtons.map((button) =>
-        button.id !== 0 ? { ...button, showModal: false } : button
+        button.id !== NONE_BUTTON ? { ...button, showModal: false } : button
       )
     );
   };
@@ -462,7 +424,7 @@ export default function TutorPage() {
     // 모달 닫기
     setButtons((prevButtons) =>
       prevButtons.map((button) =>
-        button.id !== 0 ? { ...button, showModal: false } : button
+        button.id !== NONE_BUTTON ? { ...button, showModal: false } : button
       )
     );
   };
@@ -591,8 +553,8 @@ export default function TutorPage() {
   const renderQuickButton = () => {
     return buttons.filter((button) =>
         checkPostWriter(userNickname)
-          ? [1, 2, 3, 5, 6].includes(button.id)
-          : [1, 4].includes(button.id)
+          ? [BACK_BUTTON, EDIT_BUTTON, DELETE_BUTTON, APPLICANT_LIST_BUTTON, BAN_BUTTON].includes(button.id)
+          : [BACK_BUTTON, CHECK_BUTTON].includes(button.id)
       )
       .map((button) => (
         <div
