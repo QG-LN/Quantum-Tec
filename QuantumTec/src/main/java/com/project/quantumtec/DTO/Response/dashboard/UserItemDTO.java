@@ -1,5 +1,8 @@
 package com.project.quantumtec.DTO.Response.dashboard;
 
+import lombok.Data;
+
+@Data
 public class UserItemDTO {
     private int itemNum;            // 아이템 번호
     private String itemType;        // 아이템 종류

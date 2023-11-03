@@ -1,5 +1,8 @@
 package com.project.quantumtec.DTO.Response.dashboard;
 
+import lombok.Data;
+
+@Data
 public class UserActivityLogDTO {
     private String activityType;        // 활동 사항
     private String activityData;        // 활동 내용

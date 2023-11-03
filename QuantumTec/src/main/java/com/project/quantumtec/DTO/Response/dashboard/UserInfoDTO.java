@@ -1,7 +1,10 @@
 package com.project.quantumtec.DTO.Response.dashboard;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class UserInfoDTO {
     // 프로필 정보
     private String userNum;         // 사용자 번호
