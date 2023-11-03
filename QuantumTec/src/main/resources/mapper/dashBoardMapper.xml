@@ -4,4 +4,7 @@
 <select id="getUserInfo" resultType="UserInfoDTO">
 
 </select>
+    <select id="getUserList" resultType="UserListDTO">
+
+    </select>
 </mapper>
