@@ -188,11 +188,8 @@ export default function TutoringBoardPage() {
                                  className='row gx-0 row-cols-2 row-cols-md-3 row-cols-xl-4'
                                  ref={idx === tutoringInfoList.length - 1 ? ref : null}>
                                     <Link to={`/tutoring/${tutor.postIndex}/${tutor.userNickname}`} class='text-decoration-none text-black'
-                                            state={{ info: { info: tutor, orderCategory: orderCategory } }}    
-                                    >
-                                        <Tutoringlist
-                                            info={tutor}
-                                        />    
+                                            state={{ info: { info: tutor, orderCategory: orderCategory } }}>
+                                        <Tutoringlist info={tutor}/>    
                                     </Link>
                             </div>
                         ))}

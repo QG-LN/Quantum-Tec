@@ -15,6 +15,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { axiosRequest } from "../../Utils/networkUtils";
 import { initialButtons, NONE_BUTTON, BACK_BUTTON, EDIT_BUTTON, DELETE_BUTTON, CHECK_BUTTON, APPLICANT_LIST_BUTTON, BAN_BUTTON } from './QuicButtonConfig';
+import AvatarCanvas from "../avatarInventory/avatarCanvas";
 
 export default function TutorPage() {
   // state 초기화 함수
@@ -34,6 +35,7 @@ export default function TutorPage() {
     postIntro: "",                               // 튜터링 소개
     postContent: "",                             // 튜터링 내용
     postState: false,                            // 튜터링 게시글 상태
+    avatarItemList: [],                          // 튜터링 게시글 작성자 아이템 목록
   }
 
   const [state , setState] = useState(initialState); // 튜터링 게시글 정보
@@ -53,7 +55,8 @@ export default function TutorPage() {
     category, 
     postIntro, 
     postContent,
-    postState
+    postState,
+    avatarItemList
   } = state;
 
   const [applyList, setApplyList] = useState([]);                               // 튜터링 신청자 목록
@@ -154,6 +157,7 @@ export default function TutorPage() {
         studyLink: info.link,
         startDate: extractData(info.startDate),
         postState: info.postState,
+        avatarItemList: info.avatarItemList,
       });
 
       buttons[BACK_BUTTON].to = `/tutoringPost/${info.postIndex}/edit`;
@@ -629,11 +633,9 @@ export default function TutorPage() {
             </div>
             <div className=" mt-8 pb-8 border-b-2 flex gap-4 items-center">
               <div className="flex items-center relative">
-                <img
-                  className=" cursor-pointer block h-12 w-[3rem] mr-2 rounded-[50%] object-cover"
-                  src={userimg}
-                  alt="userImg"
-                />
+                <div className='w-[40px] h-[40px] p-0 mr-2 rounded-full'>
+                    <AvatarCanvas size={[220,220]} position={[128,128]} circle={true} avatarItemList={avatarItemList}/>
+                </div>
                 <div className=" cursor-pointer text-lg font-bold">
                   {userNickname}
                 </div>
