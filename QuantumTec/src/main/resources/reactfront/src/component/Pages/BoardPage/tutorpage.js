@@ -14,6 +14,7 @@ import { axiosRequest } from "../../Utils/networkUtils";
 import { initialButtons, NONE_BUTTON, BACK_BUTTON, EDIT_BUTTON, DELETE_BUTTON, CHECK_BUTTON, APPLICANT_LIST_BUTTON, BAN_BUTTON } from './QuicButtonConfig';
 import AvatarCanvas from "../avatarInventory/avatarCanvas";
 import CustomModal from "./CustomModal";
+import useApplyListState from "./TutorApplyList";
 
 export default function TutorPage() {
   // state 초기화 함수
@@ -57,8 +58,13 @@ export default function TutorPage() {
     avatarItemList
   } = state;
 
-  const [applyList, setApplyList] = useState([]);                               // 튜터링 신청자 목록
-  const [isShowApplyList, setIsShowApplyList] = useState(false);                // 튜터링 신청자 목록 보여주기 여부
+  const {
+    applyList,
+    setApplyList,
+    isShowApplyList,
+    setIsShowApplyList,
+    loadApplyList,
+  } = useApplyListState();  // 튜터링 신청자 목록 상태
 
   const [enroll, setEnroll] = useState("");                                     // 튜터링 등록 상태 [신청 / 취소 / 수락 / 거절]
   const [isEnrollButtonDisabled, setIsEnrollButtonDisabled] = useState(Array(applyList.length).fill(false));   // 튜터링 신청 버튼 활성화 여부
@@ -494,7 +500,9 @@ export default function TutorPage() {
                 <th className="w-[20%]">신청여부</th>
               </tr>
             </thead>
-            <tbody>{renderApplyList()}</tbody>
+            <tbody>
+              {renderApplyList()}
+            </tbody>
           </table>
         </div>
       </div>
@@ -576,16 +584,8 @@ export default function TutorPage() {
 
   // 신청자 목록에서 수락 또는 거절 버튼 클릭시
   const handleButtonApply = async (type, apply) => {
-    const path = "board/updateTutoringEnroll";
-    const body = {
-      postTutoringIndex: info.postIndex,
-      userNickname: apply.userNickname,
-      enrollState: type,
-      tutoringLink: info.link,
-      userEmail: apply.userEmail,
-    };
 
-    const data = await axiosRequest(path, body, "POST", "boolean");
+    const data = await loadApplyList(type, apply, info);
     try {
       if (data === null || data === false || data === undefined) {
         alert("신청자 목록을 업데이트 하는데 실패하였습니다.");
