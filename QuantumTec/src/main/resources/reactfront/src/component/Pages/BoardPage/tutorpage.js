@@ -11,33 +11,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { axiosRequest } from "../../Utils/networkUtils";
-import { initialButtons, NONE_BUTTON, BACK_BUTTON, EDIT_BUTTON, DELETE_BUTTON, CHECK_BUTTON, APPLICANT_LIST_BUTTON, BAN_BUTTON } from './QuicButtonConfig';
+import useQuickButtonState, { NONE_BUTTON, BACK_BUTTON, EDIT_BUTTON, DELETE_BUTTON, CHECK_BUTTON, APPLICANT_LIST_BUTTON, BAN_BUTTON } from './TutorQuickButtonState';
 import AvatarCanvas from "../avatarInventory/avatarCanvas";
 import CustomModal from "./CustomModal";
 import useApplyListState from "./TutorApplyList";
+import usePostState from "./TutorPostState";
 
 export default function TutorPage() {
-  // state 초기화 함수
-  const initialState  = {
-    postTitle: "오늘은 무엇을 스터디해볼까요?",    // 튜터링 게시글 제목
-    postIndex: 0,                                // 튜터링 게시글 인덱스
-    userNickname: "marais",                      // 튜터링 게시글 작성자 닉네임
-    tags: [],                                    // 튜터링 태그
-    postDate: "2023.09.16",                      // 튜터링 게시글 작성 날짜
-    runningType: "",                             // 튜터링 진행 방식
-    maxUserCount: 0,                             // 최대 신청 가능 인원
-    userCount: 0,                                // 현재 신청한 인원
-    startDate: "",                               // 튜터링 시작 날짜
-    studyLink: "https://open.kakao.com/o/",      // 튜터링 링크
-    expectedTime: 0,                             // 예상 기간
-    category: [],                                // 튜터링 카테고리
-    postIntro: "",                               // 튜터링 소개
-    postContent: "",                             // 튜터링 내용
-    postState: false,                            // 튜터링 게시글 상태
-    avatarItemList: [],                          // 튜터링 게시글 작성자 아이템 목록
-  }
-
-  const [state , setState] = useState(initialState); // 튜터링 게시글 정보
+  const { state, setState } = usePostState();
 
   // state 정보를 분리
   const { postTitle, 
@@ -77,62 +58,12 @@ export default function TutorPage() {
   const info = location.state ? location.state.info.info : null;                    
   const orderCategory = location.state ? location.state.info.orderCategory : null;  // Link로 접근한 것이 아닐 경우 null값 부여
 
-  const [buttons, setButtons] = useState(initialButtons);                           // 초기 버튼 정보 세팅
-
-  /**
-   * 버튼 이벤트에 따라 초기화
-   * 기존 버튼 정보에 showModal, isHovered, buttonOK 추가
-   * showModal -> 모달창 활성화 여부
-   * isHovered -> 버튼 위에 마우스 올려져 있는지 여부
-   * buttonOK -> 모달창에서 확인 버튼 클릭시 실행할 모달창 데이터 [title, event]
-   * title -> 모달창에서 확인 버튼 텍스트
-   * event -> 모달창에서 확인 버튼 클릭시 실행할 함수
-   */
-  const initializeButtons = () => {
-    setButtons(
-      initialButtons.map((button) => {
-        return {
-          ...button,
-          showModal: false,
-          isHovered: false,
-          buttonOK: 
-            button.id === DELETE_BUTTON ? {
-            title: "삭제하기",
-            event: () => confirmModal("delete"),
-          } : button.id === CHECK_BUTTON ? {
-            title: "",
-            event: () => confirmModal("insert"),
-          } : button.id === BAN_BUTTON ? {
-            title: "",
-            event: () => confirmModal("postUpdate"),
-          } : undefined,
-        };
-      })
-    );
-  };
-
-  /**
-   * 이벤트가 없는 빈 버튼으로 초기화
-   * @param {*} id 버튼 인덱스
-   * @param {*} title 버튼 텍스트
-   * @param {*} newIcon 변경할 버튼의 새 아이콘
-   */
-  const initButtonEvent = (id, title, newIcon) => {
-    setButtons(
-      buttons.map((button) => {
-        if (button.id === id) {
-          return {
-            ...button,
-            text: title,
-            icon: newIcon,
-            buttonOK: undefined,
-          };
-        } else {
-          return button;
-        }
-      })
-    );
-  };
+  const {
+    buttons,
+    setButtons,
+    initializeButtons,
+    setNoneButtonEvent,
+  } = useQuickButtonState();  // 퀵 버튼 상태
 
   useEffect(() => {
     // 튜터링 게시글 정보가 존재할 경우 상태를 업데이트
@@ -178,7 +109,7 @@ export default function TutorPage() {
   //튜터링 신청 여부에 따른 버튼 변경
   useEffect(() => {
     if (enroll === "수락" || enroll === "거절") {                                // 튜터가 수락 또는 거절을 했을 경우
-      initButtonEvent(4, enroll === "수락" ? "신청수락" : "신청거절", faCheck);   // 버튼 텍스트 변경
+      setNoneButtonEvent(4, enroll === "수락" ? "신청수락" : "신청거절", faCheck);   // 버튼 텍스트 변경
     } else {                                                                    // 튜터가 수락 또는 거절을 하지 않았을 경우
       if (info.userCount !== info.maxUserCount && info.postState) {             // 현재 인원이 최대 인원보다 작은지를 확인
         setButtons(                                                             // enroll 상태에 따라 버튼 텍스트 변경
@@ -204,7 +135,7 @@ export default function TutorPage() {
           })
         );
       }else {                        
-        initButtonEvent(4, "모집 완료", faBan);
+        setNoneButtonEvent(4, "모집 완료", faBan);
       }
     }
   }, [enroll]);
@@ -235,7 +166,7 @@ export default function TutorPage() {
         })
       );
     }else{
-      initButtonEvent(6, "모집 완료", faBan);
+      setNoneButtonEvent(6, "모집 완료", faBan);
     }
   }, [postState]);
 
