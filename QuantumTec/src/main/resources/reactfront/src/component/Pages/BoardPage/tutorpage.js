@@ -71,10 +71,10 @@ export default function TutorPage() {
   const info = location.state ? location.state.info.info : null;                    
   const orderCategory = location.state ? location.state.info.orderCategory : null;  // Link로 접근한 것이 아닐 경우 null값 부여
 
-  const [buttons, setButtons] = useState(initialButtons);                           // 버튼 정보
+  const [buttons, setButtons] = useState(initialButtons);                           // 초기 버튼 정보 세팅
 
   /**
-   * 초기 버튼 정보로 초기화 함수
+   * 버튼 이벤트에 따라 초기화
    * 기존 버튼 정보에 showModal, isHovered, buttonOK 추가
    * showModal -> 모달창 활성화 여부
    * isHovered -> 버튼 위에 마우스 올려져 있는지 여부
@@ -89,7 +89,8 @@ export default function TutorPage() {
           ...button,
           showModal: false,
           isHovered: false,
-          buttonOK: button.id === DELETE_BUTTON ? {
+          buttonOK: 
+            button.id === DELETE_BUTTON ? {
             title: "삭제하기",
             event: () => confirmModal("delete"),
           } : button.id === CHECK_BUTTON ? {
@@ -133,7 +134,7 @@ export default function TutorPage() {
       return null;
     } else {
 
-      // 초기 버튼 정보로 초기화
+      // 버튼 이벤트에 따라 초기화
       initializeButtons();
 
       // 튜터링 게시글 정보를 state에 저장
@@ -334,6 +335,29 @@ export default function TutorPage() {
       setIsShowApplyList(!isShowApplyList); // 신청자 목록 활성화 여부
       buttons[CHECK_BUTTON].text = isShowApplyList ? "신청자 목록" : "튜터링 소개"; // 버튼 텍스트 변경
       return;
+    }
+
+    // 삭제버튼 클릭시 모달창에 텍스트 변경
+    if(id === DELETE_BUTTON) {
+      setButtons(
+        buttons.map((button) => {
+          if (button.id === DELETE_BUTTON) {
+            return {
+              ...button,
+              text: "삭제하기",
+              comment: "해당 게시물을 정말로 삭제하시겠습니까?",
+              buttonOK: {
+                title: "삭제하기",
+                event: () => {
+                  confirmModal("postUpdate");
+                },
+              },
+            };
+          } else {
+            return button;
+          }
+        })
+      );
     }
 
     // 버튼 클릭하면 모달을 열도록 설정

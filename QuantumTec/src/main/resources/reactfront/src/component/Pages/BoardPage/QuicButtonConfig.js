@@ -8,8 +8,8 @@ import { faArrowLeft, faRepeat, faTrash, faCheck, faBan } from '@fortawesome/fre
 export const initialButtons = [
   { id: 1, text: "뒤로가기", to: "/tutoring", icon: faArrowLeft },
   { id: 2, text: "수정하기", icon: faRepeat },
-  { id: 3, text: "삭제하기", icon: faTrash, comment: "정말로 삭제하시겠습니까??"},
-  { id: 4, text: "", icon: faCheck, comment: "???" },
+  { id: 3, text: "삭제하기", icon: faTrash, comment: "정말로 삭제하시겠습니까?"},
+  { id: 4, text: "", icon: faCheck, comment: "" },
   { id: 5, text: "신청자 목록", icon: faCheck },
   { id: 6, text: "", icon: faBan, comment: "" },
 ];
