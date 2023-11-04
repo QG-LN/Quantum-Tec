@@ -1,12 +1,9 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Modal from "react-bootstrap/Modal"; // Bootstrap Modal 추가
-import Button from "react-bootstrap/Button"; // Bootstrap Button 추가
 import "../../../App.css";
 import { extractData } from "../../Utils/dataFormat";
 //이미지
 import OpenKakao from "../../../image/kakaoOpenChat.png";
-import emptyuser from "../../../image/emptyuser.png";
 import {
   faCheck,
   faBan,
@@ -16,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { axiosRequest } from "../../Utils/networkUtils";
 import { initialButtons, NONE_BUTTON, BACK_BUTTON, EDIT_BUTTON, DELETE_BUTTON, CHECK_BUTTON, APPLICANT_LIST_BUTTON, BAN_BUTTON } from './QuicButtonConfig';
 import AvatarCanvas from "../avatarInventory/avatarCanvas";
+import CustomModal from "./CustomModal";
 
 export default function TutorPage() {
   // state 초기화 함수
@@ -66,8 +64,6 @@ export default function TutorPage() {
   const [isEnrollButtonDisabled, setIsEnrollButtonDisabled] = useState(Array(applyList.length).fill(false));   // 튜터링 신청 버튼 활성화 여부
 
   const naviagte = useNavigate();
-
-  let userimg = "";
 
   // 튜터링 게시글 정보를 Link를 통해 전달 받음
   const location = useLocation();
@@ -174,7 +170,6 @@ export default function TutorPage() {
 
   //튜터링 신청 여부에 따른 버튼 변경
   useEffect(() => {
-    console.log("enroll : " + enroll);
     if (enroll === "수락" || enroll === "거절") {                                // 튜터가 수락 또는 거절을 했을 경우
       initButtonEvent(4, enroll === "수락" ? "신청수락" : "신청거절", faCheck);   // 버튼 텍스트 변경
     } else {                                                                    // 튜터가 수락 또는 거절을 하지 않았을 경우
@@ -293,11 +288,6 @@ export default function TutorPage() {
     }
   };
 
-  // userimg가 비어있으면 emptyuser를 넣고 아니면 userimg를 넣는다.
-  if (userimg === "") {
-    userimg = emptyuser;
-  }
-
     /**
    * 신청 정보를 변경하기 위해 서버에 요청하는 함수
    * @param {String} type 서버에 요청할 신청 정보[내가 원하는 상태를 전달]
@@ -319,15 +309,6 @@ export default function TutorPage() {
       alert("수정 성공");
       setEnroll(enroll === "신청" ? "취소" : "신청");
     }
-  };
-
-  const customModalStyles = {
-    content: {
-      position: "fixed",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-    },
   };
 
   //버튼위에 마우스 올렸을때
@@ -356,11 +337,7 @@ export default function TutorPage() {
     }
 
     // 버튼 클릭하면 모달을 열도록 설정
-    setButtons((prevButtons) =>
-      prevButtons.map((button) =>
-        button.id === id ? { ...button, showModal: true } : button
-      )
-    );
+    showModal(id);
   };
   // 삭제하기 이벤트
   const deletePostEvent = async () => {
@@ -416,11 +393,7 @@ export default function TutorPage() {
     }
 
     // 모달 닫기
-    setButtons((prevButtons) =>
-      prevButtons.map((button) =>
-        button.id !== NONE_BUTTON ? { ...button, showModal: false } : button
-      )
-    );
+    closeModal();
   };
 
   //모달창-닫기버튼
@@ -433,35 +406,22 @@ export default function TutorPage() {
     );
   };
 
+  // 모달창 - 열기버튼
+  const showModal = (id) => {
+    setButtons((prevButtons) =>
+      prevButtons.map((button) =>
+        button.id === id ? { ...button, showModal: true } : button
+      )
+    );
+  }
+
   // 모달창 렌더링
   const renderModal = (button) => {
     if (button.buttonOK === undefined) {
       return null;
     }
     return (
-      <Modal
-        show={true}
-        onHide={closeModal}
-        style={customModalStyles}
-        contentLabel="Example Modal"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {button.text === undefined ? "Example Modal" : button.text}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>{button.comment}</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={button.buttonOK.event}>
-            {button.text}
-          </Button>
-          <Button variant="secondary" onClick={closeModal}>
-            취소하기
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <CustomModal close={closeModal} button={button} />
     );
   };
 
