@@ -1,7 +1,6 @@
 package com.project.quantumtec.Controller;
 
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
-import com.project.quantumtec.DTO.Request.dashboard.UserSearchDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Service.dashboard.DashBoardService;
@@ -27,7 +26,7 @@ public class DashBoardController {
     }
 
     //사용자 리스트 조회
-    @PostMapping("/userlist")
+    @RequestMapping("/userlist")
     public List<UserListDTO> getUserList(){
         return dashBoardService.getUserList();
     }
