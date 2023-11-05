@@ -1,8 +1,9 @@
 package com.project.quantumtec.DAO.event;
 
-import com.project.quantumtec.Model.ExpToLevelModel;
 import java.util.List;
 
+import com.project.quantumtec.Model.exp.ExpToLevelModel;
+
 public interface ExpDAO {
-    public List<ExpToLevelModel> getExpToLevel();
+    public List<ExpToLevelModel> getExpToLevel() throws Exception;
 }
