@@ -13,5 +13,5 @@ public interface DashBoardService {
     public UserInfoDTO getUserInfo(UserIdDTO user);
 
     // 사용자 목록에 표시할 정보들을 불러오는 메서드 (사용자 리스트 & 추가 정보)
-    List<UserListDTO> getUserList(UserSearchDTO user);
+    List<UserListDTO> getUserList();
 }

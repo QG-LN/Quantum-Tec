@@ -26,9 +26,9 @@ public class DashBoardServiceImpl implements DashBoardService{
     }
 
     @Override
-    public List<UserListDTO> getUserList(UserSearchDTO user) {
+    public List<UserListDTO> getUserList() {
         List<UserListDTO> userListDTO = new ArrayList<>();
-        List<UserListVO> userListVO = dashBoardDAO.getUserList(user);
+        List<UserListVO> userListVO = dashBoardDAO.getUserList();
         for(int i = 0; i < userListVO.size(); i++){
             UserListDTO dto = new UserListDTO();
             dto = dto.mapUserListVOToDTO(userListVO.get(i));

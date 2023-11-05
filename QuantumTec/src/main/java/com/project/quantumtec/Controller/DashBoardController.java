@@ -28,7 +28,7 @@ public class DashBoardController {
 
     //사용자 리스트 조회
     @PostMapping("/userlist")
-    public List<UserListDTO> getUserList(@RequestBody UserSearchDTO user){
-        return dashBoardService.getUserList(user);
+    public List<UserListDTO> getUserList(){
+        return dashBoardService.getUserList();
     }
 }

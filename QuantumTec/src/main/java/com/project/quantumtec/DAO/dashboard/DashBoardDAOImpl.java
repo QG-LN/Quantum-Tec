@@ -30,9 +30,9 @@ public class DashBoardDAOImpl implements DashBoardDAO{
 
     // 사용자 목록 페이지에 담길 사용자 리스트를 받아오는 메소드
     @Override
-    public List<UserListVO> getUserList(UserSearchDTO user) {
+    public List<UserListVO> getUserList() {
         try {
-            return sqlSession.selectList("DashBoardDAO.getUserList", user);
+            return sqlSession.selectList("DashBoardDAO.getUserList");
         }catch (Exception e){
             return null;
         }

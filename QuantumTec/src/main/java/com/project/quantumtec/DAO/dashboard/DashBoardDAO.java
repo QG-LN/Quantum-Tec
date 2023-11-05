@@ -13,5 +13,5 @@ public interface DashBoardDAO {
     public UserInfoDTO getUserInfo(UserIdDTO user);
 
     // 사용자 목록 요청시 사용자 리스트 데이터를 가져오는 메소드
-    public List<UserListVO> getUserList(UserSearchDTO user);
+    public List<UserListVO> getUserList();
 }
