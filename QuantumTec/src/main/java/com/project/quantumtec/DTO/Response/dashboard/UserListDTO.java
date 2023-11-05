@@ -7,6 +7,12 @@ import com.project.quantumtec.VO.dashboard.UserListVO;
 
 @Data
 public class UserListDTO {
+
+    private ExpToLevel expToLevel;
+    public UserListDTO(ExpToLevel expToLevel) {
+        this.expToLevel = expToLevel;
+    }
+
     // 목록 내에 표시될 정보
     private int userIndex;   // 번호
     private int userLevel;   // 레벨
@@ -28,8 +34,7 @@ public class UserListDTO {
     private String userMemo;    // 사용자 메모
 
     public UserListDTO mapUserListVOToDTO(UserListVO userListVO){
-        UserListDTO dto = new UserListDTO();
-        ExpToLevel expToLevel = new ExpToLevel();
+        UserListDTO dto = new UserListDTO(this.expToLevel);
         dto.userIndex = userListVO.getUserIndex();
         dto.userLevel = expToLevel.getExpToLevel(userListVO.getUserLevelExp());
         dto.userLevelExp = userListVO.getUserLevelExp();
