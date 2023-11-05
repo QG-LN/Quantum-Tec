@@ -22,7 +22,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public UserInfoDTO getUserInfo(UserIdDTO user) {
         try {
-            return sqlSession.selectOne("DashBoardDAO.getUserInfo", user);
+            return sqlSession.selectOne("DashBoardService.getUserInfo", user);
         }catch (Exception e){
             return null;
         }
@@ -32,7 +32,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public List<UserListVO> getUserList() {
         try {
-            return sqlSession.selectList("DashBoardDAO.getUserList");
+            return sqlSession.selectList("DashBoardService.getUserList");
         }catch (Exception e){
             return null;
         }
