@@ -1,7 +1,7 @@
 package com.project.quantumtec.Service.dashboard;
 
 import com.project.quantumtec.DAO.dashboard.DashBoardDAO;
-import com.project.quantumtec.DTO.Request.dashboard.UserDTO;
+import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserSearchDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserListDTO;
@@ -17,7 +17,7 @@ public class DashBoardServiceImpl implements DashBoardService{
     private DashBoardDAO dashBoardDAO;
 
     @Override
-    public UserInfoDTO getUserInfo(UserDTO user) {
+    public UserInfoDTO getUserInfo(UserIdDTO user) {
         return dashBoardDAO.getUserInfo(user);
     }
 

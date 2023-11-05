@@ -1,6 +1,6 @@
 package com.project.quantumtec.Controller;
 
-import com.project.quantumtec.DTO.Request.dashboard.UserDTO;
+import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserSearchDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserListDTO;
@@ -22,7 +22,7 @@ public class DashBoardController {
 
     //프로필 정보 조회
     @PostMapping("/userinfo")
-    public UserInfoDTO getUserInfo(@RequestBody UserDTO user){
+    public UserInfoDTO getUserInfo(@RequestBody UserIdDTO user){
         return dashBoardService.getUserInfo(user);
     }
 
