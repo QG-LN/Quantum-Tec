@@ -10,6 +10,7 @@ public class UserListDTO {
     // 목록 내에 표시될 정보
     private int userIndex;   // 번호
     private int userLevel;   // 레벨
+    private int userLevelExp;   // 경험치
     private String userNickname;   // 닉네임
     private String userName;   // 사용자명
     private String userStatus;   // 사용자 상태
@@ -31,6 +32,7 @@ public class UserListDTO {
         ExpToLevel expToLevel = new ExpToLevel();
         dto.userIndex = userListVO.getUserIndex();
         dto.userLevel = expToLevel.getExpToLevel(userListVO.getUserLevelExp());
+        dto.userLevelExp = userListVO.getUserLevelExp();
 
         dto.userNickname = userListVO.getUserNickname();
         dto.userName = userListVO.getUserName();
