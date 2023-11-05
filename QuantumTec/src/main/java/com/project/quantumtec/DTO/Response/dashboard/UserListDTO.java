@@ -1,6 +1,8 @@
 package com.project.quantumtec.DTO.Response.dashboard;
 
 import lombok.Data;
+
+import com.project.quantumtec.Global.ExpToLevel;
 import com.project.quantumtec.VO.dashboard.UserListVO;
 
 @Data
@@ -26,8 +28,9 @@ public class UserListDTO {
 
     public UserListDTO mapUserListVOToDTO(UserListVO userListVO){
         UserListDTO dto = new UserListDTO();
+        ExpToLevel expToLevel = new ExpToLevel();
         dto.userIndex = userListVO.getUserIndex();
-        // dto.userLevel = userListVO.getUserLevelExp();
+        dto.userLevel = expToLevel.getExpToLevel(userListVO.getUserLevelExp());
 
         dto.userNickname = userListVO.getUserNickname();
         dto.userName = userListVO.getUserName();
@@ -40,7 +43,7 @@ public class UserListDTO {
         dto.userGender = userListVO.getUserGender();
         dto.userAddress = userListVO.getUserAddress();
         dto.userAddressDetail = userListVO.getUserAddressDetail();
-        dto.userCreateAt = userListVO.getUserCreateAt();
+        dto.userCreateAt = userListVO.getUserCreatedAt();
         dto.userMemo = userListVO.getUserMemo();
         return dto;
     }
