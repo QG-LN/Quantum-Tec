@@ -6,7 +6,7 @@ import lombok.Data;
 public class UserListVO {
     // 목록 내에 표시될 정보
     private int userIndex;   // 번호
-    private int userLevelExp;   // 레벨
+    private int userLevelExp;   // 경험치
     private String userNickname;   // 닉네임
     private String userName;   // 사용자명
     private String userStatus;   // 사용자 상태
@@ -20,6 +20,6 @@ public class UserListVO {
     private String userGender;    // 사용자 성별
     private String userAddress;    // 사용자 기본주소
     private String userAddressDetail;    // 사용자 상세주소
-    private String userCreateAt;    // 사용자 가입일
+    private String userCreatedAt;    // 사용자 가입일
     private String userMemo;    // 사용자 메모
 }
