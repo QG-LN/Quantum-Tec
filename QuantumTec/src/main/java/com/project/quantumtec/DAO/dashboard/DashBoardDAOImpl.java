@@ -4,6 +4,8 @@ import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserSearchDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserListDTO;
+import com.project.quantumtec.VO.dashboard.UserListVO;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -28,7 +30,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
 
     // 사용자 목록 페이지에 담길 사용자 리스트를 받아오는 메소드
     @Override
-    public List<UserListDTO> getUserList(UserSearchDTO user) {
+    public List<UserListVO> getUserList(UserSearchDTO user) {
         try {
             return sqlSession.selectList("DashBoardDAO.getUserList", user);
         }catch (Exception e){
