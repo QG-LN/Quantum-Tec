@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="DashBoardService">
-<select id="getUserInfo" resultType="UserInfoDTO">
+    <select id="getUserInfo" resultType="UserInfoDTO">
 
-</select>
-    <select id="getUserList" resultType="UserListDTO">
-
+    </select>
+    <select id="getUserList" resultType="UserListVO">
+        SELECT * FROM USER_DASHBOARD_INFO_VW;
     </select>
 </mapper>
