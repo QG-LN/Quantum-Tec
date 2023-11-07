@@ -2,8 +2,11 @@ package com.project.quantumtec.Service.dashboard;
 
 import com.project.quantumtec.DAO.dashboard.DashBoardDAO;
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
+import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserSearchDTO;
+import com.project.quantumtec.DTO.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserInfoDTO;
+import com.project.quantumtec.DTO.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Global.ExpToLevel;
 import com.project.quantumtec.VO.dashboard.UserListVO;
@@ -29,6 +32,31 @@ public class DashBoardServiceImpl implements DashBoardService{
     }
 
     @Override
+    public boolean updateUserInfo(UserInfoDTO user) {
+        return dashBoardDAO.updateUserInfo(user);
+    }
+
+    @Override
+    public String convertUserStatus(UserIdDTO user) {
+        return dashBoardDAO.convertUserStatus(user);
+    }
+
+    @Override
+    public List<UserItemDTO> getUserItemList(UserItemSearchDTO user) {
+        return dashBoardDAO.getUserItemList(user);
+    }
+
+    @Override
+    public List<UserActivityLogDTO> getUserActivityLog(UserIdDTO user) {
+        return dashBoardDAO.getUserActivityLog(user);
+    }
+
+    @Override
+    public List<UserActivityLogDTO> getUserActivityLogDetail(UserIdDTO user) {
+        return dashBoardDAO.getUserActivityLogDetail(user);
+    }
+
+    @Override
     public List<UserListDTO> getUserList() {
         List<UserListDTO> userListDTO = new ArrayList<>();
         List<UserListVO> userListVO = dashBoardDAO.getUserList();
@@ -37,7 +65,7 @@ public class DashBoardServiceImpl implements DashBoardService{
             dto = dto.mapUserListVOToDTO(userListVO.get(i));
 
             userListDTO.add(dto);
-            
+
         }
         return userListDTO;
     }
