@@ -1,6 +1,7 @@
 package com.project.quantumtec.DAO.dashboard;
 
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
+import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserInfoDTO;
@@ -14,7 +15,7 @@ public interface DashBoardDAO {
     public UserInfoDTO getUserInfo(UserIdDTO user);
 
     // 사용자 프로필 정보를 변경하는 메서드
-    public boolean updateUserInfo(UserInfoDTO user);
+    public boolean updateUserInfo(UserInfoUpdateDTO user);
 
     // 사용자 계정 활성화/비활성화를 변경하는 메서드
     public String convertUserStatus(UserIdDTO user);

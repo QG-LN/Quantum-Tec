@@ -1,6 +1,7 @@
 package com.project.quantumtec.DAO.dashboard;
 
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
+import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserInfoDTO;
@@ -31,7 +32,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
 
     // 사용자 프로필 정보를 수정하고 결과값을 boolean 자료형으로 반환하는 메소드
     @Override
-    public boolean updateUserInfo(UserInfoDTO user) {
+    public boolean updateUserInfo(UserInfoUpdateDTO user) {
         try {
             return sqlSession.update("DashBoardService.updateUserInfo", user) == 1;
         }catch (Exception e){

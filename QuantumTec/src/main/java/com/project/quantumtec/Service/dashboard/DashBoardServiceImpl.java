@@ -2,8 +2,8 @@ package com.project.quantumtec.Service.dashboard;
 
 import com.project.quantumtec.DAO.dashboard.DashBoardDAO;
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
+import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
-import com.project.quantumtec.DTO.Request.dashboard.UserSearchDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserItemDTO;
@@ -12,7 +12,6 @@ import com.project.quantumtec.Global.ExpToLevel;
 import com.project.quantumtec.VO.dashboard.UserListVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class DashBoardServiceImpl implements DashBoardService{
     }
 
     @Override
-    public boolean updateUserInfo(UserInfoDTO user) {
+    public boolean updateUserInfo(UserInfoUpdateDTO user) {
         return dashBoardDAO.updateUserInfo(user);
     }
 

@@ -1,6 +1,7 @@
 package com.project.quantumtec.Controller;
 
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
+import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserInfoDTO;
@@ -30,7 +31,7 @@ public class DashBoardController {
 
     //프로필 정보 변경
     @PostMapping("/userinfo/update")
-    public boolean updateUserInfo(@RequestBody UserInfoDTO user) throws Exception{
+    public boolean updateUserInfo(@RequestBody UserInfoUpdateDTO user) throws Exception{
         return dashBoardService.updateUserInfo(user);
     }
     //계정 활성화/비활성화 변환
