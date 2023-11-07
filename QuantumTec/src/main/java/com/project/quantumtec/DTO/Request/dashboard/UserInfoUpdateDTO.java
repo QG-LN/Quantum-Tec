@@ -13,6 +13,5 @@ public class UserInfoUpdateDTO {
     private String userAddressDetail;   // 사용자 상세주소
     private String userEmail;           // 사용자 이메일
     private String userBirth;       // 사용자 생일
-    private String userStatus;       // 사용자 상태
     private String userRole;            // 사용자 권한
 }
