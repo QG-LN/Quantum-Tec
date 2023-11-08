@@ -4,36 +4,31 @@ import { extractData } from "../../Utils/dataFormat";
 import AvatarCanvas from "../avatarInventory/avatarCanvas";
 
 export default function Tutoringlist(props) {
-  const [info, setInfo] = useState(props.info);                           // 게시글 정보
-  const [index , setIndex] = useState(info.postIndex);                    // 게시글 인덱스
-  const [title , setTitle] = useState(info.postTitle);                    // 게시글 제목
-  const [date , setDate] = useState(info.postDate);                       // 게시글 등록일
-  const [category , setCategory] = useState(info.category);               // 게시글 카테고리
-  const [tag , setTag] = useState(info.tags);                             // 게시글 태그
-  const [userNickname , setUserNickname] = useState(info.userNickname);   // 게시글 작성자 닉네임
-  const [userIcon , setUserIcon] = useState(info.userIcon);               // 게시글 작성자 아이콘
-  const [tutorCount , setTutorCount] = useState(info.userCount);          // 튜터링 인원 수
-  const [tutorMaxCount , setTutorMaxCount] = useState(info.maxUserCount); // 튜터링 최대 인원 수
-  const [postState , setPostState] = useState(info.postState);            // 게시글 상태
-  const [avatarItemList, setAvatarItemList] = useState(info.avatarItemList); // 착용중인 아이템 목록
+  const [index , setIndex] = useState(props.info.postIndex);                    // 게시글 인덱스
+  const [title , setTitle] = useState(props.info.postTitle);                    // 게시글 제목
+  const [date , setDate] = useState(props.info.postDate);                       // 게시글 등록일
+  const [category , setCategory] = useState(props.info.category);               // 게시글 카테고리
+  const [tag , setTag] = useState(props.info.tags);                             // 게시글 태그
+  const [userNickname , setUserNickname] = useState(props.info.userNickname);   // 게시글 작성자 닉네임
+  const [userIcon , setUserIcon] = useState(props.info.userIcon);               // 게시글 작성자 아이콘
+  const [tutorCount , setTutorCount] = useState(props.info.userCount);          // 튜터링 인원 수
+  const [tutorMaxCount , setTutorMaxCount] = useState(props.info.maxUserCount); // 튜터링 최대 인원 수
+  const [postState , setPostState] = useState(props.info.postState);            // 게시글 상태
+  const [avatarItemList, setAvatarItemList] = useState(props.info.avatarItemList); // 착용중인 아이템 목록
 
   useEffect(() => {
-    setInfo(props.info);
-  }, []);
-
-  useEffect(() => {
-    setIndex(info.postIndex);
-    setTitle(info.postTitle);
-    setDate(info.postDate);
-    setCategory(info.category);
-    setTag(info.tags);
-    setUserNickname(info.userNickname);
-    setUserIcon(info.userIcon);
-    setTutorCount(info.userCount);
-    setTutorMaxCount(info.maxUserCount);
-    setPostState(info.userCount === info.maxUserCount ? false : info.postState);
-    setAvatarItemList(info.avatarItemList)
-  }, [info]);
+    setIndex(props.info.postIndex);
+    setTitle(props.info.postTitle);
+    setDate(props.info.postDate);
+    setCategory(props.info.category);
+    setTag(props.info.tags);
+    setUserNickname(props.info.userNickname);
+    setUserIcon(props.info.userIcon);
+    setTutorCount(props.info.userCount);
+    setTutorMaxCount(props.info.maxUserCount);
+    setPostState(props.info.userCount === props.info.maxUserCount ? false : props.info.postState);
+    setAvatarItemList(props.info.avatarItemList)
+  }, [props.info]);
 
   //글자 제한
   const setTitleSize = (title) => {
@@ -52,7 +47,7 @@ export default function Tutoringlist(props) {
    */
   const checkNewTagEnable = (days) => {
     const today = new Date();
-    const date = new Date(info.date);
+    const date = new Date(props.info.date);
     const timeValue = today.getTime() - date.getTime(); // 현재 날짜 - 게시글 등록일
 
     const day = 1000 * 60 * 60 * 24 * days; // 24시간
