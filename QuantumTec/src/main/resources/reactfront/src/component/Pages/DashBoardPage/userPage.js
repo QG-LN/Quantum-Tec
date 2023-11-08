@@ -99,7 +99,7 @@ export default function TablePage(props) {
   return (
     <Styles>
       
-      <Container>
+      <Container style={{marginTop:'95px'}}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4">Users</Typography>
 
