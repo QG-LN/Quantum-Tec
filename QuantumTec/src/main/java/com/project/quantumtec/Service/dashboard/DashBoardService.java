@@ -1,5 +1,6 @@
 package com.project.quantumtec.Service.dashboard;
 
+import com.project.quantumtec.DTO.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
@@ -19,7 +20,7 @@ public interface DashBoardService {
     boolean updateUserInfo(UserInfoUpdateDTO user);
 
     // 사용자 계정 활성화/비활성화를 변경하고 결과를 문자열로 반환하는 메서드
-    String convertUserStatus(UserIdDTO user);
+    boolean convertUserStatus(UserBanDTO userBanDTO);
 
     //사용자 보유 항목 리스트 불러오기 (모든 아이템)
     List<UserItemDTO> getUserItemList(UserItemSearchDTO user);

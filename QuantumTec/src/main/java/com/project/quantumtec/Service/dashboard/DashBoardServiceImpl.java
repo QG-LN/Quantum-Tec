@@ -1,6 +1,7 @@
 package com.project.quantumtec.Service.dashboard;
 
 import com.project.quantumtec.DAO.dashboard.DashBoardDAO;
+import com.project.quantumtec.DTO.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
@@ -36,8 +37,8 @@ public class DashBoardServiceImpl implements DashBoardService{
     }
 
     @Override
-    public String convertUserStatus(UserIdDTO user) {
-        return dashBoardDAO.convertUserStatus(user);
+    public boolean convertUserStatus(UserBanDTO userBanDTO) {
+        return dashBoardDAO.convertUserStatus(userBanDTO);
     }
 
     @Override

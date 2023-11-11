@@ -1,5 +1,6 @@
 package com.project.quantumtec.Controller;
 
+import com.project.quantumtec.DTO.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
@@ -35,9 +36,10 @@ public class DashBoardController {
         return dashBoardService.updateUserInfo(user);
     }
     //계정 활성화/비활성화 변환
+    //비활성화 할 때는 기간과 사유까지 입력받아야함
     @PostMapping("/userinfo/convertuserstatus")
-    public String convertUserStatus(@RequestBody UserIdDTO user) throws Exception{
-        return dashBoardService.convertUserStatus(user);
+    public boolean convertUserStatus(@RequestBody UserBanDTO userBanDTO) throws Exception{
+        return dashBoardService.convertUserStatus(userBanDTO);
     }
     //계정 삭제
     @DeleteMapping("/userinfo/delete")
