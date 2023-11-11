@@ -55,8 +55,8 @@ public class DashBoardController {
 
     //사용자 보유 항목 리스트 불러오기 (모든 아이템)
     @PostMapping("/userinfo/itemlist")
-    public List<UserItemDTO> getUserItemList(@RequestBody UserItemSearchDTO user) throws Exception{
-        return dashBoardService.getUserItemList(user);
+    public List<UserItemDTO> getUserItemList(@RequestBody UserItemSearchDTO userItemSearchDTO) throws Exception{
+        return dashBoardService.getUserItemList(userItemSearchDTO);
     }
 
     //사용자 활동 로그 항목별 일부 불러오기

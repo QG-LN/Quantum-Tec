@@ -61,8 +61,8 @@ public class DashBoardDAOImpl implements DashBoardDAO{
 
     // 사용자 보유 항목(전체)을 반환하는 메소드
     @Override
-    public List<UserItemDTO> getUserItemList(UserItemSearchDTO user) {
-        return sqlSession.selectList("DashBoardService.getUserItemList", user);
+    public List<UserItemDTO> getUserItemList(UserItemSearchDTO userItemSearchDTO) {
+        return sqlSession.selectList("DashBoardService.getUserItemList", userItemSearchDTO);
     }
 
     //사용자 활동 로그를 항목별 한가지씩만 불러오기

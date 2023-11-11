@@ -42,8 +42,8 @@ public class DashBoardServiceImpl implements DashBoardService{
     }
 
     @Override
-    public List<UserItemDTO> getUserItemList(UserItemSearchDTO user) {
-        return dashBoardDAO.getUserItemList(user);
+    public List<UserItemDTO> getUserItemList(UserItemSearchDTO userItemSearchDTO) {
+        return dashBoardDAO.getUserItemList(userItemSearchDTO);
     }
 
     @Override
