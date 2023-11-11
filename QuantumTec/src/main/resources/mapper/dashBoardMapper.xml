@@ -7,4 +7,11 @@
     <select id="getUserList" resultType="UserListVO">
         SELECT * FROM USER_DASHBOARD_INFO_VW;
     </select>
+    <update id="cancelUserBan" parameterType="UserBanDTO">
+        CALL CancelCurrentBan(#{userIndex});
+    </update>
+    <insert id="insertUserBan" parameterType="UserBanDTO">
+        INSERT INTO USER_BAN_CURRENT_TB (USER_INDEX, BAN_REASON, BAN_SCHEDULE)
+        VALUES (#{userIndex}, #{banReason}, #{banSchedule});
+    </insert>
 </mapper>

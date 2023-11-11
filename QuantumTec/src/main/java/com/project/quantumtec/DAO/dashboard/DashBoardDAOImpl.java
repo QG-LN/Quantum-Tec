@@ -1,5 +1,6 @@
 package com.project.quantumtec.DAO.dashboard;
 
+import com.project.quantumtec.DTO.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
@@ -42,24 +43,19 @@ public class DashBoardDAOImpl implements DashBoardDAO{
 
     // 사용자 상태 조회 후 그에 반대 되는 상태로 변경 후 결과를 String 으로 반환 (성공시 변경된 상태, 실패시 "fail")
     @Override
-    public String convertUserStatus(UserIdDTO user) {
+    public boolean convertUserStatus(UserBanDTO userBanDTO) {
         try {
-            String status = sqlSession.selectOne("DashBoardService.getUserStatus", user);
-            if (status.equals("active")) {
-                //대충 비활성화로 바꾸는 코드
-                return sqlSession.update("DashBoardService.converToInactive", user) == 1 ? "비활성화" : "fail";
+            if(userBanDTO.getBanReason() == null || userBanDTO.getBanReason().equals("")){
+                // 밴 취소
+                sqlSession.delete("DashBoardService.cancelUserBan", userBanDTO);
+                return true;
             }
-            else if (status.equals("inactive")) {
-                return sqlSession.update("DashBoardService.convertToActive", user) == 1 ? "활성화" : "fail";
+            else{
+                return sqlSession.insert("DashBoardService.insertUserBan", userBanDTO) == 1;
             }
-            else if (status.equals("banned")) {
-                // 밴된 유저는 추가적인 처리가 필요할 경우를 대비해 분리.
-                return sqlSession.update("DashBoardService.convertToActive", user) == 1 ? "활성화" : "fail";
-            }
-            else
-                return "fail";
+            
         }catch (Exception e){
-            return "fail";
+            return false;
         }
     }
 
