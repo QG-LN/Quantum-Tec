@@ -14,4 +14,7 @@
         INSERT INTO USER_BAN_CURRENT_TB (USER_INDEX, BAN_REASON, BAN_SCHEDULE)
         VALUES (#{userIndex}, #{banReason}, #{banSchedule});
     </insert>
+    <select id="getUserItemList" resultType="UserItemDTO">
+        CALL GetUserPaymentSummary(#{userIndex});
+    </select>
 </mapper>
