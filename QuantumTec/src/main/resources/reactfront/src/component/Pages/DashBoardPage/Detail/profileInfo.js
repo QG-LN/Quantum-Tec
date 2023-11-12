@@ -1,52 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Grid, Table } from '@mui/material';
 import TableCell from '../tableCell';
 import AvatarCanvas from '../../avatarInventory/avatarCanvas';
 
 export const EditingContext = React.createContext();
 
-function ProfileInfo({ userId }) {
+function ProfileInfo({state, setState}) {
     const [editingId, setEditingId] = useState(null); // 현재 수정 중인 셀의 id
     const [originalContent, setOriginalContent] = useState(null); // 수정 전 셀의 내용
 
+
     // 수정 된 셀의 내용을 저장. 
     const handleContentUpdate = (id, newContent) => {
-        if (profileInfo.hasOwnProperty(id)) {
-            setProfileInfo(prevState => ({
-                ...prevState,
-                [id]: newContent
-            }));
-        } else if (additionalInfo.hasOwnProperty(id)) {
-            setAdditionalInfo(prevState => ({
-                ...prevState,
-                [id]: newContent
-            }));
-        }
+        
+        setState(prevState => ({
+            ...prevState,
+            [id]: newContent
+        }));
     };
     
-
-    const [profileInfo, setProfileInfo] = useState({
-        userIndex: 12345,
-        userName: "홍길동",
-        userNickname: "Gildong",
-        userId: "asdasd",
-        userBirth: "1990-01-01",
-        userEmail: "gildong@example.com",
-        userGender: "m",
-        userAddress: "서울시 강남구",
-        userCreateAt: "2022-01-01"
-    });
   
-    const [additionalInfo, setAdditionalInfo] = useState({
-        memo: "활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. 활발한 활동을 보이고 있습니다. ",
-        attendance: 50,
-        blacklist: false,
-        permissions: ["사용자"],
-        editHistory: ["2022-01-10"],
-        avatarCount: 5,
-        blockCount: 2
-    });
 
   return (
     <div className="profile-info">
@@ -66,7 +39,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">사용자 번호</th>
                                 <TableCell 
                                     id="userIndex"
-                                    content={profileInfo.userIndex}
+                                    content={state.userIndex}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate}
                                     editable={false} />
@@ -75,7 +48,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">이름</th>
                                 <TableCell 
                                     id="userName"
-                                    content={profileInfo.userName}
+                                    content={state.userName}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -85,7 +58,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">아이디</th>
                                 <TableCell 
                                     id="userId"
-                                    content={profileInfo.userId}
+                                    content={state.userID}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
                                     editable={false} />
@@ -94,7 +67,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">닉네임</th>
                                 <TableCell 
                                     id="userNickname"
-                                    content={profileInfo.userNickname}
+                                    content={state.userNickname}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -102,7 +75,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">성별</th>
                                 <TableCell 
                                     id="userGender"
-                                    content={profileInfo.userGender == "m" ? "남자" : "여자"}
+                                    content={state.userGender == "m" ? "남자" : "여자"}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -116,7 +89,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">주소</th>
                                 <TableCell 
                                     id="userAddress"
-                                    content={profileInfo.userAddress}
+                                    content={state.userAddress + " " + state.userAddressDetail}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -124,7 +97,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">이메일</th>
                                 <TableCell 
                                     id="userEmail"
-                                    content={profileInfo.userEmail}
+                                    content={state.userEmail}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -132,7 +105,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">생년월일</th>
                                 <TableCell 
                                     id="userBirth"
-                                    content={profileInfo.userBirth}
+                                    content={state.userBirth}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -140,7 +113,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">가입 날짜</th>
                                 <TableCell 
                                     id="userCreateAt"
-                                    content={profileInfo.userCreateAt}
+                                    content={state.userCreateAt.split(" ")[0]}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
                                     editable={false} />
@@ -149,7 +122,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">수정 기록</th>
                                 <TableCell 
                                     id="editHistory"
-                                    content={additionalInfo.editHistory.join(', ')}
+                                    content={(state.userUpdatedAt ? state.userUpdatedAt.split(" ")[0] : "")}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
                                     editable={false} />
@@ -164,7 +137,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">블랙리스트</th>
                                 <TableCell 
                                     id="blacklist"
-                                    content={additionalInfo.blacklist ? "Yes" : "No"}
+                                    content={state.userStatus === "inactive" || state.userStatus === "banned" ? "Yes" : "No"}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -172,7 +145,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">권한</th>
                                 <TableCell 
                                     id="permissions"
-                                    content={additionalInfo.permissions.join(', ')}
+                                    content={state.userRole}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -180,7 +153,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">출석일수</th>
                                 <TableCell 
                                     id="attendance"
-                                    content={additionalInfo.attendance}
+                                    content={state.userAttendance}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
                                     editable={false} />
@@ -189,7 +162,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">아바타수</th>
                                 <TableCell 
                                     id="avatarCount"
-                                    content={additionalInfo.avatarCount}
+                                    content={state.userAvatarCount}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
                                     editable={false} />
@@ -198,7 +171,7 @@ function ProfileInfo({ userId }) {
                                 <th className="w-[40%]">차단 횟수</th>
                                 <TableCell 
                                     id="blockCount"
-                                    content={additionalInfo.blockCount}
+                                    content={state.userBannedCount}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
                                     editable={false} />
@@ -215,7 +188,7 @@ function ProfileInfo({ userId }) {
                         <th className="w-[5%]">메모</th>
                         <TableCell 
                             id="memo"
-                            content={additionalInfo.memo}
+                            content={state.memo}
                             colSpan={5}
                             onUpdate={handleContentUpdate} />
                     </tr>
