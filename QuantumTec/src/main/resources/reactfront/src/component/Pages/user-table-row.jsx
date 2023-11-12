@@ -43,7 +43,7 @@ export default function UserTableRow({row, selected, handleClick
   };
 
   const handleClickRow = (event) => {
-    navigate(`/dashboard/user/${index}`);
+    navigate(`/dashboard/user/${index}`, { state: {row} });
   };
 
   return (
