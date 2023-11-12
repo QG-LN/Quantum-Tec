@@ -6,7 +6,7 @@ import lombok.Data;
 public class UserActivityLogDTO {
     private String tableName;
     private String operationType;
-    private String operationBy;
+    private String operatedBy;
     private String timestamp;
     private String oldValue;
     private String newValue;
