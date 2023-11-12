@@ -1,44 +1,44 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 import { styled } from "@mui/material/styles";
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import TableBody from '@mui/material/TableBody';
-import Typography from '@mui/material/Typography';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import Table from "@mui/material/Table";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import TableBody from "@mui/material/TableBody";
+import Typography from "@mui/material/Typography";
+import TableContainer from "@mui/material/TableContainer";
+import TablePagination from "@mui/material/TablePagination";
+import { useLocation } from "react-router-dom";
+import Iconify from "../../../dashboard/components/iconify";
+import Scrollbar from "../../../dashboard/components/scrollbar";
 
-import Iconify from '../../../dashboard/components/iconify';
-import Scrollbar from '../../../dashboard/components/scrollbar';
-
-import TableNoData from '../table-no-data';
-import DataTableHead from '../table-head';
-import TableEmptyRows from '../table-empty-rows';
-import UserTableToolbar from '../user-table-toolbar';
-import { emptyRows, applyFilter, getComparator } from '../utils';
+import TableNoData from "../table-no-data";
+import DataTableHead from "../table-head";
+import TableEmptyRows from "../table-empty-rows";
+import UserTableToolbar from "../user-table-toolbar";
+import { emptyRows, applyFilter, getComparator } from "../utils";
 
 // ----------------------------------------------------------------------
 
 export default function TablePage(props) {
   const [page, setPage] = useState(0);
 
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState("asc");
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState("name");
 
-  const [filterName, setFilterName] = useState('');
+  const [filterName, setFilterName] = useState("");
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleSort = (event, id) => {
-    const isAsc = orderBy === id && order === 'asc';
-    if (id !== '') {
-      setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === id && order === "asc";
+    if (id !== "") {
+      setOrder(isAsc ? "desc" : "asc");
       setOrderBy(id);
     }
   };
@@ -96,16 +96,37 @@ export default function TablePage(props) {
       marginLeft: "279px",
     },
   });
+
+  const location = useLocation();
+  const pageName = getPageName(location.pathname);
+
   return (
     <Styles>
-      
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">Users</Typography>
-
-          <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
-          </Button>
+      <Container style={{ marginTop: "100px" }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+        >
+          <Typography variant="h4">{pageName}</Typography>
+          <div className="left-0 flex">
+            <div class='mr-5'>
+              <Button
+                variant="contained"
+                color="inherit"
+              >
+                내보내기
+              </Button>
+            </div>
+            <Button
+              variant="contained"
+              color="inherit"
+              startIcon={<Iconify icon="eva:plus-fill" />}
+            >
+              New {pageName}
+            </Button>
+          </div>
         </Stack>
 
         <Card>
@@ -113,10 +134,10 @@ export default function TablePage(props) {
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
-            />
+          />
 
           <Scrollbar>
-            <TableContainer sx={{ overflow: 'unset' }}>
+            <TableContainer sx={{ overflow: "unset" }}>
               <Table sx={{ minWidth: 800 }}>
                 <DataTableHead
                   order={order}
@@ -126,22 +147,22 @@ export default function TablePage(props) {
                   onRequestSort={handleSort}
                   onSelectAllClick={handleSelectAllClick}
                   headLabel={props.dataLabel}
-                  />
+                />
                 <TableBody>
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
                       <props.dataRow
-                        row={row} 
+                        row={row}
                         selected={selected.indexOf(row.name) !== -1}
                         handleClick={(event) => handleClick(event, row.name)}
-                         />
-                      ))}
+                      />
+                    ))}
 
                   <TableEmptyRows
                     height={77}
                     emptyRows={emptyRows(page, rowsPerPage, props.data.length)}
-                    />
+                  />
 
                   {notFound && <TableNoData query={filterName} />}
                 </TableBody>
@@ -157,9 +178,18 @@ export default function TablePage(props) {
             onPageChange={handleChangePage}
             rowsPerPageOptions={[5, 10, 25]}
             onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+          />
         </Card>
       </Container>
     </Styles>
   );
+
+  //주소값에 따라서 제목 바꾸기
+  function getPageName(pathname) {
+    const parts = pathname.split("/");
+    return (
+      parts[parts.length - 1].charAt(0).toUpperCase() +
+      parts[parts.length - 1].slice(1)
+    );
+  }
 }
