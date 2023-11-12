@@ -2,6 +2,13 @@ package com.project.quantumtec.DTO.Response.dashboard;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
 import com.project.quantumtec.Global.ExpToLevel;
 import com.project.quantumtec.VO.dashboard.UserListVO;
 
@@ -33,6 +40,9 @@ public class UserListDTO {
     private String userCreateAt;    // 사용자 가입일
     private String userMemo;    // 사용자 메모
 
+    // 착용중인 아바타 정보
+    private List<AvatarInventoryDTO> avatarItemList; // 착용중인 아바타 아이템 리스트
+
     public UserListDTO mapUserListVOToDTO(UserListVO userListVO){
         UserListDTO dto = new UserListDTO(this.expToLevel);
         dto.userIndex = userListVO.getUserIndex();
@@ -52,6 +62,19 @@ public class UserListDTO {
         dto.userAddressDetail = userListVO.getUserAddressDetail();
         dto.userCreateAt = userListVO.getUserCreatedAt();
         dto.userMemo = userListVO.getUserMemo();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            if (userListVO.getAvatarItemList() != null) {
+                List<AvatarInventoryDTO> items = objectMapper.readValue(userListVO.getAvatarItemList(), new TypeReference<List<AvatarInventoryDTO>>() {});
+                dto.avatarItemList = items;
+            } else {
+                // avatarItemList가 null인 경우를 처리.
+                dto.avatarItemList = new ArrayList<>();
+}
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         return dto;
     }
 }

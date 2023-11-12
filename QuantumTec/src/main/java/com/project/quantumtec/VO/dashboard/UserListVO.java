@@ -22,4 +22,7 @@ public class UserListVO {
     private String userAddressDetail;    // 사용자 상세주소
     private String userCreatedAt;    // 사용자 가입일
     private String userMemo;    // 사용자 메모
+
+    // 착용중인 아바타 정보
+    private String avatarItemList; // 착용중인 아바타 아이템 리스트
 }
