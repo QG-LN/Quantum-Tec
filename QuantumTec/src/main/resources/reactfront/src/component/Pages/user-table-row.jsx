@@ -30,7 +30,7 @@ export default function UserTableRow({row, selected, handleClick
   const cash = row.userCash;
   const days = row.userAttendance;
   const status = row.userStatus;
-  const avatarUrl = row.avatarUrl;
+  const avatarItemList = row.avatarItemList;
 
   const [open, setOpen] = useState(null);
 
@@ -62,7 +62,7 @@ export default function UserTableRow({row, selected, handleClick
             {/* <Avatar alt={name} src={avatarUrl} /> */}
             {/* 아바타 수정 */}
             <div className="w-9 h-9">
-              <AvatarCanvas size={[200,200]} position={[128,128]} circle={true}/>
+              <AvatarCanvas size={[200,200]} position={[128,128]} circle={true} avataritemList={avatarItemList}/>
             </div>
             <Typography variant="subtitle2" noWrap>
               {nickname}
