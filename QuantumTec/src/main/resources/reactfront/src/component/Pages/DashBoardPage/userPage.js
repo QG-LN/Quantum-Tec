@@ -93,20 +93,20 @@ export default function TablePage(props) {
   const notFound = !dataFiltered.length && !!filterName;
   const Styles = styled("div")({
     "@media (min-width: 1200px)": {
-      marginLeft: "279px",
+      marginLeft: (props.margin===undefined?"279px":"0px"),
     },
   });
   return (
-    <Styles className='mt-[12vh]'>
+    <Styles className={props.title!==""?'mt-[12vh]':''}>
       
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">{props.title}</Typography>
+          {props.title!==""?<Typography variant="h4">{props.title}</Typography>:<></>}
 
-          <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+          {props.createButton===undefined?<Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
             {/* 수정할 것 */}
             New User
-          </Button>
+          </Button>:<></>}
         </Stack>
 
         <Card>
