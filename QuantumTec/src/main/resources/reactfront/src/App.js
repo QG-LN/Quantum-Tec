@@ -28,7 +28,7 @@ import DashBoardLayout from './component/Pages/DashBoardPage/dashboardLayout';
 import DashboardHome from './component/Pages/DashBoardPage/dashboardHome';
 
 import UserTableRow from './component/Pages/user-table-row';
-import users from './dashboard/_mock/user';
+import {getUsersData} from './component/Pages/DashBoardPage/Data/user.js';
 import userHeadLabel from './dashboard/_mock/userHeadLabel';
 
 import UserProfile from './component/Pages/DashBoardPage/userProfile';
@@ -215,12 +215,26 @@ function DashBoardPage(){
   )
 }
 
-function UserDashBoardPage(){
+function UserDashBoardPage() {
+  const [usersData, setUsersData] = useState([]);
+
+  useEffect(() => {
+    getUsersData()
+      .then(data => {
+        setUsersData(data);
+      })
+      .catch(error => {
+        console.error("데이터 로딩 중 오류 발생", error);
+      });
+  }, []);
+
+  console.log(usersData); // 로드된 데이터 확인
+
   return (
     <div className="dashboard">
-        <TablePage title={"Users"} dataRow={UserTableRow} dataLabel={userHeadLabel} data={users}/>
+      <TablePage title={"Users"} dataRow={UserTableRow} dataLabel={userHeadLabel} data={usersData}/>
     </div>
-  )
+  );
 }
 
 function UserProfilePage(){
