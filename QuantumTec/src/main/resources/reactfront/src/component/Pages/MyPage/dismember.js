@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { axiosRequest } from '../../Utils/networkUtils';
 
 export default function Dismember(){
     //modal
@@ -18,6 +19,7 @@ export default function Dismember(){
 
     const etcContent = "기타 (상세 사유를 작성해주세요)";
     const [reason, setReason] = useState(''); // 선택된 탈퇴 사유
+    const [resonCode, setReasonCode] = useState(0); // 선택된 탈퇴 사유 코드
     const [reasonCheck, setReasonCheck] = useState(false);
     const [reasonDetail, setReasonDetail] = useState(''); // 상세 탈퇴 사유
     const [reasonDetailCheck, setReasonDetailCheck] = useState(false);
@@ -38,6 +40,7 @@ export default function Dismember(){
         ["고객 서비스 만족도 문제",7],
         ["비용 문제",8],
     ]);
+
     const handleRadioChange = (event) => {
         setReasonCheck(false);
         setReason(event.target.value);
@@ -48,13 +51,30 @@ export default function Dismember(){
         setPassword(event.target.value);
     }
 
+    // 비밀번호 체크함수
     const handleCheckPassword = (event) => {
-        if(password === "test1234"){
-            setCheckPassword(false);
+        const path = "user/setUserStateToInactive"
+        const body = {
+            userID: localStorage.getItem("userID"),
+            userPW: password,
+            userReasonCode: resonCode,
+            userReason: reasonDetail,
+        }
+
+        // 비밀번호 체크
+        // 비밀번호 여부에 따른 회원 탈퇴 진행
+
+        const data = axiosRequest( path, body, "post","json");
+        console.log(data);
+
+        if(data){
             handleClose();
+            alert("회원 탈퇴가 완료되었습니다.");
+            localStorage.clear();
+            window.location.href = "/";
         }
         else{
-            setCheckPassword(true);
+            alert("회원 탈퇴에 실패하였습니다. 비밀번호를 확인해주세요.");
         }
     }
 
@@ -97,9 +117,9 @@ export default function Dismember(){
         );
     }
 
-
-    return(
-        <div>
+    // 회원탈퇴 모달
+    const rednerModal = () => {
+        return (
             <Modal show={show} onHide={handleClose} centered={true} size='lg'>
                 <Modal.Header>
                     <Modal.Title className='w-[100%]'>
@@ -109,7 +129,7 @@ export default function Dismember(){
                 <Modal.Body>
                     <div className='mx-[4%] mt-3'>
                         <h5 class="card-text placeholder-glow">
-                            사용하고 계신 아이디 <div class="placeholder col-2"></div> 는 탈퇴할 경우 재사용 및 복구가 불가능합니다
+                            사용하고 계신 아이디는 탈퇴할 경우 재사용 및 복구가 불가능합니다
                         </h5>
                         <span className='ms-4'>탈퇴한 아이디는 본인과 타인 모두 재사용 복구가 불가하오니 신중하게 선택하시길 바랍니다.</span><br/><br/><br/>
                         <h5>탈퇴 후 회원정보 및 개인형 서비스 이용기록은 모두 삭제됩니다.</h5>
@@ -124,15 +144,15 @@ export default function Dismember(){
                 </Modal.Body>
                 <Modal.Footer>
                     {checkPassword ? 
-                    <div class="alert alert-danger py-1 d-flex align-items-center" role="alert">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2 h-3" viewBox="0 0 16 16" role="img" aria-label="Warning:">
-                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                        </svg>
-                        <div>
-                            비밀번호를 다시 확인하세요!
+                        <div class="alert alert-danger py-1 d-flex align-items-center" role="alert">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2 h-3" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                            </svg>
+                            <div>
+                                비밀번호를 다시 확인하세요!
+                            </div>
                         </div>
-                    </div>
-                    : <div></div>
+                        : <div></div>
                     }
                     
                     <Button className="btn_close" variant="danger" onClick={handleCheckPassword}>
@@ -140,6 +160,13 @@ export default function Dismember(){
                     </Button>
                 </Modal.Footer>
             </Modal>
+        )
+    }
+
+
+    return(
+        <div>
+            {rednerModal()}
             <h2 className='account_main_page_title '>회원 탈퇴</h2>
             <div className='mt-[20px] text-center'>
                 <div className="text-start mx-[5%] bg-gray-200 px-[5%] py-[2%]">
@@ -159,6 +186,7 @@ export default function Dismember(){
                                         type="radio"
                                         name="reason"
                                         id={"id" + item[1]}
+                                        onClick={() => setReasonCode(item[1])}
                                         value={item[0]}
                                         onChange={handleRadioChange}
                                         checked={reason === item[0]}
@@ -186,7 +214,10 @@ export default function Dismember(){
                                     type="text"
                                     className={`form-control ${reasonCheck && reason === etcContent && reasonDetail === ""? "is-invalid" : ""}`}
                                     id="etcReason"
-                                    onClick={() => setReason(etcContent)}
+                                    onClick={() => {
+                                        setReason(etcContent);
+                                        setReasonCode(9);
+                                    }}
                                     onChange={handleDetailChange}
                                     value={reasonDetail}
                                 />
