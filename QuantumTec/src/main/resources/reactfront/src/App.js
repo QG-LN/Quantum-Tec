@@ -19,7 +19,7 @@ import { Fail } from './component/Pages/PaymentsPage/fail';
 import TtBoardPage from './component/Pages/BoardPage/tutoringboard.js';
 import TutorPage from './component/Pages/BoardPage/tutorpage.js'
 import TutorInsertPage from './component/Pages/BoardPage/tutorinsertpage.js'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate  } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import AvatarInvetoryPage from "./component/Pages/avatarInventory/avatarMainPage";
 import DashBoard from './component/Pages/DashBoardPage/dashboard.js';
@@ -52,6 +52,7 @@ import paymentsHeadLabel from './dashboard/_mock/paymentsHeadLabel';
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
+    const redirectToHome = () => <Navigate to="/dashboard/home" replace />;
 
     truelogin = '';
   return (
@@ -64,14 +65,17 @@ function App() {
           <Route path="/signup" element={<SignUp />}/>
           <Route path="/mypage" element={<MyPage />}/>
           <Route path="/game/:id/:gameName" element={<GamePage />}/>
+          
           <Route path="/board/:id" element={<Board />}/>
           <Route path="/board/:no/post/:id" element={<Post />}/>
           <Route path="/board/:no/write" element={<Write />}/>
           <Route path="/board/:no/post/:id/edit" element={<Write />}/>
+
           <Route path="/tutoring" element={<TtBoard />}/>
           <Route path="/tutoringPost" element={<TtInsert />}/>
           <Route path="/tutoringPost/:id/edit" element={<TtInsert />}/>
           <Route path="/tutoring/:id/:tutor" element={<TtPage />}/>
+          
           <Route path="/post/:id" element={<Post />}/>
           <Route path="/write" element={<Write />}/>
           <Route path="/avatarshop" element={<AvatarShop />}/>
@@ -79,7 +83,8 @@ function App() {
           <Route path="/inventory" element={<AvatarInvetory />}/>
           <Route path="/payments/success" element={<PaymentsSuccess />}/>
           <Route path="/payments/fail" element={<PaymentsFail />}/>
-          {/* <Route path="/dashboard" element={<DashBoardPage />}/> */}
+
+          <Route path="/dashboard" element={<Navigate to="/dashboard/home" replace />}/>
           <Route path="/dashboard/user" element={<UserDashBoardPage />}/>
           <Route path="/dashboard/game" element={<GameDashBoardPage />}/>
           <Route path="/dashboard/board" element={<BoardDashBoardPage />}/>
