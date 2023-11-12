@@ -85,7 +85,7 @@ export default function TablePage(props) {
   };
 
   const dataFiltered = applyFilter({
-    inputData: props.data,
+    inputData: Array.isArray(props.data) ? props.data : [],
     comparator: getComparator(order, orderBy),
     filterName,
   });
