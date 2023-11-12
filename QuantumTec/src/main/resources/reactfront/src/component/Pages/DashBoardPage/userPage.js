@@ -98,7 +98,7 @@ export default function TablePage(props) {
   });
 
   const location = useLocation();
-  const pageName = getPageName(location.pathname);
+  const pageName = location.pathname;
 
   return (
     <Styles>
