@@ -125,7 +125,7 @@ export default function TablePage(props) {
                   rowCount={props.data.length}
                   numSelected={selected.length}
                   onRequestSort={handleSort}
-                  onSelectAllClick={handleSelectAllClick}
+                  onSelectAllClick={props.createButton===undefined?handleSelectAllClick:undefined}
                   headLabel={props.dataLabel}
                   />
                 

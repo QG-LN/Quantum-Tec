@@ -18,11 +18,7 @@ export default function ItemTableRow({row, selected, handleClick
 
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
-        <TableCell padding="checkbox">
-          <Checkbox disableRipple checked={selected} onChange={handleClick} />
-        </TableCell>
-
+      <TableRow hover tabIndex={-1}>
         <TableCell align='center'>{paymentIndex}</TableCell>
 
         <TableCell align='center'>{productType}</TableCell>

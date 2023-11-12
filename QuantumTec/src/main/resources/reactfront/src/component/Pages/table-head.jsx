@@ -27,14 +27,14 @@ export default function DataTableHead({
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+      {onSelectAllClick!==undefined?<TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
           />
         </TableCell>
-
+        :<></>}
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
