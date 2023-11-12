@@ -22,14 +22,14 @@ export default function UserTableRow({row, selected, handleClick
 }) {
   const navigate = useNavigate();
 
-  const index = row.index;
-  const key = row.id;
-  const nickname = row.nickname;
-  const name = row.name;
-  const level = row.level;
-  const cash = row.cash;
-  const days = row.days;
-  const status = row.status;
+  const index = row.userIndex;
+  const key = row.userID;
+  const nickname = row.userNickname;
+  const name = row.userName;
+  const level = row.userLevel;
+  const cash = row.userCash;
+  const days = row.userAttendance;
+  const status = row.userStatus;
   const avatarUrl = row.avatarUrl;
 
   const [open, setOpen] = useState(null);
@@ -75,7 +75,7 @@ export default function UserTableRow({row, selected, handleClick
         </TableCell>
 
         <TableCell align='center'>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
+          <Label color={((status === 'banned' || status === "inactive") && 'error') || 'success'}>{status}</Label>
         </TableCell>
 
         <TableCell align='center'>
