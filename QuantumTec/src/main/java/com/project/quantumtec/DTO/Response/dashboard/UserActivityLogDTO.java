@@ -4,8 +4,11 @@ import lombok.Data;
 
 @Data
 public class UserActivityLogDTO {
-    private String activityType;        // 활동 사항
-    private String activityData;        // 활동 내용
-    private String activityUser;        // 활동 사용자
-    private String activityTime;        // 활동 시간 (년-월-일 시:분:초)
+    private String tableName;
+    private String operationType;
+    private String operationBy;
+    private String timestamp;
+    private String oldValue;
+    private String newValue;
+    private String metaData;
 }

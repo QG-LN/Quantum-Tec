@@ -29,7 +29,7 @@ public interface DashBoardDAO {
     public List<UserActivityLogDTO> getUserActivityLog(UserIndexDTO user);
 
     //사용자 활동 로그 전체 불러오기
-    public List<UserActivityLogDTO> getUserActivityLogDetail(UserIdDTO user);
+    public List<UserActivityLogDTO> getUserActivityLogDetail(UserIdDTO useriDto);
 
     // 사용자 목록 요청시 사용자 리스트 데이터를 가져오는 메소드
     public List<UserListVO> getUserList();

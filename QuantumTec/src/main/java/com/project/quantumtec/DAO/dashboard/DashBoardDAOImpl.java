@@ -74,8 +74,8 @@ public class DashBoardDAOImpl implements DashBoardDAO{
 
     // 사용자 활동 로그를 전부 불러오기
     @Override
-    public List<UserActivityLogDTO> getUserActivityLogDetail(UserIdDTO user) {
-        return sqlSession.selectList("DashBoardService.getUserActivityLogDetail", user);
+    public List<UserActivityLogDTO> getUserActivityLogDetail(UserIdDTO userIdDTO) {
+        return sqlSession.selectList("DashBoardService.getUserActivityLogDetail", userIdDTO);
     }
 
     // 사용자 목록 페이지에 담길 사용자 리스트를 받아오는 메소드

@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class UserIdDTO {
-    private int userIndex;          // 사용자 아이디
+    private String userId;          // 사용자 아이디
 }

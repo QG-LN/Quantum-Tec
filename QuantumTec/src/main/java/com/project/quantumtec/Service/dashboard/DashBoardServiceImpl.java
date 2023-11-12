@@ -53,8 +53,8 @@ public class DashBoardServiceImpl implements DashBoardService{
     }
 
     @Override
-    public List<UserActivityLogDTO> getUserActivityLogDetail(UserIdDTO user) {
-        return dashBoardDAO.getUserActivityLogDetail(user);
+    public List<UserActivityLogDTO> getUserActivityLogDetail(UserIdDTO userIdDTO) {
+        return dashBoardDAO.getUserActivityLogDetail(userIdDTO);
     }
 
     @Override

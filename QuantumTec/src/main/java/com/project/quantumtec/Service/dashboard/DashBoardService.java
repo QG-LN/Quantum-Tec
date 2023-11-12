@@ -30,7 +30,7 @@ public interface DashBoardService {
     List<UserActivityLogDTO> getUserActivityLog(UserIndexDTO user);
 
     //사용자 활동 로그 전체 불러오기
-    List<UserActivityLogDTO> getUserActivityLogDetail(UserIdDTO user);
+    List<UserActivityLogDTO> getUserActivityLogDetail(UserIdDTO userIdDTO);
 
     // 사용자 목록에 표시할 정보들을 불러오는 메서드 (사용자 리스트 & 추가 정보)
     List<UserListDTO> getUserList();

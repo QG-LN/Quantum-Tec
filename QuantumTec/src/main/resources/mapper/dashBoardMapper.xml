@@ -17,4 +17,7 @@
     <select id="getUserItemList" resultType="UserItemDTO">
         CALL GetUserPaymentSummary(#{userIndex});
     </select>
+    <select id="getUserActivityLogDetail" resultType="UserActivityLogDTO">
+        CALL GetUserLogs(#{userId});
+    </select>
 </mapper>

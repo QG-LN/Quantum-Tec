@@ -68,8 +68,8 @@ public class DashBoardController {
 
     //사용자 활동 로그 전체 불러오기
     @PostMapping("/userinfo/activitylogdetail")
-    public List<UserActivityLogDTO> getUserActivityLogDetail(@RequestBody UserIdDTO user) throws Exception{
-        return dashBoardService.getUserActivityLogDetail(user);
+    public List<UserActivityLogDTO> getUserActivityLogDetail(@RequestBody UserIdDTO userIdDto) throws Exception{
+        return dashBoardService.getUserActivityLogDetail(userIdDto);
     }
 
     //사용자 리스트 조회
