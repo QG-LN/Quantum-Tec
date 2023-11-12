@@ -68,4 +68,17 @@
         </choose>
     </select>
 
+    <!--    회원탈퇴 시 회원 상태 정보를 수정하는 sql문 추후 수정 필요 -->
+    <update id="updateUserStatus" parameterType="UserStatusDTO">
+        update USER_STATUS_TB
+        set USER_STATUS = #{userStatus}
+        where USER_INDEX = #{userIndex}
+    </update>
+
+    <!--    회원 탈퇴 사유를 추가하기 위한 sql-->
+    <insert id="insertUserWithdrawal" parameterType="UserWithdrawalDTO">
+        insert into USER_WITHDRAWAL_REASON_TB(WITHDRAWAL_USER_INDEX, WITHDRAWALLIST_INDEX,WITHDRAWAL_OTHER_REASON)
+        values(#{withdrawalUserIndex},#{withdrawalListIndex},#{withdrawalOtherReason})
+    </insert>
+
 </mapper>

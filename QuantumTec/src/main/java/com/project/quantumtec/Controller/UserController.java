@@ -3,13 +3,9 @@ package com.project.quantumtec.Controller;
 import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.DTO.Request.myinfo.PaymentMyInfoDTO;
 import com.project.quantumtec.DTO.Request.myinfo.requestMyInfoDTO;
+import com.project.quantumtec.DTO.Request.user.UserWithdrawalRequestDTO;
 import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryListDTO;
-import com.project.quantumtec.DTO.user.LogMetadata;
-import com.project.quantumtec.DTO.user.LoginRequestDTO;
-import com.project.quantumtec.DTO.user.LoginResponseDTO;
-import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
-import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
-import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
+import com.project.quantumtec.DTO.user.*;
 import com.project.quantumtec.Service.user.UserPageService;
 import com.project.quantumtec.Service.user.UserService;
 import com.project.quantumtec.VO.user.UserVO;
@@ -83,10 +79,12 @@ public class UserController {
         return userService.getUserInfo(user.getUserID(), user.getUserPW());
     }
 
-    // UserService 의 입력받은 회원정보를 삭제하는 메소드
-    @DeleteMapping("/delete")
-    public boolean deleteUser(@RequestParam int userIdx) throws Exception {
-        return userService.deleteUser(userIdx);
+    // 회원탈퇴를 진행한 유저룰 Inactive 상태로 변경하는 메소드
+    @PostMapping("/setUserStateToInactive")
+    public boolean setUserStateToInactive(@RequestBody UserWithdrawalRequestDTO user) throws Exception {
+        System.out.println("user: " + user.getUserID() + " " + user.getUserPW() + " " + user.getUserReasonCode() + " "
+                + user.getUserReason());
+        return userPageService.setUserWithdrawal(user);
     }
 
     // UserService 의 입력받은 회원정보를 수정하는 메소드

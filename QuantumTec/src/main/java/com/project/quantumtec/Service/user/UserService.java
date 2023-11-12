@@ -1,11 +1,7 @@
 package com.project.quantumtec.Service.user;
 
 import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
-import com.project.quantumtec.DTO.user.LogMetadata;
-import com.project.quantumtec.DTO.user.LoginResponseDTO;
-import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
-import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
-import com.project.quantumtec.DTO.user.singupEmailCodeDTO;
+import com.project.quantumtec.DTO.user.*;
 import com.project.quantumtec.VO.user.UserVO;
 
 import java.util.List;
@@ -27,6 +23,10 @@ public interface UserService {
 //    public UserVO login(String userID, String userPW) throws Exception;
 
     public UserInfoResponseDTO getUserInfo(String userID, String userPW) throws Exception;
+
+    // 사용자 존재여부 확인 [아이디 + 비밀번호]
+    public boolean checkUserExist(String userID, String userPW) throws Exception;
+
     // 새로운 로그인 친구
     public LoginResponseDTO login(String userID, String userPW)  throws Exception;
 

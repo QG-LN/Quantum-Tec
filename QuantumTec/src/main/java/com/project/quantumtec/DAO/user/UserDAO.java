@@ -3,11 +3,7 @@ package com.project.quantumtec.DAO.user;
 import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
 import com.project.quantumtec.DTO.Request.myinfo.PaymentMyInfoDTO;
 import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryListDTO;
-import com.project.quantumtec.DTO.user.LogMetadata;
-import com.project.quantumtec.DTO.user.LoginResponseDTO;
-import com.project.quantumtec.DTO.user.MyGameListResponseDTO;
-import com.project.quantumtec.DTO.user.UserGraceDTO;
-import com.project.quantumtec.DTO.user.UserInfoResponseDTO;
+import com.project.quantumtec.DTO.user.*;
 import com.project.quantumtec.VO.user.UserPaymentVO;
 import com.project.quantumtec.VO.user.UserVO;
 
@@ -23,7 +19,7 @@ import java.util.List;
 public interface UserDAO {
     // 사용자리스트
     public List<UserVO> getUserListAll() throws Exception;
-    // 사용자 존재 여부 확인
+    // 사용자 존재 여부 확인 및 해당 인덱스 반환
     public int getUserExist(String userID, String userPW) throws Exception;
 
     // 사용자 정보 가져오기
@@ -42,7 +38,7 @@ public interface UserDAO {
     public boolean isNicknameDuplicate(UserVO user) throws Exception;
 
     // 사용자 정보를 삭제하고, 삭제된 정보를 별도의 테이블에 보관함
-    public boolean deleteUser(int userIdx) throws Exception;
+    public boolean deleteUser(int userIndex) throws Exception;
 
     // 사용자를 List로 받아 한번에 삭제
     public void deleteUserAll(List userIndexList) throws Exception;

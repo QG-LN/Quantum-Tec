@@ -54,13 +54,24 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserInfoResponseDTO getUserInfo(String userID, String userPW) throws Exception {
-        int checkUser = userDAO.getUserExist(userID, userPW);
+        int checkUser = checkUserExist(userID, userPW) ? userDAO.getUserExist(userID, userPW) : 0;
 
         if(checkUser >= 1) {
             return userDAO.getUserInfo(checkUser);
         }else {
             return null;
         }
+    }
+
+    /**
+     * 사용자 존재여부 확인 [아이디 + 비밀번호]
+     * @param userID 아이디
+     * @param userPW 비밀번호
+     * @return true: 사용자 존재, false: 사용자 미존재
+     */
+    @Override
+    public boolean checkUserExist(String userID, String userPW) throws Exception {
+        return userDAO.getUserExist(userID, userPW) > 0;
     }
 
     @Override
