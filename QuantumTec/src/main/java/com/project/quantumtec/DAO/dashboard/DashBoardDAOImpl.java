@@ -2,6 +2,7 @@ package com.project.quantumtec.DAO.dashboard;
 
 import com.project.quantumtec.DTO.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
+import com.project.quantumtec.DTO.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserActivityLogDTO;
@@ -23,7 +24,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
 
     // 사용자 상세정보 페이지에 담길 프로필 정보를 받아오는 메소드
     @Override
-    public UserInfoDTO getUserInfo(UserIdDTO user) {
+    public UserInfoDTO getUserInfo(UserIndexDTO user) {
         try {
             return sqlSession.selectOne("DashBoardService.getUserInfo", user);
         }catch (Exception e){
@@ -67,7 +68,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
 
     //사용자 활동 로그를 항목별 한가지씩만 불러오기
     @Override
-    public List<UserActivityLogDTO> getUserActivityLog(UserIdDTO user) {
+    public List<UserActivityLogDTO> getUserActivityLog(UserIndexDTO user) {
         return sqlSession.selectList("DashBoardService.getUserActivityLog", user);
     }
 

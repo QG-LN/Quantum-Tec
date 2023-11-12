@@ -2,6 +2,7 @@ package com.project.quantumtec.Service.dashboard;
 
 import com.project.quantumtec.DTO.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
+import com.project.quantumtec.DTO.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserActivityLogDTO;
@@ -14,7 +15,7 @@ import java.util.List;
 public interface DashBoardService {
 
     // 사용자 상세 정보를 불러오는 메서드 (사용자 프로필만)
-    public UserInfoDTO getUserInfo(UserIdDTO user);
+    public UserInfoDTO getUserInfo(UserIndexDTO user);
 
     // 사용자 프로필 정보를 변경하는 메서드
     boolean updateUserInfo(UserInfoUpdateDTO user);
@@ -26,7 +27,7 @@ public interface DashBoardService {
     List<UserItemDTO> getUserItemList(UserItemSearchDTO user);
 
     //사용자 활동 로그 항목별 일부 불러오기
-    List<UserActivityLogDTO> getUserActivityLog(UserIdDTO user);
+    List<UserActivityLogDTO> getUserActivityLog(UserIndexDTO user);
 
     //사용자 활동 로그 전체 불러오기
     List<UserActivityLogDTO> getUserActivityLogDetail(UserIdDTO user);

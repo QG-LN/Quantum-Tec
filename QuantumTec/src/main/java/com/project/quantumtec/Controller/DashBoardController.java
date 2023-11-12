@@ -2,6 +2,7 @@ package com.project.quantumtec.Controller;
 
 import com.project.quantumtec.DTO.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
+import com.project.quantumtec.DTO.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserActivityLogDTO;
@@ -26,7 +27,7 @@ public class DashBoardController {
 
     //프로필 정보 조회
     @PostMapping("/userinfo")
-    public UserInfoDTO getUserInfo(@RequestBody UserIdDTO user){
+    public UserInfoDTO getUserInfo(@RequestBody UserIndexDTO user){
         return dashBoardService.getUserInfo(user);
     }
 
@@ -61,7 +62,7 @@ public class DashBoardController {
 
     //사용자 활동 로그 항목별 일부 불러오기
     @PostMapping("/userinfo/activitylog")
-    public List<UserActivityLogDTO> getUserActivityLog(@RequestBody UserIdDTO user) throws Exception{
+    public List<UserActivityLogDTO> getUserActivityLog(@RequestBody UserIndexDTO user) throws Exception{
         return dashBoardService.getUserActivityLog(user);
     }
 
