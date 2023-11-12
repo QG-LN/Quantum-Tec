@@ -27,15 +27,27 @@ import TablePage from './component/Pages/DashBoardPage/userPage';
 import DashBoardLayout from './component/Pages/DashBoardPage/dashboardLayout';
 import DashboardHome from './component/Pages/DashBoardPage/dashboardHome';
 
+//DashBoard -> user
 import UserTableRow from './component/Pages/user-table-row';
 import users from './dashboard/_mock/user';
 import userHeadLabel from './dashboard/_mock/userHeadLabel';
 
 import UserProfile from './component/Pages/DashBoardPage/userProfile';
 
+//DashBoard -> game
 import GameTableRow from './component/Pages/game-table-row';
 import games from './dashboard/_mock/game';
 import gameHeadLabel from './dashboard/_mock/gameHeadLabel';
+
+//DashBoard -> board
+import dBoardTableRow from './component/Pages/dboard-table-row';
+import dBoard from './dashboard/_mock/dBoard';
+import dBoardHeadLabel from './dashboard/_mock/dBoardHeadLabel';
+
+//DashBoard -> payments
+import paymentsTableRow from './component/Pages/payments-table-row';
+import payments from './dashboard/_mock/payments';
+import paymentsHeadLabel from './dashboard/_mock/paymentsHeadLabel';
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
@@ -69,8 +81,9 @@ function App() {
           <Route path="/payments/fail" element={<PaymentsFail />}/>
           {/* <Route path="/dashboard" element={<DashBoardPage />}/> */}
           <Route path="/dashboard/user" element={<UserDashBoardPage />}/>
-          <Route path="/dashboard/user/:id" element={<UserProfilePage />}/>
           <Route path="/dashboard/game" element={<GameDashBoardPage />}/>
+          <Route path="/dashboard/board" element={<BoardDashBoardPage />}/>
+          <Route path="/dashboard/payments" element={<PaymentsDashBoardPage/>}/>
           <Route path="/dashboard/home" element={<HomeDashBoardPage />}/>
         </Routes>
       </div>
@@ -232,6 +245,20 @@ function GameDashBoardPage(){
   return (
     <div className="dashboard">
         <TablePage dataRow={GameTableRow} dataLabel={gameHeadLabel} data={games}/>
+    </div>
+  )
+}
+function BoardDashBoardPage(){
+  return (
+    <div className="dashboard">
+        <TablePage dataRow={dBoardTableRow} dataLabel={dBoardHeadLabel} data={dBoard}/>
+    </div>
+  )
+}
+function PaymentsDashBoardPage(){
+  return (
+    <div className="dashboard">
+        <TablePage dataRow={paymentsTableRow} dataLabel={paymentsHeadLabel} data={payments}/>
     </div>
   )
 }
