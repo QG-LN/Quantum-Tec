@@ -7,8 +7,7 @@ function LogDetail() {
         { id: 'title', label: '활동사항', align: 'center' },
         { id: 'content', label: '활동내용' },
         { id: 'changer', label: '활동자', align: 'center' },
-        { id: 'changeDate', label: '활동 시간', align: 'center'},
-        { id: ''}
+        { id: 'changeDate', label: '활동 시간', align: 'center'}
     ];
 
     const logDetailData = [
@@ -19,7 +18,7 @@ function LogDetail() {
 
     return (
         <>
-            <TablePage title={"활동 사항"} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logDetailData} />
+            <TablePage margin={false} createButton={false}  title={"활동 사항"} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logDetailData} />
         </>
     );
 }
