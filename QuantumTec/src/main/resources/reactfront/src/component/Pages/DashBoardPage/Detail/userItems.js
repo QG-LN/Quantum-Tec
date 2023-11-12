@@ -1,41 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-function UserItems() {
+import {axiosRequest} from '../../../Utils/networkUtils';
+function UserItems({state}) {
     const [filter, setFilter] = useState("all");
+    const [userItems, setUserItems] = useState([]);
 
-
-    const userItems = {
-        level: 10,
-        exp: 50000000,
-        freeCash: 100000,
-        paidCash: 20000,
-    };
-      
-    const paymentHistory = [
-        {
-          paymentIndex: 1,
-          type: "game", // 정렬을 위한 필드
-          itemName: "게임A",
-          itemIndex: 1, // 아이템 확인을 위한 필드
-          paymentDate: "2022-09-01",
-          amount: 10000,
-          paymentMethod: "신용카드",
-          paymentStatus: "결제 완료"
-        },
-        {
-            paymentIndex: 2,
-            type: "avatar",
-            itemName: "아바타A",
-            itemIndex: 1,
-            paymentDate: "2022-09-01",
-            amount: 10000,
-            paymentMethod: "신용카드",
-            paymentStatus: "결제 완료"
+    useEffect(() => {
+        if (!state.userIndex) {
+            // userIndex가 없다면, 요청을 보내지 않습니다.
+            return;
         }
-    ];
-    const filteredPayments = paymentHistory.filter(payment => {
+        const path = 'dashboard/userinfo/itemlist';
+        const body = {
+            userIndex: state.userIndex
+        }
+        axiosRequest(path, body, 'POST', 'json')
+            .then((response) => {
+                console.log(response);
+                setUserItems(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [state.userIndex]);
+
+    const filteredPayments = userItems.filter(payment => {
         if (filter === "all") return true;
-        return payment.type === filter;
+        return payment.productType === filter;
     });
     return (
         <div className="user-items">
@@ -50,10 +41,10 @@ function UserItems() {
                     <th>유료 캐시</th>
                 </tr>
                 <tr>
-                    <td>{userItems.level}</td>
-                    <td>{userItems.exp}</td>
-                    <td>{userItems.freeCash}</td>
-                    <td>{userItems.paidCash}</td>
+                    <td>{state.userLevel}</td>
+                    <td>{state.userLevelExp}</td>
+                    <td>{state.userFreeCash}</td>
+                    <td>{state.userCash}</td>
                 </tr>
             </tbody>
         </table>
@@ -77,12 +68,12 @@ function UserItems() {
             {filteredPayments.map(payment => (
                 <tr key={payment.paymentIndex}>
                     <td>{payment.paymentIndex}</td>
-                    <td>{payment.type}</td>
-                    <td>{payment.itemName}</td>
-                    <td>{payment.amount}</td>
+                    <td>{payment.productType}</td>
+                    <td>{payment.productName}</td>
+                    <td>{payment.paymentAmount}</td>
                     <td>{payment.paymentMethod}</td>
                     <td>{payment.paymentStatus}</td>
-                    <td>{payment.paymentDate}</td>
+                    <td>{payment.paymentDate.split(" ")[0]}</td>
                     <td></td>
                 </tr>
             ))}
