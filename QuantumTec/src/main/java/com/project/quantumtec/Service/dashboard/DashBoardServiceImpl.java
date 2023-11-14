@@ -10,6 +10,7 @@ import com.project.quantumtec.DTO.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.DTO.Response.dashboard.UserListDTO;
+import com.project.quantumtec.Global.DatabaseColumnName;
 import com.project.quantumtec.Global.ExpToLevel;
 import com.project.quantumtec.VO.dashboard.UserListVO;
 
@@ -24,6 +25,8 @@ public class DashBoardServiceImpl implements DashBoardService{
 
     @Autowired
     private ExpToLevel expToLevel;
+    @Autowired
+    private DatabaseColumnName databaseColumnName;
     @Autowired
     private DashBoardDAO dashBoardDAO;
 
@@ -54,7 +57,16 @@ public class DashBoardServiceImpl implements DashBoardService{
 
     @Override
     public List<UserActivityLogDTO> getUserActivityLogDetail(UserIdDTO userIdDTO) {
-        return dashBoardDAO.getUserActivityLogDetail(userIdDTO);
+
+        List<UserActivityLogDTO> oldDto = dashBoardDAO.getUserActivityLogDetail(userIdDTO);
+        List<UserActivityLogDTO> newDto = new ArrayList<>();
+        for(int i = 0; i < oldDto.size(); i++){
+            UserActivityLogDTO dto = oldDto.get(i);
+            dto.setColumnName(databaseColumnName.getColumnNameList(dto.getTableEngName()));
+            
+            newDto.add(dto);
+        }
+        return newDto;
     }
 
     @Override
