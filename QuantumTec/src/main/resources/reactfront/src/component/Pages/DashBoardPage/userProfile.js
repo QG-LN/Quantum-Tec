@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ProfileInfo from './Detail/profileInfo';
 import AccountManagement from './Detail/accountManagement';
 import UserItems from './Detail/userItems';
@@ -7,14 +7,39 @@ import ActivityGraph from './Detail/activityGraph';
 
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useLocation } from 'react-router-dom';
+import {axiosRequest} from '../../Utils/networkUtils';
+import LogDetail from './Detail/logDetail';
 function UserProfile() {
-  // API 호출 등을 통해 userId에 해당하는 사용자의 상세 정보를 가져옵니다.
+  const location = useLocation();
+  const [state, setState] = useState(location.state ? location.state.row : {});
   
+  useEffect(() => {
+    if (!state.userIndex) {
+        // userIndex가 없다면, 요청을 보내지 않습니다.
+        return;
+    }
+    const path = 'dashboard/userinfo';
+    const body = {
+        userIndex: state.userIndex
+    }
+    axiosRequest(path, body, 'POST', 'json')
+        .then((response) => {
+            setState(prevState => ({ ...prevState, ...response }));
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}, [state.userIndex]);
   const Styles = styled("div")({
     "@media (min-width: 1200px)": {
       marginLeft: "279px",
     },
   });
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
   return (
     <Styles>
 
@@ -22,15 +47,15 @@ function UserProfile() {
             <div className='mt-[100px]'></div>
             <div className='text-left'>
 
-                <ProfileInfo />
+                <ProfileInfo state={state} setState={setState}/>
                 <div className='m-5'></div>
-                <UserItems />
+                <UserItems state={state} />
                 <div className='m-5'></div>
-                <ActivityLog />
+                <LogDetail state={state} />
                 <div className='m-5'></div>
-                <ActivityGraph />
+                <ActivityGraph state={state} />
                 <div className='m-5'></div>
-                <AccountManagement />
+                <AccountManagement state={state} />
             </div>
         </Container>
     </Styles>

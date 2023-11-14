@@ -85,7 +85,7 @@ export default function TablePage(props) {
   };
 
   const dataFiltered = applyFilter({
-    inputData: props.data,
+    inputData: Array.isArray(props.data) ? props.data : [],
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -93,7 +93,7 @@ export default function TablePage(props) {
   const notFound = !dataFiltered.length && !!filterName;
   const Styles = styled("div")({
     "@media (min-width: 1200px)": {
-      marginLeft: "279px",
+      marginLeft: (props.margin===undefined?"279px":"0px"),
     },
   });
 
@@ -127,6 +127,17 @@ export default function TablePage(props) {
               New {pageName}
             </Button>
           </div>
+            {/*mayone--version*/}
+            {/*<Styles className={props.title!==""?'mt-[12vh]':''}>*/}
+
+            {/*    <Container>*/}
+            {/*        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>*/}
+            {/*            {props.title!==""?<Typography variant="h4">{props.title}</Typography>:<></>}*/}
+
+            {/*            {props.createButton===undefined?<Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>*/}
+            {/*                /!* 수정할 것 *!/*/}
+            {/*                New User*/}
+            {/*            </Button>:<></>}*/}
         </Stack>
 
         <Card>
@@ -145,9 +156,10 @@ export default function TablePage(props) {
                   rowCount={props.data.length}
                   numSelected={selected.length}
                   onRequestSort={handleSort}
-                  onSelectAllClick={handleSelectAllClick}
+                  onSelectAllClick={props.createButton===undefined?handleSelectAllClick:undefined}
                   headLabel={props.dataLabel}
-                />
+                  />
+
                 <TableBody>
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

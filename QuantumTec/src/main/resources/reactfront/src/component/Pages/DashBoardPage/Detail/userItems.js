@@ -1,93 +1,60 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-function UserItems() {
+import {axiosRequest} from '../../../Utils/networkUtils';
+import TablePage from '../userPage';
+import ItemTableRow from '../../item-table-row';
+function UserItems({state}) {
     const [filter, setFilter] = useState("all");
-
-
-    const userItems = {
-        level: 10,
-        exp: 50000000,
-        freeCash: 100000,
-        paidCash: 20000,
-        avatars: ["아바타1", "아바타2"],
-        games: ["게임A", "게임B"]
-    };
-      
-    const paymentHistory = [
-        {
-          paymentIndex: 1,
-          type: "game", // 정렬을 위한 필드
-          itemName: "게임A",
-          itemIndex: 1, // 아이템 확인을 위한 필드
-          paymentDate: "2022-09-01",
-          amount: 10000,
-          paymentMethod: "신용카드",
-          paymentStatus: "결제 완료"
-        },
-        {
-            paymentIndex: 2,
-            type: "avatar",
-            itemName: "아바타A",
-            itemIndex: 1,
-            paymentDate: "2022-09-01",
-            amount: 10000,
-            paymentMethod: "신용카드",
-            paymentStatus: "결제 완료"
-        }
+    const [userItems, setUserItems] = useState([]);
+    const itemHeadLabel = [
+        { id: 'paymentIndex', label: '번호', align: 'center' },
+        { id: 'productType', label: '상품 종류', align: 'center' },
+        { id: 'productName', label: '상품 명칭', align: 'center' },
+        { id: 'paymentAmount', label: '결제 금액', align: 'center' },
+        { id: 'paymentMethod', label: '결제 수단', align: 'center' },
+        { id: 'paymentStatus', label: '결제 상태', align: 'center' },
+        { id: 'paymentDate', label: '결제 일자', align: 'center' },
     ];
-    const filteredPayments = paymentHistory.filter(payment => {
+    useEffect(() => {
+        if (!state.userIndex) {
+            // userIndex가 없다면, 요청을 보내지 않습니다.
+            return;
+        }
+        const path = 'dashboard/userinfo/itemlist';
+        const body = {
+            userIndex: state.userIndex
+        }
+        axiosRequest(path, body, 'POST', 'json')
+            .then((response) => {
+                console.log(response);
+                setUserItems(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [state.userIndex]);
+
+    const filteredPayments = userItems.filter(payment => {
         if (filter === "all") return true;
-        return payment.type === filter;
+        return payment.productType === filter;
     });
     return (
         <div className="user-items">
         <h2>사용자 보유 항목</h2>
         <hr />
-        {/* <table className='d-flex justify-content-start table table-hover'>
-            <tbody>
-                <tr>
-                    <th>현재 레벨</th>
-                    <td>{userItems.level}</td>
-                </tr>
-                <tr>
-                    <th>경험치</th>
-                    <td>{userItems.exp}</td>
-                </tr>
-                <tr>
-                    <th>무료 캐시</th>
-                    <td>{userItems.freeCash}</td>
-                </tr>
-                <tr>
-                    <th>유료 캐시</th>
-                    <td>{userItems.paidCash}</td>
-                </tr>
-                <tr>
-                    <th>보유 아바타</th>
-                    <td>{userItems.avatars.join(', ')}</td>
-                </tr>
-                <tr>
-                    <th>보유 게임</th>
-                    <td>{userItems.games.join(', ')}</td>
-                </tr>
-            </tbody>
-        </table> */}
-        <table className='d-flex justify-content-center table table-hover text-center align-middle'>
+        <table className='d-flex justify-content-center table text-center align-middle'>
             <tbody>
                 <tr>
                     <th>현재 레벨</th>
                     <th>경험치</th>
                     <th>무료 캐시</th>
                     <th>유료 캐시</th>
-                    {/* <th>보유 아바타</th>
-                    <th>보유 게임</th> */}
                 </tr>
                 <tr>
-                    <td>{userItems.level}</td>
-                    <td>{userItems.exp}</td>
-                    <td>{userItems.freeCash}</td>
-                    <td>{userItems.paidCash}</td>
-                    {/* <td>{userItems.avatars.join(', ')}</td>
-                    <td>{userItems.games.join(', ')}</td> */}
+                    <td>{state.userLevel}</td>
+                    <td>{state.userLevelExp}</td>
+                    <td>{state.userFreeCash}</td>
+                    <td>{state.userCash}</td>
                 </tr>
             </tbody>
         </table>
@@ -96,32 +63,9 @@ function UserItems() {
             <input className='form-check-input m-2' type="radio" name="filter" value="avatar" checked={filter === "avatar"} onChange={(e) => setFilter(e.target.value)} /> 아바타
             <input className='form-check-input m-2' type="radio" name="filter" value="game" checked={filter === "game"} onChange={(e) => setFilter(e.target.value)} /> 게임
         </div>
-        <table className='table table-hover text-center align-middle'>
-            <tbody>
-                <tr>
-                    <th className='w-[5%]'>주문 번호</th>
-                    <th className='w-[10%]'>상품 종류</th>
-                    <th className='w-[20%]'>상품 명칭</th>
-                    <th className='w-[10%]'>결제 금액</th>
-                    <th className='w-[10%]'>결제 수단</th>
-                    <th className='w-[10%]'>결제 상태</th>
-                    <th className='w-[15%]'>결제 일자</th>
-                    <th>비고</th>
-                </tr>
-            {filteredPayments.map(payment => (
-                <tr key={payment.paymentIndex}>
-                    <td>{payment.paymentIndex}</td>
-                    <td>{payment.type}</td>
-                    <td>{payment.itemName}</td>
-                    <td>{payment.amount}</td>
-                    <td>{payment.paymentMethod}</td>
-                    <td>{payment.paymentStatus}</td>
-                    <td>{payment.paymentDate}</td>
-                    <td></td>
-                </tr>
-            ))}
-            </tbody>
-        </table>
+
+        <TablePage margin={false} createButton={false} title={""} dataRow={ItemTableRow} dataLabel={itemHeadLabel} data={filteredPayments} />
+        
         </div>
     );
 }

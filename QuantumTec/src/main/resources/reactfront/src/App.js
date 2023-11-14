@@ -29,7 +29,7 @@ import DashboardHome from './component/Pages/DashBoardPage/dashboardHome';
 
 //DashBoard -> user
 import UserTableRow from './component/Pages/user-table-row';
-import users from './dashboard/_mock/user';
+import {getUsersData} from './component/Pages/DashBoardPage/Data/user.js';
 import userHeadLabel from './dashboard/_mock/userHeadLabel';
 
 import UserProfile from './component/Pages/DashBoardPage/userProfile';
@@ -49,6 +49,8 @@ import paymentsTableRow from './component/Pages/payments-table-row';
 import payments from './dashboard/_mock/payments';
 import paymentsHeadLabel from './dashboard/_mock/paymentsHeadLabel';
 
+import LogDetail from './component/Pages/DashBoardPage/Detail/logDetail.js';
+
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
@@ -65,7 +67,7 @@ function App() {
           <Route path="/signup" element={<SignUp />}/>
           <Route path="/mypage" element={<MyPage />}/>
           <Route path="/game/:id/:gameName" element={<GamePage />}/>
-          
+
           <Route path="/board/:id" element={<Board />}/>
           <Route path="/board/:no/post/:id" element={<Post />}/>
           <Route path="/board/:no/write" element={<Write />}/>
@@ -75,7 +77,7 @@ function App() {
           <Route path="/tutoringPost" element={<TtInsert />}/>
           <Route path="/tutoringPost/:id/edit" element={<TtInsert />}/>
           <Route path="/tutoring/:id/:tutor" element={<TtPage />}/>
-          
+
           <Route path="/post/:id" element={<Post />}/>
           <Route path="/write" element={<Write />}/>
           <Route path="/avatarshop" element={<AvatarShop />}/>
@@ -86,6 +88,8 @@ function App() {
 
           <Route path="/dashboard" element={<Navigate to="/dashboard/home" replace />}/>
           <Route path="/dashboard/user" element={<UserDashBoardPage />}/>
+          <Route path="/dashboard/user/:id" element={<UserProfilePage />}/>
+          <Route path="/dashboard/user/:id/log" element={<LogDetailPage />}/>
           <Route path="/dashboard/game" element={<GameDashBoardPage />}/>
           <Route path="/dashboard/board" element={<BoardDashBoardPage />}/>
           <Route path="/dashboard/payments" element={<PaymentsDashBoardPage/>}/>
@@ -230,12 +234,26 @@ function DashBoardPage(){
   )
 }
 
-function UserDashBoardPage(){
+function UserDashBoardPage() {
+  const [usersData, setUsersData] = useState([]);
+
+  useEffect(() => {
+    getUsersData()
+      .then(data => {
+        setUsersData(data);
+      })
+      .catch(error => {
+        console.error("데이터 로딩 중 오류 발생", error);
+      });
+  }, []);
+
+  console.log(usersData); // 로드된 데이터 확인
+
   return (
     <div className="dashboard">
-        <TablePage dataRow={UserTableRow} dataLabel={userHeadLabel} data={users}/>
+      <TablePage title={"Users"} dataRow={UserTableRow} dataLabel={userHeadLabel} data={usersData}/>
     </div>
-  )
+  );
 }
 
 function UserProfilePage(){
@@ -249,7 +267,7 @@ function UserProfilePage(){
 function GameDashBoardPage(){
   return (
     <div className="dashboard">
-        <TablePage dataRow={GameTableRow} dataLabel={gameHeadLabel} data={games}/>
+        <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={games}/>
     </div>
   )
 }
@@ -276,5 +294,12 @@ function HomeDashBoardPage(){
   )
 }
 
+function LogDetailPage(){
+  return (
+    <div className="dashboard">
+        <LogDetail />
+    </div>
+  )
+}
 
 export default App;

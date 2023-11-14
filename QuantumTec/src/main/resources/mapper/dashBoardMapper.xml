@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DashBoardService">
+    <select id="getUserInfo" resultType="UserInfoDTO">
+        CALL USER_DETAIL_PD(#{userIndex});
+    </select>
+    <select id="getUserList" resultType="UserListVO">
+        SELECT * FROM USER_DASHBOARD_INFO_VW;
+    </select>
+    <update id="cancelUserBan" parameterType="UserBanDTO">
+        CALL CancelCurrentBan(#{userIndex});
+    </update>
+    <insert id="insertUserBan" parameterType="UserBanDTO">
+        INSERT INTO USER_BAN_CURRENT_TB (USER_INDEX, BAN_REASON, BAN_SCHEDULE)
+        VALUES (#{userIndex}, #{banReason}, #{banSchedule});
+    </insert>
+    <select id="getUserItemList" resultType="UserItemDTO">
+        CALL GetUserPaymentSummary(#{userIndex});
+    </select>
+    <select id="getUserActivityLogDetail" resultType="UserActivityLogDTO">
+        CALL GetUserLogs(#{userId});
+    </select>
+</mapper>

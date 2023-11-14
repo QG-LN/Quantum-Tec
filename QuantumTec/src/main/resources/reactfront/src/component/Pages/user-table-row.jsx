@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Stack from '@mui/material/Stack';
@@ -19,16 +20,17 @@ import AvatarCanvas from './avatarInventory/avatarCanvas';
 
 export default function UserTableRow({row, selected, handleClick
 }) {
+  const navigate = useNavigate();
 
-  const index = row.index;
-  const key = row.id;
-  const nickname = row.nickname;
-  const name = row.name;
-  const level = row.level;
-  const cash = row.cash;
-  const days = row.days;
-  const status = row.status;
-  const avatarUrl = row.avatarUrl;
+  const index = row.userIndex;
+  const key = row.userID;
+  const nickname = row.userNickname;
+  const name = row.userName;
+  const level = row.userLevel;
+  const cash = row.userCash;
+  const days = row.userAttendance;
+  const status = row.userStatus;
+  const avatarItemList = row.avatarItemList;
 
   const [open, setOpen] = useState(null);
 
@@ -40,9 +42,13 @@ export default function UserTableRow({row, selected, handleClick
     setOpen(null);
   };
 
+  const handleClickRow = (event) => {
+    navigate(`/dashboard/user/${index}`, { state: {row} });
+  };
+
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+      <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClickRow}>
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
@@ -56,7 +62,7 @@ export default function UserTableRow({row, selected, handleClick
             {/* <Avatar alt={name} src={avatarUrl} /> */}
             {/* 아바타 수정 */}
             <div className="w-9 h-9">
-              <AvatarCanvas size={[200,200]} position={[128,128]} circle={true}/>
+              <AvatarCanvas size={[200,200]} position={[128,128]} circle={true} avataritemList={avatarItemList}/>
             </div>
             <Typography variant="subtitle2" noWrap>
               {nickname}
@@ -69,7 +75,7 @@ export default function UserTableRow({row, selected, handleClick
         </TableCell>
 
         <TableCell align='center'>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
+          <Label color={((status === 'banned' || status === "inactive") && 'error') || 'success'}>{status}</Label>
         </TableCell>
 
         <TableCell align='center'>
