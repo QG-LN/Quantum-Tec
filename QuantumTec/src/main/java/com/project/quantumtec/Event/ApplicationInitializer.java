@@ -10,6 +10,9 @@ import com.project.quantumtec.DAO.event.ExpDAO;
 import com.project.quantumtec.Global.DatabaseColumnName;
 import com.project.quantumtec.Global.ExpToLevel;
 
+/**
+ * 스프링 컨텍스트가 초기화 및 새로고침 된 이후 실행되는 초기화 코드
+ */
 @Component
 public class ApplicationInitializer {
 
@@ -22,9 +25,13 @@ public class ApplicationInitializer {
     @Autowired
     private DatabaseColumnName databaseColunmName;
 
+    /**
+     * ContextRefreshedEvent 이벤트가 발생하면 실행되는 메소드
+     * @param event 발생 이벤트
+     */
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) throws Exception {
-        expToLevel.setExpToLevel(expDAO.getExpToLevel());
-        databaseColunmName.setColumnNameList(databaseDAO.getColumnName());
+        expToLevel.setExpToLevel(expDAO.getExpToLevel());                       // 경험치 테이블을 불러와서 저장
+        databaseColunmName.setColumnNameList(databaseDAO.getColumnName());      // 데이터베이스 컬럼 이름을 불러와서 저장
     }
 }
