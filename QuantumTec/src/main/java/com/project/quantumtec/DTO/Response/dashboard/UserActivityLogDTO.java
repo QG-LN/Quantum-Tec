@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class UserActivityLogDTO {
+    private String tableEngName;
     private String tableName;
     private String operationType;
     private String operatedBy;
@@ -11,4 +12,5 @@ public class UserActivityLogDTO {
     private String oldValue;
     private String newValue;
     private String metaData;
+    private String columnName;
 }
