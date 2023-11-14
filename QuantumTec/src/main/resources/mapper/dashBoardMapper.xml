@@ -20,4 +20,8 @@
     <select id="getUserActivityLogDetail" resultType="UserActivityLogDTO">
         CALL GetUserLogs(#{userId});
     </select>
+    <update id="updateUserInfo" parameterType="UserInfoUpdateDTO">
+        CALL UpdateUserInfo(#{userIndex}, #{userName}, #{userNickname}, #{userGender}, #{userAddress}, #{userAddressDetail}, #{userEmail}, #{userBirth}, #{userRole}, #{userMemo}, @result);
+        SELECT @result;
+    </update>
 </mapper>
