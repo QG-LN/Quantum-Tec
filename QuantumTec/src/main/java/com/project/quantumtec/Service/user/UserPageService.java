@@ -1,8 +1,8 @@
 package com.project.quantumtec.Service.user;
 
-import com.project.quantumtec.DTO.Request.myinfo.PaymentMyInfoDTO;
-import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryListDTO;
-import com.project.quantumtec.DTO.Request.user.UserWithdrawalRequestDTO;
+import com.project.quantumtec.Model.DTO.Request.myinfo.PaymentMyInfoDTO;
+import com.project.quantumtec.Model.DTO.Response.myInfo.PaymentHistoryListDTO;
+import com.project.quantumtec.Model.DTO.Request.user.UserWithdrawalRequestDTO;
 
 public interface UserPageService {
 

@@ -1,9 +1,9 @@
 package com.project.quantumtec.Service.board;
 
-import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.TutoringEnrollResponseDTO;
-import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.TutoringOrderDataListResponseDTO;
+import com.project.quantumtec.Model.DTO.Request.board.*;
+import com.project.quantumtec.Model.DTO.Response.board.TutoringEnrollResponseDTO;
+import com.project.quantumtec.Model.DTO.Response.board.TutoringListResponseDTO;
+import com.project.quantumtec.Model.DTO.Response.board.TutoringOrderDataListResponseDTO;
 
 import java.util.List;
 

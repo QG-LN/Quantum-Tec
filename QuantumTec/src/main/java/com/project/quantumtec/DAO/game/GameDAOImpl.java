@@ -1,6 +1,6 @@
 package com.project.quantumtec.DAO.game;
 
-import com.project.quantumtec.DTO.game.*;
+import com.project.quantumtec.Model.DTO.game.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

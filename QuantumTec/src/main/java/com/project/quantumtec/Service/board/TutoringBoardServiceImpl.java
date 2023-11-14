@@ -1,14 +1,14 @@
 package com.project.quantumtec.Service.board;
 
 import com.project.quantumtec.DAO.board.TutoringBoardDAO;
-import com.project.quantumtec.DTO.Board.TutoringWriteDTO;
-import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.TutoringEnrollResponseDTO;
-import com.project.quantumtec.DTO.Response.board.TutoringListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.TutoringOrderDataListResponseDTO;
+import com.project.quantumtec.Model.DTO.Board.TutoringWriteDTO;
+import com.project.quantumtec.Model.DTO.Request.board.*;
+import com.project.quantumtec.Model.DTO.Response.board.TutoringEnrollResponseDTO;
+import com.project.quantumtec.Model.DTO.Response.board.TutoringListResponseDTO;
+import com.project.quantumtec.Model.DTO.Response.board.TutoringOrderDataListResponseDTO;
 import com.project.quantumtec.Service.utils.EmailService;
-import com.project.quantumtec.VO.board.TutoringEnrollVO;
-import com.project.quantumtec.VO.board.TutoringPostVO;
+import com.project.quantumtec.Model.VO.board.TutoringEnrollVO;
+import com.project.quantumtec.Model.VO.board.TutoringPostVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;

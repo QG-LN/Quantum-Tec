@@ -1,8 +1,8 @@
 package com.project.quantumtec.Controller;
 
 
-import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.*;
+import com.project.quantumtec.Model.DTO.Request.board.*;
+import com.project.quantumtec.Model.DTO.Response.board.*;
 import com.project.quantumtec.Service.board.BoardService;
 import com.project.quantumtec.Service.board.TutoringBoardService;
 import org.springframework.beans.factory.annotation.Autowired;

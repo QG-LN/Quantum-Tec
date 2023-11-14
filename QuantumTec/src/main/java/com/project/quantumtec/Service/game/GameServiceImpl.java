@@ -1,7 +1,7 @@
 package com.project.quantumtec.Service.game;
 
 import com.project.quantumtec.DAO.game.GameDAO;
-import com.project.quantumtec.DTO.game.*;
+import com.project.quantumtec.Model.DTO.game.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

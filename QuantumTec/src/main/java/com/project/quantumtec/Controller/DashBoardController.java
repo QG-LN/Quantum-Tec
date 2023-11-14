@@ -1,17 +1,17 @@
 package com.project.quantumtec.Controller;
 
-import com.project.quantumtec.DTO.Request.dashboard.UserBanDTO;
-import com.project.quantumtec.DTO.Request.dashboard.UserIdDTO;
-import com.project.quantumtec.DTO.Request.dashboard.UserIndexDTO;
-import com.project.quantumtec.DTO.Request.dashboard.UserInfoUpdateDTO;
-import com.project.quantumtec.DTO.Request.dashboard.UserItemSearchDTO;
-import com.project.quantumtec.DTO.Response.dashboard.UserActivityLogDTO;
-import com.project.quantumtec.DTO.Response.dashboard.UserInfoDTO;
-import com.project.quantumtec.DTO.Response.dashboard.UserItemDTO;
-import com.project.quantumtec.DTO.Response.dashboard.UserListDTO;
+import com.project.quantumtec.Model.DTO.Request.dashboard.UserBanDTO;
+import com.project.quantumtec.Model.DTO.Request.dashboard.UserIdDTO;
+import com.project.quantumtec.Model.DTO.Request.dashboard.UserIndexDTO;
+import com.project.quantumtec.Model.DTO.Request.dashboard.UserInfoUpdateDTO;
+import com.project.quantumtec.Model.DTO.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.DTO.Response.dashboard.UserActivityLogDTO;
+import com.project.quantumtec.Model.DTO.Response.dashboard.UserInfoDTO;
+import com.project.quantumtec.Model.DTO.Response.dashboard.UserItemDTO;
+import com.project.quantumtec.Model.DTO.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Service.dashboard.DashBoardService;
 import com.project.quantumtec.Service.user.UserService;
-import com.project.quantumtec.VO.user.UserVO;
+import com.project.quantumtec.Model.VO.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

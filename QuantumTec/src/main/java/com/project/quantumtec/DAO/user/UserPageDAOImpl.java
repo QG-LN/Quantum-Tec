@@ -1,12 +1,11 @@
 package com.project.quantumtec.DAO.user;
 
-import com.project.quantumtec.DTO.Request.myinfo.PaymentMyInfoDTO;
-import com.project.quantumtec.DTO.Request.user.UserWithdrawalRequestDTO;
-import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryDTO;
-import com.project.quantumtec.DTO.Response.myInfo.PaymentHistoryListDTO;
-import com.project.quantumtec.DTO.user.UserStatusDTO;
-import com.project.quantumtec.DTO.user.UserWithdrawalDTO;
-import com.project.quantumtec.VO.user.UserPaymentVO;
+import com.project.quantumtec.Model.DTO.Request.myinfo.PaymentMyInfoDTO;
+import com.project.quantumtec.Model.DTO.Response.myInfo.PaymentHistoryDTO;
+import com.project.quantumtec.Model.DTO.Response.myInfo.PaymentHistoryListDTO;
+import com.project.quantumtec.Model.DTO.user.UserStatusDTO;
+import com.project.quantumtec.Model.DTO.user.UserWithdrawalDTO;
+import com.project.quantumtec.Model.VO.user.UserPaymentVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

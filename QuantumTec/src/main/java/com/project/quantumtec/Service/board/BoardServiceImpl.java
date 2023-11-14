@@ -1,18 +1,13 @@
 package com.project.quantumtec.Service.board;
 
 import com.project.quantumtec.DAO.board.BoardDAO;
-import com.project.quantumtec.DTO.Board.TutoringWriteDTO;
-import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.*;
-import com.project.quantumtec.Service.utils.EmailService;
-import com.project.quantumtec.VO.board.TutoringEnrollVO;
-import com.project.quantumtec.VO.board.TutoringPostVO;
+import com.project.quantumtec.Model.DTO.Request.board.*;
+import com.project.quantumtec.Model.DTO.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.Model.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.Model.DTO.Response.board.ViewResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("BoardServiceImpl")
@@ -95,7 +90,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<CommentListResponseDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request) {
+    public List<CommentListResponseDTO> getCommentList(CommentListDTO request) {
         int itemNum = 10; // 한 페이지(로딩 단위) 당 표시할 댓글 수
         request.setStartIndex((request.getPageNum()-1)*itemNum); // 페이지 (로딩 단위)에 따른 시작 댓글 인덱스 계산
         request.setEndIndex(itemNum); // 한 페이지(로딩 단위) 당 댓글 수

@@ -1,8 +1,8 @@
 package com.project.quantumtec.Service.user;
 
-import com.project.quantumtec.DTO.Request.avatar.CashChargeDTO;
-import com.project.quantumtec.DTO.user.*;
-import com.project.quantumtec.VO.user.UserVO;
+import com.project.quantumtec.Model.DTO.Request.avatar.CashChargeDTO;
+import com.project.quantumtec.Model.DTO.user.*;
+import com.project.quantumtec.Model.VO.user.UserVO;
 
 import java.util.List;
 

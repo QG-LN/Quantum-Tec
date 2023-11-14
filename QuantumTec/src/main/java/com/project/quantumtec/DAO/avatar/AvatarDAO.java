@@ -2,13 +2,13 @@ package com.project.quantumtec.DAO.avatar;
 
 import java.util.List;
 
-import com.project.quantumtec.DTO.Request.avatar.BuyItemDTO;
-import com.project.quantumtec.DTO.Request.avatar.CategoryInventoryDTO;
-import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
-import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
-import com.project.quantumtec.DTO.Request.avatar.InventorySearchDTO;
-import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
-import com.project.quantumtec.DTO.Response.avatar.ItemInfoDTO;
+import com.project.quantumtec.Model.DTO.Request.avatar.BuyItemDTO;
+import com.project.quantumtec.Model.DTO.Request.avatar.CategoryInventoryDTO;
+import com.project.quantumtec.Model.DTO.Request.avatar.CategoryInventorySearchDTO;
+import com.project.quantumtec.Model.DTO.Request.avatar.InventoryItemDTO;
+import com.project.quantumtec.Model.DTO.Request.avatar.InventorySearchDTO;
+import com.project.quantumtec.Model.DTO.Response.avatar.AvatarInventoryDTO;
+import com.project.quantumtec.Model.DTO.Response.avatar.ItemInfoDTO;
 
 /**
  * PackageName : com.project.quantumtec.DAO.avatar

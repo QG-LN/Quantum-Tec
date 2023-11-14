@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.quantumtec.DTO.Request.avatar.CategoryInventoryDTO;
-import com.project.quantumtec.DTO.Request.avatar.CategoryInventorySearchDTO;
-import com.project.quantumtec.DTO.Request.avatar.InventoryItemDTO;
-import com.project.quantumtec.DTO.Request.avatar.InventorySearchDTO;
-import com.project.quantumtec.DTO.Request.avatar.BuyItemDTO;
-import com.project.quantumtec.DTO.Response.avatar.AvatarInventoryDTO;
-import com.project.quantumtec.DTO.Response.avatar.ItemInfoDTO;
+import com.project.quantumtec.Model.DTO.Request.avatar.CategoryInventoryDTO;
+import com.project.quantumtec.Model.DTO.Request.avatar.CategoryInventorySearchDTO;
+import com.project.quantumtec.Model.DTO.Request.avatar.InventoryItemDTO;
+import com.project.quantumtec.Model.DTO.Request.avatar.InventorySearchDTO;
+import com.project.quantumtec.Model.DTO.Request.avatar.BuyItemDTO;
+import com.project.quantumtec.Model.DTO.Response.avatar.AvatarInventoryDTO;
+import com.project.quantumtec.Model.DTO.Response.avatar.ItemInfoDTO;
 import com.project.quantumtec.Service.avatar.AvatarService;
 
 /**

@@ -1,12 +1,12 @@
 package com.project.quantumtec.DAO.board;
 
-import com.project.quantumtec.DTO.Board.TutoringWriteDTO;
-import com.project.quantumtec.DTO.Request.board.TutoringDeleteDTO;
-import com.project.quantumtec.DTO.Request.board.TutoringEnrollRequestDTO;
-import com.project.quantumtec.DTO.Request.board.TutoringListDTO;
-import com.project.quantumtec.DTO.Request.board.TutoringPostStatusUpdateDTO;
-import com.project.quantumtec.VO.board.TutoringEnrollVO;
-import com.project.quantumtec.VO.board.TutoringPostVO;
+import com.project.quantumtec.Model.DTO.Board.TutoringWriteDTO;
+import com.project.quantumtec.Model.DTO.Request.board.TutoringDeleteDTO;
+import com.project.quantumtec.Model.DTO.Request.board.TutoringEnrollRequestDTO;
+import com.project.quantumtec.Model.DTO.Request.board.TutoringListDTO;
+import com.project.quantumtec.Model.DTO.Request.board.TutoringPostStatusUpdateDTO;
+import com.project.quantumtec.Model.VO.board.TutoringEnrollVO;
+import com.project.quantumtec.Model.VO.board.TutoringPostVO;
 
 import java.util.List;
 

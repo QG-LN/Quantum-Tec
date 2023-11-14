@@ -1,8 +1,8 @@
 package com.project.quantumtec.Controller;
 
-import com.project.quantumtec.DTO.game.GameCategoryDTO;
-import com.project.quantumtec.DTO.game.GameSearchRequestDTO;
-import com.project.quantumtec.DTO.game.GameSearchResponseDTO;
+import com.project.quantumtec.Model.DTO.game.GameCategoryDTO;
+import com.project.quantumtec.Model.DTO.game.GameSearchRequestDTO;
+import com.project.quantumtec.Model.DTO.game.GameSearchResponseDTO;
 import com.project.quantumtec.Service.game.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

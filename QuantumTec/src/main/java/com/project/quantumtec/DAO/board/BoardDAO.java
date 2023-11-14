@@ -1,12 +1,9 @@
 package com.project.quantumtec.DAO.board;
 
-import com.project.quantumtec.DTO.Board.TutoringWriteDTO;
-import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
-import com.project.quantumtec.VO.board.TutoringEnrollVO;
-import com.project.quantumtec.VO.board.TutoringPostVO;
+import com.project.quantumtec.Model.DTO.Request.board.*;
+import com.project.quantumtec.Model.DTO.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.Model.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.Model.DTO.Response.board.ViewResponseDTO;
 
 
 import java.util.List;
@@ -46,7 +43,7 @@ public interface BoardDAO {
     public int getPrevPost(NavigateViewDTO request); // 이전 게시글
 
     // 댓글 리스트
-    public List<CommentListResponseDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request);
+    public List<CommentListResponseDTO> getCommentList(CommentListDTO request);
 
     // 해당 게시글의 총 댓글 수
     public int getCommentCount(CommentCountDTO request);

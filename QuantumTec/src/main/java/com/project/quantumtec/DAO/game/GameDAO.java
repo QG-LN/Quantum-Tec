@@ -1,6 +1,6 @@
 package com.project.quantumtec.DAO.game;
 
-import com.project.quantumtec.DTO.game.*;
+import com.project.quantumtec.Model.DTO.game.*;
 
 import java.util.List;
 

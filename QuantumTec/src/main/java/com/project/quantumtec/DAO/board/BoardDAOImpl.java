@@ -1,13 +1,10 @@
 package com.project.quantumtec.DAO.board;
 
-import com.project.quantumtec.DTO.Board.TutoringWriteDTO;
-import com.project.quantumtec.DTO.Request.board.*;
-import com.project.quantumtec.DTO.Response.board.CommentListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.ListResponseDTO;
-import com.project.quantumtec.DTO.Response.board.ViewResponseDTO;
+import com.project.quantumtec.Model.DTO.Request.board.*;
+import com.project.quantumtec.Model.DTO.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.Model.DTO.Response.board.ListResponseDTO;
+import com.project.quantumtec.Model.DTO.Response.board.ViewResponseDTO;
 
-import com.project.quantumtec.VO.board.TutoringEnrollVO;
-import com.project.quantumtec.VO.board.TutoringPostVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -148,7 +145,7 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public List<CommentListResponseDTO> getCommentList(com.project.quantumtec.DTO.Request.board.CommentListDTO request) {
+    public List<CommentListResponseDTO> getCommentList(CommentListDTO request) {
         try {
             // 댓글 리스트 불러오기 (정렬 데이터 포함)
             return sqlSession.selectList("BoardService.getCommentList", request);
