@@ -139,7 +139,8 @@ function ProfileInfo({state, setState}) {
                                     id="blacklist"
                                     content={state.userStatus === "inactive" || state.userStatus === "banned" ? "Yes" : "No"}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate}
+                                    editable={false} />
                             </tr>
                             <tr>
                                 <th className="w-[40%]">권한</th>
