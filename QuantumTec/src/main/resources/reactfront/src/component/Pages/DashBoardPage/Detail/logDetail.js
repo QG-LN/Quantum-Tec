@@ -11,7 +11,6 @@ function LogDetail({state}) {
     ];
 
     const [logData, setLogData] = useState([]);
-    console.log(state.userId)
     useEffect(() => {
         const path = 'dashboard/userinfo/activitylogdetail';
         const body = {
@@ -19,7 +18,6 @@ function LogDetail({state}) {
         };
         axiosRequest(path, body, 'POST', 'json')
             .then((response) => {
-                console.log(response);
                 setLogData(response);
             })
             .catch((error) => {
