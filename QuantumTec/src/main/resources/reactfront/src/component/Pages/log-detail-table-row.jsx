@@ -27,10 +27,40 @@ export default function LogDetailTableRow({row, selected, handleClick
   const changeDate = row.timestamp;
   const oldValue = row.oldValue.replace("{", "").replace("}", "").split(",");
   const newValue = row.newValue.replace("{", "").replace("}", "").split(",");
+  const columnName = row.columnName.split(",");
 
   const handleRowClick = () => {
     setIsExpanded(!isExpanded); // 행 클릭시 확장 상태 토글
   };
+
+  const Value = ({ oldValue, newValue }) => {
+    return (
+      <>
+        <Grid item xs={6} sm={6} md={6} className='p-3'>
+          {oldValue.map((value,index) => (
+            <>
+              <span style={{color: value !== newValue[index] ? 'red' : 'inherit', fontWeight: value !== newValue[index] ? 'bold' : 'normal'}}>
+                {columnName[index]}: 
+              </span>
+              {value.split(":").slice(1).join(":")}
+              <br />
+            </>
+          ))}
+        </Grid>
+        <Grid item xs={6} sm={6} md={6} className='p-3'>
+          {newValue.map((value,index) => (
+            <>
+              <span style={{color: value !== oldValue[index] ? 'red' : 'inherit', fontWeight: value !== oldValue[index] ? 'bold' : 'normal'}}>
+                {columnName[index]}: 
+              </span>
+              {value.split(":").slice(1).join(":")}
+              <br />
+            </>
+          ))}
+        </Grid>
+      </>
+    )
+  }
 
   return (
     <>
@@ -53,20 +83,7 @@ export default function LogDetailTableRow({row, selected, handleClick
           <Collapse in={isExpanded} timeout="auto" unmountOnExit>
 
             <Grid container>
-              <Grid item xs={6} sm={6} md={6} className='p-3'>
-                {oldValue.map((value) => (
-                  <div>
-                    {value}
-                  </div>
-                ))}
-              </Grid>
-              <Grid item xs={6} sm={6} md={6} className='p-3'>
-                {newValue.map((value) => (
-                  <div>
-                    {value}
-                  </div>
-                ))}
-              </Grid>
+              <Value oldValue={oldValue} newValue={newValue} />
             </Grid>
           </Collapse>
         </TableCell>
