@@ -17,4 +17,7 @@ public class UserInfoUpdateDTO {
 
     // USER_STATUS
     private String userMemo;            // 사용자 메모
+
+    private Integer update_result;
+
 }
