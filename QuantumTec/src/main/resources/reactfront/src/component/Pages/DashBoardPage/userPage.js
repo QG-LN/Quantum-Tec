@@ -20,6 +20,8 @@ import TableEmptyRows from "../table-empty-rows";
 import UserTableToolbar from "../user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "../utils";
 
+import ExportDataToExcel from "../../Utils/exportData";
+
 // ----------------------------------------------------------------------
 
 export default function TablePage(props) {
@@ -100,6 +102,13 @@ export default function TablePage(props) {
   const location = useLocation();
   const pageName = location.pathname;
 
+  const header1 = ["name", "email", "phone"];
+
+  const data1 = [
+    { name: "Ahmed", email: "", phone: "123456" },
+    { name: "Ali", email: "11111", phone: "123456" },
+  ];
+
   return (
     <Styles>
       <Container style={{ marginTop: "100px" }}>
@@ -112,12 +121,17 @@ export default function TablePage(props) {
           <Typography variant="h4">{pageName}</Typography>
           <div className="left-0 flex">
             <div class='mr-5'>
-              <Button
+              {/* <Button
                 variant="contained"
                 color="inherit"
+                onClick={() => {
+                  ExportDataToExcel({ fileName: "test" });
+                }}
               >
                 내보내기
-              </Button>
+              </Button> */}
+              <ExportDataToExcel fileName="test" data={data1} header={header1} />
+            
             </div>
             <Button
               variant="contained"
