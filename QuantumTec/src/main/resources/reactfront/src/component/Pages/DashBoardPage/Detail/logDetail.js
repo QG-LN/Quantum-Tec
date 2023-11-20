@@ -12,6 +12,9 @@ function LogDetail({state}) {
 
     const [logData, setLogData] = useState([]);
     useEffect(() => {
+        if(!state?.userID){
+            return;
+        }
         const path = 'dashboard/userinfo/activitylogdetail';
         const body = {
             userId: state.userID
@@ -26,7 +29,9 @@ function LogDetail({state}) {
     }, []);
     return (
         <>
-            <TablePage margin={false} createButton={false} title={"활동 사항"} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} />
+            { state?.userID && (
+                <TablePage margin={false} createButton={false} title={"활동 사항"} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} />
+            )}
         </>
     );
 }
