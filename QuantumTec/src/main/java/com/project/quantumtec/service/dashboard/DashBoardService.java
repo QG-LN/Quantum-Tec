@@ -9,6 +9,9 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
+import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 
 import java.util.List;
 
@@ -34,4 +37,10 @@ public interface DashBoardService {
 
     // 사용자 목록에 표시할 정보들을 불러오는 메서드 (사용자 리스트 & 추가 정보)
     List<UserListDTO> getUserList();
+
+    // 게임 목록에 표시할 정보들을 불러오는 메소드
+    List<GameListDTO> getGameList();
+
+    // 게임 상세 정보들을 불러오는 메소드
+    GameInfoDTO getGameInfo();
 }

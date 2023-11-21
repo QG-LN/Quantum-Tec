@@ -8,6 +8,9 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
+import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 import com.project.quantumtec.Model.vo.dashboard.UserListVO;
 
 import org.apache.ibatis.session.SqlSession;
@@ -54,7 +57,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
             else{
                 return sqlSession.insert("DashBoardService.insertUserBan", userBanDTO) == 1;
             }
-            
+
         }catch (Exception e){
             return false;
         }
@@ -84,6 +87,26 @@ public class DashBoardDAOImpl implements DashBoardDAO{
         try {
             return sqlSession.selectList("DashBoardService.getUserList");
         }catch (Exception e){
+            return null;
+        }
+    }
+
+    // 게임 목록 페이지에 담길 게임 리스트를 받아오는 메소드
+    @Override
+    public List<GameListVO> getGameList() {
+        try {
+            return sqlSession.selectList("DashBoardService.getGameList");
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    // 게임 상세정보 페이지에 담길 게임 정보를 받아오는 메소드
+    @Override
+    public GameInfoDTO getGameInfo() {
+        try {
+            return sqlSession.selectOne("DashBoardService.getGameInfo");
+        } catch (Exception e) {
             return null;
         }
     }

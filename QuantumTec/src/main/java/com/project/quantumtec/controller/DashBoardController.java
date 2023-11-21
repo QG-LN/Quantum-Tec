@@ -9,6 +9,8 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.service.dashboard.DashBoardService;
 import com.project.quantumtec.service.user.UserService;
 import com.project.quantumtec.Model.vo.user.UserVO;
@@ -77,4 +79,20 @@ public class DashBoardController {
     public List<UserListDTO> getUserList() throws Exception{
         return dashBoardService.getUserList();
     }
+
+    // 게임 관리 기능
+
+    // 게임 리스트 불러오기
+    @RequestMapping("/gamelist")
+    public List<GameListDTO> getGameList() throws Exception{
+        return dashBoardService.getGameList();
+    }
+
+    // 게임 상세정보 불러오기
+    @RequestMapping("/gameinfo")
+    public GameInfoDTO getGameInfo() throws Exception{
+        return dashBoardService.getGameInfo();
+    }
+
+
 }
