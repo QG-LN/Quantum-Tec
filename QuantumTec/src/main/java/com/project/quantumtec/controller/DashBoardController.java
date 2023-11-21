@@ -15,7 +15,10 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
+import com.project.quantumtec.Model.dto.game.GameCommentDTO;
+import com.project.quantumtec.Model.dto.game.GameCommentListDTO;
 import com.project.quantumtec.service.dashboard.DashBoardService;
+import com.project.quantumtec.service.game.GameService;
 import com.project.quantumtec.service.user.UserService;
 import com.project.quantumtec.Model.vo.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,7 @@ public class DashBoardController {
     @Autowired
     private DashBoardService dashBoardService;
     private UserService userService;
+    private GameService gameService;
 
     //프로필 정보 조회
     @PostMapping("/userinfo")
@@ -103,6 +107,13 @@ public class DashBoardController {
     @RequestMapping("/gameinfo")
     public GameInfoDTO getGameInfo(@RequestBody GameIdDTO gameIdDTO) throws Exception{
         return dashBoardService.getGameInfo(gameIdDTO);
+    }
+
+    // 게임 댓글 불러오기
+    @PostMapping("/gamecomment")
+    public List<GameCommentDTO> getPostGameComment(@RequestBody GameCommentListDTO request){
+        // 게임 id와 게임 이름을 받아서 게임 댓글들을 불러옴
+        return gameService.getPostGameComment(request);
     }
 
     // 게임 결제 리스트 불러오기
