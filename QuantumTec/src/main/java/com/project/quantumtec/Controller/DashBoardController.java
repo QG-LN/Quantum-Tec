@@ -23,6 +23,7 @@ public class DashBoardController {
 
     @Autowired
     private DashBoardService dashBoardService;
+    @Autowired
     private UserService userService;
 
     //프로필 정보 조회
