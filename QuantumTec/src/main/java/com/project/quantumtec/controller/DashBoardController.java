@@ -5,18 +5,22 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
 import com.project.quantumtec.service.dashboard.DashBoardService;
 import com.project.quantumtec.service.user.UserService;
 import com.project.quantumtec.Model.vo.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -80,6 +84,12 @@ public class DashBoardController {
         return dashBoardService.getUserList();
     }
 
+    //특정 게임 사용자 리스트 조회
+    @RequestMapping("/userlist")
+    public List<UserListDTO> getUserList(@RequestBody GameIdDTO gameIdDTO) throws Exception{
+        return dashBoardService.getUserList(gameIdDTO);
+    }
+
     // 게임 관리 기능
 
     // 게임 리스트 불러오기
@@ -90,9 +100,26 @@ public class DashBoardController {
 
     // 게임 상세정보 불러오기
     @RequestMapping("/gameinfo")
-    public GameInfoDTO getGameInfo() throws Exception{
-        return dashBoardService.getGameInfo();
+    public GameInfoDTO getGameInfo(@RequestBody GameIdDTO gameIdDTO) throws Exception{
+        return dashBoardService.getGameInfo(gameIdDTO);
     }
 
+    // 게임 결제 리스트 불러오기
+    @RequestMapping("/gamepaymentlist")
+    public List<GamePaymentListDTO> getGamePaymentList(@RequestBody GameIdDTO gameIdDTO) throws Exception{
+        return dashBoardService.getGamePaymentList(gameIdDTO);
+    }
 
+    // 동일한 개발사(개발자) 게임 리스트 불러오기 (테스트 형태)
+    @RequestMapping("/devgamelist")
+    public List<GameListDTO> getDevGameList(@RequestBody GameDeveloperDTO gameDeveloperDTO) throws Exception{
+        List<GameListDTO> dtos = dashBoardService.getGameList();
+        List<GameListDTO> result = new ArrayList<>();
+        for(int i = 0; i < dtos.size(); i++){
+            if(dtos.get(i).getGameDeveloper() == gameDeveloperDTO.getGameDeveloper()){
+                result.add(dtos.get(i));
+            }
+        }
+        return result;
+    }
 }

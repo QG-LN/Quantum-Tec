@@ -5,11 +5,12 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 import com.project.quantumtec.Model.vo.dashboard.UserListVO;
 
@@ -91,6 +92,16 @@ public class DashBoardDAOImpl implements DashBoardDAO{
         }
     }
 
+    // 특정 게임 사용자 목록을 받아오는 메소드
+    @Override
+    public List<UserListVO> getUserList(GameIdDTO gameIdDTO) {
+        try {
+            return sqlSession.selectList("DashBoardService.getGameUserList");
+        }catch (Exception e){
+            return null;
+        }
+    }
+
     // 게임 목록 페이지에 담길 게임 리스트를 받아오는 메소드
     @Override
     public List<GameListVO> getGameList() {
@@ -103,9 +114,18 @@ public class DashBoardDAOImpl implements DashBoardDAO{
 
     // 게임 상세정보 페이지에 담길 게임 정보를 받아오는 메소드
     @Override
-    public GameInfoDTO getGameInfo() {
+    public GameInfoDTO getGameInfo(GameIdDTO gameIdDTO) {
         try {
             return sqlSession.selectOne("DashBoardService.getGameInfo");
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<GamePaymentListDTO> getGamePaymentList(GameIdDTO gameIdDTO) {
+        try {
+            return sqlSession.selectList("DashBoardService.getGamePaymentList");
         } catch (Exception e) {
             return null;
         }

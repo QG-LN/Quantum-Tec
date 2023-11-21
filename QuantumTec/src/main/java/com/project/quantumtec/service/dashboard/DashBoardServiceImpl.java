@@ -1,7 +1,9 @@
 package com.project.quantumtec.service.dashboard;
 
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 import com.project.quantumtec.dao.dashboard.DashBoardDAO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserBanDTO;
@@ -87,6 +89,20 @@ public class DashBoardServiceImpl implements DashBoardService{
     }
 
     @Override
+    public List<UserListDTO> getUserList(GameIdDTO gameIdDTO) {
+        List<UserListDTO> userListDTO = new ArrayList<>();
+        List<UserListVO> userListVO = dashBoardDAO.getUserList(gameIdDTO);
+        for(int i = 0; i < userListVO.size(); i++){
+            UserListDTO dto = new UserListDTO(expToLevel);
+            dto = dto.mapUserListVOToDTO(userListVO.get(i));
+
+            userListDTO.add(dto);
+
+        }
+        return userListDTO;
+    }
+
+    @Override
     public List<GameListDTO> getGameList() {
         List<GameListDTO> gameListDTO = new ArrayList<>();
         List<GameListVO> gameListVO = dashBoardDAO.getGameList();
@@ -100,9 +116,12 @@ public class DashBoardServiceImpl implements DashBoardService{
     }
 
     @Override
-    public GameInfoDTO getGameInfo() {
-        return dashBoardDAO.getGameInfo();
+    public GameInfoDTO getGameInfo(GameIdDTO gameIdDTO) {
+        return dashBoardDAO.getGameInfo(gameIdDTO);
     }
 
-
+    @Override
+    public List<GamePaymentListDTO> getGamePaymentList(GameIdDTO gameIdDTO) {
+        return dashBoardDAO.getGamePaymentList(gameIdDTO);
+    }
 }
