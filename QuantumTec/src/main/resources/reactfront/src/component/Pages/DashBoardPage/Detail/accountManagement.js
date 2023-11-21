@@ -13,7 +13,6 @@ function AccountManagement({state, setState}) {
       userName: state.userName,
       userEmail: state.userEmail
     }
-    console.log(body)
     axiosRequest(path, body, 'POST', 'json')
       .then((response) => {
         if(response)
@@ -39,7 +38,6 @@ function AccountManagement({state, setState}) {
     else{
       body.userIndex = state.userIndex;
     }
-    console.log(body)
     axiosRequest(path, body, 'POST', 'json')
       .then((response) => {
         if(response){
