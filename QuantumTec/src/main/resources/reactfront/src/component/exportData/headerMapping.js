@@ -13,10 +13,24 @@ const headerMappingUser ={
 	"undefined" : "none"
 }
 
-// const headerMappingPayment ={
-// 	"번호" : "paymentIndex",
-// 	"상품 종류" : "paymentType",
-// 	"상품 이름" : "paymentName",
-// }
+const headerMappingUserPayment ={
+	"번호" : "paymentIndex",
+	"상품 종류" : "productType",
+	"상품 명칭" : "productName",
+	"결제 금액" : "paymentAmount",
+	"결제 수단" : "paymentMethod",
+	"결제 상태" : "paymentStatus",
+	"결제 일자" : "paymentDate",
+}
 
-export default headerMappingUser;
+
+// 활동 사항 -- 수정 필요
+const headerMappingUserActive={
+	"활동사항" : "tableName",
+	"활동내용" : "newValue",
+	"활동자" : "operatedBy",
+	"활동시간" : "timestamp",
+
+}
+
+export {headerMappingUser, headerMappingUserPayment, headerMappingUserActive};

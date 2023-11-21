@@ -21,7 +21,7 @@ import UserTableToolbar from "../user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "../utils";
 
 import ExportDataToExcelButton from "../../exportData/exportData";
-import headerMappingUser from "../../exportData/headerMapping";
+import {headerMappingUser, headerMappingUserPayment, headerMappingUserActive} from "../../exportData/headerMapping";
 
 // ----------------------------------------------------------------------
 
@@ -106,17 +106,31 @@ export default function TablePage(props) {
    * 경로를 /로 나누고 2번째 인덱스를 대문자로 바꿔서 페이지 이름으로 사용
    * ex) /admin/user -> USER
    */
-  const pageName = location.pathname.split("/")[2].toUpperCase(); 
-  console.log(props);
+  // const pageName = location.pathname.split("/")[2].toUpperCase(); 
+  const pageName = props.title.toUpperCase(); // props.title을 페이지 이름으로 사용
 
-  //
   const header = props.dataLabel.map((item) => (item.label ?? ""));
-  console.log(header)
+
+  // 헤더에 해당하는 매핑 키 가져오기
+  const getDynamicMappingKey = () => {
+    if (pageName === "USERS") {
+      return headerMappingUser;
+    } else if(pageName === "") {
+      return headerMappingUserPayment;
+    } else if(pageName === "활동 사항") {
+      return headerMappingUserActive;
+    }else{
+      return null;
+    }
+  }
 
   const data = props.data.map((item) => {
+    const dynamicMappingKey = getDynamicMappingKey();
+
     let row = {};
     for (let i = 0; i < header.length; i++) {
-      const mappedKey = headerMappingUser[header[i]];                 // 헤더에 해당하는 매핑 키 가져오기
+      // const mappedKey = headerMappingUser[header[i]];                 // 헤더에 해당하는 매핑 키 가져오기
+      const mappedKey = dynamicMappingKey[header[i]];
 
       // 값이 null 또는 undefined이면 빈 문자열로 설정
       const value = mappedKey ? (item[mappedKey] ?? "") : undefined;
@@ -126,12 +140,6 @@ export default function TablePage(props) {
     return row;
   });
 
-  const header1 = ["name", "email", "phone"];
-
-  const data1 = [
-    { name: "Ahmed", email: "", phone: "123456" },
-    { name: "Ali", email: "11111", phone: "123456" },
-  ];
 
   return (
     <Styles>
@@ -147,7 +155,7 @@ export default function TablePage(props) {
           </Typography>
           <div className="left-0 flex">
             <div class='mr-5'>
-              <ExportDataToExcelButton title="엑셀" fileName="test" data={data} header={header} />
+              <ExportDataToExcelButton title="엑셀" fileName={pageName || "test"} data={data} header={header} />
             </div>
             <Button
               variant="contained"
@@ -157,17 +165,6 @@ export default function TablePage(props) {
               New {pageName}
             </Button>
           </div>
-            {/*mayone--version*/}
-            {/*<Styles className={props.title!==""?'mt-[12vh]':''}>*/}
-
-            {/*    <Container>*/}
-            {/*        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>*/}
-            {/*            {props.title!==""?<Typography variant="h4">{props.title}</Typography>:<></>}*/}
-
-            {/*            {props.createButton===undefined?<Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>*/}
-            {/*                /!* 수정할 것 *!/*/}
-            {/*                New User*/}
-            {/*            </Button>:<></>}*/}
         </Stack>
 
         <Card>
