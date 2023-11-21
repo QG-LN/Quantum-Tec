@@ -7,6 +7,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
@@ -122,4 +123,15 @@ public class DashBoardController {
         }
         return result;
     }
+
+    // 짜짠! 그거 아시나요? 게임 삭제랑 등록 기능이 미구현이라는 사실을!
+
+    // 게임 상세정보를 변경하는 메소드
+    @PostMapping("/gameinfo/update")
+    public boolean updateGameInfo(@RequestBody GameInfoUpdateDTO gameInfoUpdateDTO) throws Exception{
+        return dashBoardService.updateGameInfo(gameInfoUpdateDTO);
+    }
+
+    // 게임 삭제 (GameService에 추가해서 불러다 쓸 예정)
+    // @DeleteMapping("/gameinfo/delete")
 }

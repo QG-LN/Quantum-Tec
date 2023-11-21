@@ -1,6 +1,7 @@
 package com.project.quantumtec.service.dashboard;
 
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
@@ -123,5 +124,10 @@ public class DashBoardServiceImpl implements DashBoardService{
     @Override
     public List<GamePaymentListDTO> getGamePaymentList(GameIdDTO gameIdDTO) {
         return dashBoardDAO.getGamePaymentList(gameIdDTO);
+    }
+
+    @Override
+    public boolean updateGameInfo(GameInfoUpdateDTO gameInfoUpdateDTO) {
+        return dashBoardDAO.updateGameInfo(gameInfoUpdateDTO);
     }
 }

@@ -6,6 +6,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
@@ -47,5 +48,9 @@ public interface DashBoardDAO {
     // 게임 상세정보 데이터를 가져오는 메소드
     public GameInfoDTO getGameInfo(GameIdDTO gameIdDTO);
 
+    // 게임 결제 리스트를 가져오는 메소드
     List<GamePaymentListDTO> getGamePaymentList(GameIdDTO gameIdDTO);
+
+    // 게임 정보를 수정하는 메소드
+    boolean updateGameInfo(GameInfoUpdateDTO gameInfoUpdateDTO);
 }

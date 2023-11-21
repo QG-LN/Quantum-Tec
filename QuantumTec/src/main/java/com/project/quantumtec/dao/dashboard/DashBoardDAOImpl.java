@@ -6,6 +6,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
@@ -122,12 +123,23 @@ public class DashBoardDAOImpl implements DashBoardDAO{
         }
     }
 
+    // 게임 결제 리스트를 받아오는 메소드
     @Override
     public List<GamePaymentListDTO> getGamePaymentList(GameIdDTO gameIdDTO) {
         try {
             return sqlSession.selectList("DashBoardService.getGamePaymentList");
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    // 게임 정보를 수정하는 메소드
+    @Override
+    public boolean updateGameInfo(GameInfoUpdateDTO gameInfoUpdateDTO) {
+        try {
+            return sqlSession.update("DashBoardService.updateGameInfo", gameInfoUpdateDTO) == 1;
+        } catch (Exception e) {
+            return false;
         }
     }
 }

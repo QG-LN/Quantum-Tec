@@ -6,6 +6,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
@@ -13,8 +14,6 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameUserListDTO;
-import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 
 import java.util.List;
 
@@ -52,4 +51,7 @@ public interface DashBoardService {
 
     // 게임 결제 리스트를 불러오는 메소드
     List<GamePaymentListDTO> getGamePaymentList(GameIdDTO gameIdDTO);
+
+    // 게임 정보를 수정하는 메소드
+    boolean updateGameInfo(GameInfoUpdateDTO gameInfoUpdateDTO);
 }
