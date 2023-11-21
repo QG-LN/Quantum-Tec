@@ -13,11 +13,6 @@ public class GameInfoDTO {
     private String gameDescription; // 게임 설명
     private String gameSaleInfo; // 게임 할인 정보
     private String gameSaveDirectory; // 게임 저장 위치
-
-    // 게임 사용자 평가
-    private List<GameCommentDTO> gameCommentList; // 게임 댓글 리스트
-    // private List<리뷰 게시글 DTO> gameReviewList; // 게임 리뷰 리스트
-
     private String gameVideoLocation; // 게임 비디오 위치
     private String gamePurchaseTrend; // 게임 구매 추이
     private int gameAccessByTime; // 시간대 별 게임 접속량
