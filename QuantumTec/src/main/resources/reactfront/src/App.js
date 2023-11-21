@@ -248,12 +248,10 @@ function UserProfilePage(){
   const [usersData, setUsersData] = useState();
 
   useEffect(() => {
-    console.log("UserProfilePage");
     getUsersData()
       .then(data => {
         setUsersData(data);
         dispatch(setDashboardUserProfileList(data));
-        console.log(usersData);
       })
       .catch(error => {
         console.error("데이터 로딩 중 오류 발생", error);

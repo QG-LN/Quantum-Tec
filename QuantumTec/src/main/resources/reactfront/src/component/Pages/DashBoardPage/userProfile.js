@@ -43,10 +43,7 @@ function UserProfile({loadState}) {
       marginLeft: "279px",
     },
   });
-
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
+  
   return (
     <Styles>
 

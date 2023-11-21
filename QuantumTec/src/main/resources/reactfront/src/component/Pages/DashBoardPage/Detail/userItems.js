@@ -26,7 +26,6 @@ function UserItems({state}) {
         }
         axiosRequest(path, body, 'POST', 'json')
             .then((response) => {
-                console.log(response);
                 setUserItems(response);
             })
             .catch((error) => {
