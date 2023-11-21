@@ -56,14 +56,6 @@ const Main = styled("div")(({ theme }) => ({
   },
 }));
 
-//일별 이용자 연령대
-const dayUserAgeData = [
-    { label: "게임", value: 4344 },
-    { label: "튜터링", value: 5435 },
-    { label: "게시판", value: 1443 },
-    { label: "아바타", value: 4443 },
-]
-
 function ActivityGraph({logData}) {
     //logData[].tableName별로 데이터를 그룹별로으로 갯수 파악
     const countData = logData.reduce((acc, cur) => {
