@@ -21,6 +21,7 @@ import UserTableToolbar from "../user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "../utils";
 
 import ExportDataToExcelButton from "../../exportData/exportData";
+import headerMappingUser from "../../exportData/headerMapping";
 
 // ----------------------------------------------------------------------
 
@@ -106,6 +107,24 @@ export default function TablePage(props) {
    * ex) /admin/user -> USER
    */
   const pageName = location.pathname.split("/")[2].toUpperCase(); 
+  console.log(props);
+
+  //
+  const header = props.dataLabel.map((item) => (item.label ?? ""));
+  console.log(header)
+
+  const data = props.data.map((item) => {
+    let row = {};
+    for (let i = 0; i < header.length; i++) {
+      const mappedKey = headerMappingUser[header[i]];                 // 헤더에 해당하는 매핑 키 가져오기
+
+      // 값이 null 또는 undefined이면 빈 문자열로 설정
+      const value = mappedKey ? (item[mappedKey] ?? "") : undefined;
+
+      row[header[i]] = value;  // 헤더에 해당하는 값 설정
+    }
+    return row;
+  });
 
   const header1 = ["name", "email", "phone"];
 
@@ -128,17 +147,7 @@ export default function TablePage(props) {
           </Typography>
           <div className="left-0 flex">
             <div class='mr-5'>
-              {/* <Button
-                variant="contained"
-                color="inherit"
-                onClick={() => {
-                  ExportDataToExcel({ fileName: "test" });
-                }}
-              >
-                내보내기
-              </Button> */}
-              <ExportDataToExcelButton title="엑셀" fileName="test" data={data1} header={header1} />
-            
+              <ExportDataToExcelButton title="엑셀" fileName="test" data={data} header={header} />
             </div>
             <Button
               variant="contained"
