@@ -20,7 +20,7 @@ import TableEmptyRows from "../table-empty-rows";
 import UserTableToolbar from "../user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "../utils";
 
-import ExportDataToExcel from "../../Utils/exportData";
+import ExportDataToExcelButton from "../../exportData/exportData";
 
 // ----------------------------------------------------------------------
 
@@ -99,8 +99,13 @@ export default function TablePage(props) {
     },
   });
 
-  const location = useLocation();
-  const pageName = location.pathname;
+  const location = useLocation(); // 현재 경로를 가져옴
+
+  /**
+   * 경로를 /로 나누고 2번째 인덱스를 대문자로 바꿔서 페이지 이름으로 사용
+   * ex) /admin/user -> USER
+   */
+  const pageName = location.pathname.split("/")[2].toUpperCase(); 
 
   const header1 = ["name", "email", "phone"];
 
@@ -118,7 +123,9 @@ export default function TablePage(props) {
           justifyContent="space-between"
           mb={5}
         >
-          <Typography variant="h4">{pageName}</Typography>
+          <Typography variant="h4">
+            {pageName}
+          </Typography>
           <div className="left-0 flex">
             <div class='mr-5'>
               {/* <Button
@@ -130,7 +137,7 @@ export default function TablePage(props) {
               >
                 내보내기
               </Button> */}
-              <ExportDataToExcel fileName="test" data={data1} header={header1} />
+              <ExportDataToExcelButton title="엑셀" fileName="test" data={data1} header={header1} />
             
             </div>
             <Button
