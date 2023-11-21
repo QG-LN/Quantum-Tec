@@ -3,7 +3,6 @@ import ProfileInfo from './Detail/profileInfo';
 import AccountManagement from './Detail/accountManagement';
 import UserItems from './Detail/userItems';
 import ActivityLog from './Detail/activityLog';
-import ActivityGraph from './Detail/activityGraph';
 
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -57,9 +56,7 @@ function UserProfile({loadState}) {
                 <div className='m-5'></div>
                 <LogDetail state={state} />
                 <div className='m-5'></div>
-                <ActivityGraph state={state} />
-                <div className='m-5'></div>
-                <AccountManagement state={state} />
+                <AccountManagement state={state} setState={setState}/>
             </div>
         </Container>
     </Styles>

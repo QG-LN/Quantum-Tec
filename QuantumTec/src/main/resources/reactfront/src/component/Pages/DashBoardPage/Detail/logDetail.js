@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TablePage from '../userPage';
 import LogDetailTableRow from '../../log-detail-table-row';
 import {axiosRequest} from '../../../Utils/networkUtils';
+import ActivityGraph from './activityGraph';
 function LogDetail({state}) {
     const logDetailHeadLabel = [
         { id: 'title', label: '활동사항', align: 'center' },
@@ -32,6 +33,9 @@ function LogDetail({state}) {
             { state?.userID && (
                 <TablePage margin={false} createButton={false} title={"활동 사항"} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} />
             )}
+
+            <div className='m-5'></div>
+            <ActivityGraph logData={logData} />
         </>
     );
 }
