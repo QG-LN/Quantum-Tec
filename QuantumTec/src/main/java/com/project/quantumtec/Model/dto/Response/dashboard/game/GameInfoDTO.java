@@ -27,11 +27,4 @@ public class GameInfoDTO {
     private int gameTopRankTime; // 게임 탑 랭킹 시간
     private String gameRefund; // 게임 환불
     private String gameReport; // 게임 신고
-
-    // 결제 내역 리스트
-    // 결제 내역
-    // 결제 방법
-
-    // 추가 개발 게임 리스트
-    // 게임 이용자 리스트
 }
