@@ -64,7 +64,24 @@ const dayUserAgeData = [
     { label: "아바타", value: 4443 },
 ]
 
-function ActivityGraph() {
+function ActivityGraph({logData}) {
+    //logData[].tableName별로 데이터를 그룹별로으로 갯수 파악
+    const countData = logData.reduce((acc, cur) => {
+      // 이미 존재하는 tableName의 인덱스를 찾음
+      const existingIndex = acc.findIndex(item => item.label === cur.tableName);
+    
+      if (existingIndex >= 0) {
+        // 이미 존재하는 경우, 해당 객체의 value를 증가
+        acc[existingIndex].value += 1;
+      } else {
+        // 새로운 tableName의 경우, 새 객체를 배열에 추가
+        acc.push({ label: cur.tableName, value: 1 });
+      }
+    
+      return acc;
+    }, []); // 초기 accumulator 값을 빈 배열로 설정
+    
+    
     const theme = useTheme();
     return (
         <ThemeProvider>
@@ -87,7 +104,7 @@ function ActivityGraph() {
                       <AppCurrentVisits
                         title="활동 영역"
                         chartData={
-                          dayUserAgeData.map((ds, index) => (ds))
+                          countData.map((ds, index) => (ds))
                         }
                         chartColors={[
                           theme.palette.primary.main,
