@@ -4,10 +4,10 @@ import LogDetailTableRow from '../../log-detail-table-row';
 import {axiosRequest} from '../../../Utils/networkUtils';
 function LogDetail({state}) {
     const logDetailHeadLabel = [
-        { id: 'title', label: '활동사항', align: 'center' },
-        { id: 'content', label: '활동내용', align: 'center' },
-        { id: 'changer', label: '활동자', align: 'center' },
-        { id: 'changeDate', label: '활동 시간', align: 'center'}
+        { id: 'columnName', label: '활동사항', align: 'center' },
+        { id: 'newValue', label: '활동내용', align: 'center' },
+        { id: 'operatedBy', label: '활동자', align: 'center' },
+        { id: 'timestamp', label: '활동 시간', align: 'center'}
     ];
 
     const [logData, setLogData] = useState([]);
