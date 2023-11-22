@@ -31,7 +31,7 @@ function ExportDataToExcelButton({ title,fileName , data , header}) {
   };
 
   // JSON 데이터를 CSV로 변환
-  const csvData = Papa.unparse(data);
+  const csvData = Papa.unparse(data, {header: false});
 
   return (
     <div>
