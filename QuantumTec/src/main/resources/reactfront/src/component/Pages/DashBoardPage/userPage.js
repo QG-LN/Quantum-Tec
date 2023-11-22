@@ -143,13 +143,8 @@ export default function TablePage(props) {
 
   return (
     <Styles>
-      <Container style={{ marginTop: "100px" }}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          mb={5}
-        >
+      <Container className={props.title!==""?'mt-[12vh]':''}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h5">
             {pageName.split("_")[0]}
           </Typography>
@@ -157,13 +152,9 @@ export default function TablePage(props) {
             <div class='mr-5'>
               <ExportDataToExcelButton title="엑셀" fileName={pageName || "test"} data={data} header={header} />
             </div>
-            <Button
-              variant="contained"
-              color="inherit"
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
+              {props.createButton === undefined ? <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill"/>}>
               New {pageName}
-            </Button>
+              </Button>:<></>}
           </div>
         </Stack>
 
