@@ -14,12 +14,19 @@ function ExportDataToExcelButton({ title,fileName , data , header}) {
   };
 
   /**
-   * 현재 날짜를 반환하는 함수
-   * @returns 
+   * 현재 날짜 데이터를 반환하는 함수
+   * @returns 2021-08-31-오후-01-00-00 형식의 날짜
+   * @example 2021-08-31-오후-01-00-00
    */
   function getNowData(){
+    const now = new Date();
+    const ampm = now.getHours() < 12 ? '오전' : '오후';
+    const hours = String(now.getHours() % 12 || 12).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
     const date = new Date().toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-');
-    return date;
+
+    return `${date}-${ampm}-${hours}-${minutes}-${seconds}`;
   };
 
   return (
