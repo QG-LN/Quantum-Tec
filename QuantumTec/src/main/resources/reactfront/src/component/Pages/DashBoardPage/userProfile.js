@@ -37,9 +37,6 @@ function UserProfile() {
     },
   });
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
   return (
     <Styles>
 
