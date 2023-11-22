@@ -88,6 +88,7 @@ export default function TablePage(props) {
     inputData: Array.isArray(props.data) ? props.data : [],
     comparator: getComparator(order, orderBy),
     filterName,
+    headLabel: props.dataLabel,
   });
 
   const notFound = !dataFiltered.length && !!filterName;
