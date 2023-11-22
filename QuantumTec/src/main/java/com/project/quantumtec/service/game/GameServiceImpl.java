@@ -1,5 +1,6 @@
 package com.project.quantumtec.service.game;
 
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.dao.game.GameDAO;
 import com.project.quantumtec.Model.dto.game.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,11 @@ public class GameServiceImpl implements GameService{
     @Override
     public List<GameCategoryDTO> getGameCategoryNameList() {
         return gameDAO.getGameCategoryNameList();
+    }
+
+    @Override
+    public boolean deleteGame(GameIdDTO gameIdDTO) {
+        return gameDAO.deleteGame(gameIdDTO);
     }
 
 }

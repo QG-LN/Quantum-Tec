@@ -1,5 +1,6 @@
 package com.project.quantumtec.dao.game;
 
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.game.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,19 @@ public class GameDAOImpl implements GameDAO{
 
     @Override
     public List<GameCategoryDTO> getGameCategoryNameList() {
-        return sqlSession.selectList("GameService.getGameCategoryNameList");
+        try {
+            return sqlSession.selectList("GameService.getGameCategoryNameList");
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean deleteGame(GameIdDTO gameIdDTO) {
+        try {
+            return sqlSession.delete("GameService.deleteGame", gameIdDTO) > 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

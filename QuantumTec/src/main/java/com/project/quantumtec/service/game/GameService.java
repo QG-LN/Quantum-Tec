@@ -1,5 +1,6 @@
 package com.project.quantumtec.service.game;
 
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.game.*;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface GameService {
     // 게임 카테고리 리스트 가져오기
     public List<GameCategoryDTO> getGameCategoryNameList();
 
+    // 게임을 삭제하는 메소드
+    boolean deleteGame(GameIdDTO gameIdDTO);
 }

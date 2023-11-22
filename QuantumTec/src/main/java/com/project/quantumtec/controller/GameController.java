@@ -1,5 +1,6 @@
 package com.project.quantumtec.controller;
 
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.game.*;
 import com.project.quantumtec.service.game.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,12 @@ public class GameController {
     @PostMapping("/info/sameCategory")
     public List<GameCategoryInfoDTO> getGameCategoryInfo(@RequestBody GameCategoryRequestDTO request){
         return gameService.getGameCategoryInfo(request);
+    }
+
+    // 게임을 삭제하는 메소드
+    @DeleteMapping("/delete")
+    public boolean deleteGame(@RequestBody GameIdDTO gameIdDTO) throws Exception{
+        return gameService.deleteGame(gameIdDTO);
     }
 
 }
