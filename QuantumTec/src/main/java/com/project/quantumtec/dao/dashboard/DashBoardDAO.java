@@ -5,12 +5,14 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 import com.project.quantumtec.Model.vo.dashboard.UserListVO;
@@ -53,4 +55,7 @@ public interface DashBoardDAO {
 
     // 게임 정보를 수정하는 메소드
     boolean updateGameInfo(GameInfoUpdateDTO gameInfoUpdateDTO);
+
+    // 특정 개발사(개발자)의 게임 리스트를 불러오는 메소드
+    List<GameListDTO> getDevGameList(GameDeveloperDTO gameDeveloperDTO);
 }
