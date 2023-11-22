@@ -89,11 +89,11 @@ public class DashBoardController {
         return dashBoardService.getUserList();
     }
 
-    //특정 게임 사용자 리스트 조회
-    @RequestMapping("/userlist")
-    public List<UserListDTO> getUserList(@RequestBody GameIdDTO gameIdDTO) throws Exception{
-        return dashBoardService.getUserList(gameIdDTO);
-    }
+//    //특정 게임 사용자 리스트 조회
+//    @RequestMapping("/userlist")
+//    public List<UserListDTO> getUserList(@RequestBody GameIdDTO gameIdDTO) throws Exception{
+//        return dashBoardService.getUserList(gameIdDTO);
+//    }
 
     // 게임 관리 기능
 
