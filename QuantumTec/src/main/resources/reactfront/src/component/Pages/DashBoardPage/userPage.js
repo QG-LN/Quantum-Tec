@@ -150,8 +150,8 @@ export default function TablePage(props) {
           justifyContent="space-between"
           mb={5}
         >
-          <Typography variant="h4">
-            {pageName}
+          <Typography variant="h5">
+            {pageName.split("_")[0]}
           </Typography>
           <div className="left-0 flex">
             <div class='mr-5'>
