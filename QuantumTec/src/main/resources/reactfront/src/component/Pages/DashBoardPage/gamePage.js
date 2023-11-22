@@ -19,6 +19,7 @@ import DataTableHead from "../table-head";
 import TableEmptyRows from "../table-empty-rows";
 import UserTableToolbar from "../user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "../utils";
+import GameTableRow from "../game-table-row";
 
 // ----------------------------------------------------------------------
 
@@ -164,7 +165,7 @@ export default function TablePage(props) {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <props.dataRow
+                      <GameTableRow
                         row={row}
                         selected={selected.indexOf(row.name) !== -1}
                         handleClick={(event) => handleClick(event, row.name)}
