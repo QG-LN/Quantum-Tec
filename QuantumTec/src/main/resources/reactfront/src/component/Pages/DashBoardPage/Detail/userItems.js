@@ -16,7 +16,7 @@ function UserItems({state}) {
         { id: 'paymentDate', label: '결제 일자', align: 'center' },
     ];
     useEffect(() => {
-        if (!state.userIndex) {
+        if (!state?.userIndex) {
             // userIndex가 없다면, 요청을 보내지 않습니다.
             return;
         }
@@ -31,7 +31,7 @@ function UserItems({state}) {
             .catch((error) => {
                 console.log(error);
             });
-    }, [state.userIndex]);
+    }, [state?.userIndex]);
 
     const filteredPayments = userItems.filter(payment => {
         if (filter === "all") return true;
@@ -39,32 +39,37 @@ function UserItems({state}) {
     });
     return (
         <div className="user-items">
-        <h2>사용자 보유 항목</h2>
-        <hr />
-        <table className='d-flex justify-content-center table text-center align-middle'>
-            <tbody>
-                <tr>
-                    <th>현재 레벨</th>
-                    <th>경험치</th>
-                    <th>무료 캐시</th>
-                    <th>유료 캐시</th>
-                </tr>
-                <tr>
-                    <td>{state.userLevel}</td>
-                    <td>{state.userLevelExp}</td>
-                    <td>{state.userFreeCash}</td>
-                    <td>{state.userCash}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div className='d-flex justify-content-end'>
-            <input className='form-check-input m-2' type="radio" name="filter" value="all" checked={filter === "all"} onChange={(e) => setFilter(e.target.value)} /> 전체
-            <input className='form-check-input m-2' type="radio" name="filter" value="avatar" checked={filter === "avatar"} onChange={(e) => setFilter(e.target.value)} /> 아바타
-            <input className='form-check-input m-2' type="radio" name="filter" value="game" checked={filter === "game"} onChange={(e) => setFilter(e.target.value)} /> 게임
-        </div>
+            { state?.userIndex && (
+                <>
+                    <h2>사용자 보유 항목</h2>
+                    <hr />
+                    <table className='d-flex justify-content-center table text-center align-middle'>
+                        <tbody>
+                            <tr>
+                                <th>현재 레벨</th>
+                                <th>경험치</th>
+                                <th>무료 캐시</th>
+                                <th>유료 캐시</th>
+                            </tr>
+                            <tr>
+                                <td>{state.userLevel}</td>
+                                <td>{state.userLevelExp}</td>
+                                <td>{state.userFreeCash}</td>
+                                <td>{state.userCash}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div className='d-flex justify-content-end'>
+                        <input className='form-check-input m-2' type="radio" name="filter" value="all" checked={filter === "all"} onChange={(e) => setFilter(e.target.value)} /> 전체
+                        <input className='form-check-input m-2' type="radio" name="filter" value="avatar" checked={filter === "avatar"} onChange={(e) => setFilter(e.target.value)} /> 아바타
+                        <input className='form-check-input m-2' type="radio" name="filter" value="game" checked={filter === "game"} onChange={(e) => setFilter(e.target.value)} /> 게임
+                    </div>
 
-        <TablePage margin={false} createButton={false} title={"결재내역_"+state.userName} dataRow={ItemTableRow} dataLabel={itemHeadLabel} data={filteredPayments} />
-        
+        {/* <TablePage margin={false} createButton={false} title={"결재내역_"+state.userName} dataRow={ItemTableRow} dataLabel={itemHeadLabel} data={filteredPayments} /> */}
+
+                    <TablePage margin={false} createButton={false} title={"결재내역_"+state.userName} dataRow={ItemTableRow} dataLabel={itemHeadLabel} data={filteredPayments} />
+                </>
+            )}
         </div>
     );
 }

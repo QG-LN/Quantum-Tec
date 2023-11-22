@@ -41,8 +41,10 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public boolean updateUserInfo(UserInfoUpdateDTO user) {
         try {
-            return sqlSession.update("DashBoardService.updateUserInfo", user) == 1;
+            sqlSession.selectOne("DashBoardService.updateUserInfo", user);
+            return user.getUpdate_result() == 1;
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }

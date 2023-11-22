@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class UserInfoUpdateDTO {
-    // 프로필 정보
+    // USER_INFO
     private int userIndex;         // 사용자 번호(수정불가, 고유값)
     private String userName;        // 사용자 이름
     private String userNickname;    // 사용자 닉네임
@@ -14,4 +14,10 @@ public class UserInfoUpdateDTO {
     private String userEmail;           // 사용자 이메일
     private String userBirth;       // 사용자 생일
     private String userRole;            // 사용자 권한
+
+    // USER_STATUS
+    private String userMemo;            // 사용자 메모
+
+    private Integer update_result;
+
 }
