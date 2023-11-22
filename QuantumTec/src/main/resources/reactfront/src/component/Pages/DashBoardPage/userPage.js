@@ -107,25 +107,36 @@ export default function TablePage(props) {
    * ex) /admin/user -> USER
    */
   // const pageName = location.pathname.split("/")[2].toUpperCase(); 
-  const pageName = props.title.toUpperCase(); // props.title을 페이지 이름으로 사용
+  const pageName = props.title !== undefined ? props.title.toUpperCase() : ""; // props.title을 페이지 이름으로 사용
 
   const header = props.dataLabel.map((item) => (item.label ?? ""));
 
   // 헤더에 해당하는 매핑 키 가져오기
   const getDynamicMappingKey = () => {
-    if (pageName.includes("USERS")) {
-      return headerMappingUser;
-    } else if(pageName.includes("결재내역")) {
-      return headerMappingUserPayment;
-    } else if(pageName.includes("활동사항")) {
-      return headerMappingUserActive;
+    if (pageName === "") return null; // 페이지 이름이 없으면 null 반환
+    if(location.pathname.includes("/user")){
+      if (pageName.includes("USERS")) {
+        return headerMappingUser;
+      } else if(pageName.includes("결재내역")) {
+        return headerMappingUserPayment;
+      } else if(pageName.includes("활동사항")) {
+        return headerMappingUserActive;
+      }else{
+        return null;
+      }
     }else{
       return null;
     }
+    
   }
 
   const data = props.data.map((item) => {
     const dynamicMappingKey = getDynamicMappingKey();
+
+    if (dynamicMappingKey === null) {
+      console.error("Dynamic mapping key is null.");
+      return null;
+    }
 
     let row = {};
     for (let i = 0; i < header.length; i++) {
@@ -140,17 +151,16 @@ export default function TablePage(props) {
     return row;
   });
 
-
   return (
     <Styles>
       <Container className={props.title!==""?'mt-[12vh]':''}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h5">
-            {pageName.split("_")[0]}
+            {pageName === undefined ? "" : pageName.split("_")[0]}
           </Typography>
           <div className="left-0 flex">
             <div class='mr-5'>
-              <ExportDataToExcelButton title="엑셀" fileName={pageName || "test"} data={data} header={header} />
+              {data[0] !== null ? <ExportDataToExcelButton title={"엑셀 다운로드"} fileName={pageName} data={data} header={header} /> : <></>}
             </div>
               {props.createButton === undefined ? <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill"/>}>
               New {pageName}
