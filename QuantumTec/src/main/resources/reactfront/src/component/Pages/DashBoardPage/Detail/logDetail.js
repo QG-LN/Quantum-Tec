@@ -26,7 +26,7 @@ function LogDetail({state}) {
     }, []);
     return (
         <>
-            <TablePage margin={false} createButton={false} title={"활동 사항"} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} />
+            <TablePage margin={false} createButton={false} title={"활동사항_"+state.userName} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} />
         </>
     );
 }

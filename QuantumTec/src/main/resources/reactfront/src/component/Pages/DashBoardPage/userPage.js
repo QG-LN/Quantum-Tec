@@ -113,11 +113,11 @@ export default function TablePage(props) {
 
   // 헤더에 해당하는 매핑 키 가져오기
   const getDynamicMappingKey = () => {
-    if (pageName === "USERS") {
+    if (pageName.includes("USERS")) {
       return headerMappingUser;
-    } else if(pageName === "") {
+    } else if(pageName.includes("결재내역")) {
       return headerMappingUserPayment;
-    } else if(pageName === "활동 사항") {
+    } else if(pageName.includes("활동사항")) {
       return headerMappingUserActive;
     }else{
       return null;
