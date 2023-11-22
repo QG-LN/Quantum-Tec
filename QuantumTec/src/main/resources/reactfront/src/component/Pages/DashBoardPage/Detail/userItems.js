@@ -26,7 +26,6 @@ function UserItems({state}) {
         }
         axiosRequest(path, body, 'POST', 'json')
             .then((response) => {
-                console.log(response);
                 setUserItems(response);
             })
             .catch((error) => {
@@ -64,7 +63,7 @@ function UserItems({state}) {
             <input className='form-check-input m-2' type="radio" name="filter" value="game" checked={filter === "game"} onChange={(e) => setFilter(e.target.value)} /> 게임
         </div>
 
-        <TablePage margin={false} createButton={false} title={""} dataRow={ItemTableRow} dataLabel={itemHeadLabel} data={filteredPayments} />
+        <TablePage margin={false} createButton={false} title={"결재내역_"+state.userName} dataRow={ItemTableRow} dataLabel={itemHeadLabel} data={filteredPayments} />
         
         </div>
     );
