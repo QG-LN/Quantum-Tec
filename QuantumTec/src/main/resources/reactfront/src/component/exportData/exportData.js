@@ -13,6 +13,15 @@ function ExportDataToExcelButton({ title,fileName , data , header}) {
     csvLink.current.link.click();
   };
 
+  /**
+   * 현재 날짜를 반환하는 함수
+   * @returns 
+   */
+  function getNowData(){
+    const date = new Date().toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-');
+    return date;
+  };
+
   return (
     <div>
       <button onClick={handleDownload}
@@ -23,7 +32,7 @@ function ExportDataToExcelButton({ title,fileName , data , header}) {
       <CSVLink
         data={data}
         headers={header}
-        filename={fileName + ".csv"}
+        filename={fileName + "[" + getNowData() + "].csv"}
         className="hidden"
         ref={csvLink}
         target="_blank"
