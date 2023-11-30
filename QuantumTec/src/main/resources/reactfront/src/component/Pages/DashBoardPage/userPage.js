@@ -188,7 +188,7 @@ export default function TablePage(props) {
                   headLabel={props.dataLabel}
                   />
 
-                <TableBody>
+                <TableBody> 
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (

@@ -18,8 +18,6 @@ function ProfileInfo({state, setState}) {
             [id]: newContent
         }));
     };
-    
-  
 
   return (
     <div className="profile-info">
@@ -49,6 +47,14 @@ function ProfileInfo({state, setState}) {
                                 <TableCell 
                                     id="userName"
                                     content={state.userName}
+                                    className="w-[60%]"
+                                    onUpdate={handleContentUpdate} />
+                            </tr>
+                            <tr>
+                                <th className="w-[40%]">현재 레벨</th>
+                                <TableCell 
+                                    id="userLevel"
+                                    content={state.userLevel}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -102,6 +108,14 @@ function ProfileInfo({state, setState}) {
                                     onUpdate={handleContentUpdate} />
                             </tr>
                             <tr>
+                                <th className="w-[40%]">경험치</th>
+                                <TableCell 
+                                    id="userLevelExp"
+                                    content={state.userLevelExp}
+                                    className="w-[60%]"
+                                    onUpdate={handleContentUpdate} />
+                            </tr>
+                            <tr>
                                 <th className="w-[40%]">생년월일</th>
                                 <TableCell 
                                     id="userBirth"
@@ -134,48 +148,56 @@ function ProfileInfo({state, setState}) {
                     <table className='table m-0'>
                         <tbody>
                             <tr>
-                                <th className="w-[40%]">블랙리스트</th>
-                                <TableCell 
-                                    id="blacklist"
-                                    content={state.userStatus === "inactive" || state.userStatus === "banned" ? "Yes" : "No"}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
-                            </tr>
-                            <tr>
-                                <th className="w-[40%]">권한</th>
-                                <TableCell 
-                                    id="permissions"
-                                    content={state.userRole}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
-                            </tr>
-                            <tr>
-                                <th className="w-[40%]">출석일수</th>
-                                <TableCell 
-                                    id="attendance"
-                                    content={state.userAttendance}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} 
-                                    editable={false} />
-                            </tr>
-                            <tr>
-                                <th className="w-[40%]">아바타수</th>
-                                <TableCell 
-                                    id="avatarCount"
-                                    content={state.userAvatarCount}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} 
-                                    editable={false} />
-                            </tr>
-                            <tr>
-                                <th className="w-[40%]">차단 횟수</th>
-                                <TableCell 
-                                    id="blockCount"
-                                    content={state.userBannedCount}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} 
-                                    editable={false} />
-                            </tr>
+                                    <th className="w-[40%]">블랙리스트</th>
+                                    <TableCell 
+                                        id="blacklist"
+                                        content={state.userStatus === "inactive" || state.userStatus === "banned" ? "Yes" : "No"}
+                                        className="w-[60%]"
+                                        onUpdate={handleContentUpdate} />
+                                </tr>
+                                <tr>
+                                    <th className="w-[40%]">권한</th>
+                                    <TableCell 
+                                        id="permissions"
+                                        content={state.userRole}
+                                        className="w-[60%]"
+                                        onUpdate={handleContentUpdate} />
+                                </tr>
+                                <tr>
+                                    <th className="w-[40%]">무료/유료 캐시</th>
+                                    <TableCell 
+                                        id="userFreeCash"
+                                        content={state.userFreeCash + "/" + state.userCash}
+                                        className="w-[60%]"
+                                        onUpdate={handleContentUpdate} />
+                                </tr>
+                                <tr>
+                                    <th className="w-[40%]">출석일수</th>
+                                    <TableCell 
+                                        id="attendance"
+                                        content={state.userAttendance}
+                                        className="w-[60%]"
+                                        onUpdate={handleContentUpdate} 
+                                        editable={false} />
+                                </tr>
+                                <tr>
+                                    <th className="w-[40%]">아바타수</th>
+                                    <TableCell 
+                                        id="avatarCount"
+                                        content={state.userAvatarCount}
+                                        className="w-[60%]"
+                                        onUpdate={handleContentUpdate} 
+                                        editable={false} />
+                                </tr>
+                                <tr>
+                                    <th className="w-[40%]">차단 횟수</th>
+                                    <TableCell 
+                                        id="blockCount"
+                                        content={state.userBannedCount}
+                                        className="w-[60%]"
+                                        onUpdate={handleContentUpdate} 
+                                        editable={false} />
+                                </tr>
                         </tbody>
                     </table>
                 </Grid>
