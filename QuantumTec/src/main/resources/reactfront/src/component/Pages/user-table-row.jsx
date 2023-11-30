@@ -43,7 +43,7 @@ export default function UserTableRow({row, selected, handleClick
   };
 
   const handleClickRow = (event) => {
-    navigate(`/dashboard/user/${index}`, { state: {row} });
+    navigate(`/dashboard/user/${index}`);
   };
 
   return (
@@ -62,7 +62,7 @@ export default function UserTableRow({row, selected, handleClick
             {/* <Avatar alt={name} src={avatarUrl} /> */}
             {/* 아바타 수정 */}
             <div className="w-9 h-9">
-              <AvatarCanvas size={[200,200]} position={[128,128]} circle={true} avataritemList={avatarItemList}/>
+              <AvatarCanvas size={[200,200]} position={[128,128]} circle={true} avatarItemList={avatarItemList}/>
             </div>
             <Typography variant="subtitle2" noWrap>
               {nickname}

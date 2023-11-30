@@ -20,4 +20,7 @@
     <select id="getUserActivityLogDetail" resultType="UserActivityLogDTO">
         CALL GetUserLogs(#{userId});
     </select>
+    <select id="updateUserInfo" statementType="CALLABLE" parameterType="UserInfoUpdateDTO">
+        {CALL UpdateUserInfo(#{userIndex}, #{userName}, #{userNickname}, #{userGender}, #{userAddress}, #{userAddressDetail}, #{userEmail}, #{userBirth}, #{userRole}, #{userMemo}, #{update_result, mode=OUT, jdbcType=INTEGER})}
+    </select>
 </mapper>

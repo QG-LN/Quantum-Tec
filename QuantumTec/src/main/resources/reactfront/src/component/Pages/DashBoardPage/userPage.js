@@ -20,6 +20,9 @@ import TableEmptyRows from "../table-empty-rows";
 import UserTableToolbar from "../user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "../utils";
 
+import ExportDataToExcelButton from "../../exportData/exportData";
+import {headerMappingUser, headerMappingUserPayment, headerMappingUserActive} from "../../exportData/headerMapping";
+
 // ----------------------------------------------------------------------
 
 export default function TablePage(props) {
@@ -97,47 +100,72 @@ export default function TablePage(props) {
     },
   });
 
-  const location = useLocation();
-  const pageName = location.pathname;
+  const location = useLocation(); // 현재 경로를 가져옴
+
+  /**
+   * 경로를 /로 나누고 2번째 인덱스를 대문자로 바꿔서 페이지 이름으로 사용
+   * ex) /admin/user -> USER
+   */
+  // const pageName = location.pathname.split("/")[2].toUpperCase(); 
+  const pageName = props.title !== undefined ? props.title.toUpperCase() : ""; // props.title을 페이지 이름으로 사용
+
+  const header = props.dataLabel.map((item) => (item.label ?? ""));
+
+  // 헤더에 해당하는 매핑 키 가져오기
+  const getDynamicMappingKey = () => {
+    if (pageName === "") return null; // 페이지 이름이 없으면 null 반환
+    if(location.pathname.includes("/user")){
+      if (pageName.includes("USERS")) {
+        return headerMappingUser;
+      } else if(pageName.includes("결재내역")) {
+        return headerMappingUserPayment;
+      } else if(pageName.includes("활동사항")) {
+        return headerMappingUserActive;
+      }else{
+        return null;
+      }
+    }else{
+      return null;
+    }
+    
+  }
+
+  const data = props.data.map((item) => {
+    const dynamicMappingKey = getDynamicMappingKey();
+
+    if (dynamicMappingKey === null) {
+      console.error("Dynamic mapping key is null.");
+      return null;
+    }
+
+    let row = {};
+    for (let i = 0; i < header.length; i++) {
+      // const mappedKey = headerMappingUser[header[i]];                 // 헤더에 해당하는 매핑 키 가져오기
+      const mappedKey = dynamicMappingKey[header[i]];
+
+      // 값이 null 또는 undefined이면 빈 문자열로 설정
+      const value = mappedKey ? (item[mappedKey] ?? "") : undefined;
+
+      row[header[i]] = value;  // 헤더에 해당하는 값 설정
+    }
+    return row;
+  });
 
   return (
     <Styles>
-      <Container style={{ marginTop: "100px" }}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          mb={5}
-        >
-          <Typography variant="h4">{pageName}</Typography>
+      <Container className={props.title!==""?'mt-[12vh]':''}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h5">
+            {pageName === undefined ? "" : pageName.split("_")[0]}
+          </Typography>
           <div className="left-0 flex">
             <div class='mr-5'>
-              <Button
-                variant="contained"
-                color="inherit"
-              >
-                내보내기
-              </Button>
+              {data[0] !== null ? <ExportDataToExcelButton title={"엑셀 다운로드"} fileName={pageName} data={data} header={header} /> : <></>}
             </div>
-            <Button
-              variant="contained"
-              color="inherit"
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
+              {props.createButton === undefined ? <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill"/>}>
               New {pageName}
-            </Button>
+              </Button>:<></>}
           </div>
-            {/*mayone--version*/}
-            {/*<Styles className={props.title!==""?'mt-[12vh]':''}>*/}
-
-            {/*    <Container>*/}
-            {/*        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>*/}
-            {/*            {props.title!==""?<Typography variant="h4">{props.title}</Typography>:<></>}*/}
-
-            {/*            {props.createButton===undefined?<Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>*/}
-            {/*                /!* 수정할 것 *!/*/}
-            {/*                New User*/}
-            {/*            </Button>:<></>}*/}
         </Stack>
 
         <Card>

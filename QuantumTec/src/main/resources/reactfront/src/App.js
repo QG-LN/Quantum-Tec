@@ -51,6 +51,10 @@ import paymentsHeadLabel from './dashboard/_mock/paymentsHeadLabel';
 
 import LogDetail from './component/Pages/DashBoardPage/Detail/logDetail.js';
 
+import { useDispatch } from 'react-redux';
+import { setDashboardUserProfileList } from './redux/actions/dashboardUserProfileAction.js';
+import { get } from 'react-hook-form';
+
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
@@ -235,19 +239,20 @@ function DashBoardPage(){
 }
 
 function UserDashBoardPage() {
+  const dispatch = useDispatch();
   const [usersData, setUsersData] = useState([]);
 
   useEffect(() => {
+    
     getUsersData()
       .then(data => {
         setUsersData(data);
+        dispatch(setDashboardUserProfileList(data));
       })
       .catch(error => {
         console.error("데이터 로딩 중 오류 발생", error);
       });
   }, []);
-
-  console.log(usersData); // 로드된 데이터 확인
 
   return (
     <div className="dashboard">
@@ -257,9 +262,24 @@ function UserDashBoardPage() {
 }
 
 function UserProfilePage(){
+
+  const dispatch = useDispatch();
+  const [usersData, setUsersData] = useState();
+
+  useEffect(() => {
+    getUsersData()
+      .then(data => {
+        setUsersData(data);
+        dispatch(setDashboardUserProfileList(data));
+      })
+      .catch(error => {
+        console.error("데이터 로딩 중 오류 발생", error);
+      });
+  }, []);
+
   return (
     <div className="dashboard">
-        <UserProfile />
+        {usersData && <UserProfile loadState={usersData} />}
     </div>
   )
 }

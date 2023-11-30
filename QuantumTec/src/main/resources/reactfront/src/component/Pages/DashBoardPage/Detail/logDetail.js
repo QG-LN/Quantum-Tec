@@ -2,16 +2,20 @@ import React, { useEffect, useState } from 'react';
 import TablePage from '../userPage';
 import LogDetailTableRow from '../../log-detail-table-row';
 import {axiosRequest} from '../../../Utils/networkUtils';
+import ActivityGraph from './activityGraph';
 function LogDetail({state}) {
     const logDetailHeadLabel = [
-        { id: 'title', label: '활동사항', align: 'center' },
-        { id: 'content', label: '활동내용', align: 'center' },
-        { id: 'changer', label: '활동자', align: 'center' },
-        { id: 'changeDate', label: '활동 시간', align: 'center'}
+        { id: 'activeTitle', label: '활동사항', align: 'center' },
+        { id: 'activeContent', label: '활동내용', align: 'center' },
+        { id: 'activeChanger', label: '활동자', align: 'center' },
+        { id: 'activeChangeDate', label: '활동시간', align: 'center'}
     ];
 
     const [logData, setLogData] = useState([]);
     useEffect(() => {
+        if(!state?.userID){
+            return;
+        }
         const path = 'dashboard/userinfo/activitylogdetail';
         const body = {
             userId: state.userID
@@ -26,7 +30,14 @@ function LogDetail({state}) {
     }, []);
     return (
         <>
-            <TablePage margin={false} createButton={false} title={"활동 사항"} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} />
+            {/* <TablePage margin={false} createButton={false} title={"활동사항_"+state.userName} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} /> */}
+
+            { state?.userID && (
+                <TablePage margin={false} createButton={false} title={"활동 사항_"+state.userName} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} />
+            )}
+
+            <div className='m-5'></div>
+            <ActivityGraph logData={logData} />
         </>
     );
 }
