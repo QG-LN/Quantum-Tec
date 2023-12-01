@@ -20,8 +20,6 @@ public class DatabaseColumnName {
     
         // 리스트를 순회하면서 주어진 테이블과 매칭되는 이름을 찾습니다.
         for (DatabaseColumnNameModel model : columnNameList) {
-            System.out.println(model.getTableName()+"_LOG");
-            System.out.println(name);
             if (name.equals(model.getTableName()+"_LOG")) {
                 return model.getColumnName();
             }
