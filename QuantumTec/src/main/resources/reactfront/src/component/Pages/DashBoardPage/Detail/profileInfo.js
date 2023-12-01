@@ -128,6 +128,7 @@ function ProfileInfo({state, setState}) {
                                             content={state.userLevel}
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
+                                            editable={false}
                                             isLoading={loading} />
                                     </tr>
                                     <tr>
