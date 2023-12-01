@@ -122,6 +122,15 @@ function ProfileInfo({state, setState}) {
                                             isLoading={loading} />
                                     </tr>
                                     <tr>
+                                        <th className="w-[40%]">현재 레벨</th>
+                                        <TableCell
+                                            id="userLevel"
+                                            content={state.userLevel}
+                                            className="w-[60%]"
+                                            onUpdate={handleContentUpdate}
+                                            isLoading={loading} />
+                                    </tr>
+                                    <tr>
                                         {/* 글자 위로 아이콘 올라가는 거 해결 부탁 */}
                                         {/* 글자 크기 제한 추가 */}
                                         <th className="w-[40%]">아이디</th>
@@ -176,6 +185,15 @@ function ProfileInfo({state, setState}) {
                                             isLoading={loading} />
                                     </tr>
                                     <tr>
+                                        <th className="w-[40%]">경험치</th>
+                                        <TableCell
+                                            id="userLevelExp"
+                                            content={state.userLevelExp}
+                                            className="w-[60%]"
+                                            onUpdate={handleContentUpdate}
+                                            isLoading={loading} />
+                                    </tr>
+                                    <tr>
                                         <th className="w-[40%]">생년월일</th>
                                         <TableCell 
                                             id="userBirth"
@@ -225,6 +243,15 @@ function ProfileInfo({state, setState}) {
                                         <TableCell 
                                             id="permissions"
                                             content={state.userRole}
+                                            className="w-[60%]"
+                                            onUpdate={handleContentUpdate}
+                                            isLoading={loading} />
+                                    </tr>
+                                    <tr>
+                                        <th className="w-[40%]">무료/유료 캐시</th>
+                                        <TableCell
+                                            id="userFreeCash"
+                                            content={state.userFreeCash + "/" + state.userCash}
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
                                             isLoading={loading} />
