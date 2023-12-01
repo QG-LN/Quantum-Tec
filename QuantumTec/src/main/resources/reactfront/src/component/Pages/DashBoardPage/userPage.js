@@ -21,7 +21,12 @@ import UserTableToolbar from "../user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "../utils";
 
 // ----------------------------------------------------------------------
-
+// styled를 사용하여 커스텀 Container 컴포넌트 생성
+const CustomContainer = styled(Container)(({ theme, margin }) => ({
+  "@media (min-width: 1200px)": {
+    marginLeft: margin === undefined ? "279px" : "0px",
+  },
+}));
 export default function TablePage(props) {
   const [page, setPage] = useState(0);
 
@@ -92,18 +97,13 @@ export default function TablePage(props) {
   });
 
   const notFound = !dataFiltered.length && !!filterName;
-  const Styles = styled("div")({
-    "@media (min-width: 1200px)": {
-      marginLeft: (props.margin===undefined?"279px":"0px"),
-    },
-  });
 
   const location = useLocation();
   const pageName = location.pathname;
 
   return (
-    <Styles>
-      <Container style={{ marginTop: "100px" }}>
+    <>
+      <CustomContainer style={{ marginTop: "100px" }} margin={props.margin}>
         <Stack
           direction="row"
           alignItems="center"
@@ -177,7 +177,7 @@ export default function TablePage(props) {
                     emptyRows={emptyRows(page, rowsPerPage, props.data.length)}
                   />
 
-                  {notFound && <TableNoData query={filterName} />}
+                  {notFound && <TableNoData query={filterName} col={props.dataLabel.length}/>}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -193,7 +193,7 @@ export default function TablePage(props) {
             onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </Card>
-      </Container>
-    </Styles>
+      </CustomContainer>
+    </>
   );
 }
