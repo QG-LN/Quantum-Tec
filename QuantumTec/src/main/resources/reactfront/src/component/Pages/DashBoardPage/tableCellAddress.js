@@ -1,10 +1,11 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import {EditingContext} from './Detail/profileInfo';
+// import {EditingContext} from './Detail/User/profileInfo';
 import AddressModal from '../LoginPage/AddressModal';
 import Modal from "react-bootstrap/Modal";
 import DaumPostcode from "react-daum-postcode";
+import { editingId, setEditingId, originalContent, setOriginalContent } from './Data/editingValue';
 
 /**
  * TableCellAddress 컴포넌트는 대시보드 테이블의 주소셀을 나타냅니다.
@@ -19,8 +20,8 @@ import DaumPostcode from "react-daum-postcode";
  * @returns {JSX.Element} TableCellAddress 컴포넌트의 JSX 요소
  */
 function TableCellAddress({ id, content, className, onUpdate, editable = true, isLoading, adjustRowHeights }) {
-    const { editingId, setEditingId } = useContext(EditingContext);
-    const [originalContent, setOriginalContent] = useState(content); // 수정 전 셀의 값
+    // const { editingId, setEditingId } = useContext(EditingContext);
+    // const [originalContent, setOriginalContent] = useState(content); // 수정 전 셀의 값
     const [inputValue, setInputValue] = useState(content); // 수정 중인 셀의 값
     const [showIcon, setShowIcon] = useState(false); // 수정(연필) 아이콘 표시 여부
     const [prevEditingId, setPrevEditingId] = useState(null); // 수정 중인 셀의 input 엘리먼트

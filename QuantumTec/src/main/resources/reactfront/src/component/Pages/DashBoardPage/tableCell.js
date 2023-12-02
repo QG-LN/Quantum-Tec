@@ -1,20 +1,7 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-// import {EditingContext} from './Detail/User/profileInfo';
-// import {EditingContext} from './Detail/Game/profileInfo';
-
-let editingId = null;           //
-let setEditingId = null;
-let originalContent = null;     // 수정 전 셀의 값
-let setOriginalContent = null;
-
-function setEditingValue(newValue){
-    editingId = newValue.editingId;
-    setEditingId = newValue.setEditingId;
-    originalContent = newValue.originalContent;
-    setOriginalContent = newValue.setOriginalContent;
-}
+import { editingId, setEditingId, originalContent, setOriginalContent } from './Data/editingValue';
 
 /**
  * TableCell 컴포넌트는 대시보드 테이블의 셀을 나타냅니다.
@@ -179,5 +166,5 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
     );
 }
 
+
 export default TableCell;
-export {setEditingValue};

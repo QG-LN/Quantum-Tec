@@ -1,7 +1,8 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import {EditingContext} from './Detail/profileInfo';
+// import {EditingContext} from './Detail/User/profileInfo';
+import { editingId, setEditingId, originalContent, setOriginalContent } from './Data/editingValue';
 
 
 /**
@@ -17,7 +18,7 @@ import {EditingContext} from './Detail/profileInfo';
  * @returns {JSX.Element} TableCellRadio 컴포넌트의 JSX 요소
  */
 function TableCellRadio({ id, content, items, className, onUpdate, editable = true, isLoading }) {
-    const { editingId, setEditingId, originalContent, setOriginalContent } = useContext(EditingContext);
+    // const { editingId, setEditingId, originalContent, setOriginalContent } = useContext(EditingContext);
     const [inputValue, setInputValue] = useState(content); // 수정 중인 셀의 값
     const [showIcon, setShowIcon] = useState(false); // 수정(연필) 아이콘 표시 여부
     const inputRef = useRef(null); // 수정 중인 셀의 input 엘리먼트

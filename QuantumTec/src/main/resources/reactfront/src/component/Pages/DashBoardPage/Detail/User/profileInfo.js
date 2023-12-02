@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Grid, Table } from '@mui/material';
-import TableCell, {setEditingValue} from '../../tableCell';
+import TableCell from '../../tableCell';
 import AvatarCanvas from '../../../avatarInventory/avatarCanvas';
 import {axiosRequest} from '../../../../Utils/networkUtils';
 import CircularProgress from '@mui/material/CircularProgress';
-import TableCellRadio from '../tableCellRadio';
-import TableCellDate from '../tableCellDate';
-import TableCellAddress from '../tableCellAddress';
+import { setEditingValue } from '../../Data/editingValue';
+import TableCellRadio from '../../tableCellRadio';
+import TableCellDate from '../../tableCellDate';
+import TableCellAddress from '../../tableCellAddress';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useParams } from 'react-router-dom';
 
