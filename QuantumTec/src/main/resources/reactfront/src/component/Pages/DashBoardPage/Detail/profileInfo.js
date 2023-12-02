@@ -6,6 +6,7 @@ import {axiosRequest} from '../../../Utils/networkUtils';
 import CircularProgress from '@mui/material/CircularProgress';
 import TableCellRadio from '../tableCellRadio';
 import TableCellDate from '../tableCellDate';
+import TableCellAddress from '../tableCellAddress';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useParams } from 'react-router-dom';
 
@@ -41,6 +42,7 @@ function ProfileInfo({state, setState}) {
             userMemo: state.userMemo
         };
         body[id] = newContent;
+        console.log(body);
 
         axiosRequest(path, body, 'POST', 'json')
             .then((response) => {
@@ -172,9 +174,10 @@ function ProfileInfo({state, setState}) {
                                 <tbody>
                                     <tr>
                                         <th className="w-[40%]">주소</th>
-                                        <TableCell 
-                                            id="userAddress"
-                                            content={state.userAddress + " " + state.userAddressDetail}
+                                        <TableCellAddress
+                                            id={["userAddress", "userAddressDetail", "userPostar"]}
+                                            // 우편번호 임시로 11111
+                                            content={[state.userAddress, state.userAddressDetail, "11111"]} 
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
                                             isLoading={loading} />
