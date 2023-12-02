@@ -24,8 +24,7 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
     const handleSave = () => {
         if (originalContent !== inputValue) {
             if (onUpdate) {
-                onUpdate(id[0], inputValue[0]);
-                onUpdate(id[1], inputValue[1]);
+                onUpdate(id, inputValue);
             }
         }
         setEditingId(null);

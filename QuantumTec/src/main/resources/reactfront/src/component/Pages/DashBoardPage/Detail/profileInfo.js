@@ -35,13 +35,21 @@ function ProfileInfo({state, setState}) {
             userNickname: state.userNickname,
             userAddress: state.userAddress,
             userAddressDetail: state.userAddressDetail,
+            userPostal: state.userPostal,
             userEmail: state.userEmail,
             userBirth: state.userBirth,
             userGender: state.userGender,
             userRole: state.userRole,
             userMemo: state.userMemo
         };
-        body[id] = newContent;
+        // 만역 id가 배열형태라면
+        if(Array.isArray(id)){
+            for(let i=0; i<id.length; i++){
+                body[id[i]] = newContent[i];
+            }
+        }
+        else
+            body[id] = newContent;
         console.log(body);
 
         axiosRequest(path, body, 'POST', 'json')
@@ -49,7 +57,10 @@ function ProfileInfo({state, setState}) {
                 if(response){
                     setState(prevState => ({
                         ...prevState,
+                        // 만약 id가 배열형태라면
+                        ...(Array.isArray(id) ? id.reduce((acc, cur, i) => ({...acc, [cur]: newContent[i]}), {}) : {
                         [id]: newContent
+                        })
                     }));
                 }
                 else{
@@ -175,9 +186,8 @@ function ProfileInfo({state, setState}) {
                                     <tr>
                                         <th className="w-[40%]">주소</th>
                                         <TableCellAddress
-                                            id={["userAddress", "userAddressDetail", "userPostar"]}
-                                            // 우편번호 임시로 11111
-                                            content={[state.userAddress, state.userAddressDetail, "11111"]} 
+                                            id={["userAddress", "userAddressDetail", "userPostal"]}
+                                            content={[state.userAddress, state.userAddressDetail, state.userPostal]} 
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
                                             isLoading={loading} />
