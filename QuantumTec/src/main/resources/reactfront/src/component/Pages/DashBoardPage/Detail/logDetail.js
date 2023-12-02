@@ -5,16 +5,10 @@ import {axiosRequest} from '../../../Utils/networkUtils';
 import ActivityGraph from './activityGraph';
 function LogDetail({state}) {
     const logDetailHeadLabel = [
-        { id: 'activeTitle', label: '활동사항', align: 'center' },
-        { id: 'activeContent', label: '활동내용', align: 'center' },
-        { id: 'activeChanger', label: '활동자', align: 'center' },
-        { id: 'activeChangeDate', label: '활동시간', align: 'center'}
-
-        // mayone
-        // { id: 'columnName', label: '활동사항', align: 'center' },
-        // { id: 'newValue', label: '활동내용', align: 'center' },
-        // { id: 'operatedBy', label: '활동자', align: 'center' },
-        // { id: 'timestamp', label: '활동 시간', align: 'center'}
+        { id: 'columnName', label: '활동사항', align: 'center' },
+        { id: 'newValue', label: '활동내용', align: 'center' },
+        { id: 'operatedBy', label: '활동자', align: 'center' },
+        { id: 'timestamp', label: '활동 시간', align: 'center'}
     ];
 
     const [logData, setLogData] = useState([]);
