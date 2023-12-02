@@ -163,12 +163,6 @@ function ProfileInfo({state, setState}) {
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
                                             isLoading={loading} />
-                                        {/* <TableCell 
-                                            id="userGender"
-                                            content={state.userGender}
-                                            className="w-[60%]"
-                                            onUpdate={handleContentUpdate}
-                                            isLoading={loading} /> */}
                                     </tr>
                                 </tbody>
                             </table>
