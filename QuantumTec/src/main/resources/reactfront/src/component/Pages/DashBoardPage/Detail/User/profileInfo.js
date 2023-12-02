@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Table } from '@mui/material';
-import TableCell from '../tableCell';
-import AvatarCanvas from '../../avatarInventory/avatarCanvas';
-import {axiosRequest} from '../../../Utils/networkUtils';
+import TableCell from '../../tableCell';
+import AvatarCanvas from '../../../avatarInventory/avatarCanvas';
+import {axiosRequest} from '../../../../Utils/networkUtils';
 import CircularProgress from '@mui/material/CircularProgress';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useParams } from 'react-router-dom';

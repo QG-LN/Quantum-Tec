@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import ProfileInfo from './Detail/profileInfo';
-import AccountManagement from './Detail/accountManagement';
-import UserItems from './Detail/userItems';
-import ActivityLog from './Detail/activityLog';
+import ProfileInfo from './profileInfo';
+import AccountManagement from './accountManagement';
+import UserItems from './userItems';
+import LogDetail from './logDetail';
 
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useLocation } from 'react-router-dom';
-import {axiosRequest} from '../../Utils/networkUtils';
-import LogDetail from './Detail/logDetail';
+import {axiosRequest} from '../../../../Utils/networkUtils';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 function UserProfile({loadState}) {

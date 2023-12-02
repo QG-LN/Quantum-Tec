@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import {axiosRequest} from '../../../Utils/networkUtils';
-import TablePage from '../userPage';
-import ItemTableRow from '../../item-table-row';
+import {axiosRequest} from '../../../../Utils/networkUtils';
+import TablePage from '../../tablePage';
+import ItemTableRow from '../../../item-table-row';
 function UserItems({state}) {
     const [filter, setFilter] = useState("all");
     const [userItems, setUserItems] = useState([]);

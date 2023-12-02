@@ -4,8 +4,8 @@ import { useTheme } from "@mui/material/styles";
 import {
   AppCurrentVisits,
   AppWebsiteVisits,
-} from "../../../../dashboard/sections/@dashboard/app";
-import ThemeProvider from "../../../../dashboard/theme";
+} from "../../../../../dashboard/sections/@dashboard/app";
+import ThemeProvider from "../../../../../dashboard/theme";
 
 import { Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";

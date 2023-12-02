@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import TablePage from '../userPage';
-import LogDetailTableRow from '../../log-detail-table-row';
-import {axiosRequest} from '../../../Utils/networkUtils';
+import TablePage from '../../tablePage';
+import LogDetailTableRow from '../../../log-detail-table-row';
+import {axiosRequest} from '../../../../Utils/networkUtils';
 import ActivityGraph from './activityGraph';
 function LogDetail({state}) {
     const logDetailHeadLabel = [

@@ -23,7 +23,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate  } from 'react-router-
 import React, { useState, useEffect } from 'react';
 import AvatarInvetoryPage from "./component/Pages/avatarInventory/avatarMainPage";
 import DashBoard from './component/Pages/DashBoardPage/dashboard.js';
-import TablePage from './component/Pages/DashBoardPage/userPage';
+import TablePage from './component/Pages/DashBoardPage/tablePage';
 import DashBoardLayout from './component/Pages/DashBoardPage/dashboardLayout';
 import DashboardHome from './component/Pages/DashBoardPage/dashboardHome';
 
@@ -32,7 +32,7 @@ import UserTableRow from './component/Pages/user-table-row';
 import {getUsersData} from './component/Pages/DashBoardPage/Data/user.js';
 import userHeadLabel from './dashboard/_mock/userHeadLabel';
 
-import UserProfile from './component/Pages/DashBoardPage/userProfile';
+import UserProfile from './component/Pages/DashBoardPage/Detail/User/userProfile.js';
 
 //DashBoard -> game
 import GameTableRow from './component/Pages/game-table-row';
@@ -50,7 +50,7 @@ import paymentsTableRow from './component/Pages/payments-table-row';
 import payments from './dashboard/_mock/payments';
 import paymentsHeadLabel from './dashboard/_mock/paymentsHeadLabel';
 
-import LogDetail from './component/Pages/DashBoardPage/Detail/logDetail.js';
+import LogDetail from './component/Pages/DashBoardPage/Detail/User/logDetail.js';
 
 import { useDispatch } from 'react-redux';
 import { setDashboardUserProfileList } from './redux/actions/dashboardUserProfileAction.js';

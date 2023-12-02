@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import {EditingContext} from './Detail/profileInfo';
+import {EditingContext} from './Detail/User/profileInfo';
 //import {EditingContext} from './Detail/Game/profileInfo';
 
 function TableCell({ id, content, className, onUpdate, editable = true, isLoading }) {

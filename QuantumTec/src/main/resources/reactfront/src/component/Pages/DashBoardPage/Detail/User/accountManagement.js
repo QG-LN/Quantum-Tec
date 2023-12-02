@@ -1,5 +1,5 @@
 import React from 'react';
-import {axiosRequest} from '../../../Utils/networkUtils';
+import {axiosRequest} from '../../../../Utils/networkUtils';
 import { useState } from 'react';
 
 function AccountManagement({state, setState}) {
