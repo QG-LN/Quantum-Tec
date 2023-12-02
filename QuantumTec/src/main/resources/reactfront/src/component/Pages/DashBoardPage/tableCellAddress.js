@@ -6,7 +6,7 @@ import AddressModal from '../LoginPage/AddressModal';
 import Modal from "react-bootstrap/Modal";
 import DaumPostcode from "react-daum-postcode";
 
-function TableCell({ id, content, className, onUpdate, editable = true, isLoading }) {
+function TableCell({ id, content, className, onUpdate, editable = true, isLoading, adjustRowHeights }) {
     const { editingId, setEditingId } = useContext(EditingContext);
     const [originalContent, setOriginalContent] = useState(content); // 수정 전 셀의 값
     const [inputValue, setInputValue] = useState(content); // 수정 중인 셀의 값

@@ -240,7 +240,8 @@ function ProfileInfo({state, setState}) {
                                             content={[state.userAddress, state.userAddressDetail, state.userPostal]} 
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
-                                            isLoading={loading} />
+                                            isLoading={loading} 
+                                            adjustRowHeights={adjustRowHeights}/>
                                     </tr>
                                     <tr>
                                         <th className="w-[40%]">이메일</th>
