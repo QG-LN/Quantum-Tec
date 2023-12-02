@@ -57,8 +57,8 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
     useEffect(() => {
         if (prevEditingId === id[0]) {
             handleClick(false);
-            adjustRowHeights();
         }
+        adjustRowHeights();
 
         setPrevEditingId(editingId);
     }, [editingId]);
