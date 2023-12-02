@@ -1,11 +1,28 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import {EditingContext} from './Detail/User/profileInfo';
-//import {EditingContext} from './Detail/Game/profileInfo';
+// import {EditingContext} from './Detail/User/profileInfo';
+// import {EditingContext} from './Detail/Game/profileInfo';
 
+let editingId = null;
+let setEditingId = null;
+let originalContent = null;
+let setOriginalContent = null;
+
+function setEditingValue(newValue){
+    editingId = newValue.editingId;
+    setEditingId = newValue.setEditingId;
+    originalContent = newValue.originalContent;
+    setOriginalContent = newValue.setOriginalContent;
+}
+
+/**
+ * 수정이 가능한 테이블 셀 컴포넌트
+ * @param {*} param0  id: 셀 아이디, content: 셀 내용, className: 셀 클래스, onUpdate: 수정 완료 후 실행할 함수, editable: 수정 가능 여부, isLoading: 로딩 중 여부
+ * @returns 수정이 가능한 테이블 셀 컴포넌트 반환
+ */
 function TableCell({ id, content, className, onUpdate, editable = true, isLoading }) {
-    const { editingId, setEditingId, originalContent, setOriginalContent } = useContext(EditingContext);
+    // const { editingId, setEditingId, originalContent, setOriginalContent } = useContext(EditingContext);
     const [inputValue, setInputValue] = useState(content); // 수정 중인 셀의 값
     const [showIcon, setShowIcon] = useState(false); // 수정(연필) 아이콘 표시 여부
     const inputRef = useRef(null); // 수정 중인 셀의 input 엘리먼트
@@ -53,11 +70,6 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
         }
     }, [isEditing]);
 
-
-    //input
-    const test = () => {
-    };
-
     return (
         <td 
             className={className+" position-relative pe-4"+ (editable&&!isLoading ? " cursor-text" : " cursor-not-allowed")} 
@@ -87,3 +99,4 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
 }
 
 export default TableCell;
+export {setEditingValue};

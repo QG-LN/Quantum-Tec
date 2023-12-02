@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Table } from '@mui/material';
-import TableCell from '../../tableCell';
+import TableCell, {setEditingValue} from '../../tableCell';
 import AvatarCanvas from '../../../avatarInventory/avatarCanvas';
 import {axiosRequest} from '../../../../Utils/networkUtils';
 import CircularProgress from '@mui/material/CircularProgress';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useParams } from 'react-router-dom';
 
-export const EditingContext = React.createContext();
+// export const EditingContext = React.createContext();
 
 function ProfileInfo({state, setState}) {
     const [loading, setLoading] = useState(false); // 수정 로딩 상태
@@ -81,13 +81,14 @@ function ProfileInfo({state, setState}) {
     );
   }
 
+  setEditingValue({ editingId, setEditingId, originalContent, setOriginalContent });
+
   return (
     <div className="profile-info">
         { state?.userIndex && (
             <>
             <h2>프로필 정보</h2>
             <hr />
-            <EditingContext.Provider value={{ editingId, setEditingId, originalContent, setOriginalContent }}>
                 <div className='position-relative'>
                     {/* { loading && <CircularProgress className="position-absolute top-50 start-50 translate-middle"/>} */}
                     {!state?.userUpdatedAt && ( {loading} && (
@@ -307,7 +308,10 @@ function ProfileInfo({state, setState}) {
                         </tbody>
                     </table>
                 </div>
-            </EditingContext.Provider>
+            {/* 
+                <EditingContext.Provider value={{ editingId, setEditingId, originalContent, setOriginalContent }}>
+                </EditingContext.Provider> 
+            */}
             </>
         )}
 
