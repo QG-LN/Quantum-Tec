@@ -165,7 +165,7 @@ function ProfileInfo({state, setState}) {
                             </div>
                         </Grid>
                         <Grid item xs={12} sm={12} md={3.6}>
-                            <table className='table mb-0' ref={table1Ref}>
+                            <table className='table mb-0 align-middle' ref={table1Ref}>
                                 <tbody>
                                     <tr>
                                         <th className="w-[40%]">사용자 번호</th>
@@ -231,7 +231,7 @@ function ProfileInfo({state, setState}) {
                             </table>
                         </Grid>
                         <Grid item xs={12} sm={12} md={3.6}>
-                            <table className='table m-0' ref={table2Ref}>
+                            <table className='table m-0 align-middle' ref={table2Ref}>
                                 <tbody>
                                     <tr>
                                         <th className="w-[40%]">주소</th>
@@ -294,7 +294,7 @@ function ProfileInfo({state, setState}) {
                             </table>
                         </Grid>
                         <Grid item xs={12} sm={12} md={2.8}>
-                            <table className='table m-0' ref={table3Ref}>
+                            <table className='table m-0 align-middle' ref={table3Ref}>
                                 <tbody>
                                     <tr>
                                         <th className="w-[40%]">블랙리스트</th>
