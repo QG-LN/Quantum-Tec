@@ -19,7 +19,6 @@ function TableCellRadio({ id, content, items, className, onUpdate, editable = tr
     };
     // 테이블 셀에서 포커스가 벗어나면 수정 모드 종료
     const handleChangeValue = (e) => {
-        console.log(e.target.value)
         setInputValue(e.target.value);
         if (originalContent !== e.target.value) {
             if (window.confirm("수정사항이 있습니다. 저장하시겠습니까?")) {
@@ -36,7 +35,6 @@ function TableCellRadio({ id, content, items, className, onUpdate, editable = tr
         setEditingId(null);
     };
     
-    console.log(items)
     return (
         <td 
             className={className+" position-relative pe-4"+ (editable&&!isLoading ? " cursor-text" : " cursor-not-allowed")} 

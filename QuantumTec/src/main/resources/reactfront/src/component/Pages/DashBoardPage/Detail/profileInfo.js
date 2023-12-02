@@ -81,7 +81,6 @@ function ProfileInfo({state, setState}) {
       </div>
     );
   }
-  console.log(state.userGender)
 
   return (
     <div className="profile-info">
