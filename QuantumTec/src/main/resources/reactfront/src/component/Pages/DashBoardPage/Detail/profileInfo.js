@@ -32,29 +32,30 @@ function ProfileInfo({state, setState}) {
         tables.forEach(table => {
             maxRowCount = Math.max(maxRowCount, table ? table.rows.length : 0);
         });
+        requestAnimationFrame(() =>{
+            for (let i = 0; i < maxRowCount; i++) {
 
-        for (let i = 0; i < maxRowCount; i++) {
+                // 먼저 모든 행의 높이를 'auto'로 설정하여 자연스러운 높이를 갖도록 함
+                tables.forEach(table => {
+                    if (table && table.rows[i]) {
+                        table.rows[i].style.height = 'auto';
+                    }
+                });
+                let maxHeight = 0;
 
-            // 먼저 모든 행의 높이를 'auto'로 설정하여 자연스러운 높이를 갖도록 함
-            tables.forEach(table => {
-                if (table && table.rows[i]) {
-                    table.rows[i].style.height = 'auto';
-                }
-            });
-            let maxHeight = 0;
+                tables.forEach(table => {
+                    if (table && table.rows[i]) {
+                    maxHeight = Math.max(maxHeight, table.rows[i].clientHeight);
+                    }
+                });
 
-            tables.forEach(table => {
-                if (table && table.rows[i]) {
-                maxHeight = Math.max(maxHeight, table.rows[i].clientHeight);
-                }
-            });
-
-            tables.forEach(table => {
-                if (table && table.rows[i]) {
-                table.rows[i].style.height = `${maxHeight}px`;
-                }
-            });
-        }
+                tables.forEach(table => {
+                    if (table && table.rows[i]) {
+                    table.rows[i].style.height = `${maxHeight}px`;
+                    }
+                });
+            }
+        });
     };
 
     useEffect(() => {
