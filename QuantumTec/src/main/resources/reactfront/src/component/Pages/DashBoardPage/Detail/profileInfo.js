@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Grid, Table } from '@mui/material';
 import TableCell from '../tableCell';
 import AvatarCanvas from '../../avatarInventory/avatarCanvas';
@@ -20,6 +20,55 @@ function ProfileInfo({state, setState}) {
     // const dispatch = useDispatch();
     // const states = useSelector(state => state.dashboardUserProfile.dashboardUserList);
     // const state = states.filter(e => e.userIndex === parseInt(id))[0];
+
+    const table1Ref = useRef(null);
+    const table2Ref = useRef(null);
+    const table3Ref = useRef(null);
+
+    const adjustRowHeights = () => {
+        const tables = [table1Ref.current, table2Ref.current, table3Ref.current];
+        let maxRowCount = 0;
+
+        tables.forEach(table => {
+            maxRowCount = Math.max(maxRowCount, table ? table.rows.length : 0);
+        });
+
+        for (let i = 0; i < maxRowCount; i++) {
+
+            // 먼저 모든 행의 높이를 'auto'로 설정하여 자연스러운 높이를 갖도록 함
+            tables.forEach(table => {
+                if (table && table.rows[i]) {
+                    table.rows[i].style.height = 'auto';
+                }
+            });
+            let maxHeight = 0;
+
+            tables.forEach(table => {
+                if (table && table.rows[i]) {
+                maxHeight = Math.max(maxHeight, table.rows[i].clientHeight);
+                }
+            });
+
+            tables.forEach(table => {
+                if (table && table.rows[i]) {
+                table.rows[i].style.height = `${maxHeight}px`;
+                }
+            });
+        }
+    };
+
+    useEffect(() => {
+        const resizeObserver = new ResizeObserver(adjustRowHeights);
+
+        [table1Ref, table2Ref, table3Ref].forEach(ref => {
+        if (ref.current) {
+            Array.from(ref.current.rows).forEach(row => {
+            resizeObserver.observe(row);
+            });
+        }
+        });
+    }, []);
+    
     // 수정 된 셀의 내용을 저장. 
     const handleContentUpdate = (id, newContent) => {
         // if(typeof state === "object" && Object.values(state).length === 0)
@@ -115,7 +164,7 @@ function ProfileInfo({state, setState}) {
                             </div>
                         </Grid>
                         <Grid item xs={12} sm={12} md={3.6}>
-                            <table className='table mb-0'>
+                            <table className='table mb-0' ref={table1Ref}>
                                 <tbody>
                                     <tr>
                                         <th className="w-[40%]">사용자 번호</th>
@@ -181,7 +230,7 @@ function ProfileInfo({state, setState}) {
                             </table>
                         </Grid>
                         <Grid item xs={12} sm={12} md={3.6}>
-                            <table className='table m-0'>
+                            <table className='table m-0' ref={table2Ref}>
                                 <tbody>
                                     <tr>
                                         <th className="w-[40%]">주소</th>
@@ -242,8 +291,8 @@ function ProfileInfo({state, setState}) {
                                 </tbody>
                             </table>
                         </Grid>
-                        <Grid item xs={12} sm={12} md={2.7}>
-                            <table className='table m-0'>
+                        <Grid item xs={12} sm={12} md={2.8}>
+                            <table className='table m-0' ref={table3Ref}>
                                 <tbody>
                                     <tr>
                                         <th className="w-[40%]">블랙리스트</th>
