@@ -4,12 +4,13 @@ import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import {EditingContext} from './Detail/profileInfo';
 
 function TableCell({ id, content, className, onUpdate, editable = true, isLoading }) {
-    const { editingId, setEditingId, originalContent, setOriginalContent } = useContext(EditingContext);
+    const { editingId, setEditingId } = useContext(EditingContext);
+    const [originalContent, setOriginalContent] = useState(content); // 수정 전 셀의 값
     const [inputValue, setInputValue] = useState(content); // 수정 중인 셀의 값
     const [showIcon, setShowIcon] = useState(false); // 수정(연필) 아이콘 표시 여부
     const inputRef = useRef(null); // 수정 중인 셀의 input 엘리먼트
 
-    const isEditing = editingId === id; // 현재 셀이 수정 중인 셀인지 여부
+    const isEditing = Array.isArray(id) ? editingId === id[0] : editingId === id; // 현재 셀이 수정 중인 셀인지 여부
 
     // 수정이 완료되면 inputValue를 부모 컴포넌트로 전달
     const handleSave = () => {
@@ -23,7 +24,7 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
     // 테이블 셀을 클릭하면 수정 모드로 변경
     const handleEdit = () => {
         if (isEditing || !editable || isLoading) return;  // 추가된 코드
-        setEditingId(id);
+        setEditingId(Array.isArray(id) ? id[0] : id);
         setOriginalContent(inputValue);
     };
     // 테이블 셀에서 포커스가 벗어나면 수정 모드 종료
@@ -53,8 +54,19 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
     }, [isEditing]);
 
 
-    //input
-    const test = () => {
+    // 저장버튼 누르면 수정 모드 종료
+    const handleClick = (check = true) => {
+        if (originalContent !== inputValue) {
+            if (window.confirm("수정사항이 있습니다. 저장하시겠습니까?")) {
+                handleSave();
+            }
+            else{
+                setInputValue(originalContent);
+            }
+        }
+        if(check)
+            setEditingId(null);
+
     };
 
     return (
@@ -65,19 +77,48 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
             onMouseLeave={() => setShowIcon(false)}
             style={{backgroundColor: "transparent"}}
         >
-            {isEditing ? (
-                <input
-                    className='w-[100%]'
-                    type="text"
-                    value={inputValue}
-                    ref={inputRef}
-                    onKeyPress={handleKeyPress}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onBlur={handleBlur}
-                />
-            ) : (
+            {isEditing ? 
+                (Array.isArray(content) ? 
+                    (   
+                        <>
+                            {content.map((c,i)=>(
+                                <input
+                                    className='w-[100%] border-bottom text-sm'
+                                    type="text"
+                                    value={inputValue[i]}
+                                    // ref={inputRef}
+                                    // onKeyPress={handleKeyPress}
+                                    onChange={(e) => {
+                                        let temp = [...inputValue];
+                                        temp[i] = parseInt(e.target.value);
+                                        setInputValue(temp);
+                                    }}
+                                    // onBlur={handleBlur}
+                                />
+                            ))}
+                            
+                            <input
+                                className='btn btn-success btn-sm'
+                                type="button"
+                                value="저장"
+                                onClick={handleClick}/>
+                        </>
+                    )
+                    :
+                    (
+                        <input
+                            className='w-[100%]'
+                            type="text"
+                            value={inputValue}
+                            ref={inputRef}
+                            onKeyPress={handleKeyPress}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            onBlur={handleBlur}
+                        />
+                    )
+                ) : (
                 <>
-                    {content}
+                    {Array.isArray(content) ? content.join('/') : content}
                     {showIcon && <FontAwesomeIcon className='position-absolute top-50 end-0 translate-middle' icon={faPencilAlt} />}
                 </>
             )}
