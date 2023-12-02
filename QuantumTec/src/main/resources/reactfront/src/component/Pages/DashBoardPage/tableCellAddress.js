@@ -11,6 +11,7 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
     const [originalContent, setOriginalContent] = useState(content); // 수정 전 셀의 값
     const [inputValue, setInputValue] = useState(content); // 수정 중인 셀의 값
     const [showIcon, setShowIcon] = useState(false); // 수정(연필) 아이콘 표시 여부
+    const [prevEditingId, setPrevEditingId] = useState(null); // 수정 중인 셀의 input 엘리먼트
 
     const isEditing = editingId === id[0]; // 현재 셀이 수정 중인 셀인지 여부
 
@@ -38,7 +39,7 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
     };
 
     // 저장버튼 누르면 수정 모드 종료
-    const handleClick = () => {
+    const handleClick = (check = true) => {
         if (originalContent !== inputValue) {
             if (window.confirm("수정사항이 있습니다. 저장하시겠습니까?")) {
                 handleSave();
@@ -47,15 +48,19 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
                 setInputValue(originalContent);
             }
         }
-        setEditingId(null);
+        if(check)
+            setEditingId(null);
 
     };
 
     // 포커스를 잃으면 수정 모드 종료
     useEffect(() => {
-        if (editingId !== id[0] && editingId !== null) {
-            handleClick();
+        if (prevEditingId === id[0]) {
+            handleClick(false);
+            adjustRowHeights();
         }
+
+        setPrevEditingId(editingId);
     }, [editingId]);
 
     const handleClose = () => {
