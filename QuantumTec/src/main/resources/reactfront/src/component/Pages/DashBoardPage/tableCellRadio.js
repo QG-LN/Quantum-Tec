@@ -45,17 +45,22 @@ function TableCellRadio({ id, content, items, className, onUpdate, editable = tr
         >
             {isEditing ? (
                 items.map((item) => (
-                    <label onClick={e=>e.stopPropagation()}>
+                    <>
                         <input
-                            className='form-check-input'
+                            className='btn-check'
+                            name={id}
+                            autocomplete="off" 
                             type="radio"
                             value={item}
+                            id={item}
                             ref={inputRef}
                             onClick={handleChangeValue}
                             checked={inputValue === item}
                         />
-                        {item}
-                    </label>
+                        <label className="btn btn-sm" onClick={e=>e.stopPropagation()} for={item}>
+                            {item}
+                        </label>
+                    </>
                 ))
             ) : (
                 <>
