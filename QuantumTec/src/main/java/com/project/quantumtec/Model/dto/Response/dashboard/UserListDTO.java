@@ -57,7 +57,21 @@ public class UserListDTO {
         dto.userID = userListVO.getUserID();
         dto.userBirth = userListVO.getUserBirth();
         dto.userEmail = userListVO.getUserEmail();
-        dto.userGender = userListVO.getUserGender();
+        // 성별 m, f, p를 각각 남자, 여자, 비공개로 변환
+        // dto.userGender = userListVO.getUserGender();
+        switch (userListVO.getUserGender()) {
+            case "m":
+                dto.userGender = "남자";
+                break;
+            case "f":
+                dto.userGender = "여자";
+                break;
+            case "p":
+                dto.userGender = "비공개";
+                break;
+            default:
+                break;
+        }
         dto.userAddress = userListVO.getUserAddress();
         dto.userAddressDetail = userListVO.getUserAddressDetail();
         dto.userCreateAt = userListVO.getUserCreatedAt();
