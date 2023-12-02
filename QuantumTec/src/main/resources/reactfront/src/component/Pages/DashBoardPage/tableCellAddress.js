@@ -6,7 +6,19 @@ import AddressModal from '../LoginPage/AddressModal';
 import Modal from "react-bootstrap/Modal";
 import DaumPostcode from "react-daum-postcode";
 
-function TableCell({ id, content, className, onUpdate, editable = true, isLoading, adjustRowHeights }) {
+/**
+ * TableCellAddress 컴포넌트는 대시보드 테이블의 주소셀을 나타냅니다.
+ * @param {Object} props - TableCellAddress 컴포넌트의 속성
+ * @param {string|array} props.id - 셀의 고유 식별자
+ * @param {string|array} props.content - 셀의 내용
+ * @param {string} props.className - 셀의 클래스 이름
+ * @param {function} props.onUpdate - 셀 내용이 업데이트될 때 호출되는 콜백 함수
+ * @param {boolean} [props.editable=true] - 셀이 편집 가능한지 여부
+ * @param {boolean} props.isLoading - 셀이 로딩 중인지 여부
+ * @param {function} props.adjustRowHeights - 테이블 행의 높이를 조정하는 함수
+ * @returns {JSX.Element} TableCellAddress 컴포넌트의 JSX 요소
+ */
+function TableCellAddress({ id, content, className, onUpdate, editable = true, isLoading, adjustRowHeights }) {
     const { editingId, setEditingId } = useContext(EditingContext);
     const [originalContent, setOriginalContent] = useState(content); // 수정 전 셀의 값
     const [inputValue, setInputValue] = useState(content); // 수정 중인 셀의 값
@@ -134,4 +146,4 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
     );
 }
 
-export default TableCell;
+export default TableCellAddress;

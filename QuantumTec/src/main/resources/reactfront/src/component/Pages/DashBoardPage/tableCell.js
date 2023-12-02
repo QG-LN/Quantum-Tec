@@ -3,6 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import {EditingContext} from './Detail/profileInfo';
 
+/**
+ * TableCell 컴포넌트는 대시보드 테이블의 셀을 나타냅니다.
+ * @param {Object} props - TableCell 컴포넌트의 속성
+ * @param {string|array} props.id - 셀의 고유 식별자
+ * @param {string|array} props.content - 셀의 내용
+ * @param {string} props.className - 셀의 클래스 이름
+ * @param {function} props.onUpdate - 셀 내용이 업데이트될 때 호출되는 콜백 함수
+ * @param {boolean} [props.editable=true] - 셀이 편집 가능한지 여부
+ * @param {boolean} props.isLoading - 셀이 로딩 중인지 여부
+ * @returns {JSX.Element} TableCell 컴포넌트의 JSX 요소
+ */
 function TableCell({ id, content, className, onUpdate, editable = true, isLoading }) {
     const { editingId, setEditingId } = useContext(EditingContext);
     const [originalContent, setOriginalContent] = useState(content); // 수정 전 셀의 값

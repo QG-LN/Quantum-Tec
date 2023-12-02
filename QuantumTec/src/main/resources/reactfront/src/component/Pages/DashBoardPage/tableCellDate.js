@@ -3,6 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import {EditingContext} from './Detail/profileInfo';
 
+/**
+ * TableCellDate 컴포넌트는 대시보드 테이블의 달력셀을 나타냅니다.
+ * @param {Object} props - TableCellDate 컴포넌트의 속성
+ * @param {string} props.id - 셀의 고유 식별자
+ * @param {string} props.content - 셀의 내용
+ * @param {string} props.className - 셀의 클래스 이름
+ * @param {function} props.onUpdate - 셀 내용이 업데이트될 때 호출되는 콜백 함수
+ * @param {boolean} [props.editable=true] - 셀이 편집 가능한지 여부
+ * @param {boolean} props.isLoading - 셀이 로딩 중인지 여부
+ * @returns {JSX.Element} TableCellDate 컴포넌트의 JSX 요소
+ */
 function TableCellDate({ id, content, className, onUpdate, editable = true, isLoading }) {
     const { editingId, setEditingId, originalContent, setOriginalContent } = useContext(EditingContext);
     const [inputValue, setInputValue] = useState(content); // 수정 중인 셀의 값
