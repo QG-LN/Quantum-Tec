@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TablePage from '../../gamePage';
 import LogDetailTableRow from '../../../log-detail-table-row';
 import {axiosRequest} from '../../../../Utils/networkUtils';
+
 function LogDetail({state}) {
     const logDetailHeadLabel = [
         { id: 'title', label: '활동사항', align: 'center' },

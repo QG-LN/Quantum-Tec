@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import {axiosRequest} from '../../../../Utils/networkUtils';
-import TablePage from '../../gamePage';
+import TablePage from '../../tablePage';
 import ItemTableRow from '../../../item-table-row';
 function GameItems({state,setState}) {
 
-    
     const [filter, setFilter] = useState("all");
     const [userItems, setUserItems] = useState([]);
     const itemHeadLabel = [
@@ -18,13 +17,13 @@ function GameItems({state,setState}) {
         { id: 'paymentDate', label: '환불 일자', align: 'center' },
     ];
     useEffect(() => {
-        if (!state.userIndex) {
+        if (!state.gameIndex) {
             // userIndex가 없다면, 요청을 보내지 않습니다.
             return;
         }
         const path = 'dashboard/userinfo/itemlist';
         const body = {
-            userIndex: state.userIndex
+            gameIndex: state.gameIndex
         }
         axiosRequest(path, body, 'POST', 'json')
             .then((response) => {
@@ -34,7 +33,7 @@ function GameItems({state,setState}) {
             .catch((error) => {
                 console.log(error);
             });
-    }, [state.userIndex]);
+    }, [state.gameIndex]);
 
     const filteredPayments = userItems.filter(payment => {
         if (filter === "all") return true;

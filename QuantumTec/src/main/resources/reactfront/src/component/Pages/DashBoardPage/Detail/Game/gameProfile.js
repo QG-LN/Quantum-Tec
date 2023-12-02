@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ProfileInfo from './gameProfileInfo';
 import AccountManagement from './accountManagement';
-import UserItems from './gameItems';
+import GameItems from './gameItems';
 import ActivityGraph from './activityGraph';
 
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useLocation } from 'react-router-dom';
-import LogDetail from './logDetail';
+import LogDetail from './gameLogDetail';
 function GameProfile() {
   const location = useLocation();
   const [state, setState] = useState(location.state ? location.state.row : {});
@@ -47,7 +47,7 @@ function GameProfile() {
 
                 <ProfileInfo state={state} setState={setState}/>
                 <div className='m-5'></div>
-                <UserItems state={state} />
+                <GameItems state={state} />
                 <div className='m-5'></div>
                 <LogDetail state={state} />
                 <div className='m-5'></div>
