@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Grid, Table } from '@mui/material';
 import TableCell from '../tableCell';
 import AvatarCanvas from '../../avatarInventory/avatarCanvas';
 import {axiosRequest} from '../../../Utils/networkUtils';
 import CircularProgress from '@mui/material/CircularProgress';
+import TableCellRadio from '../tableCellRadio';
+import TableCellDate from '../tableCellDate';
+import TableCellAddress from '../tableCellAddress';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useParams } from 'react-router-dom';
 
@@ -17,6 +20,56 @@ function ProfileInfo({state, setState}) {
     // const dispatch = useDispatch();
     // const states = useSelector(state => state.dashboardUserProfile.dashboardUserList);
     // const state = states.filter(e => e.userIndex === parseInt(id))[0];
+
+    const table1Ref = useRef(null);
+    const table2Ref = useRef(null);
+    const table3Ref = useRef(null);
+
+    const adjustRowHeights = () => {
+        const tables = [table1Ref.current, table2Ref.current, table3Ref.current];
+        let maxRowCount = 0;
+
+        tables.forEach(table => {
+            maxRowCount = Math.max(maxRowCount, table ? table.rows.length : 0);
+        });
+        requestAnimationFrame(() =>{
+            for (let i = 0; i < maxRowCount; i++) {
+
+                // 먼저 모든 행의 높이를 'auto'로 설정하여 자연스러운 높이를 갖도록 함
+                tables.forEach(table => {
+                    if (table && table.rows[i]) {
+                        table.rows[i].style.height = 'auto';
+                    }
+                });
+                let maxHeight = 0;
+
+                tables.forEach(table => {
+                    if (table && table.rows[i]) {
+                    maxHeight = Math.max(maxHeight, table.rows[i].clientHeight);
+                    }
+                });
+
+                tables.forEach(table => {
+                    if (table && table.rows[i]) {
+                    table.rows[i].style.height = `${maxHeight}px`;
+                    }
+                });
+            }
+        });
+    };
+
+    useEffect(() => {
+        const resizeObserver = new ResizeObserver(adjustRowHeights);
+
+        [table1Ref, table2Ref, table3Ref].forEach(ref => {
+        if (ref.current) {
+            Array.from(ref.current.rows).forEach(row => {
+            resizeObserver.observe(row);
+            });
+        }
+        });
+    }, []);
+    
     // 수정 된 셀의 내용을 저장. 
     const handleContentUpdate = (id, newContent) => {
         // if(typeof state === "object" && Object.values(state).length === 0)
@@ -32,20 +85,33 @@ function ProfileInfo({state, setState}) {
             userNickname: state.userNickname,
             userAddress: state.userAddress,
             userAddressDetail: state.userAddressDetail,
+            userPostal: state.userPostal,
             userEmail: state.userEmail,
             userBirth: state.userBirth,
             userGender: state.userGender,
             userRole: state.userRole,
-            userMemo: state.userMemo
+            userMemo: state.userMemo,
+            userCash: state.userCash,
+            userFreeCash: state.userFreeCash,
         };
-        body[id] = newContent;
+        // 만역 id가 배열형태라면
+        if(Array.isArray(id)){
+            for(let i=0; i<id.length; i++){
+                body[id[i]] = newContent[i];
+            }
+        }
+        else
+            body[id] = newContent;
 
         axiosRequest(path, body, 'POST', 'json')
             .then((response) => {
                 if(response){
                     setState(prevState => ({
                         ...prevState,
+                        // 만약 id가 배열형태라면
+                        ...(Array.isArray(id) ? id.reduce((acc, cur, i) => ({...acc, [cur]: newContent[i]}), {}) : {
                         [id]: newContent
+                        })
                     }));
                 }
                 else{
@@ -96,11 +162,11 @@ function ProfileInfo({state, setState}) {
                     <Grid container>
                         <Grid item xs={12} sm={12} md={2} className='pt-3'>
                             <div>
-                                <AvatarCanvas size={[512,512]} />
+                                <AvatarCanvas size={[512,512]} avatarItemList={state.avatarItemList}/>
                             </div>
                         </Grid>
                         <Grid item xs={12} sm={12} md={3.6}>
-                            <table className='table mb-0'>
+                            <table className='table mb-0 align-middle' ref={table1Ref}>
                                 <tbody>
                                     <tr>
                                         <th className="w-[40%]">사용자 번호</th>
@@ -154,9 +220,10 @@ function ProfileInfo({state, setState}) {
                                     </tr>
                                     <tr>
                                         <th className="w-[40%]">성별</th>
-                                        <TableCell 
+                                        <TableCellRadio
                                             id="userGender"
-                                            content={state.userGender == "m" ? "남자" : "여자"}
+                                            content={state.userGender}
+                                            items={["남자", "여자", "비공개"]}
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
                                             isLoading={loading} />
@@ -165,16 +232,17 @@ function ProfileInfo({state, setState}) {
                             </table>
                         </Grid>
                         <Grid item xs={12} sm={12} md={3.6}>
-                            <table className='table m-0'>
+                            <table className='table m-0 align-middle' ref={table2Ref}>
                                 <tbody>
                                     <tr>
                                         <th className="w-[40%]">주소</th>
-                                        <TableCell 
-                                            id="userAddress"
-                                            content={state.userAddress + " " + state.userAddressDetail}
+                                        <TableCellAddress
+                                            id={["userAddress", "userAddressDetail", "userPostal"]}
+                                            content={[state.userAddress, state.userAddressDetail, state.userPostal]} 
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
-                                            isLoading={loading} />
+                                            isLoading={loading} 
+                                            adjustRowHeights={adjustRowHeights}/>
                                     </tr>
                                     <tr>
                                         <th className="w-[40%]">이메일</th>
@@ -196,7 +264,7 @@ function ProfileInfo({state, setState}) {
                                     </tr>
                                     <tr>
                                         <th className="w-[40%]">생년월일</th>
-                                        <TableCell 
+                                        <TableCellDate
                                             id="userBirth"
                                             content={state.userBirth}
                                             className="w-[60%]"
@@ -226,8 +294,8 @@ function ProfileInfo({state, setState}) {
                                 </tbody>
                             </table>
                         </Grid>
-                        <Grid item xs={12} sm={12} md={2.7}>
-                            <table className='table m-0'>
+                        <Grid item xs={12} sm={12} md={2.8}>
+                            <table className='table m-0 align-middle' ref={table3Ref}>
                                 <tbody>
                                     <tr>
                                         <th className="w-[40%]">블랙리스트</th>
@@ -241,9 +309,10 @@ function ProfileInfo({state, setState}) {
                                     </tr>
                                     <tr>
                                         <th className="w-[40%]">권한</th>
-                                        <TableCell 
-                                            id="permissions"
+                                        <TableCellRadio
+                                            id="userRole"
                                             content={state.userRole}
+                                            items={["admin", "user", "developer"]}
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
                                             isLoading={loading} />
@@ -251,8 +320,8 @@ function ProfileInfo({state, setState}) {
                                     <tr>
                                         <th className="w-[40%]">무료/유료 캐시</th>
                                         <TableCell
-                                            id="userFreeCash"
-                                            content={state.userFreeCash + "/" + state.userCash}
+                                            id={["userFreeCash", "userCash"]}
+                                            content={[state.userFreeCash,state.userCash]}
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
                                             isLoading={loading} />
