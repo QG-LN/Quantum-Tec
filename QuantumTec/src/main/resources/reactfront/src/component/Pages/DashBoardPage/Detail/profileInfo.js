@@ -96,7 +96,7 @@ function ProfileInfo({state, setState}) {
                     <Grid container>
                         <Grid item xs={12} sm={12} md={2} className='pt-3'>
                             <div>
-                                <AvatarCanvas size={[512,512]} />
+                                <AvatarCanvas size={[512,512]} avatarItemList={state.avatarItemList}/>
                             </div>
                         </Grid>
                         <Grid item xs={12} sm={12} md={3.6}>
