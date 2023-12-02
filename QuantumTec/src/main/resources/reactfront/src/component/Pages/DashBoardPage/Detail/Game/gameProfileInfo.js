@@ -20,7 +20,6 @@ function ProfileInfo({state, setState}) {
     };
     
   
-
   return (
     <div className="profile-info">
         <h2>게임 정보</h2>

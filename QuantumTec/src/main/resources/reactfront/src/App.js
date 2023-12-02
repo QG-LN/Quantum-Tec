@@ -36,18 +36,18 @@ import UserProfile from './component/Pages/DashBoardPage/Detail/User/userProfile
 
 //DashBoard -> game
 import GameTableRow from './component/Pages/game-table-row';
-import games from './dashboard/_mock/game';
+import games from './dashboard/_mock/game';                     // 임시데이터
 import gameHeadLabel from './dashboard/_mock/gameHeadLabel';
 import GameProfile from './component/Pages/DashBoardPage/Detail/Game/gameProfile';
 
 //DashBoard -> board
 import dBoardTableRow from './component/Pages/dboard-table-row';
-import dBoard from './dashboard/_mock/dBoard';
+import dBoard from './dashboard/_mock/dBoard';                // 임시데이터
 import dBoardHeadLabel from './dashboard/_mock/dBoardHeadLabel';
 
 //DashBoard -> payments
 import paymentsTableRow from './component/Pages/payments-table-row';
-import payments from './dashboard/_mock/payments';
+import payments from './dashboard/_mock/payments';              // 임시데이터
 import paymentsHeadLabel from './dashboard/_mock/paymentsHeadLabel';
 
 import LogDetail from './component/Pages/DashBoardPage/Detail/User/logDetail.js';
@@ -291,22 +291,23 @@ function GameDashBoardPage(){
   const dispatch = useDispatch();
   const [gameData, setGameData] = useState();
 
-  useEffect(() => {
-    console.log(111);
-    getData("dashboard/gamelist")
-      .then(data => {
-        setGameData(data);
-        dispatch(setDashboardGameProfileList(data));
-        console.log("game data", data);
-      })
-      .catch(error => {
-        console.error("데이터 로딩 중 오류 발생", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   console.log(111);
+  //   getData("dashboard/gamelist")
+  //     .then(data => {
+  //       setGameData(data);
+  //       dispatch(setDashboardGameProfileList(data));
+  //       console.log("game data", data);
+  //     })
+  //     .catch(error => {
+  //       console.error("데이터 로딩 중 오류 발생", error);
+  //     });
+  // }, []);
 
   return (
     <div className="dashboard">
-        <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={gameData}/>
+        {/* <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={gameData}/> */}
+        <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={games}/>
     </div>
   )
 }
@@ -323,14 +324,14 @@ function GameProfilePage(){
 function BoardDashBoardPage(){
   return (
     <div className="dashboard">
-        <TablePage dataRow={dBoardTableRow} dataLabel={dBoardHeadLabel} data={dBoard}/>
+        <TablePage title={"DashBaords"} dataRow={dBoardTableRow} dataLabel={dBoardHeadLabel} data={dBoard}/>
     </div>
   )
 }
 function PaymentsDashBoardPage(){
   return (
     <div className="dashboard">
-        <TablePage dataRow={paymentsTableRow} dataLabel={paymentsHeadLabel} data={payments}/>
+        <TablePage title={"Payments"} dataRow={paymentsTableRow} dataLabel={paymentsHeadLabel} data={payments}/>
     </div>
   )
 }
