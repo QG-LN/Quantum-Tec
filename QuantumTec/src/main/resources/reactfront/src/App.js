@@ -38,6 +38,7 @@ import UserProfile from './component/Pages/DashBoardPage/userProfile';
 import GameTableRow from './component/Pages/game-table-row';
 import games from './dashboard/_mock/game';
 import gameHeadLabel from './dashboard/_mock/gameHeadLabel';
+import GameProfile from './component/Pages/DashBoardPage/gameProfile';
 
 //DashBoard -> board
 import dBoardTableRow from './component/Pages/dboard-table-row';
@@ -95,6 +96,7 @@ function App() {
           <Route path="/dashboard/user/:id" element={<UserProfilePage />}/>
           <Route path="/dashboard/user/:id/log" element={<LogDetailPage />}/>
           <Route path="/dashboard/game" element={<GameDashBoardPage />}/>
+          <Route path="/dashboard/game/:id" element={<GameProfilePage />}/>
           <Route path="/dashboard/board" element={<BoardDashBoardPage />}/>
           <Route path="/dashboard/payments" element={<PaymentsDashBoardPage/>}/>
           <Route path="/dashboard/home" element={<HomeDashBoardPage />}/>
@@ -291,6 +293,16 @@ function GameDashBoardPage(){
     </div>
   )
 }
+
+function GameProfilePage(){
+  return (
+    <div className="dashboard">
+        <GameProfile />
+    </div>
+  )
+}
+
+
 function BoardDashBoardPage(){
   return (
     <div className="dashboard">
