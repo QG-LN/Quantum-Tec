@@ -24,7 +24,12 @@ import ExportDataToExcelButton from "../../exportData/exportData";
 import {headerMappingUser, headerMappingUserPayment, headerMappingUserActive} from "../../exportData/headerMapping";
 
 // ----------------------------------------------------------------------
-
+// styled를 사용하여 커스텀 Container 컴포넌트 생성
+const CustomContainer = styled(Container)(({ theme, margin }) => ({
+  "@media (min-width: 1200px)": {
+    marginLeft: margin === undefined ? "279px" : "0px",
+  },
+}));
 export default function TablePage(props) {
   const [page, setPage] = useState(0);
 
@@ -91,14 +96,10 @@ export default function TablePage(props) {
     inputData: Array.isArray(props.data) ? props.data : [],
     comparator: getComparator(order, orderBy),
     filterName,
+    headLabel: props.dataLabel,
   });
 
   const notFound = !dataFiltered.length && !!filterName;
-  const Styles = styled("div")({
-    "@media (min-width: 1200px)": {
-      marginLeft: (props.margin===undefined?"279px":"0px"),
-    },
-  });
 
   const location = useLocation(); // 현재 경로를 가져옴
 
@@ -106,7 +107,7 @@ export default function TablePage(props) {
    * 경로를 /로 나누고 2번째 인덱스를 대문자로 바꿔서 페이지 이름으로 사용
    * ex) /admin/user -> USER
    */
-  // const pageName = location.pathname.split("/")[2].toUpperCase(); 
+  // const pageName = location.pathname.split("/")[2].toUpperCase();
   const pageName = props.title !== undefined ? props.title.toUpperCase() : ""; // props.title을 페이지 이름으로 사용
 
   const header = props.dataLabel.map((item) => (item.label ?? ""));
@@ -127,7 +128,7 @@ export default function TablePage(props) {
     }else{
       return null;
     }
-    
+
   }
 
   const data = props.data.map((item) => {
@@ -152,11 +153,16 @@ export default function TablePage(props) {
   });
 
   return (
-    <Styles>
-      <Container className={props.title!==""?'mt-[12vh]':''}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h5">
-            {pageName === undefined ? "" : pageName.split("_")[0]}
+    <>
+      <CustomContainer style={{ marginTop: "100px" }} margin={props.margin}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+        >
+          <Typography variant="h4">
+              {pageName === undefined ? "" : pageName.split("_")[0]}
           </Typography>
           <div className="left-0 flex">
             <div class='mr-5'>
@@ -188,7 +194,7 @@ export default function TablePage(props) {
                   headLabel={props.dataLabel}
                   />
 
-                <TableBody> 
+                <TableBody>
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
@@ -204,7 +210,7 @@ export default function TablePage(props) {
                     emptyRows={emptyRows(page, rowsPerPage, props.data.length)}
                   />
 
-                  {notFound && <TableNoData query={filterName} />}
+                  {notFound && <TableNoData query={filterName} col={props.dataLabel.length}/>}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -220,7 +226,7 @@ export default function TablePage(props) {
             onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </Card>
-      </Container>
-    </Styles>
+      </CustomContainer>
+    </>
   );
 }
