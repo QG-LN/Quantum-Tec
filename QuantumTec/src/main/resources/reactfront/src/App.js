@@ -3,12 +3,12 @@ import './styles.css';
 import  Navbar from './component/navbar.js';
 import Header from './component/Pages/MainPage/header.js';
 import Section from './component/Pages/MainPage/section.js';
-import Aside from './component/Pages/MainPage/asideLogin';
+
 import Footer from './component/footer.js';
 import Loginpage from './component/Pages/LoginPage/login.js';
 import Signpage from './component/Pages/LoginPage/sign.js';
 import MyMain from './component/Pages/MyPage/mymain';
-import PasswordChk from './component/Pages/MyPage/passwordChk';
+
 import GamePage from './component/Pages/GamePage/gamepage.js';
 import BoardPage from './component/Pages/BoardPage/board.js';
 import PostPage from './component/Pages/BoardPage/post.js';
@@ -29,7 +29,7 @@ import DashboardHome from './component/Pages/DashBoardPage/dashboardHome';
 
 //DashBoard -> user
 import UserTableRow from './component/Pages/user-table-row';
-import {getUsersData} from './component/Pages/DashBoardPage/Data/user.js';
+import { getData } from './component/Pages/DashBoardPage/Data/loadTableDataList.js';
 import userHeadLabel from './dashboard/_mock/userHeadLabel';
 
 import UserProfile from './component/Pages/DashBoardPage/Detail/User/userProfile.js';
@@ -54,12 +54,11 @@ import LogDetail from './component/Pages/DashBoardPage/Detail/User/logDetail.js'
 
 import { useDispatch } from 'react-redux';
 import { setDashboardUserProfileList } from './redux/actions/dashboardUserProfileAction.js';
-import { get } from 'react-hook-form';
+import { setDashboardGameProfileList } from './redux/actions/dashboardGameProfileAction.js';
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
-    const redirectToHome = () => <Navigate to="/dashboard/home" replace />;
 
     truelogin = '';
   return (
@@ -246,10 +245,11 @@ function UserDashBoardPage() {
 
   useEffect(() => {
     
-    getUsersData()
+    getData("dashboard/userlist")
       .then(data => {
         setUsersData(data);
         dispatch(setDashboardUserProfileList(data));
+        console.log("user data", data);
       })
       .catch(error => {
         console.error("데이터 로딩 중 오류 발생", error);
@@ -269,7 +269,7 @@ function UserProfilePage(){
   const [usersData, setUsersData] = useState();
 
   useEffect(() => {
-    getUsersData()
+    getData("dashboard/userlist")
       .then(data => {
         setUsersData(data);
         dispatch(setDashboardUserProfileList(data));
@@ -287,9 +287,26 @@ function UserProfilePage(){
 }
 
 function GameDashBoardPage(){
+  console.log(1);
+  const dispatch = useDispatch();
+  const [gameData, setGameData] = useState();
+
+  useEffect(() => {
+    console.log(111);
+    getData("dashboard/gamelist")
+      .then(data => {
+        setGameData(data);
+        dispatch(setDashboardGameProfileList(data));
+        console.log("game data", data);
+      })
+      .catch(error => {
+        console.error("데이터 로딩 중 오류 발생", error);
+      });
+  }, []);
+
   return (
     <div className="dashboard">
-        <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={games}/>
+        <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={gameData}/>
     </div>
   )
 }
