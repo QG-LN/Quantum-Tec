@@ -244,9 +244,10 @@ function ProfileInfo({state, setState}) {
                                     </tr>
                                     <tr>
                                         <th className="w-[40%]">권한</th>
-                                        <TableCell 
-                                            id="permissions"
+                                        <TableCellRadio
+                                            id="userRole"
                                             content={state.userRole}
+                                            items={["admin", "user", "developer"]}
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
                                             isLoading={loading} />
