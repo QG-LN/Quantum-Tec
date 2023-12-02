@@ -1,8 +1,20 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import {EditingContext} from './Detail/profileInfo';
-//import {EditingContext} from './Detail/Game/profileInfo';
+// import {EditingContext} from './Detail/User/profileInfo';
+// import {EditingContext} from './Detail/Game/profileInfo';
+
+let editingId = null;           //
+let setEditingId = null;
+let originalContent = null;     // 수정 전 셀의 값
+let setOriginalContent = null;
+
+function setEditingValue(newValue){
+    editingId = newValue.editingId;
+    setEditingId = newValue.setEditingId;
+    originalContent = newValue.originalContent;
+    setOriginalContent = newValue.setOriginalContent;
+}
 
 /**
  * TableCell 컴포넌트는 대시보드 테이블의 셀을 나타냅니다.
@@ -16,13 +28,13 @@ import {EditingContext} from './Detail/profileInfo';
  * @returns {JSX.Element} TableCell 컴포넌트의 JSX 요소
  */
 function TableCell({ id, content, className, onUpdate, editable = true, isLoading }) {
-    const { editingId, setEditingId } = useContext(EditingContext);
-    const [originalContent, setOriginalContent] = useState(content); // 수정 전 셀의 값
+    // const { editingId, setEditingId, originalContent, setOriginalContent } = useContext(EditingContext);
     const [inputValue, setInputValue] = useState(content); // 수정 중인 셀의 값
     const [showIcon, setShowIcon] = useState(false); // 수정(연필) 아이콘 표시 여부
     const inputRef = useRef(null); // 수정 중인 셀의 input 엘리먼트
     const [prevEditingId, setPrevEditingId] = useState(null); // 수정 중인 셀의 input 엘리먼트
 
+    // const isEditing = editingId === id; // 현재 셀이 수정 중인 셀인지 여부
     const isEditing = Array.isArray(id) ? editingId === id[0] : editingId === id; // 현재 셀이 수정 중인 셀인지 여부
 
     // 수정이 완료되면 inputValue를 부모 컴포넌트로 전달
@@ -37,6 +49,7 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
     // 테이블 셀을 클릭하면 수정 모드로 변경
     const handleEdit = () => {
         if (isEditing || !editable || isLoading) return;  // 추가된 코드
+        // setEditingId(id);
         setEditingId(Array.isArray(id) ? id[0] : id);
         setOriginalContent(inputValue);
     };
@@ -60,6 +73,11 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
     }
 
     // 수정 모드가 되면 input 엘리먼트에 포커스
+    // useEffect(() => {
+    //     if (isEditing && inputRef.current) {
+    //         inputRef.current.focus();
+    //     }
+    // }, [isEditing]);
     useEffect(() => {
         if(Array.isArray(id)){
 
@@ -100,47 +118,59 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
             onMouseLeave={() => setShowIcon(false)}
             style={{backgroundColor: "transparent"}}
         >
-            {isEditing ? 
-                (Array.isArray(content) ? 
-                    (   
-                        <>
-                            {content.map((c,i)=>(
+            {/*{isEditing ? (*/}
+            {/*    <input*/}
+            {/*        className='w-[100%]'*/}
+            {/*        type="text"*/}
+            {/*        value={inputValue}*/}
+            {/*        ref={inputRef}*/}
+            {/*        onKeyPress={handleKeyPress}*/}
+            {/*        onChange={(e) => setInputValue(e.target.value)}*/}
+            {/*        onBlur={handleBlur}*/}
+            {/*    />*/}
+            {/*) : (*/}
+            {isEditing ?
+                (Array.isArray(content) ?
+                        (
+                            <>
+                                {content.map((c,i)=>(
+                                    <input
+                                        className='w-[100%] border-bottom text-sm'
+                                        type="text"
+                                        value={inputValue[i]}
+                                        // ref={inputRef}
+                                        // onKeyPress={handleKeyPress}
+                                        onChange={(e) => {
+                                            let temp = [...inputValue];
+                                            temp[i] = parseInt(e.target.value);
+                                            setInputValue(temp);
+                                        }}
+                                        // onBlur={handleBlur}
+                                    />
+                                ))}
+
                                 <input
-                                    className='w-[100%] border-bottom text-sm'
-                                    type="text"
-                                    value={inputValue[i]}
-                                    // ref={inputRef}
-                                    // onKeyPress={handleKeyPress}
-                                    onChange={(e) => {
-                                        let temp = [...inputValue];
-                                        temp[i] = parseInt(e.target.value);
-                                        setInputValue(temp);
-                                    }}
-                                    // onBlur={handleBlur}
-                                />
-                            ))}
-                            
+                                    className='btn btn-success btn-sm'
+                                    type="button"
+                                    value="저장"
+                                    onClick={handleClick}/>
+                            </>
+                        )
+                        :
+                        (
                             <input
-                                className='btn btn-success btn-sm'
-                                type="button"
-                                value="저장"
-                                onClick={handleClick}/>
-                        </>
-                    )
-                    :
-                    (
-                        <input
-                            className='w-[100%]'
-                            type="text"
-                            value={inputValue}
-                            ref={inputRef}
-                            onKeyPress={handleKeyPress}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onBlur={handleBlur}
-                        />
-                    )
+                                className='w-[100%]'
+                                type="text"
+                                value={inputValue}
+                                ref={inputRef}
+                                onKeyPress={handleKeyPress}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                onBlur={handleBlur}
+                            />
+                        )
                 ) : (
                 <>
+                    {/*{content}*/}
                     {Array.isArray(content) ? content.join('/') : content}
                     {showIcon && <FontAwesomeIcon className='position-absolute top-50 end-0 translate-middle' icon={faPencilAlt} />}
                 </>
@@ -150,3 +180,4 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
 }
 
 export default TableCell;
+export {setEditingValue};

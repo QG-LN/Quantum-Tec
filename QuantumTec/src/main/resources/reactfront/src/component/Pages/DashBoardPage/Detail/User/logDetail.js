@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import TablePage from '../userPage';
-import LogDetailTableRow from '../../log-detail-table-row';
-import {axiosRequest} from '../../../Utils/networkUtils';
+import TablePage from '../../tablePage';
+import LogDetailTableRow from '../../../log-detail-table-row';
+import {axiosRequest} from '../../../../Utils/networkUtils';
 import ActivityGraph from './activityGraph';
 function LogDetail({state}) {
     const logDetailHeadLabel = [
@@ -33,7 +33,7 @@ function LogDetail({state}) {
             {/* <TablePage margin={false} createButton={false} title={"활동사항_"+state.userName} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} /> */}
 
             { state?.userID && (
-                <TablePage margin={false} createButton={false} title={"활동 사항_"+state.userName} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} />
+                <TablePage margin={false} createButton={false} title={"활동사항_"+state.userName} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} />
             )}
 
             <div className='m-5'></div>

@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import ProfileInfo from './Detail/profileInfo';
-import AccountManagement from './Detail/accountManagement';
-import UserItems from './Detail/userItems';
-import ActivityLog from './Detail/activityLog';
+import ProfileInfo from './profileInfo';
+import AccountManagement from './accountManagement';
+import UserItems from './userItems';
+import LogDetail from './logDetail';
 
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useLocation } from 'react-router-dom';
-import {axiosRequest} from '../../Utils/networkUtils';
-import LogDetail from './Detail/logDetail';
-import { useDispatch, useSelector } from 'react-redux';
+import {axiosRequest} from '../../../../Utils/networkUtils';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 function UserProfile({loadState}) {
-  const location = useLocation();
-  // const [state, setState] = useState(location.state ? location.state.row : {});
   const { id } = useParams();
-  const dispatch = useDispatch();
   const states = useSelector(state => state.dashboardUserProfile.dashboardUserList);
   const [state, setState] = useState(states.filter(e => e.userIndex === parseInt(id))[0]);
   

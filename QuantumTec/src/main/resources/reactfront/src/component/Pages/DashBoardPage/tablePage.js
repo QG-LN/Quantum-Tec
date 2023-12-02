@@ -21,13 +21,14 @@ import UserTableToolbar from "../user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "../utils";
 
 import ExportDataToExcelButton from "../../exportData/exportData";
-import {headerMappingUser, headerMappingUserPayment, headerMappingUserActive} from "../../exportData/headerMapping";
+import {headerMappingUser, headerMappingUserPayment, headerMappingUserActive, headerMappingGame} from "../../exportData/headerMapping";
 
 // ----------------------------------------------------------------------
 // styled를 사용하여 커스텀 Container 컴포넌트 생성
 const CustomContainer = styled(Container)(({ theme, margin }) => ({
   "@media (min-width: 1200px)": {
-    marginLeft: margin === undefined ? "279px" : "0px",
+    marginLeft: margin === undefined ? "279px" : "0px",                 // margin이 undefined이면 279px, 아니면 0px
+    maxWidth: `calc(100% - ${margin === undefined ? "279px" : "0px"})`, // margin을 포함하여 100%가 되도록 설정
   },
 }));
 export default function TablePage(props) {
@@ -125,10 +126,20 @@ export default function TablePage(props) {
       }else{
         return null;
       }
+    }else if(location.pathname.includes("/game")){
+      if (pageName.includes("GAMES")) {
+        return headerMappingGame;
+      }
     }else{
       return null;
     }
 
+  }
+
+  // 전달 받은 데이터가 없으면 null 반환
+  if (!props.data) {
+    console.error("props.data is undefined or null");
+    return null;
   }
 
   const data = props.data.map((item) => {

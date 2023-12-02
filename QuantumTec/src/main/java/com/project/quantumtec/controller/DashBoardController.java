@@ -100,6 +100,9 @@ public class DashBoardController {
     // 게임 리스트 불러오기
     @RequestMapping("/gamelist")
     public List<GameListDTO> getGameList() throws Exception{
+        for(int i = 0; i < dashBoardService.getGameList().size(); i++){
+            System.out.println(dashBoardService.getGameList().get(i).getGameName());
+        }
         return dashBoardService.getGameList();
     }
 

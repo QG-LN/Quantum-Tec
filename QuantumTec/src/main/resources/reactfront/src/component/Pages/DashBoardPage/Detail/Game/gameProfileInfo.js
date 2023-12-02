@@ -3,7 +3,7 @@ import { Grid, Table } from '@mui/material';
 import TableCell from '../../tableCell';
 import AvatarCanvas from '../../../avatarInventory/avatarCanvas';
 
-export const EditingContext = React.createContext();
+// export const EditingContext = React.createContext();
 
 function ProfileInfo({state, setState}) {
     const [editingId, setEditingId] = useState(null); // 현재 수정 중인 셀의 id
@@ -20,17 +20,15 @@ function ProfileInfo({state, setState}) {
     };
     
   
-
   return (
     <div className="profile-info">
         <h2>게임 정보</h2>
         <hr />
-        <EditingContext.Provider value={{ editingId, setEditingId, originalContent, setOriginalContent }}>
             <Grid container>
                 <Grid item xs={12} sm={12} md={2} className='pt-3'>
                     <div>
                         {/* 게임 이미지*/}
-                        <AvatarCanvas size={[512,512]} />
+                        {/* <AvatarCanvas size={[512,512]} /> */}
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={12} md={3.6}>
@@ -46,23 +44,12 @@ function ProfileInfo({state, setState}) {
                                     editable={false} />
                             </tr>
                             <tr>
-                                <th className="w-[40%]">게임명</th>
+                                <th className="w-[40%]">출시일</th>
                                 <TableCell 
-                                    id="gameName"
-                                    content={state.gameName}
+                                    id="gameReleaseDate"
+                                    content={state.gameReleaseDate}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
-                            </tr>
-                            <tr>
-                                {/* 글자 위로 아이콘 올라가는 거 해결 부탁 */}
-                                {/* 글자 크기 제한 추가 */}
-                                <th className="w-[40%]"></th>
-                                <TableCell 
-                                    id="gameId"
-                                    content={state.gameId}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} 
-                                    editable={false} />
                             </tr>
                             <tr>
                                 <th className="w-[40%]">가격</th>
@@ -71,6 +58,15 @@ function ProfileInfo({state, setState}) {
                                     content={state.userNickname}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
+                            </tr>
+                            <tr>
+                                <th className="w-[40%]">사용 가능 플랫폼</th>
+                                <TableCell 
+                                    id="gamePlatform"
+                                    content={state.gameId}
+                                    className="w-[60%]"
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false} />
                             </tr>
                             <tr>
                                 <th className="w-[40%]">게임 개발사</th>
@@ -95,10 +91,18 @@ function ProfileInfo({state, setState}) {
                                     onUpdate={handleContentUpdate} />
                             </tr>
                             <tr>
-                                <th className="w-[40%]">출시일</th>
+                                <th className="w-[40%]">게임명</th>
                                 <TableCell 
-                                    id="gameReleaseDate"
-                                    content={state.gameReleaseDate}
+                                    id="gameName"
+                                    content={state.gameName}
+                                    className="w-[60%]"
+                                    onUpdate={handleContentUpdate} />
+                            </tr>
+                            <tr>
+                                <th className="w-[40%]">게임 버전</th>
+                                <TableCell 
+                                    id="gameVersion"
+                                    content={state.gameVersion}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -110,7 +114,7 @@ function ProfileInfo({state, setState}) {
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
-                            <tr>
+                            {/* <tr>
                                 <th className="w-[40%]">게임 결제 금액</th>
                                 <TableCell 
                                     id="gamePurchaseAmount"
@@ -118,9 +122,9 @@ function ProfileInfo({state, setState}) {
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
                                     editable={false} />
-                            </tr>
+                            </tr> */}
                             <tr>
-                                <th className="w-[40%]">게임 평가/댓글</th>
+                                <th className="w-[40%]">게임 평가</th>
                                 <TableCell 
                                     id="gameReviewCount"
                                     content={state.gameReviewCount}
@@ -131,10 +135,24 @@ function ProfileInfo({state, setState}) {
                         </tbody>
                     </table>
                 </Grid>
+                <table className='table'>
+                        <tbody>
+                            <tr>
+                                {/* 글자 위로 아이콘 올라가는 거 해결 부탁 */}
+                                {/* textarea로 변경 */}
+                                <th className="w-[40%]">게임 업데이트 정보</th>
+                                <TableCell 
+                                    id="gameUpdate"
+                                    content={state.gameUpdate}
+                                    colSpan={5}
+                                    onUpdate={handleContentUpdate} />
+                            </tr>
+                        </tbody>
+                    </table>
 
             </Grid>
-            
-        </EditingContext.Provider>
+        {/* <EditingContext.Provider value={{ editingId, setEditingId, originalContent, setOriginalContent }}>  
+        </EditingContext.Provider> */}
 
     </div>
   );
