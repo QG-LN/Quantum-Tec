@@ -5,6 +5,7 @@ import AvatarCanvas from '../../avatarInventory/avatarCanvas';
 import {axiosRequest} from '../../../Utils/networkUtils';
 import CircularProgress from '@mui/material/CircularProgress';
 import TableCellRadio from '../tableCellRadio';
+import TableCellDate from '../tableCellDate';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useParams } from 'react-router-dom';
 
@@ -198,7 +199,7 @@ function ProfileInfo({state, setState}) {
                                     </tr>
                                     <tr>
                                         <th className="w-[40%]">생년월일</th>
-                                        <TableCell 
+                                        <TableCellDate
                                             id="userBirth"
                                             content={state.userBirth}
                                             className="w-[60%]"
