@@ -4,6 +4,7 @@ import TableCell from '../tableCell';
 import AvatarCanvas from '../../avatarInventory/avatarCanvas';
 import {axiosRequest} from '../../../Utils/networkUtils';
 import CircularProgress from '@mui/material/CircularProgress';
+import TableCellRadio from '../tableCellRadio';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useParams } from 'react-router-dom';
 
@@ -80,6 +81,7 @@ function ProfileInfo({state, setState}) {
       </div>
     );
   }
+  console.log(state.userGender)
 
   return (
     <div className="profile-info">
@@ -154,12 +156,19 @@ function ProfileInfo({state, setState}) {
                                     </tr>
                                     <tr>
                                         <th className="w-[40%]">성별</th>
-                                        <TableCell 
+                                        <TableCellRadio
                                             id="userGender"
-                                            content={state.userGender == "m" ? "남자" : "여자"}
+                                            content={state.userGender}
+                                            items={["남자", "여자", "비공개"]}
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
                                             isLoading={loading} />
+                                        {/* <TableCell 
+                                            id="userGender"
+                                            content={state.userGender}
+                                            className="w-[60%]"
+                                            onUpdate={handleContentUpdate}
+                                            isLoading={loading} /> */}
                                     </tr>
                                 </tbody>
                             </table>
