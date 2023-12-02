@@ -9,6 +9,7 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
     const [inputValue, setInputValue] = useState(content); // 수정 중인 셀의 값
     const [showIcon, setShowIcon] = useState(false); // 수정(연필) 아이콘 표시 여부
     const inputRef = useRef(null); // 수정 중인 셀의 input 엘리먼트
+    const [prevEditingId, setPrevEditingId] = useState(null); // 수정 중인 셀의 input 엘리먼트
 
     const isEditing = Array.isArray(id) ? editingId === id[0] : editingId === id; // 현재 셀이 수정 중인 셀인지 여부
 
@@ -48,8 +49,18 @@ function TableCell({ id, content, className, onUpdate, editable = true, isLoadin
 
     // 수정 모드가 되면 input 엘리먼트에 포커스
     useEffect(() => {
-        if (isEditing && inputRef.current) {
-            inputRef.current.focus();
+        if(Array.isArray(id)){
+
+            if (prevEditingId === id[0]) {
+                handleClick(false);
+            }
+
+            setPrevEditingId(editingId);
+        }
+        else{
+            if (isEditing && inputRef.current) {
+                inputRef.current.focus();
+            }
         }
     }, [isEditing]);
 

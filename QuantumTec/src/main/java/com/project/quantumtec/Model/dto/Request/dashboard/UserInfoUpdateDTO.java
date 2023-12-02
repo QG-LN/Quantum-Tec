@@ -18,6 +18,8 @@ public class UserInfoUpdateDTO {
 
     // USER_STATUS
     private String userMemo;            // 사용자 메모
+    private int userCash;               // 사용자 캐시
+    private int userFreeCash;           // 사용자 프리캐시
 
     private Integer update_result;
 

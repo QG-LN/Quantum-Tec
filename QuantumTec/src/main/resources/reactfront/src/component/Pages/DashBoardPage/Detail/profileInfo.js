@@ -90,7 +90,9 @@ function ProfileInfo({state, setState}) {
             userBirth: state.userBirth,
             userGender: state.userGender,
             userRole: state.userRole,
-            userMemo: state.userMemo
+            userMemo: state.userMemo,
+            userCash: state.userCash,
+            userFreeCash: state.userFreeCash,
         };
         // 만역 id가 배열형태라면
         if(Array.isArray(id)){
@@ -100,7 +102,6 @@ function ProfileInfo({state, setState}) {
         }
         else
             body[id] = newContent;
-        console.log(body);
 
         axiosRequest(path, body, 'POST', 'json')
             .then((response) => {
@@ -319,8 +320,8 @@ function ProfileInfo({state, setState}) {
                                     <tr>
                                         <th className="w-[40%]">무료/유료 캐시</th>
                                         <TableCell
-                                            id="userFreeCash"
-                                            content={state.userFreeCash + "/" + state.userCash}
+                                            id={["userFreeCash", "userCash"]}
+                                            content={[state.userFreeCash,state.userCash]}
                                             className="w-[60%]"
                                             onUpdate={handleContentUpdate}
                                             isLoading={loading} />
