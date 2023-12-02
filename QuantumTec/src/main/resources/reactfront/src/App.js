@@ -38,7 +38,7 @@ import UserProfile from './component/Pages/DashBoardPage/Detail/User/userProfile
 import GameTableRow from './component/Pages/game-table-row';
 import games from './dashboard/_mock/game';
 import gameHeadLabel from './dashboard/_mock/gameHeadLabel';
-import GameProfile from './component/Pages/DashBoardPage/gameProfile';
+import GameProfile from './component/Pages/DashBoardPage/Detail/Game/gameProfile';
 
 //DashBoard -> board
 import dBoardTableRow from './component/Pages/dboard-table-row';

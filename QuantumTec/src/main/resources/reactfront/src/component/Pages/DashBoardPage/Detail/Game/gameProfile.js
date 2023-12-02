@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import ProfileInfo from './Detail/Game/profileInfo';
-import AccountManagement from './Detail/Game/accountManagement';
-import UserItems from './Detail/Game/userItems';
-import ActivityLog from './Detail/Game/activityLog';
-import ActivityGraph from './Detail/Game/activityGraph';
+import ProfileInfo from './gameProfileInfo';
+import AccountManagement from './accountManagement';
+import UserItems from './gameItems';
+import ActivityGraph from './activityGraph';
 
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useLocation } from 'react-router-dom';
-import {axiosRequest} from '../../Utils/networkUtils';
-import LogDetail from './Detail/Game/logDetail';
+import LogDetail from './logDetail';
 function GameProfile() {
   const location = useLocation();
   const [state, setState] = useState(location.state ? location.state.row : {});

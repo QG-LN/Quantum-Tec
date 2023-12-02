@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {axiosRequest} from '../../../../Utils/networkUtils';
 import TablePage from '../../gamePage';
 import ItemTableRow from '../../../item-table-row';
-function UserItems({state,setState}) {
+function GameItems({state,setState}) {
 
     
     const [filter, setFilter] = useState("all");
@@ -44,7 +44,7 @@ function UserItems({state,setState}) {
         <div className="game-release">
         <h2>게임 릴리즈 정보</h2>
         <hr />
-        <table className='d-flex justify-content-center table text-center align-middle'>
+        {/* <table className='d-flex justify-content-center table text-center align-middle'>
             <tbody>
                 <tr>
                     <th>게임 버전</th>
@@ -59,13 +59,13 @@ function UserItems({state,setState}) {
                     <td>{state.gameUpdate}</td>
                 </tr>
             </tbody>
-        </table>
+        </table> */}
         <div className='d-flex justify-content-end'>
             <input className='form-check-input m-2' type="radio" name="filter" value="all" checked={filter === "all"} onChange={(e) => setFilter(e.target.value)} /> 전체
             <input className='form-check-input m-2' type="radio" name="filter" value="avatar" checked={filter === "avatar"} onChange={(e) => setFilter(e.target.value)} /> 아바타
             <input className='form-check-input m-2' type="radio" name="filter" value="game" checked={filter === "game"} onChange={(e) => setFilter(e.target.value)} /> 게임
         </div>
-        <table className='table text-center'>
+        {/* <table className='table text-center'>
                 <tbody>
                     <tr>
                         <th className="w-[5%]">메모</th>
@@ -75,11 +75,11 @@ function UserItems({state,setState}) {
                             colSpan={5} />
                     </tr>
                 </tbody>
-            </table>
+            </table> */}
         <TablePage margin={false} createButton={false} title={""} dataRow={ItemTableRow} dataLabel={itemHeadLabel} data={filteredPayments} />
         
         </div>
     );
 }
 
-export default UserItems;
+export default GameItems;
