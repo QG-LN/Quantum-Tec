@@ -27,7 +27,8 @@ import {headerMappingUser, headerMappingUserPayment, headerMappingUserActive} fr
 // styled를 사용하여 커스텀 Container 컴포넌트 생성
 const CustomContainer = styled(Container)(({ theme, margin }) => ({
   "@media (min-width: 1200px)": {
-    marginLeft: margin === undefined ? "279px" : "0px",
+    marginLeft: margin === undefined ? "279px" : "0px",                 // margin이 undefined이면 279px, 아니면 0px
+    maxWidth: `calc(100% - ${margin === undefined ? "279px" : "0px"})`, // margin을 포함하여 100%가 되도록 설정
   },
 }));
 export default function TablePage(props) {
