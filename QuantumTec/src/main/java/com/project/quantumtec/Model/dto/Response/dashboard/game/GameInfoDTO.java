@@ -18,4 +18,5 @@ public class GameInfoDTO {
     private String gamePurchaseTrend; // 게임 구매 추이
     private String gameRefund; // 게임 환불
     private String gameReport; // 게임 신고
+    private int gameCommentCount; // 게임 댓글 작성량
 }
