@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Grid, Table } from '@mui/material';
 import TableCell from '../../tableCell';
-import { useParams } from "react-router-dom";
 import { axiosRequest } from "../../../../Utils/networkUtils";
 import axios from "axios";
 import GameImage from '../../../GamePage/gpimage';
+import CircularProgress from '@mui/material/CircularProgress';
+import { setEditingValue } from '../../Data/editingValue';
 
 // export const EditingContext = React.createContext();
 
@@ -74,23 +75,91 @@ function ProfileInfo({state, setState}) {
         });
     }, []);
 
+    const Loading = () => {
+        return (
+          <div style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+          className='bg-black bg-gradient bg-opacity-50'>
+            <CircularProgress />
+          </div>
+        );
+      }
+
 
     // 수정 된 셀의 내용을 저장.
     const handleContentUpdate = (id, newContent) => {
-      setState((prevState) => ({
-        ...prevState,
-        [id]: newContent,
-      }));
+    //   setState((prevState) => ({
+    //     ...prevState,
+    //     [id]: newContent,
+    //   }));
+        setLoading(true);
+
+        const path = 'dashboard/gameinfo/update';
+        const body = {
+            gameIndex: state.gameIndex,
+            gameName: state.gameName,
+            gamePrice: state.gamePrice,
+
+            gamePlatform: state.gamePlatform,
+            gameVersion: state.gameVersion,
+            gameVersionUpdateDate: state.gameVersionUpdateDate,
+            gameDescription: state.gameDescription,
+            gameShortDescription: state.gameShortDescription,
+            gameMemo: state.gameMemo,
+
+            gameImageLocation: state.gameImageLocation,
+        }
+
+        if(Array.isArray(id)){
+            for(let i=0; i<id.length; i++){
+                body[id[i]] = newContent[i];
+            }
+        }else{
+            body[id] = newContent;
+        }
+
+        axiosRequest(path, body, 'POST', 'json')
+            .then((response) => {
+                if(response){
+                    setState(prevState => ({
+                        ...prevState,
+                        // 만약 id가 배열형태라면
+                        ...(Array.isArray(id) ? id.reduce((acc, cur, i) => ({...acc, [cur]: newContent[i]}), {}) : {
+                        [id]: newContent
+                        })
+                    }));
+                }
+                else{
+                    alert("수정 실패");
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
-  
+    setEditingValue({ editingId, setEditingId, originalContent, setOriginalContent });
+
   return (
     <div className="profile-info">
         <h2>게임 정보</h2>
         <hr />
+        <div className='position-relative'>
+            {!state?.gameIndex && ( {loading} && ( <Loading /> ))}
             <Grid container>
                 <Grid item xs={12} sm={12} md={4}>
-                    <div style={{ width: `auto`, height: `auto`}}>
+                    <div style={{ width: `auto`, height: `auto`}} className='mr-2 ml-2'>
                         <GameImage imgSize={[400, 200]} imgList={gameImageList} imgPath={imagePath + "/games_" + state.gameImageLocation} />
                     </div>
                 </Grid>
@@ -104,7 +173,8 @@ function ProfileInfo({state, setState}) {
                                     content={state.gameIndex}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate}
-                                    editable={false} />
+                                    editable={false} 
+                                    isLoading={loading}/>
                             </tr>
                             <tr>
                                 <th className="w-[40%]">출시일</th>
@@ -112,7 +182,9 @@ function ProfileInfo({state, setState}) {
                                     id="gameReleaseDate"
                                     content={state.gameReleaseDate}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false}
+                                    isLoading={loading}/>
                             </tr>
                             <tr>
                                 <th className="w-[40%]">가격</th>
@@ -120,7 +192,8 @@ function ProfileInfo({state, setState}) {
                                     id="gamePrice"
                                     content={state.gamePrice}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    isLoading={loading}/>
                             </tr>
                             <tr>
                                 <th className="w-[40%]">사용 가능 플랫폼</th>
@@ -129,7 +202,7 @@ function ProfileInfo({state, setState}) {
                                     content={state.gamePlatform}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
-                                    editable={false} />
+                                    isLoading={loading}/>
                             </tr>
                             <tr>
                                 <th className="w-[40%]">게임 개발사</th>
@@ -137,7 +210,18 @@ function ProfileInfo({state, setState}) {
                                     id="gameDeveloper"
                                     content={state.gameDeveloper}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    isLoading={loading}/>
+                            </tr>
+                            <tr>
+                                <th className="w-[40%]">게임 버전</th>
+                                <TableCell 
+                                    id="gameVersion"
+                                    content={state.gameVersion}
+                                    className="w-[60%]"
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false}
+                                    isLoading={loading}/>
                             </tr>
                         </tbody>
                     </table>
@@ -151,7 +235,9 @@ function ProfileInfo({state, setState}) {
                                     id="gameGenre"
                                     content={state.gameGenre}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false}
+                                    isLoading={loading}/>
                             </tr>
                             <tr>
                                 <th className="w-[40%]">게임명</th>
@@ -159,15 +245,17 @@ function ProfileInfo({state, setState}) {
                                     id="gameName"
                                     content={state.gameName}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    isLoading={loading}/>
                             </tr>
                             <tr>
-                                <th className="w-[40%]">게임 버전</th>
-                                <TableCell 
-                                    id="gameVersion"
-                                    content={state.gameVersion}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                <th className="w-[40%]">게임 이미지 위치</th>
+                                    <TableCell 
+                                        id="gameImageLocation"
+                                        content={"image/game/" + state.gameImageLocation+"/"}
+                                        className="w-[60%]"
+                                        onUpdate={handleContentUpdate} 
+                                        isLoading={loading}/>
                             </tr>
                             <tr>
                                 <th className="w-[40%]">게임 구매량</th>
@@ -175,7 +263,9 @@ function ProfileInfo({state, setState}) {
                                     id="gameSales"
                                     content={state.gameSales}
                                     className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false}
+                                    isLoading={loading}/>
                             </tr>
                             <tr>
                                 <th className="w-[40%]">게임 평가</th>
@@ -184,7 +274,18 @@ function ProfileInfo({state, setState}) {
                                     content={state.gameRating}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
-                                    editable={false} />
+                                    editable={false} 
+                                    isLoading={loading}/>
+                            </tr>
+                            <tr>
+                                <th className="w-[40%]">업데이트 날짜</th>
+                                <TableCell 
+                                    id="gameVersionUpdateDate"
+                                    content={state.gameVersionUpdateDate}
+                                    className="w-[60%]"
+                                    onUpdate={handleContentUpdate} 
+                                    editable={false} 
+                                    isLoading={loading}/>
                             </tr>
                         </tbody>
                     </table>
@@ -198,7 +299,8 @@ function ProfileInfo({state, setState}) {
                                     id="gameShortDescription"
                                     content={state.gameShortDescription}
                                     colSpan={5}
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    isLoading={loading}/>
                             </tr>
                             <tr>
                                 <th className="w-[20%]">게임 소개</th>
@@ -206,12 +308,23 @@ function ProfileInfo({state, setState}) {
                                     id="gameDescription"
                                     content={state.gameDescription}
                                     colSpan={5}
-                                    onUpdate={handleContentUpdate} />
+                                    onUpdate={handleContentUpdate} 
+                                    isLoading={loading}/>
+                            </tr>
+                            <tr>
+                                <th className="w-[20%]">게임 메모</th>
+                                <TableCell 
+                                    id="gameMemo"
+                                    content={state.gameMemo}
+                                    colSpan={5}
+                                    onUpdate={handleContentUpdate} 
+                                    isLoading={loading}/>
                             </tr>
                         </tbody>
                     </table>
                 </Grid>
             </Grid>
+        </div>
         {/* <EditingContext.Provider value={{ editingId, setEditingId, originalContent, setOriginalContent }}>  
         </EditingContext.Provider> */}
 

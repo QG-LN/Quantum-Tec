@@ -7,9 +7,7 @@ export default function GameImage(props) {
     //props로 이미지 배열을 가져옴
     const imgList = props.imgList;
     const imgPath = props.imgPath;
-
-    console.log(imgList + " " + imgPath)
-
+    
     // console.log(imgPath + "_" + imgList[0]);
     //큰 이미지 화면 초기값 설정
     const [selectImg, setSelectImg] = useState();
