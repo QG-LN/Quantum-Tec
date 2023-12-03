@@ -32,5 +32,5 @@ public class GameInfoUpdateDTO {
     // private String gameSaveDirectory; // 게임 저장 위치
     // private String gameVideoLocation; // 게임 비디오 위치
 
-    private Integer update_result;
+    // private Integer update_result;
 }
