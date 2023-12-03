@@ -123,7 +123,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public GameInfoDTO getGameInfo(GameIdDTO gameIdDTO) {
         try {
-            return sqlSession.selectOne("DashBoardService.getGameInfo");
+            return sqlSession.selectOne("DashBoardService.getGameInfo", gameIdDTO);
         } catch (Exception e) {
             return null;
         }
@@ -133,7 +133,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public List<GamePaymentListDTO> getGamePaymentList(GameIdDTO gameIdDTO) {
         try {
-            return sqlSession.selectList("DashBoardService.getGamePaymentList");
+            return sqlSession.selectList("DashBoardService.getGamePaymentList", gameIdDTO);
         } catch (Exception e) {
             return null;
         }
