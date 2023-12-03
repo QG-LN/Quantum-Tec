@@ -39,12 +39,11 @@ const headerMappingUserActive={
 const headerMappingGame = {
 	"번호" : "gameIndex",
 	"게임 이름" : "gameName",
-	"가격" : "gameType",
-	"게임 회사" : "gameDescription",
-	"장르" : "gameImage",
-	"출시일" : "gamePrice",
-	"평가" : "gameStatus",
-	"undefined" : "none"
+	"가격" : "gamePrice",
+	"개발자" : "gameDeveloper",
+	"장르" : "gameGenre",
+	"출시일" : "gameReleaseDate",
+	"평가" : "gameRating",
 }
 
 export {headerMappingUser, headerMappingUserPayment, headerMappingUserActive, headerMappingGame};
