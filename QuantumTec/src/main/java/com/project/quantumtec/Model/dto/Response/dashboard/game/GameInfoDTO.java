@@ -18,11 +18,4 @@ public class GameInfoDTO {
     private String gamePurchaseTrend; // 게임 구매 추이
     private String gameRefund; // 게임 환불
     private String gameReport; // 게임 신고
-
-    // 데이터 후처리 필요
-    //private GameTimeDTO gameAccessByTime; // 시간대 별 게임 접속량
-    private int gameAccessByDate; // 일일 게임 접속량
-    private int gameCommentCount; // 게임 댓글 작성량
-    private int gameRatingVolatility; // 게임 평점 변동성
-    private int gameTopRankTime; // 게임 탑 랭킹 시간
 }
