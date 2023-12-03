@@ -63,7 +63,7 @@ public interface DashBoardDAO {
     List<GameListDTO> getDevGameList(GameDeveloperDTO gameDeveloperDTO);
 
     // 특정 게임의 접속 시간대별 접속자 수를 불러오는 메소드 (0~23시)
-    List<GameTimeDTO> getGameAccessByTime(GameIdDTO gameIdDTO);
+    List<GameTimeVO> getGameAccessByTime(GameIdDTO gameIdDTO);
 
     // 특정 게임의 접속일자별 접속자 수를 불러오는 메소드 (최근 31일)
     List<GameDateVO> getGameAccessByDay(GameIdDTO gameIdDTO);

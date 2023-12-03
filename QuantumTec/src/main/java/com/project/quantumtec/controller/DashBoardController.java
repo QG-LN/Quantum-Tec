@@ -142,7 +142,7 @@ public class DashBoardController {
 
     // 게임 시간별 접속량 불러오기
     @PostMapping("/gameinfo/accessbytime")
-    public List<GameTimeDTO> getGameAccessByTime(@RequestBody GameIdDTO gameIdDTO) throws Exception{
+    public GameTimeDTO getGameAccessByTime(@RequestBody GameIdDTO gameIdDTO) throws Exception{
         return dashBoardService.getGameAccessByTime(gameIdDTO);
     }
 

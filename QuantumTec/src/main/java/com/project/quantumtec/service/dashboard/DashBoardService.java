@@ -59,7 +59,7 @@ public interface DashBoardService {
     List<GameListDTO> getDevGameList(GameDeveloperDTO gameDeveloperDTO);
 
     // 시간별 게임 접속량을 불러오는 메소드
-    List<GameTimeDTO> getGameAccessByTime(GameIdDTO gameIdDTO);
+    GameTimeDTO getGameAccessByTime(GameIdDTO gameIdDTO);
 
     // 일별 게임 접속량을 불러오는 메소드
     GameDateDTO getGameAccessByDay(GameIdDTO gameIdDTO);

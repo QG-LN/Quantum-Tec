@@ -158,7 +158,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
 
     // 특정 게임의 접속 시간대별 접속자 수를 불러오는 메소드 (0~23시)
     @Override
-    public List<GameTimeDTO> getGameAccessByTime(GameIdDTO gameIdDTO) {
+    public List<GameTimeVO> getGameAccessByTime(GameIdDTO gameIdDTO) {
         return sqlSession.selectList("DashBoardService.getGameAccessByTime", gameIdDTO);
     }
 
