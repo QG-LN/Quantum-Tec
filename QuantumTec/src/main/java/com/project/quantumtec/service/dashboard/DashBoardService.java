@@ -13,6 +13,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
+import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
 
 import java.util.List;
@@ -63,4 +64,7 @@ public interface DashBoardService {
 
     // 일별 게임 접속량을 불러오는 메소드
     GameDateDTO getGameAccessByDay(GameIdDTO gameIdDTO);
+
+    // 게임별 댓글 리스트를 모두 불러오는 메소드
+    List<GameCommentDTO> getGameComment(GameIdDTO request);
 }

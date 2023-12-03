@@ -15,6 +15,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameTimeDTO;
+import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
@@ -172,5 +173,11 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public int getGameCommentCount(GameIdDTO gameIdDTO) {
         return sqlSession.selectOne("DashBoardService.getGameCommentCount", gameIdDTO);
+    }
+
+    // 게임별 댓글 리스트를 모두 불러오는 메소드
+    @Override
+    public List<GameCommentDTO> getGameComment(GameIdDTO request) {
+        return sqlSession.selectList("DashBoardService.getGameComment");
     }
 }

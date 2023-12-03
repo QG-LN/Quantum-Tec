@@ -15,6 +15,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameTimeDTO;
+import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
@@ -70,4 +71,7 @@ public interface DashBoardDAO {
 
     // 특정 게임의 최근 댓글 작성량을 불러오는 메소드 (최근 7일 동안의 댓글 수)
     int getGameCommentCount(GameIdDTO gameIdDTO);
+
+    // 게임별 댓글 리스트를 모두 불러오는 메소드
+    List<GameCommentDTO> getGameComment(GameIdDTO request);
 }
