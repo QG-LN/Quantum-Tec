@@ -144,7 +144,8 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public boolean updateGameInfo(GameInfoUpdateDTO gameInfoUpdateDTO) {
         try {
-            return sqlSession.update("DashBoardService.updateGameInfo", gameInfoUpdateDTO) == 1;
+            sqlSession.update("DashBoardService.updateGameInfo", gameInfoUpdateDTO);
+            return gameInfoUpdateDTO.getUpdate_result() == 1;
         } catch (Exception e) {
             return false;
         }
