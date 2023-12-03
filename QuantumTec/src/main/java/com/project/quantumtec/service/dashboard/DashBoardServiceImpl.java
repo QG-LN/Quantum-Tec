@@ -5,6 +5,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameTimeListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
+import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
@@ -181,5 +182,10 @@ public class DashBoardServiceImpl implements DashBoardService{
             gameDateDTO.setDate(date, count);
         }
         return gameDateDTO;
+    }
+
+    @Override
+    public List<GameCommentDTO> getGameComment(GameIdDTO request) {
+        return dashBoardDAO.getGameComment(request);
     }
 }
