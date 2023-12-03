@@ -329,6 +329,21 @@ function BoardDashBoardPage(){
   )
 }
 function PaymentsDashBoardPage(){
+
+  // const dispatch = useDispatch();
+  // const [paymentsData, setPaymentsData] = useState();
+
+  // useEffect(() => {
+  //   getData("dashboard/paymentslist")
+  //     .then(data => {
+  //       setPaymentsData(data);
+  //       dispatch(setDashboardUserProfileList(data));
+  //     })
+  //     .catch(error => {
+  //       console.error("데이터 로딩 중 오류 발생", error);
+  //     });
+  // }, []);
+
   return (
     <div className="dashboard">
         <TablePage title={"Payments"} dataRow={paymentsTableRow} dataLabel={paymentsHeadLabel} data={payments}/>

@@ -7,6 +7,7 @@ import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
+import Label from '../../dashboard/components/label';
 
 import Iconify from '../../dashboard/components/iconify';
 
@@ -14,12 +15,12 @@ import Iconify from '../../dashboard/components/iconify';
 
 export default function PaymentsTableRow({row, selected, handleClick
 }) {
-  const index = row.index;
-  const payhistory = row.payhistory;
-  const userid = row.userid;
-  const paytype = row.paytype;
-  const payday = row.payday;
-  const paystates = row.paystates;
+  const index = row.paymentIndex;
+  const payhistory = row.paymentName;
+  const userid = row.userId;
+  const paytype = row.paymentMethod;
+  const payday = row.paymentDate;
+  const paystates = row.paymentStatus;
   const [open, setOpen] = useState(null);
 
   const handleOpenMenu = (event) => {
@@ -56,7 +57,7 @@ export default function PaymentsTableRow({row, selected, handleClick
         </TableCell>
 
         <TableCell align='center'>
-          {paystates}
+          <Label color={((paystates === '결제 실패' || paystates === "환불") && 'error') || 'success'}>{paystates}</Label>
         </TableCell>
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
