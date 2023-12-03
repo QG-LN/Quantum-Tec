@@ -153,23 +153,23 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     // 특정 개발사(개발자)의 게임 리스트를 불러오는 메소드
     @Override
     public List<GameListDTO> getDevGameList(GameDeveloperDTO gameDeveloperDTO) {
-        return sqlSession.selectList("DashBoardService.getDevGameList");
+        return sqlSession.selectList("DashBoardService.getDevGameList", gameDeveloperDTO);
     }
 
     // 특정 게임의 접속 시간대별 접속자 수를 불러오는 메소드 (0~23시)
     @Override
     public List<GameTimeDTO> getGameAccessByTime(GameIdDTO gameIdDTO) {
-        return sqlSession.selectList("DashBoardService.getGameAccessByTime");
+        return sqlSession.selectList("DashBoardService.getGameAccessByTime", gameIdDTO);
     }
 
     // 특정 게임의 접속일자별 접속자 수를 불러오는 메소드 (최근 31일)
     @Override
     public List<GameDateVO> getGameAccessByDay(GameIdDTO gameIdDTO) {
-        return sqlSession.selectList("DashBoardService.getGameAccessByDay");
+        return sqlSession.selectList("DashBoardService.getGameAccessByDay", gameIdDTO);
     }
     // 특정 게임의 최근 댓글 작성량을 불러오는 메소드 (최근 7일동안 댓글 수)
     @Override
     public int getGameCommentCount(GameIdDTO gameIdDTO) {
-        return sqlSession.selectOne("DashBoardService.getGameCommentCount");
+        return sqlSession.selectOne("DashBoardService.getGameCommentCount", gameIdDTO);
     }
 }
