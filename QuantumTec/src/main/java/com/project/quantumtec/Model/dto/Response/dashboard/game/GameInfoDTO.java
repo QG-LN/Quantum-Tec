@@ -10,7 +10,7 @@ public class GameInfoDTO {
     // 게임 상세 정보
     private String gameImageLocation; // 게임 이미지 위치
     private int gameSales; // 게임 판매량
-    private int gamePurchasePrice; // 게임 구매 가격
+    private int gamePrice; // 게임 구매 가격
     private String gameDescription; // 게임 설명
     // private String gameSaleInfo; // 게임 할인 정보
     private int gameDiscountRate; // 게임 할인율
@@ -21,5 +21,7 @@ public class GameInfoDTO {
     // private String gamePurchaseTrend; // 게임 구매 추이
     private String gameRefund; // 게임 환불
     // private String gameReport; // 게임 신고
-    private int gameCommentCount; // 게임 댓글 작성량
+
+    // TODO: 수정 부탁드립니다. (일, 주, 월, 총별)
+    // private int gameCommentCount; // 게임 댓글 작성량
 }

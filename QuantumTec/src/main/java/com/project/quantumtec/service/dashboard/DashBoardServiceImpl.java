@@ -138,7 +138,8 @@ public class DashBoardServiceImpl implements DashBoardService{
     public GameInfoDTO getGameInfo(GameIdDTO gameIdDTO) {
         GameInfoDTO gameInfoDTO = new GameInfoDTO();
         gameInfoDTO = dashBoardDAO.getGameInfo(gameIdDTO);
-        gameInfoDTO.setGameCommentCount(dashBoardDAO.getGameCommentCount(gameIdDTO));
+        // TODO: 게임 댓글 작성량을 가져오는 쿼리가 없어서 주석처리
+        // gameInfoDTO.setGameCommentCount(dashBoardDAO.getGameCommentCount(gameIdDTO));
         return gameInfoDTO;
     }
 
