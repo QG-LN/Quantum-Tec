@@ -161,9 +161,14 @@ public class DashBoardDAOImpl implements DashBoardDAO{
         return sqlSession.selectList("DashBoardService.getGameAccessByTime");
     }
 
-    // 특정 게임의 접속일자별 접속자 수를 불러오는 메소드 (최근 7일)
+    // 특정 게임의 접속일자별 접속자 수를 불러오는 메소드 (최근 31일)
     @Override
     public List<GameDateVO> getGameAccessByDay(GameIdDTO gameIdDTO) {
         return sqlSession.selectList("DashBoardService.getGameAccessByDay");
+    }
+    // 특정 게임의 최근 댓글 작성량을 불러오는 메소드 (최근 7일동안 댓글 수)
+    @Override
+    public int getGameCommentCount(GameIdDTO gameIdDTO) {
+        return sqlSession.selectOne("DashBoardService.getGameCommentCount");
     }
 }

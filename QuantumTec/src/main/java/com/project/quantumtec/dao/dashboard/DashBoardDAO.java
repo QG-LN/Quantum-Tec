@@ -64,12 +64,9 @@ public interface DashBoardDAO {
     // 특정 게임의 접속 시간대별 접속자 수를 불러오는 메소드 (0~23시)
     List<GameTimeVO> getGameAccessByTime(GameIdDTO gameIdDTO);
 
-    // 특정 게임의 접속일자별 접속자 수를 불러오는 메소드 (최근 7일)
+    // 특정 게임의 접속일자별 접속자 수를 불러오는 메소드 (최근 31일)
     List<GameDateVO> getGameAccessByDay(GameIdDTO gameIdDTO);
 
-    // 특정 게임의 최근 댓글 작성량을 불러오는 메소드 (최근 7일)
-
-    // 특정 게임의 최근 평점 변동성을 불러오는 메소드 (최근 7일)
-
-    // 특정 게임의 탑 랭크 시간을 불러오는 메소드 (최근 7일)
+    // 특정 게임의 최근 댓글 작성량을 불러오는 메소드 (최근 7일 동안의 댓글 수)
+    int getGameCommentCount(GameIdDTO gameIdDTO);
 }
