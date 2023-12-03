@@ -42,11 +42,13 @@ import GameProfile from './component/Pages/DashBoardPage/gameProfile';
 import dBoardTableRow from './component/Pages/dboard-table-row';
 import dBoard from './dashboard/_mock/dBoard';
 import dBoardHeadLabel from './dashboard/_mock/dBoardHeadLabel';
+import BoardsPages from './component/Pages/DashBoardPage/dboardPage.js';
 
 //DashBoard -> payments
 import paymentsTableRow from './component/Pages/payments-table-row';
 import payments from './dashboard/_mock/payments';
 import paymentsHeadLabel from './dashboard/_mock/paymentsHeadLabel';
+
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
@@ -85,12 +87,14 @@ function App() {
           <Route path="/dashboard/board" element={<BoardDashBoardPage />}/>
           <Route path="/dashboard/payments" element={<PaymentsDashBoardPage/>}/>
           <Route path="/dashboard/home" element={<HomeDashBoardPage />}/>
+          <Route path="/dashboard/board/test" element={<BoardProfilePage />}/>
         </Routes>
       </div>
       {window.location.pathname.includes('dashboard') ? null : <Footer style={{ height: "20vh" }} />}
     </Router>
   );
 }
+
 
 
 
@@ -248,6 +252,13 @@ function GameProfilePage(){
     </div>
   )
 }
+function BoardProfilePage(){
+  return (
+    <div className="dashboard">
+        <BoardsPages />
+    </div>
+  )
+}
 
 
 function BoardDashBoardPage(){
@@ -272,6 +283,7 @@ function HomeDashBoardPage(){
     </div>
   )
 }
+
 
 
 export default App;

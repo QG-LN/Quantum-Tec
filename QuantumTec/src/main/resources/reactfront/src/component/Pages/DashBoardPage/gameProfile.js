@@ -4,7 +4,6 @@ import AccountManagement from './Detail/Game/accountManagement';
 import UserItems from './Detail/Game/userItems';
 import ActivityLog from './Detail/Game/activityLog';
 import ActivityGraph from './Detail/Game/activityGraph';
-
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useLocation } from 'react-router-dom';
@@ -23,13 +22,13 @@ function GameProfile() {
     const body = {
         userIndex: state.userIndex
     }
-    // axiosRequest(path, body, 'POST', 'json')
-    //     .then((response) => {
-    //         setState(prevState => ({ ...prevState, ...response }));
-    //     })
-    //     .catch((error) => {
-    //         console.log(error);
-    //     });
+    axiosRequest(path, body, 'POST', 'json')
+        .then((response) => {
+            setState(prevState => ({ ...prevState, ...response }));
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }, [state.userIndex]);
   const Styles = styled("div")({
     "@media (min-width: 1200px)": {
