@@ -22,6 +22,7 @@ export default function PaymentsTableRow({row, selected, handleClick
   const payday = row.paymentDate;
   const paystates = row.paymentStatus;
   const [open, setOpen] = useState(null);
+  const editMenu = row.paymentStatus !== '결제 실패';
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -76,14 +77,16 @@ export default function PaymentsTableRow({row, selected, handleClick
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
+        {editMenu && (
+          <MenuItem onClick={handleCloseMenu}>
+            <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+            {paystates === '환불' ? '환불 취소' : '환불 처리'}
+          </MenuItem>
+        )}
 
         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
+          삭제
         </MenuItem>
       </Popover>
     </>
