@@ -4,10 +4,11 @@ import axios from "axios";
 export default function GameImage(props) {
 
     const imgSize = props.imgSize === undefined ? [720, 405] : props.imgSize;
-    console.log(props.imgSize);
     //props로 이미지 배열을 가져옴
     const imgList = props.imgList;
     const imgPath = props.imgPath;
+
+    console.log(imgList + " " + imgPath)
 
     // console.log(imgPath + "_" + imgList[0]);
     //큰 이미지 화면 초기값 설정
@@ -41,16 +42,16 @@ export default function GameImage(props) {
     return (
         <div style={{ width: `100%`, height: `100%` }}>
             {imgList.length > 0 ?
-                <img  style={{ width: `${imgSize[0]}px`, height: `${imgSize[1]}px` }} src={selectImg} alt='게임이미지'/> : <div>이미지가 없습니다.</div>
+                <img  style={{ width: `100%`, height: `${imgSize[1]}px`}} src={selectImg} alt='게임이미지'/> : <div>이미지가 없습니다.</div>
             }
             {/* <div class='overflow-x-scroll w-[720px] mt-4'> */}
-            <div class={`overflow-x-scroll w-[${imgSize[0]}] mt-4`}>
+            <div class={`overflow-x-scroll w-[${imgSize[0]}] mt-2`}>
                 <div className="image-slider flex">
                     <fieldset class='imgButtonStyle flex'>
                         <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] '></legend>
                         {imgList.map((image, index) => (
-                            // <label className='hover:cursor-pointer w-[160px] h-[90px]'>
-                            <label className={`w-[${imgSize[0]/ 4.5}px] h-[${imgSize[1]/4.5}px]`}>
+                            // <label className='hover:cursor-pointer w-[160] h-[90]'>
+                            <label className={`w-[${imgSize[0]/ 4.5}] h-[${imgSize[1]/4.5}]`}>
                                 <input
                                     type="radio"
                                     class='hidden'
