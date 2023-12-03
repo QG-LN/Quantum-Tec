@@ -149,6 +149,8 @@ public class DashBoardController {
     // 게임 일별 접속량 불러오기
     @PostMapping("/gameinfo/accessbyday")
     public GameDateDTO getGameAccessByDay(@RequestBody GameIdDTO gameIdDTO) throws Exception{
+        // index가 높아질 수록 최근 날짜
+        // 마지막 index는 오늘 날짜
         return dashBoardService.getGameAccessByDay(gameIdDTO);
     }
 }
