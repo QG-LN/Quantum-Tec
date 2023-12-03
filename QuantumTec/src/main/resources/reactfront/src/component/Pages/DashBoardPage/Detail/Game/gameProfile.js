@@ -14,12 +14,11 @@ import {axiosRequest} from '../../../../Utils/networkUtils';
 function GameProfile({loadState}) {
   // const location = useLocation();
   // const [state, setState] = useState(location.state ? location.state.row : {});
-  const states = useSelector(state => state.dashboardUserProfile.dashboardUserList);
+  const states = useSelector(state => state.dashboardGameProfile.dashboardGameList);
   const { id } = useParams();
-  const [state, setState] = useState(states.filter(e => e.userIndex === parseInt(id))[0]);
+  const [state, setState] = useState(states.filter(e => e.gameIndex === parseInt(id))[0]);
 
   useEffect(() => {
-    console.log(state)
     if (!state?.gameIndex) {
         // userIndex가 없다면, 요청을 보내지 않습니다.
         setState(loadState);
@@ -56,8 +55,8 @@ function GameProfile({loadState}) {
                 <ProfileInfo state={state} setState={setState}/>
                 <div className='m-5'></div>
                 <GameItems state={state} />
-                <div className='m-5'></div>
-                <LogDetail state={state} />
+                {/* <div className='m-5'></div>
+                <LogDetail state={state} /> */}
                 <div className='m-5'></div>
                 <ActivityGraph state={state} />
                 <div className='m-5'></div>

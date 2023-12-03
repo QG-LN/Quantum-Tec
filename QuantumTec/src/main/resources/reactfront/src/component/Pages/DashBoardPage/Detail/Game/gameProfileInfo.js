@@ -55,7 +55,7 @@ function ProfileInfo({state, setState}) {
                                 <th className="w-[40%]">가격</th>
                                 <TableCell 
                                     id="gamePrice"
-                                    content={state.userNickname}
+                                    content={state.gamePrice}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -63,7 +63,7 @@ function ProfileInfo({state, setState}) {
                                 <th className="w-[40%]">사용 가능 플랫폼</th>
                                 <TableCell 
                                     id="gamePlatform"
-                                    content={state.gameId}
+                                    content={state.gamePlatform}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
                                     editable={false} />
@@ -72,7 +72,7 @@ function ProfileInfo({state, setState}) {
                                 <th className="w-[40%]">게임 개발사</th>
                                 <TableCell 
                                     id="gameDeveloper"
-                                    content=""
+                                    content={state.gameDeveloper}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
@@ -114,20 +114,11 @@ function ProfileInfo({state, setState}) {
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
-                            {/* <tr>
-                                <th className="w-[40%]">게임 결제 금액</th>
-                                <TableCell 
-                                    id="gamePurchaseAmount"
-                                    content={state.gamePurchaseAmount}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} 
-                                    editable={false} />
-                            </tr> */}
                             <tr>
                                 <th className="w-[40%]">게임 평가</th>
                                 <TableCell 
-                                    id="gameReviewCount"
-                                    content={state.gameReviewCount}
+                                    id="gameRating"
+                                    content={state.gameRating}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
                                     editable={false} />
@@ -140,10 +131,10 @@ function ProfileInfo({state, setState}) {
                             <tr>
                                 {/* 글자 위로 아이콘 올라가는 거 해결 부탁 */}
                                 {/* textarea로 변경 */}
-                                <th className="w-[40%]">게임 업데이트 정보</th>
+                                <th className="w-[40%]">게임 설명</th>
                                 <TableCell 
-                                    id="gameUpdate"
-                                    content={state.gameUpdate}
+                                    id="gameShortDescription"
+                                    content={state.gameShortDescription}
                                     colSpan={5}
                                     onUpdate={handleContentUpdate} />
                             </tr>
