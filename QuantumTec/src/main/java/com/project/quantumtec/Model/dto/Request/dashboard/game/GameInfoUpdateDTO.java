@@ -8,7 +8,6 @@ public class GameInfoUpdateDTO {
     private int gameIndex; // 게임 번호
     private String gameName; // 게임 이름
     private int gamePrice; // 게임 가격
-    private int gameCategoryId; // 게임 카테고리 번호
 
     // 우측 상자에 표시될 정보
     private String gamePlatform; // 게임 플랫폼
@@ -20,12 +19,17 @@ public class GameInfoUpdateDTO {
     // 게임 상세 정보
     private String gameImageLocation; // 게임 이미지 위치
     private String gameDescription; // 게임 설명
-    // private String gameSaleInfo; // 게임 할인 정보
-    private int gameDiscountRate; // 게임 할인율
-    private String gameDiscountStartDate; // 게임 할인 시작 날짜
-    private String gameDiscountEndDate; // 게임 할인 종료 날짜
-    // private String gameSaveDirectory; // 게임 저장 위치
 
+
+    // 아래 부분은 따로 만들어야 할듯? 폼도 다르게 만들어야 하고
+    // private int gameDiscountRate; // 게임 할인율
+    // private String gameDiscountStartDate; // 게임 할인 시작 날짜
+    // private String gameDiscountEndDate; // 게임 할인 종료 날짜
+    // private int gameCategoryId; // 게임 카테고리 번호
+
+
+    // 구현 안됨
+    // private String gameSaveDirectory; // 게임 저장 위치
     // private String gameVideoLocation; // 게임 비디오 위치
 
     private Integer update_result;
