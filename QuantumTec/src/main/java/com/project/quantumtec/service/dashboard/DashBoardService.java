@@ -15,6 +15,8 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GameTimeDTO;
+import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
 
 import java.util.List;
 
@@ -58,4 +60,7 @@ public interface DashBoardService {
 
     // 특정 개발사(개발자)의 게임 리스트를 불러오는 메소드
     List<GameListDTO> getDevGameList(GameDeveloperDTO gameDeveloperDTO);
+
+    // 시간별 게임 접속량을 불러오는 메소드
+    GameTimeDTO getGameAccessByTime(GameIdDTO gameIdDTO);
 }

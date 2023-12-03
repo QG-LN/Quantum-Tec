@@ -15,6 +15,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
+import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
 import com.project.quantumtec.Model.vo.dashboard.UserListVO;
 
 import org.apache.ibatis.session.SqlSession;
@@ -151,5 +152,10 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public List<GameListDTO> getDevGameList(GameDeveloperDTO gameDeveloperDTO) {
         return sqlSession.selectList("DashBoardService.getDevGameList");
+    }
+
+    @Override
+    public List<GameTimeVO> getGameAccessByTime(GameIdDTO gameIdDTO) {
+        return sqlSession.selectList("DashBoardService.getGameAccessByTime");
     }
 }

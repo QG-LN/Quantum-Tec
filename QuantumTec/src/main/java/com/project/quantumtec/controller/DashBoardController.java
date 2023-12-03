@@ -15,6 +15,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GameTimeDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentListDTO;
 import com.project.quantumtec.service.dashboard.DashBoardService;
@@ -138,4 +139,10 @@ public class DashBoardController {
 
     // 게임 삭제 (GameService에 추가해서 불러다 쓸 예정)
     // @DeleteMapping("/gameinfo/delete")
+
+    // 게임 시간별 접속량 불러오기
+    @PostMapping("/gameinfo/accessbytime")
+    public GameTimeDTO getGameAccessByTime(@RequestBody GameIdDTO gameIdDTO) throws Exception{
+        return dashBoardService.getGameAccessByTime(gameIdDTO);
+    }
 }

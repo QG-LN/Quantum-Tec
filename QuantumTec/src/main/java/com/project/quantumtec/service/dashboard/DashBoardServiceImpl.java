@@ -9,6 +9,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameTimeDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
+import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
 import com.project.quantumtec.dao.dashboard.DashBoardDAO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
@@ -122,20 +123,6 @@ public class DashBoardServiceImpl implements DashBoardService{
 
     @Override
     public GameInfoDTO getGameInfo(GameIdDTO gameIdDTO) {
-        GameInfoDTO dto = dashBoardDAO.getGameInfo(gameIdDTO);
-        List<GameTimeListDTO> timeList = dashBoardDAO.getGameAccessList(gameIdDTO);
-        // 시간별로 카운트를 세는 클래스를 만들어 계산
-        GameTimeDTO gameTimeDTO = new GameTimeDTO();
-        for (int i = 0; i < timeList.size(); i++){
-            String startTime = timeList.get(i).getStartTime();
-            String endTime = timeList.get(i).getEndTime();
-            gameTimeDTO.countTime(startTime, endTime);
-        }
-        dto.setGameAccessByTime(gameTimeDTO);
-        dto.setGameAccessByDate();
-        dto.setGameCommentCount(dashBoardDAO.getGameCommentCount(gameIdDTO));
-        dto.setGameRatingVolatility();
-        dto.setGameTopRankTime();
         return dashBoardDAO.getGameInfo(gameIdDTO);
     }
 
@@ -152,5 +139,18 @@ public class DashBoardServiceImpl implements DashBoardService{
     @Override
     public List<GameListDTO> getDevGameList(GameDeveloperDTO gameDeveloperDTO) {
         return dashBoardDAO.getDevGameList(gameDeveloperDTO);
+    }
+
+    @Override
+    public GameTimeDTO getGameAccessByTime(GameIdDTO gameIdDTO) {
+        List<GameTimeVO> gameTimeVOList = dashBoardDAO.getGameAccessByTime(gameIdDTO);
+        GameTimeDTO gameTimeDTO = new GameTimeDTO();
+        gameTimeDTO.init();
+        for(GameTimeVO vo : gameTimeVOList){
+            int time = vo.getTime();
+            int count = vo.getCount();
+            gameTimeDTO.setTime(time, count);
+        }
+        return gameTimeDTO;
     }
 }
