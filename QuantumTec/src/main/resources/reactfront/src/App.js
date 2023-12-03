@@ -3,12 +3,12 @@ import './styles.css';
 import  Navbar from './component/navbar.js';
 import Header from './component/Pages/MainPage/header.js';
 import Section from './component/Pages/MainPage/section.js';
-import Aside from './component/Pages/MainPage/asideLogin';
+
 import Footer from './component/footer.js';
 import Loginpage from './component/Pages/LoginPage/login.js';
 import Signpage from './component/Pages/LoginPage/sign.js';
 import MyMain from './component/Pages/MyPage/mymain';
-import PasswordChk from './component/Pages/MyPage/passwordChk';
+
 import GamePage from './component/Pages/GamePage/gamepage.js';
 import BoardPage from './component/Pages/BoardPage/board.js';
 import PostPage from './component/Pages/BoardPage/post.js';
@@ -23,42 +23,42 @@ import { BrowserRouter as Router, Routes, Route, Navigate  } from 'react-router-
 import React, { useState, useEffect } from 'react';
 import AvatarInvetoryPage from "./component/Pages/avatarInventory/avatarMainPage";
 import DashBoard from './component/Pages/DashBoardPage/dashboard.js';
-import TablePage from './component/Pages/DashBoardPage/userPage';
+import TablePage from './component/Pages/DashBoardPage/tablePage';
 import DashBoardLayout from './component/Pages/DashBoardPage/dashboardLayout';
 import DashboardHome from './component/Pages/DashBoardPage/dashboardHome';
 
 //DashBoard -> user
 import UserTableRow from './component/Pages/user-table-row';
-import {getUsersData} from './component/Pages/DashBoardPage/Data/user.js';
+import { getData } from './component/Pages/DashBoardPage/Data/loadTableDataList.js';
 import userHeadLabel from './dashboard/_mock/userHeadLabel';
 
-import UserProfile from './component/Pages/DashBoardPage/userProfile';
+import UserProfile from './component/Pages/DashBoardPage/Detail/User/userProfile.js';
 
 //DashBoard -> game
 import GameTableRow from './component/Pages/game-table-row';
-import games from './dashboard/_mock/game';
+import games from './dashboard/_mock/game';                     // 임시데이터
 import gameHeadLabel from './dashboard/_mock/gameHeadLabel';
+import GameProfile from './component/Pages/DashBoardPage/Detail/Game/gameProfile';
 
 //DashBoard -> board
 import dBoardTableRow from './component/Pages/dboard-table-row';
-import dBoard from './dashboard/_mock/dBoard';
+import dBoard from './dashboard/_mock/dBoard';                // 임시데이터
 import dBoardHeadLabel from './dashboard/_mock/dBoardHeadLabel';
 
 //DashBoard -> payments
 import paymentsTableRow from './component/Pages/payments-table-row';
-import payments from './dashboard/_mock/payments';
+import payments from './dashboard/_mock/payments';              // 임시데이터
 import paymentsHeadLabel from './dashboard/_mock/paymentsHeadLabel';
 
-import LogDetail from './component/Pages/DashBoardPage/Detail/logDetail.js';
+import LogDetail from './component/Pages/DashBoardPage/Detail/User/logDetail.js';
 
 import { useDispatch } from 'react-redux';
 import { setDashboardUserProfileList } from './redux/actions/dashboardUserProfileAction.js';
-import { get } from 'react-hook-form';
+import { setDashboardGameProfileList } from './redux/actions/dashboardGameProfileAction.js';
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
-    const redirectToHome = () => <Navigate to="/dashboard/home" replace />;
 
     truelogin = '';
   return (
@@ -95,6 +95,7 @@ function App() {
           <Route path="/dashboard/user/:id" element={<UserProfilePage />}/>
           <Route path="/dashboard/user/:id/log" element={<LogDetailPage />}/>
           <Route path="/dashboard/game" element={<GameDashBoardPage />}/>
+          <Route path="/dashboard/game/:id" element={<GameProfilePage />}/>
           <Route path="/dashboard/board" element={<BoardDashBoardPage />}/>
           <Route path="/dashboard/payments" element={<PaymentsDashBoardPage/>}/>
           <Route path="/dashboard/home" element={<HomeDashBoardPage />}/>
@@ -244,10 +245,11 @@ function UserDashBoardPage() {
 
   useEffect(() => {
     
-    getUsersData()
+    getData("dashboard/userlist")
       .then(data => {
         setUsersData(data);
         dispatch(setDashboardUserProfileList(data));
+        console.log("user data", data);
       })
       .catch(error => {
         console.error("데이터 로딩 중 오류 발생", error);
@@ -267,7 +269,7 @@ function UserProfilePage(){
   const [usersData, setUsersData] = useState();
 
   useEffect(() => {
-    getUsersData()
+    getData("dashboard/userlist")
       .then(data => {
         setUsersData(data);
         dispatch(setDashboardUserProfileList(data));
@@ -285,23 +287,51 @@ function UserProfilePage(){
 }
 
 function GameDashBoardPage(){
+  console.log(1);
+  const dispatch = useDispatch();
+  const [gameData, setGameData] = useState();
+
+  // useEffect(() => {
+  //   console.log(111);
+  //   getData("dashboard/gamelist")
+  //     .then(data => {
+  //       setGameData(data);
+  //       dispatch(setDashboardGameProfileList(data));
+  //       console.log("game data", data);
+  //     })
+  //     .catch(error => {
+  //       console.error("데이터 로딩 중 오류 발생", error);
+  //     });
+  // }, []);
+
   return (
     <div className="dashboard">
+        {/* <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={gameData}/> */}
         <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={games}/>
     </div>
   )
 }
+
+function GameProfilePage(){
+  return (
+    <div className="dashboard">
+        <GameProfile />
+    </div>
+  )
+}
+
+
 function BoardDashBoardPage(){
   return (
     <div className="dashboard">
-        <TablePage dataRow={dBoardTableRow} dataLabel={dBoardHeadLabel} data={dBoard}/>
+        <TablePage title={"DashBaords"} dataRow={dBoardTableRow} dataLabel={dBoardHeadLabel} data={dBoard}/>
     </div>
   )
 }
 function PaymentsDashBoardPage(){
   return (
     <div className="dashboard">
-        <TablePage dataRow={paymentsTableRow} dataLabel={paymentsHeadLabel} data={payments}/>
+        <TablePage title={"Payments"} dataRow={paymentsTableRow} dataLabel={paymentsHeadLabel} data={payments}/>
     </div>
   )
 }

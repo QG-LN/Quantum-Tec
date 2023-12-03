@@ -48,6 +48,21 @@ public class DashBoardServiceImpl implements DashBoardService{
 
     @Override
     public boolean updateUserInfo(UserInfoUpdateDTO user) {
+        // 성별 남자, 여자, 비공개를 각각 m, f, p로 변환
+        String gender = user.getUserGender();
+        switch (gender) {
+            case "남자":
+                user.setUserGender("m");
+                break;
+            case "여자":
+                user.setUserGender("f");
+                break;
+            case "비공개":
+                user.setUserGender("p");
+                break;
+            default:
+                break;
+        }
         return dashBoardDAO.updateUserInfo(user);
     }
 

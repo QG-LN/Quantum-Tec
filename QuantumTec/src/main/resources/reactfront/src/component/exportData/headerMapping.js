@@ -2,6 +2,7 @@
  * 엑셀 파일의 헤더와 매핑되는 객체
  */
 
+// 유저 정보[메인 정보]
 const headerMappingUser ={
 	"번호" : "userID",
 	"레벨" : "userLevel",
@@ -13,6 +14,7 @@ const headerMappingUser ={
 	"undefined" : "none"
 }
 
+// 유저 정보[결제 내역]
 const headerMappingUserPayment ={
 	"번호" : "paymentIndex",
 	"상품 종류" : "productType",
@@ -24,7 +26,7 @@ const headerMappingUserPayment ={
 }
 
 
-// 활동 사항 -- 수정 필요
+// 유저 정보[활동 사항] -- 수정 필요
 const headerMappingUserActive={
 	"활동사항" : "tableName",
 	"활동내용" : "newValue",
@@ -33,4 +35,16 @@ const headerMappingUserActive={
 
 }
 
-export {headerMappingUser, headerMappingUserPayment, headerMappingUserActive};
+// 게임 정보[메인 정보]
+const headerMappingGame = {
+	"번호" : "gameIndex",
+	"게임 이름" : "gameName",
+	"가격" : "gameType",
+	"게임 회사" : "gameDescription",
+	"장르" : "gameImage",
+	"출시일" : "gamePrice",
+	"평가" : "gameStatus",
+	"undefined" : "none"
+}
+
+export {headerMappingUser, headerMappingUserPayment, headerMappingUserActive, headerMappingGame};

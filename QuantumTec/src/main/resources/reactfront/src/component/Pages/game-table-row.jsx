@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-
+import { useNavigate } from 'react-router-dom';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
@@ -27,14 +27,17 @@ export default function GameTableRow({row, selected, handleClick
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
-
+  const navigate = useNavigate();
   const handleCloseMenu = () => {
     setOpen(null);
+  };
+  const handleClickRow = (event) => {
+    navigate(`/dashboard/game/${index}`);
   };
 
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+      <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClickRow}>
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
@@ -62,8 +65,6 @@ export default function GameTableRow({row, selected, handleClick
         <TableCell align='center'>
           {review}
         </TableCell>
-
-        {/* 크기 줄여야 하는데... */}
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />

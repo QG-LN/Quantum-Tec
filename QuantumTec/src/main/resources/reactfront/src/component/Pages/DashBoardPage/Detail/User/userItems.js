@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import {axiosRequest} from '../../../Utils/networkUtils';
-import TablePage from '../userPage';
-import ItemTableRow from '../../item-table-row';
+import {axiosRequest} from '../../../../Utils/networkUtils';
+import TablePage from '../../tablePage';
+import ItemTableRow from '../../../item-table-row';
 function UserItems({state}) {
     const [filter, setFilter] = useState("all");
     const [userItems, setUserItems] = useState([]);
@@ -43,7 +43,7 @@ function UserItems({state}) {
                 <>
                     <h2>사용자 보유 항목</h2>
                     <hr />
-                    <table className='d-flex justify-content-center table text-center align-middle'>
+                    {/*<table className='d-flex justify-content-center table text-center align-middle'>
                         <tbody>
                             <tr>
                                 <th>현재 레벨</th>
@@ -58,7 +58,7 @@ function UserItems({state}) {
                                 <td>{state.userCash}</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table>*/}
                     <div className='d-flex justify-content-end'>
                         <input className='form-check-input m-2' type="radio" name="filter" value="all" checked={filter === "all"} onChange={(e) => setFilter(e.target.value)} /> 전체
                         <input className='form-check-input m-2' type="radio" name="filter" value="avatar" checked={filter === "avatar"} onChange={(e) => setFilter(e.target.value)} /> 아바타

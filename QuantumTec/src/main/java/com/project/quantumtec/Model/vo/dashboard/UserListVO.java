@@ -20,6 +20,7 @@ public class UserListVO {
     private String userGender;    // 사용자 성별
     private String userAddress;    // 사용자 기본주소
     private String userAddressDetail;    // 사용자 상세주소
+    private String userPostal;    // 사용자 우편번호
     private String userCreatedAt;    // 사용자 가입일
     private String userMemo;    // 사용자 메모
 

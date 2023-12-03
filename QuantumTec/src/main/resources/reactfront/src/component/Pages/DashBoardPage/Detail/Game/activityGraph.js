@@ -4,8 +4,8 @@ import { useTheme } from "@mui/material/styles";
 import {
   AppCurrentVisits,
   AppWebsiteVisits,
-} from "../../../../dashboard/sections/@dashboard/app";
-import ThemeProvider from "../../../../dashboard/theme";
+} from "../../../../../dashboard/sections/@dashboard/app";
+import ThemeProvider from "../../../../../dashboard/theme";
 
 import { Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -56,24 +56,12 @@ const Main = styled("div")(({ theme }) => ({
   },
 }));
 
-function ActivityGraph({logData}) {
-    //logData[].tableName별로 데이터를 그룹별로으로 갯수 파악
-    const countData = logData.reduce((acc, cur) => {
-      // 이미 존재하는 tableName의 인덱스를 찾음
-      const existingIndex = acc.findIndex(item => item.label === cur.tableName);
-    
-      if (existingIndex >= 0) {
-        // 이미 존재하는 경우, 해당 객체의 value를 증가
-        acc[existingIndex].value += 1;
-      } else {
-        // 새로운 tableName의 경우, 새 객체를 배열에 추가
-        acc.push({ label: cur.tableName, value: 1 });
-      }
-    
-      return acc;
-    }, []); // 초기 accumulator 값을 빈 배열로 설정
-    
-    
+//일별 이용자 연령대
+const dayUserAgeData = [
+    { label: "게임", value: [2,3,6,7,8,2] },
+]
+
+function ActivityGraph() {
     const theme = useTheme();
     return (
         <ThemeProvider>
@@ -83,7 +71,7 @@ function ActivityGraph({logData}) {
               <Grid container spacing={3}>
                   <Grid item xs={12} md={6} lg={8}>
                       <AppWebsiteVisits
-                        title="일별 게임 플레이 타임"
+                        title="게임 구매 추이"
                         // subheader="(+43%) than last year"
                         chartLabels={
                           dayChartData.map((data, index) => data.date)}
@@ -94,15 +82,23 @@ function ActivityGraph({logData}) {
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
                       <AppCurrentVisits
-                        title="활동 영역"
+                        title="일일 접속량(명)"
                         chartData={
-                          countData.map((ds, index) => (ds))
+                          dayUserAgeData.map((ds, index) => (ds))
                         }
                         chartColors={[
                           theme.palette.primary.main,
-                          theme.palette.info.main,
-                          theme.palette.warning.main,
-                          theme.palette.error.main,
+                        ]}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={4}>
+                      <AppCurrentVisits
+                        title="댓글 작성량"
+                        chartData={
+                          dayUserAgeData.map((ds, index) => (ds))
+                        }
+                        chartColors={[
+                          theme.palette.primary.main,
                         ]}
                       />
                     </Grid>
