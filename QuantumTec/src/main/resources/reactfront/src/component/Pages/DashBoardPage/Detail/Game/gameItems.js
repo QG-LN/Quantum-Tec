@@ -5,8 +5,6 @@ import TablePage from '../../tablePage';
 import ItemTableRow from '../../../item-table-row';
 import LogDetailTableRow from '../../../log-detail-table-row';
 function GameItems({state,setState}) {
-
-    const [filter, setFilter] = useState("all");
     const [gameItems, setGameItems] = useState([]);
     const [commentData, setCommentData] = useState([]);
     const [logData, setLogData] = useState([]);
@@ -81,34 +79,12 @@ function GameItems({state,setState}) {
             });
     }, []);
 
-
-
-    const filteredPayments = gameItems.filter(payment => {
-        if (filter === "all") return true;
-        return payment.productType === filter;
-    });
-
-    const filteredComments = commentData.filter(comment => {
-        if (filter === "all") return true;
-        return comment.productType === filter;
-    });
-
-    // const filteredLogData = logData.filter(log => {
-    //     if (filter === "all") return true;
-    //     return log.productType === filter;
-    // });
     return (
         <div className="game-release">
             <h2>게임 릴리즈 정보</h2>
             <hr />
-            <div className='d-flex justify-content-end'>
-                <input className='form-check-input m-2' type="radio" name="filter" value="all" checked={filter === "all"} onChange={(e) => setFilter(e.target.value)} /> 전체
-                <input className='form-check-input m-2' type="radio" name="filter" value="avatar" checked={filter === "avatar"} onChange={(e) => setFilter(e.target.value)} /> 아바타
-                <input className='form-check-input m-2' type="radio" name="filter" value="game" checked={filter === "game"} onChange={(e) => setFilter(e.target.value)} /> 게임
-            </div>
-            <TablePage margin={false} createButton={false} title={"결제내역_"+ state.gameName} dataRow={ItemTableRow} dataLabel={itemHeadLabel} data={filteredPayments} />
-        
-            <TablePage margin={false} createButton={false} title={"댓글내역_"+ state.gameName} dataRow={ItemTableRow} dataLabel={commentHeadLabel} data={filteredComments} />
+            <TablePage margin={false} createButton={false} title={"결제내역_"+ state.gameName} dataRow={ItemTableRow} dataLabel={itemHeadLabel} data={gameItems} />
+            <TablePage margin={false} createButton={false} title={"댓글내역_"+ state.gameName} dataRow={ItemTableRow} dataLabel={commentHeadLabel} data={commentData} />
         </div>
     );
 }
