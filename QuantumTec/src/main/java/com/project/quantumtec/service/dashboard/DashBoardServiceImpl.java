@@ -159,16 +159,16 @@ public class DashBoardServiceImpl implements DashBoardService{
     }
 
     @Override
-    public GameTimeDTO getGameAccessByTime(GameIdDTO gameIdDTO) {
-        List<GameTimeVO> gameTimeVOList = dashBoardDAO.getGameAccessByTime(gameIdDTO);
-        GameTimeDTO gameTimeDTO = new GameTimeDTO();
-        gameTimeDTO.init();
-        for(GameTimeVO vo : gameTimeVOList){
-            int time = vo.getTime();
-            int count = vo.getCount();
-            gameTimeDTO.setTime(time, count);
-        }
-        return gameTimeDTO;
+    public List<GameTimeDTO> getGameAccessByTime(GameIdDTO gameIdDTO) {
+        // List<GameTimeVO> gameTimeVOList = dashBoardDAO.getGameAccessByTime(gameIdDTO);
+        // GameTimeDTO gameTimeDTO = new GameTimeDTO();
+        // gameTimeDTO.init();
+        // for(GameTimeVO vo : gameTimeVOList){
+        //     int time = vo.getTime();
+        //     int count = vo.getCount();
+        //     gameTimeDTO.setTime(time, count);
+        // }
+        return dashBoardDAO.getGameAccessByTime(gameIdDTO);
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class GameTimeDTO {
-    private int[] time; // 게임 시간 (0시~23시)
+    private int[] accessCount; // 게임 시간 (0시~23시)
 
     // public void init(){
     //     time = new int[24];

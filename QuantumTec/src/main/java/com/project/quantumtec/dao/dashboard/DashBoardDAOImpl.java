@@ -14,6 +14,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.GameTimeDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
@@ -157,7 +158,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
 
     // 특정 게임의 접속 시간대별 접속자 수를 불러오는 메소드 (0~23시)
     @Override
-    public List<GameTimeVO> getGameAccessByTime(GameIdDTO gameIdDTO) {
+    public List<GameTimeDTO> getGameAccessByTime(GameIdDTO gameIdDTO) {
         return sqlSession.selectList("DashBoardService.getGameAccessByTime");
     }
 
