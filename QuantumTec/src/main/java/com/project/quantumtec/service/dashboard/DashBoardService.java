@@ -13,6 +13,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
+import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsListDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
 
@@ -67,4 +68,9 @@ public interface DashBoardService {
 
     // 게임별 댓글 리스트를 모두 불러오는 메소드
     List<GameCommentDTO> getGameComment(GameIdDTO request);
+
+    /////////////////////////// 페이먼츠 관련 메소드 ///////////////////////////
+
+    // 페이먼츠 리스트 불러오기
+    List<PaymentsListDTO> getPaymentList();
 }

@@ -4,6 +4,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
+import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsListDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
@@ -199,5 +200,14 @@ public class DashBoardServiceImpl implements DashBoardService{
     @Override
     public List<GameCommentDTO> getGameComment(GameIdDTO request) {
         return dashBoardDAO.getGameComment(request);
+    }
+
+
+    /////////////////////////// 페이먼츠 관련 메소드 ///////////////////////////
+
+    // 페이먼츠 리스트 불러오기
+    @Override
+    public List<PaymentsListDTO> getPaymentList() {
+        return dashBoardDAO.getPaymentList();
     }
 }

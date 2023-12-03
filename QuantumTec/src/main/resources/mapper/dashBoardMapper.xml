@@ -83,4 +83,55 @@
         WHERE 
             gc.GAME_INDEX = #{gameIndex};
     </select>
+    <select id="getPaymentList" resultType="PaymentsListDTO">
+        SELECT * FROM (
+            -- 게임 결제 내역
+            SELECT
+                p.PAYMENT_INDEX AS paymentIndex,
+                CONCAT('Game Purchase - ', g.GAME_NAME) AS paymentName,
+                u.USER_ID AS userId,
+                p.PAYMENT_METHOD AS paymentMethod,
+                p.PAYMENT_DATE AS paymentDate,
+                p.PAYMENT_STATUS AS paymentStatus
+            FROM
+                PAYMENT_INFO_TB p
+            JOIN
+                GAME_INFO_TB g ON p.GAME_INDEX = g.GAME_INDEX
+            JOIN
+                USER_INFO_TB u ON p.USER_INDEX = u.USER_INDEX
+
+            UNION ALL
+
+            -- 아바타 결제 내역
+            SELECT
+                a.PAYMENT_INDEX AS paymentIndex,
+                CONCAT('Avatar Purchase - ', i.ITEM_NAME) AS paymentName,
+                u.USER_ID AS userId,
+                a.PAYMENT_METHOD AS paymentMethod,
+                a.PAYMENT_DATE AS paymentDate,
+                a.PAYMENT_STATUS AS paymentStatus
+            FROM
+                AVATAR_PAYMENT_HISTORY_TB a
+            JOIN
+                AVATAR_ITEM_TB i ON a.ITEM_INDEX = i.ITEM_INDEX
+            JOIN
+                USER_INFO_TB u ON a.USER_INDEX = u.USER_INDEX
+
+            UNION ALL
+
+            -- 캐시 결제 내역
+            SELECT
+                c.PAYMENT_INDEX AS paymentIndex,
+                CONCAT('Cash Purchase - ', c.ORDER_ID) AS paymentName,
+                u.USER_ID AS userId,
+                c.PAYMENT_METHOD AS paymentMethod,
+                c.PAYMENT_DATE AS paymentDate,
+                c.PAYMENT_STATUS AS paymentStatus
+            FROM
+                CASH_PAYMENT_HISTORY_TB c
+            JOIN
+                USER_INFO_TB u ON c.USER_INDEX = u.USER_INDEX
+        ) AS CombinedPayments
+        ORDER BY paymentDate DESC;
+    </select>
 </mapper>
