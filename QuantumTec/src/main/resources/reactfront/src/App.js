@@ -287,27 +287,24 @@ function UserProfilePage(){
 }
 
 function GameDashBoardPage(){
-  console.log(1);
   const dispatch = useDispatch();
   const [gameData, setGameData] = useState();
 
-  // useEffect(() => {
-  //   console.log(111);
-  //   getData("dashboard/gamelist")
-  //     .then(data => {
-  //       setGameData(data);
-  //       dispatch(setDashboardGameProfileList(data));
-  //       console.log("game data", data);
-  //     })
-  //     .catch(error => {
-  //       console.error("데이터 로딩 중 오류 발생", error);
-  //     });
-  // }, []);
-
+  useEffect(() => {
+    console.log(111);
+    getData("dashboard/gamelist")
+      .then(data => {
+        setGameData(data);
+        dispatch(setDashboardGameProfileList(data));
+        console.log("game data", data);
+      })
+      .catch(error => {
+        console.error("데이터 로딩 중 오류 발생", error);
+      });
+  }, []);
   return (
     <div className="dashboard">
-        {/* <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={gameData}/> */}
-        <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={games}/>
+        <TablePage title={"Games"} dataRow={GameTableRow} dataLabel={gameHeadLabel} data={gameData}/>
     </div>
   )
 }

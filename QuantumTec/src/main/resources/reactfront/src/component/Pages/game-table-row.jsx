@@ -12,16 +12,17 @@ import Iconify from '../../dashboard/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function GameTableRow({row, selected, handleClick
-}) {
-
-  const name = row.name;
-  const price = row.price;
-  const company = row.company;
-  const category = row.category;
-  const review = row.review;
-  const index = row.index;
-  const day = row.day;
+// 게임의 메인 테이블의 행값을 받아와서 테이블의 행을 구성하는 컴포넌트
+export default function GameTableRow({row, selected, handleClick}) {
+  
+  // 전달받은 데이터 키값과 매핑
+  const index = row.gameIndex;           
+  const name = row.gameName;
+  const price = row.gamePrice;
+  const company = row.gameDeveloper;
+  const category = row.gameCategoryId;
+  const review = row.gameRating;
+  const day = row.gameReleaseDate;        
   const [open, setOpen] = useState(null);
 
   const handleOpenMenu = (event) => {
