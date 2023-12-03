@@ -178,6 +178,6 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     // 게임별 댓글 리스트를 모두 불러오는 메소드
     @Override
     public List<GameCommentDTO> getGameComment(GameIdDTO request) {
-        return sqlSession.selectList("DashBoardService.getGameComment");
+        return sqlSession.selectList("DashBoardService.getGameComment", request);
     }
 }

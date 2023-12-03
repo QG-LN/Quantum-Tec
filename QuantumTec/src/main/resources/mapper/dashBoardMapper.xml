@@ -67,4 +67,20 @@
             WHERE
                 GAME_INDEX = #{gameIndex};
     </update>
+    <select id="getGameComment" resultType="GameCommentDTO">
+        SELECT 
+            ui.USER_ID,
+            ui.USER_NAME,
+            gc.COMMENT_CONTENT,
+            gc.COMMENT_CREATED_DATE,
+            gc.COMMENT_UPVOTES,
+            gc.COMMENT_DOWNVOTES,
+            gc.COMMENT_RATING
+        FROM 
+            GAME_COMMENT_INFO_TB gc
+        INNER JOIN 
+            USER_INFO_TB ui ON gc.COMMENT_AUTHOR_INDEX = ui.USER_INDEX
+        WHERE 
+            gc.GAME_INDEX = #{gameIndex};
+    </select>
 </mapper>
