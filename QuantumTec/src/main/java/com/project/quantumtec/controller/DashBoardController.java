@@ -12,10 +12,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameTimeDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentListDTO;
 import com.project.quantumtec.service.dashboard.DashBoardService;
@@ -147,5 +144,11 @@ public class DashBoardController {
     @PostMapping("/gameinfo/accessbytime")
     public GameTimeDTO getGameAccessByTime(@RequestBody GameIdDTO gameIdDTO) throws Exception{
         return dashBoardService.getGameAccessByTime(gameIdDTO);
+    }
+
+    // 게임 일별 접속량 불러오기
+    @PostMapping("/gameinfo/accessbyday")
+    public GameDateDTO getGameAccessByDay(@RequestBody GameIdDTO gameIdDTO) throws Exception{
+        return dashBoardService.getGameAccessByDay(gameIdDTO);
     }
 }

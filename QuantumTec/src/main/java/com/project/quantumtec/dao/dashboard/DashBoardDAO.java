@@ -14,6 +14,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
+import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
 import com.project.quantumtec.Model.vo.dashboard.UserListVO;
@@ -60,6 +61,15 @@ public interface DashBoardDAO {
     // 특정 개발사(개발자)의 게임 리스트를 불러오는 메소드
     List<GameListDTO> getDevGameList(GameDeveloperDTO gameDeveloperDTO);
 
-    // 특정 게임의 접속 시간대별 접속자 수를 불러오는 메소드
+    // 특정 게임의 접속 시간대별 접속자 수를 불러오는 메소드 (0~23시)
     List<GameTimeVO> getGameAccessByTime(GameIdDTO gameIdDTO);
+
+    // 특정 게임의 접속일자별 접속자 수를 불러오는 메소드 (최근 7일)
+    List<GameDateVO> getGameAccessByDay(GameIdDTO gameIdDTO);
+
+    // 특정 게임의 최근 댓글 작성량을 불러오는 메소드 (최근 7일)
+
+    // 특정 게임의 최근 평점 변동성을 불러오는 메소드 (최근 7일)
+
+    // 특정 게임의 탑 랭크 시간을 불러오는 메소드 (최근 7일)
 }

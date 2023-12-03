@@ -4,10 +4,8 @@ import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameTimeListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameTimeDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
+import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
 import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
 import com.project.quantumtec.dao.dashboard.DashBoardDAO;
@@ -167,5 +165,18 @@ public class DashBoardServiceImpl implements DashBoardService{
             gameTimeDTO.setTime(time, count);
         }
         return gameTimeDTO;
+    }
+
+    @Override
+    public GameDateDTO getGameAccessByDay(GameIdDTO gameIdDTO) {
+        List<GameDateVO> gameDateVOList = dashBoardDAO.getGameAccessByDay(gameIdDTO);
+        GameDateDTO gameDateDTO = new GameDateDTO();
+        gameDateDTO.init();
+        for(GameDateVO vo : gameDateVOList){
+            int date = vo.getDate();
+            int count = vo.getCount();
+            gameDateDTO.setDate(date, count);
+        }
+        return gameDateDTO;
     }
 }

@@ -12,10 +12,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameTimeDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
 import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
 
 import java.util.List;
@@ -63,4 +60,7 @@ public interface DashBoardService {
 
     // 시간별 게임 접속량을 불러오는 메소드
     GameTimeDTO getGameAccessByTime(GameIdDTO gameIdDTO);
+
+    // 일별 게임 접속량을 불러오는 메소드
+    GameDateDTO getGameAccessByDay(GameIdDTO gameIdDTO);
 }
