@@ -136,7 +136,10 @@ public class DashBoardServiceImpl implements DashBoardService{
 
     @Override
     public GameInfoDTO getGameInfo(GameIdDTO gameIdDTO) {
-        return dashBoardDAO.getGameInfo(gameIdDTO);
+        GameInfoDTO gameInfoDTO = new GameInfoDTO();
+        gameInfoDTO = dashBoardDAO.getGameInfo(gameIdDTO);
+        gameInfoDTO.setGameCommentCount(dashBoardDAO.getGameCommentCount(gameIdDTO));
+        return gameInfoDTO;
     }
 
     @Override
