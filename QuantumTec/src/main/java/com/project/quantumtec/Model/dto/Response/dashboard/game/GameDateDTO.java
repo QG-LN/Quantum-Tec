@@ -1,5 +1,8 @@
 package com.project.quantumtec.Model.dto.Response.dashboard.game;
 
+import lombok.Data;
+
+@Data
 public class GameDateDTO {
     private int[] date; // 게임 날짜 (31일)
 
