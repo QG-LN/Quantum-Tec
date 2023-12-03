@@ -40,6 +40,9 @@ import games from './dashboard/_mock/game';                     // 임시데이�
 import gameHeadLabel from './dashboard/_mock/gameHeadLabel';
 import GameProfile from './component/Pages/DashBoardPage/Detail/Game/gameProfile';
 
+//DahsBoard -> avatar
+import AvatarDashBaordPage from './component/Pages/DashBoardPage/avatarPage.js';
+
 //DashBoard -> board
 import dBoardTableRow from './component/Pages/dboard-table-row';
 import dBoard from './dashboard/_mock/dBoard';                // 임시데이터
@@ -97,6 +100,7 @@ function App() {
           <Route path="/dashboard/user/:id/log" element={<LogDetailPage />}/>
           <Route path="/dashboard/game" element={<GameDashBoardPage />}/>
           <Route path="/dashboard/game/:id" element={<GameProfilePage />}/>
+          <Route path="/dashboard/avatar" element={<AvatarDashBaordPage />}/>
           <Route path="/dashboard/board" element={<BoardDashBoardPage />}/>
           <Route path="/dashboard/board/:id" element={<BoardProfilePage/>}/>
           <Route path="/dashboard/payments" element={<PaymentsDashBoardPage/>}/>

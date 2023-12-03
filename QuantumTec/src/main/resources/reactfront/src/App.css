@@ -96,3 +96,7 @@
   display: block;
   opacity: 1;
 }
+
+.avatorBoardPageBody{
+  width: calc(100% - 281px);
+}
