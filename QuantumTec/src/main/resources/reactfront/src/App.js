@@ -44,6 +44,7 @@ import GameProfile from './component/Pages/DashBoardPage/Detail/Game/gameProfile
 import dBoardTableRow from './component/Pages/dboard-table-row';
 import dBoard from './dashboard/_mock/dBoard';                // 임시데이터
 import dBoardHeadLabel from './dashboard/_mock/dBoardHeadLabel';
+import BoardProfilePage from './component/Pages/DashBoardPage/Detail/Board/boardProfile.js';
 
 //DashBoard -> payments
 import paymentsTableRow from './component/Pages/payments-table-row';
@@ -97,6 +98,7 @@ function App() {
           <Route path="/dashboard/game" element={<GameDashBoardPage />}/>
           <Route path="/dashboard/game/:id" element={<GameProfilePage />}/>
           <Route path="/dashboard/board" element={<BoardDashBoardPage />}/>
+          <Route path="/dashboard/board/:id" element={<BoardProfilePage/>}/>
           <Route path="/dashboard/payments" element={<PaymentsDashBoardPage/>}/>
           <Route path="/dashboard/home" element={<HomeDashBoardPage />}/>
         </Routes>
