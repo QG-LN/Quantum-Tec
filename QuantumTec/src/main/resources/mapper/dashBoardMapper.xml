@@ -23,4 +23,48 @@
     <select id="updateUserInfo" statementType="CALLABLE" parameterType="UserInfoUpdateDTO">
         {CALL UpdateUserInfo(#{userIndex}, #{userName}, #{userNickname}, #{userGender}, #{userAddress}, #{userAddressDetail}, #{userPostal}, #{userEmail}, #{userBirth}, #{userRole}, #{userMemo}, #{userCash}, #{userFreeCash}, #{update_result, mode=OUT, jdbcType=INTEGER})}
     </select>
+    <select id="getGameList" resultType="GameListVO">
+        SELECT * FROM GAME_LIST_VW;
+    </select>
+    <select id="getGameInfo" resultType="GameInfoDTO">
+        CALL GetGameInfo(#{gameIndex});
+    </select>
+    <select id="getGamePaymentList" resultType="GamePaymentListDTO">
+        SELECT 
+            pi.PAYMENT_INDEX AS PAYMENT_INDEX,
+            ui.USER_ID AS USER_ID,
+            pi.PAYMENT_AMOUNT AS PAYMENT_AMOUNT,
+            pi.PAYMENT_METHOD AS PAYMENT_METHOD,
+            pi.PAYMENT_STATUS AS PAYMENT_STATUS,
+            pi.PAYMENT_DATE AS PAYMENT_DATE
+        FROM 
+            PAYMENT_INFO_TB pi
+        JOIN 
+            USER_INFO_TB ui ON pi.USER_INDEX = ui.USER_INDEX
+        WHERE 
+            pi.GAME_INDEX = #{gameIndex};
+    </select>
+    <select id="getGameAccessByTime" resultType="GameTimeVO">
+        CALL CalculateGameAccessByHour(#{gameIndex});
+    </select>
+    <select id="getGameAccessByDay" resultType="GameDateVO">
+        CALL CalculateGameAccessByDate(#{gameIndex});
+    </select>
+    <update id="updateGameInfo" parameterType="GameInfoUpdateDTO">
+        <!-- {CALL UpdateGameInfo(#{gameIndex}, #{gameName}, #{gamePrice}, #{gameCategoryId}, #{gamePlatform}, #{gameVersion}, #{gameVersionUpdateDate}, #{gameShortDescription}, #{gameMemo}, #{gameImageLocation}, #{gameDescription}, #{gameDiscountRate}, #{gameDiscountStartDate}, #{gameDiscountEndDate}, #{update_result, mode=OUT, jdbcType=INTEGER})} -->
+        <!-- {CALL UpdateGameInfo(#{gameIndex}, #{gameName}, #{gamePrice}, #{gamePlatform}, #{gameVersion}, #{gameVersionUpdateDate}, #{gameShortDescription}, #{gameMemo}, #{gameImageLocation}, #{gameDescription}, #{update_result, mode=OUT, jdbcType=INTEGER})} -->
+        UPDATE GAME_INFO_TB
+            SET
+                GAME_NAME = #{gameName},
+                GAME_PRICE = #{gamePrice},
+                GAME_PLATFORM = #{gamePlatform},
+                GAME_VERSION = #{gameVersion},
+                GAME_VERSION_UPDATE_DATE = #{gameVersionUpdateDate},
+                GAME_SHORT_DESCRIPTION = #{gameShortDescription},
+                GAME_MEMO = #{gameMemo},
+                GAME_IMAGE_LOCATION = #{gameImageLocation},
+                GAME_DESCRIPTION = #{gameDescription}
+            WHERE
+                GAME_INDEX = #{gameIndex};
+    </update>
 </mapper>
