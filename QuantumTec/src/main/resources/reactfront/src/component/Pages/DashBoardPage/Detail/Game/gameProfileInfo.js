@@ -9,30 +9,71 @@ import GameImage from '../../../GamePage/gpimage';
 // export const EditingContext = React.createContext();
 
 function ProfileInfo({state, setState}) {
+    const [loading, setLoading] = useState(false); // 수정 로딩 상태
     const [editingId, setEditingId] = useState(null); // 현재 수정 중인 셀의 id
     const [originalContent, setOriginalContent] = useState(null); // 수정 전 셀의 내용
-    
-    const [gameImageLocation, setGameImageLocation] = useState(""); // 게임의 이미지 경로를 저장할 state
+
     const [gameImageList, setGameImageList] = useState([]); // 게임의 이미지를 저장할 state
-  
     const imagePath = "http://localhost:9090/image/game"; // 이미지 경로
     const imageListPath = "http://localhost:9090/image/game/list"; // 이미지 리스트 경로
 
-    const defaultImage = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"; // 이미지가 없을 경우 기본 이미지
-  
-    
-    /**
-     * 최초 렌더링을 제외한 렌더링에서만 실행되는 useEffect
-     * 기존 useEffect와 동일하게 작동
-     * */
-    const useDidMountEffect = (func, deps) => {
-        const didMount = useRef(false);
+    const table1Ref = useRef(null);
+    const table2Ref = useRef(null);
 
-        useEffect(() => {
-            if (didMount.current) func();
-            else didMount.current = true;
-        }, deps);
+    const adjustRowHeights = () => {
+        const tables = [table1Ref.current, table2Ref.current];
+        let maxRowCount = 0;
+
+        tables.forEach(table => {
+            maxRowCount = Math.max(maxRowCount, table ? table.rows.length : 0);
+        });
+        requestAnimationFrame(() =>{
+            for (let i = 0; i < maxRowCount; i++) {
+
+                // 먼저 모든 행의 높이를 'auto'로 설정하여 자연스러운 높이를 갖도록 함
+                tables.forEach(table => {
+                    if (table && table.rows[i]) {
+                        table.rows[i].style.height = 'auto';
+                    }
+                });
+                let maxHeight = 0;
+
+                tables.forEach(table => {
+                    if (table && table.rows[i]) {
+                    maxHeight = Math.max(maxHeight, table.rows[i].clientHeight);
+                    }
+                });
+
+                tables.forEach(table => {
+                    if (table && table.rows[i]) {
+                    table.rows[i].style.height = `${maxHeight}px`;
+                    }
+                });
+            }
+        });
     };
+
+    useEffect(() => {
+        // 게임 이미지 리스트를 가져옴
+        axios.get(imageListPath + "/games_" + state.gameImageLocation)
+        .then((response) => {
+          console.log(response.data);
+          setGameImageList(response.data);
+        })
+        .catch((error) => {});
+
+        // 테이블의 행 높이를 조정
+        const resizeObserver = new ResizeObserver(adjustRowHeights);
+
+        [table1Ref, table2Ref].forEach(ref => {
+        if (ref.current) {
+            Array.from(ref.current.rows).forEach(row => {
+            resizeObserver.observe(row);
+            });
+        }
+        });
+    }, []);
+
 
     // 수정 된 셀의 내용을 저장.
     const handleContentUpdate = (id, newContent) => {
@@ -41,23 +82,7 @@ function ProfileInfo({state, setState}) {
         [id]: newContent,
       }));
     };
-    // const gameLink = (id, name) => {
-    //   console.log(id, name);
-    //   const gameName = name.replaceAll(" ", "_");
-    //   window.open(`/game/${id}/${gameName}/`);
-    // };
-  
-  
-    useEffect(() => {
-      axios.get(imageListPath + "/games_" + state.gameImageLocation)
-        .then((response) => {
-          console.log(response.data);
-          setGameImageList(response.data);
-        })
-        .catch((error) => {});
-    }, [state]);
-  
-  
+
   
   return (
     <div className="profile-info">
@@ -70,7 +95,7 @@ function ProfileInfo({state, setState}) {
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={12} md={4}>
-                    <table className='table mb-0'>
+                    <table className='table mb-0' ref={table1Ref}>
                         <tbody>
                             <tr>
                                 <th className="w-[40%]">게임 번호</th>
@@ -118,7 +143,7 @@ function ProfileInfo({state, setState}) {
                     </table>
                 </Grid>
                 <Grid item xs={12} sm={12} md={4}>
-                    <table className='table m-0'>
+                    <table className='table m-0' ref={table2Ref}>
                         <tbody>
                             <tr>
                                 <th className="w-[40%]">장르</th>
@@ -168,7 +193,7 @@ function ProfileInfo({state, setState}) {
                     <table className='table'>
                         <tbody>
                             <tr>
-                                <th className="w-[40%]">게임 설명</th>
+                                <th className="w-[20%]">게임 설명</th>
                                 <TableCell 
                                     id="gameShortDescription"
                                     content={state.gameShortDescription}
@@ -176,7 +201,7 @@ function ProfileInfo({state, setState}) {
                                     onUpdate={handleContentUpdate} />
                             </tr>
                             <tr>
-                                <th className="w-[40%]">게임 소개</th>
+                                <th className="w-[20%]">게임 소개</th>
                                 <TableCell 
                                     id="gameDescription"
                                     content={state.gameDescription}
