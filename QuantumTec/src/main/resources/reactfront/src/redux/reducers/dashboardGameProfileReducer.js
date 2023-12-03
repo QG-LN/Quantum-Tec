@@ -1,7 +1,7 @@
 import { SET_DASHBOARD_GAME_PROFILE_LIST } from '../actions/dashboardGameProfileAction';
 
 const initialState = {
-  dashboardUserList: []
+  dashboardGameList: []
 };
 
 function dashboardGameProfileReducer(state = initialState, action) {
@@ -9,7 +9,7 @@ function dashboardGameProfileReducer(state = initialState, action) {
     case SET_DASHBOARD_GAME_PROFILE_LIST:
       return {
         ...state,
-        dashboardUserList: action.payload
+        dashboardGameList: action.payload
       };
     default:
       return state;
