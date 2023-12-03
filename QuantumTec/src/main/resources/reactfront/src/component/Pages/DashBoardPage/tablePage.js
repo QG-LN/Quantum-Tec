@@ -21,7 +21,7 @@ import UserTableToolbar from "../user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "../utils";
 
 import ExportDataToExcelButton from "../../exportData/exportData";
-import {headerMappingUser, headerMappingUserPayment, headerMappingUserActive, headerMappingGame} from "../../exportData/headerMapping";
+import {handlerMappingUser, handlerMappingUserPayment, handlerMappingUserActive, handlerMappingGame, handlerMappingGamePayment, handlerMappingGameComment} from "../../exportData/headerMapping";
 
 // ----------------------------------------------------------------------
 // styled를 사용하여 커스텀 Container 컴포넌트 생성
@@ -118,17 +118,23 @@ export default function TablePage(props) {
     if (pageName === "") return null; // 페이지 이름이 없으면 null 반환
     if(location.pathname.includes("/user")){
       if (pageName.includes("USERS")) {
-        return headerMappingUser;
+        return handlerMappingUser;
       } else if(pageName.includes("결재내역")) {
-        return headerMappingUserPayment;
+        return handlerMappingUserPayment;
       } else if(pageName.includes("활동사항")) {
-        return headerMappingUserActive;
+        return handlerMappingUserActive;
       }else{
         return null;
       }
     }else if(location.pathname.includes("/game")){
       if (pageName.includes("GAMES")) {
-        return headerMappingGame;
+        return handlerMappingGame;
+      }else if(pageName.includes("결제내역")) {
+        return handlerMappingGamePayment;
+      }else if(pageName.includes("댓글내역")){
+        return handlerMappingGameComment;
+      }else{
+        return null;
       }
     }else{
       return null;

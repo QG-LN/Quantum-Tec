@@ -3,7 +3,7 @@
  */
 
 // 유저 정보[메인 정보]
-const headerMappingUser ={
+const handlerMappingUser ={
 	"번호" : "userID",
 	"레벨" : "userLevel",
 	"닉네임": "userNickName",
@@ -15,7 +15,7 @@ const headerMappingUser ={
 }
 
 // 유저 정보[결제 내역]
-const headerMappingUserPayment ={
+const handlerMappingUserPayment ={
 	"번호" : "paymentIndex",
 	"상품 종류" : "productType",
 	"상품 명칭" : "productName",
@@ -27,7 +27,7 @@ const headerMappingUserPayment ={
 
 
 // 유저 정보[활동 사항] -- 수정 필요
-const headerMappingUserActive={
+const handlerMappingUserActive={
 	"활동사항" : "tableName",
 	"활동내용" : "newValue",
 	"활동자" : "operatedBy",
@@ -36,7 +36,7 @@ const headerMappingUserActive={
 }
 
 // 게임 정보[메인 정보]
-const headerMappingGame = {
+const handlerMappingGame = {
 	"번호" : "gameIndex",
 	"게임 이름" : "gameName",
 	"가격" : "gamePrice",
@@ -46,4 +46,23 @@ const headerMappingGame = {
 	"평가" : "gameRating",
 }
 
-export {headerMappingUser, headerMappingUserPayment, headerMappingUserActive, headerMappingGame};
+// 게임 정보[결제 내역]
+const handlerMappingGamePayment = {
+	"번호" : "paymentIndex",
+	"결제자" : "productUser",
+	"결제 금액" : "paymentAmount",
+	"결제 수단" : "paymentMethod",
+	"결제 상태" : "paymentStatus",
+	"결제 일자" : "paymentDate",
+}
+
+const handlerMappingGameComment = {
+	"사용자명" : "userName",
+	"댓글 내용" : "commentContent",
+	"댓글 작성 시간" : "commentCreatedDate",
+	"평점" : "commentRating",
+	"추천 수" : "commentUpvote",
+	"비추천 수" : "commentDownvote"
+}
+
+export {handlerMappingUser, handlerMappingUserPayment, handlerMappingUserActive, handlerMappingGame, handlerMappingGamePayment, handlerMappingGameComment};

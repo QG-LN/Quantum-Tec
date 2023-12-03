@@ -249,7 +249,6 @@ function UserDashBoardPage() {
       .then(data => {
         setUsersData(data);
         dispatch(setDashboardUserProfileList(data));
-        console.log("user data", data);
       })
       .catch(error => {
         console.error("데이터 로딩 중 오류 발생", error);
@@ -291,12 +290,10 @@ function GameDashBoardPage(){
   const [gameData, setGameData] = useState();
 
   useEffect(() => {
-    console.log(111);
     getData("dashboard/gamelist")
       .then(data => {
         setGameData(data);
         dispatch(setDashboardGameProfileList(data));
-        console.log("game data", data);
       })
       .catch(error => {
         console.error("데이터 로딩 중 오류 발생", error);
@@ -310,9 +307,23 @@ function GameDashBoardPage(){
 }
 
 function GameProfilePage(){
+  const dispatch = useDispatch();
+  const [gameData, setGameData] = useState();
+
+  useEffect(() => {
+    console.log(111);
+    getData("dashboard/gamelist")
+      .then(data => {
+        setGameData(data);
+        dispatch(setDashboardGameProfileList(data));
+      })
+      .catch(error => {
+        console.error("데이터 로딩 중 오류 발생", error);
+      });
+  }, []);
   return (
     <div className="dashboard">
-        <GameProfile />
+        {gameData &&<GameProfile loadState={gameData}/>}
     </div>
   )
 }
