@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 import axios from "axios";
 
 export default function GameImage(props) {
+
+    const imgSize = props.imgSize === undefined ? [720, 405] : props.imgSize;
     //props로 이미지 배열을 가져옴
     const imgList = props.imgList;
     const imgPath = props.imgPath;
@@ -37,15 +39,17 @@ export default function GameImage(props) {
 
     return (
         <div>
-            {imgList.length > 0 &&
-                <img className='w-[720px] h-[405px]' src={selectImg} alt='게임이미지'/>
+            {imgList.length > 0 ?
+                <img  style={{ width: `${imgSize[0]}px`, height: `${imgSize[1]}px` }} src={selectImg} alt='게임이미지'/> : <div>이미지가 없습니다.</div>
             }
-            <div class='overflow-x-scroll w-[720px] mt-4'>
+            {/* <div class='overflow-x-scroll w-[720px] mt-4'> */}
+            <div class={`overflow-x-scroll w-[${imgSize[0]}px] mt-4`}>
                 <div className="image-slider flex">
                     <fieldset class='imgButtonStyle flex'>
                         <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] '></legend>
                         {imgList.map((image, index) => (
-                            <label className='hover:cursor-pointer w-[160px] h-[90px]'>
+                            // <label className='hover:cursor-pointer w-[160px] h-[90px]'>
+                            <label className={`w-[${imgSize[0]/ 4.5}px] h-[${imgSize[1]/4.5}px]`}>
                                 <input
                                     type="radio"
                                     class='hidden'
@@ -54,7 +58,8 @@ export default function GameImage(props) {
                                     onChange ={handleInputImg}
                                     value={index}
                                 />
-                                <img class='max-w-none w-[160px] h-[90px]' src={imgPath + "_" + image} onClick={OnClickimg}/>
+                                {/* <img class='max-w-none w-[160px] h-[90px]' src={imgPath + "_" + image} onClick={OnClickimg}/> */}
+                                <img className={`max-w-none w-[${imgSize[0]/ 4.5}px] h-[${imgSize[1]/4.5}px]`} src={imgPath + "_" + image} onClick={OnClickimg}/>
                             </label>
                         ))}
                     </fieldset>
