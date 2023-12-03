@@ -181,12 +181,17 @@ public class DashBoardServiceImpl implements DashBoardService{
     public GameDateDTO getGameAccessByDay(GameIdDTO gameIdDTO) {
         List<GameDateVO> gameDateVOList = dashBoardDAO.getGameAccessByDay(gameIdDTO);
         GameDateDTO gameDateDTO = new GameDateDTO();
-        gameDateDTO.init();
-        for(GameDateVO vo : gameDateVOList){
-            int date = vo.getDate();
-            int count = vo.getCount();
-            gameDateDTO.setDate(date, count);
+        // gameDateDTO.init();
+        int[] accessCount = new int[30];
+        // for(GameDateVO vo : gameDateVOList){
+        //     int date = vo.getDate();
+        //     int count = vo.getCount();
+        //     gameDateDTO.setDate(date, count);
+        // }
+        for(int i = 0; i < gameDateVOList.size(); i++){
+            accessCount[i] = gameDateVOList.get(i).getAccessCount();
         }
+        gameDateDTO.setAccessCount(accessCount);
         return gameDateDTO;
     }
 }
