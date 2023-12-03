@@ -124,10 +124,10 @@ public class DashBoardController {
     }
 
     // 동일한 개발사(개발자) 게임 리스트 불러오기 (테스트 형태)
-    @RequestMapping("/devgamelist")
-    public List<GameListDTO> getDevGameList(@RequestBody GameDeveloperDTO gameDeveloperDTO) throws Exception{
-        return dashBoardService.getDevGameList(gameDeveloperDTO);
-    }
+    // @RequestMapping("/devgamelist")
+    // public List<GameListDTO> getDevGameList(@RequestBody GameDeveloperDTO gameDeveloperDTO) throws Exception{
+    //     return dashBoardService.getDevGameList(gameDeveloperDTO);
+    // }
 
     // 짜짠! 그거 아시나요? 게임 삭제랑 등록 기능이 미구현이라는 사실을!
 
