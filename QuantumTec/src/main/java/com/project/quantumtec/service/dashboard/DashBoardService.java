@@ -73,4 +73,7 @@ public interface DashBoardService {
 
     // 페이먼츠 리스트 불러오기
     List<PaymentsListDTO> getPaymentList();
+
+    // 페이먼츠 캐시 환불
+    String refundCash(PaymentsListDTO paymentsListDTO);
 }

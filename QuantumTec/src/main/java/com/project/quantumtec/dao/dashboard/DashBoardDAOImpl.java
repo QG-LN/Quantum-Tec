@@ -190,4 +190,24 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     public List<PaymentsListDTO> getPaymentList() {
         return sqlSession.selectList("DashBoardService.getPaymentList");
     }
+
+    // 페이먼츠 캐시 환불
+    @Override
+    public String refundCash(PaymentsListDTO paymentsListDTO) {
+        // TODO: 캐시 차감, 환불 성공시 "성공", 실패시 "실패" 반환, 캐시 부족시 "캐시 부족" 반환
+        // TODO: 페이먼츠 환불로 변경
+        sqlSession.selectOne("DashBoardService.refundCash", paymentsListDTO);
+        String result;
+        int update_result = paymentsListDTO.getUpdate_result();
+        if(update_result == 1){
+            result = "성공";
+        }
+        else if(update_result == 0){
+            result = "실패";
+        }
+        else{
+            result = "캐시 부족";
+        }
+        return result;
+    }
 }

@@ -161,4 +161,10 @@ public class DashBoardController {
     public List<PaymentsListDTO> getPaymentList() throws Exception{
         return dashBoardService.getPaymentList();
     }
+
+    // 페이먼츠 캐시 환불
+    @PostMapping("/payment/refund/cash")
+    public String refundCash(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.refundCash(paymentsListDTO);
+    }
 }

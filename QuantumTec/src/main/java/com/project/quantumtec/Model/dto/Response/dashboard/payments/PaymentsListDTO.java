@@ -15,4 +15,6 @@ public class PaymentsListDTO {
     private String paymentCategory;         // 결제한 아이템 종류 (Avatar, Game, Cash)
     private int paymentItemIndex;           // 결제한 아이템 번호 (있을 경우)
     private int paymentPrice;               // 결제 금액
+
+    private int update_result;
 }
