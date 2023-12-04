@@ -97,9 +97,6 @@ public class DashBoardController {
     // 게임 리스트 불러오기
     @RequestMapping("/gamelist")
     public List<GameListDTO> getGameList() throws Exception{
-        for(int i = 0; i < dashBoardService.getGameList().size(); i++){
-            System.out.println(dashBoardService.getGameList().get(i).getGameName());
-        }
         return dashBoardService.getGameList();
     }
 
@@ -133,6 +130,7 @@ public class DashBoardController {
     // 게임 상세정보를 변경하는 메소드
     @PostMapping("/gameinfo/update")
     public boolean updateGameInfo(@RequestBody GameInfoUpdateDTO gameInfoUpdateDTO) throws Exception{
+        System.out.println(gameInfoUpdateDTO.getGameMemo());
         return dashBoardService.updateGameInfo(gameInfoUpdateDTO);
     }
 
@@ -142,6 +140,7 @@ public class DashBoardController {
     // 게임 시간별 접속량 불러오기
     @PostMapping("/gameinfo/accessbytime")
     public GameTimeDTO getGameAccessByTime(@RequestBody GameIdDTO gameIdDTO) throws Exception{
+        System.out.println(gameIdDTO.getGameIndex());
         return dashBoardService.getGameAccessByTime(gameIdDTO);
     }
 
