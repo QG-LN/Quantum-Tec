@@ -239,5 +239,55 @@ public class DashBoardDAOImpl implements DashBoardDAO{
         }
         return result;
     }
+
+    // 페이먼츠 게임 환불 취소
+    @Override
+    public String cancelRefundGame(PaymentsListDTO paymentsListDTO) {
+        sqlSession.selectOne("DashBoardService.cancelRefundGame", paymentsListDTO);
+        String result;
+        int update_result = paymentsListDTO.getUpdate_result();
+        if(update_result == 1){
+            result = "성공";
+        }
+        else if(update_result == 0){
+            result = "실패";
+        }
+        else{
+            result = "캐시 부족";
+        }
+        return result;
+    }
     
+    // 페이먼츠 아바타 환불
+    @Override
+    public String refundAvatar(PaymentsListDTO paymentsListDTO) {
+        sqlSession.selectOne("DashBoardService.refundAvatar", paymentsListDTO);
+        String result;
+        int update_result = paymentsListDTO.getUpdate_result();
+        if(update_result == 1){
+            result = "성공";
+        }
+        else{
+            result = "실패";
+        }
+        return result;
+    }
+
+    // 페이먼츠 아바타 환불 취소
+    @Override
+    public String cancelRefundAvatar(PaymentsListDTO paymentsListDTO) {
+        sqlSession.selectOne("DashBoardService.cancelRefundAvatar", paymentsListDTO);
+        String result;
+        int update_result = paymentsListDTO.getUpdate_result();
+        if(update_result == 1){
+            result = "성공";
+        }
+        else if(update_result == 0){
+            result = "실패";
+        }
+        else{
+            result = "캐시 부족";
+        }
+        return result;
+    }
 }

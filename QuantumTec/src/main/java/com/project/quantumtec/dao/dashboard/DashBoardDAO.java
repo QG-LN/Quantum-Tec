@@ -90,4 +90,13 @@ public interface DashBoardDAO {
 
     // 페이먼츠 게임 환불
     String refundGame(PaymentsListDTO paymentsListDTO);
+
+    // 페이먼츠 게임 환불 취소
+    String cancelRefundGame(PaymentsListDTO paymentsListDTO);
+
+    // 페이먼츠 아바타 환불
+    String refundAvatar(PaymentsListDTO paymentsListDTO);
+
+    // 페이먼츠 아바타 환불 취소
+    String cancelRefundAvatar(PaymentsListDTO paymentsListDTO);
 }

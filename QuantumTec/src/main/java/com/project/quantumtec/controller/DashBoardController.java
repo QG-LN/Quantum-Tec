@@ -179,4 +179,22 @@ public class DashBoardController {
     public String refundGame(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
         return dashBoardService.refundGame(paymentsListDTO);
     }
+
+    // 페이먼츠 게임 환불 취소
+    @PostMapping("/payment/refund/game/cancel")
+    public String cancelRefundGame(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.cancelRefundGame(paymentsListDTO);
+    }
+
+    // 페이먼츠 아바타 환불
+    @PostMapping("/payment/refund/avatar")
+    public String refundAvatar(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.refundAvatar(paymentsListDTO);
+    }
+
+    // 페이먼츠 아바타 환불 취소
+    @PostMapping("/payment/refund/avatar/cancel")
+    public String cancelRefundAvatar(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.cancelRefundAvatar(paymentsListDTO);
+    }
 }

@@ -228,4 +228,22 @@ public class DashBoardServiceImpl implements DashBoardService{
     public String refundGame(PaymentsListDTO paymentsListDTO) {
         return dashBoardDAO.refundGame(paymentsListDTO);
     }
+
+    // 페이먼츠 게임 환불 취소
+    @Override
+    public String cancelRefundGame(PaymentsListDTO paymentsListDTO) {
+        return dashBoardDAO.cancelRefundGame(paymentsListDTO);
+    }
+
+    // 페이먼츠 아바타 환불
+    @Override
+    public String refundAvatar(PaymentsListDTO paymentsListDTO) {
+        return dashBoardDAO.refundAvatar(paymentsListDTO);
+    }
+
+    // 페이먼츠 아바타 환불 취소
+    @Override
+    public String cancelRefundAvatar(PaymentsListDTO paymentsListDTO) {
+        return dashBoardDAO.cancelRefundAvatar(paymentsListDTO);
+    }
 }

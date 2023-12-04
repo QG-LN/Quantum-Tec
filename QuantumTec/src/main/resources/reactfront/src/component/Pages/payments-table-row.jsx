@@ -80,7 +80,11 @@ export default function PaymentsTableRow({row, selected, handleClick
             window.location.reload();
           }
           else{
-            alert('환불 취소 실패');
+            if(response === '캐시 부족'){
+              alert('캐시가 부족합니다.');
+            }
+            else
+              alert('환불 취소 실패');
           }
         });
 
@@ -115,6 +119,7 @@ export default function PaymentsTableRow({row, selected, handleClick
           paymentItemIndex: itemIndex,
           paymentPrice: price
         };
+        console.log(body);
         path = 'dashboard/payment/refund/game';
       }
 
