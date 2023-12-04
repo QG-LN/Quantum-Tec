@@ -119,4 +119,18 @@
         WHERE 
             c.POST_INDEX = #{postIndex};
     </select>
+
+    <select id="getPostModifyLog" resultType="BoardModifyLogDTO">
+        SELECT 
+            OPERATED_BY AS USER_ID,
+            JSON_UNQUOTE(JSON_EXTRACT(L.NEW_VALUE, '$.POST_TITLE')) AS POST_TITLE,
+            JSON_UNQUOTE(JSON_EXTRACT(L.NEW_VALUE, '$.POST_CONTENT')) AS POST_CONTENT,
+            L.TIMESTAMP AS POST_UPDATE_DATE,
+            JSON_UNQUOTE(JSON_EXTRACT(L.NEW_VALUE, '$.BOARD_INDEX')) AS BOARD_INDEX
+        FROM 
+            POST_INFO_TB_LOG L
+        WHERE 
+            L.OPERATION_TYPE = 'UPDATE'
+            AND JSON_UNQUOTE(JSON_EXTRACT(L.NEW_VALUE, '$.POST_INDEX')) = #{postIndex};
+    </select>
 </mapper>
