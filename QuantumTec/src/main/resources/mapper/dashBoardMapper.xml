@@ -83,4 +83,23 @@
         WHERE 
             gc.GAME_INDEX = #{gameIndex};
     </select>
+
+    <select id="getBoardList" resultType="BoardListDTO">
+        SELECT 
+            p.POST_INDEX,
+            b.BOARD_NAME AS BOARD_CATEGORY_NAME,
+            p.POST_TITLE,
+            u.USER_NAME AS POST_AUTHOR_NAME,
+            p.POST_CREATED_DATE,
+            p.POST_VIEWS,
+            p.POST_UPVOTES,
+            p.POST_DOWNVOTES,
+            (SELECT COUNT(*) FROM COMMENT_INFO_TB WHERE POST_INDEX = p.POST_INDEX) AS POST_COMMENTS
+        FROM 
+            POST_INFO_TB p
+        INNER JOIN 
+            BOARD_LIST_TB b ON p.BOARD_INDEX = b.BOARD_INDEX
+        INNER JOIN 
+            USER_INFO_TB u ON p.POST_AUTHOR_INDEX = u.USER_INDEX;
+    </select>
 </mapper>
