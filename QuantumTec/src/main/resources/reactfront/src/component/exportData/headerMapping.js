@@ -38,7 +38,7 @@ const handlerMappingUserActive={
 // 게임 정보[메인 정보]
 const handlerMappingGame = {
 	"번호" : "gameIndex",
-	"게임 이름" : "gameName",
+	"게임이름" : "gameName",
 	"가격" : "gamePrice",
 	"개발자" : "gameDeveloper",
 	"장르" : "gameGenre",
@@ -49,7 +49,7 @@ const handlerMappingGame = {
 // 게임 정보[결제 내역]
 const handlerMappingGamePayment = {
 	"번호" : "paymentIndex",
-	"결제자" : "productUser",
+	"결제자" : "userId",
 	"결제 금액" : "paymentAmount",
 	"결제 수단" : "paymentMethod",
 	"결제 상태" : "paymentStatus",

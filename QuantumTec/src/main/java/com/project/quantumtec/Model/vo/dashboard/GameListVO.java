@@ -8,7 +8,7 @@ public class GameListVO {
     private String gameName; // 게임 이름
     private int gamePrice; // 게임 가격
     private String gameDeveloper; // 게임 개발사
-    private int gameCategoryId; // 게임 카테고리 번호
+    private String gameCategoryName; // 게임 카테고리 번호
     private String gameReleaseDate; // 게임 출시일
     private float gameRating; // 게임 평점
 
