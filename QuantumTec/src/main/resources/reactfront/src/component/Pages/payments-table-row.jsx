@@ -50,7 +50,7 @@ export default function PaymentsTableRow({row, selected, handleClick
           userIndex: userIndex,
           paymentPrice: price
         };
-        path = '/dashborad/payment/refund/cash';
+        path = 'dashboard/payment/refund/cash';
       }
       else if(category === "Avatar"){
         body = {
@@ -60,7 +60,7 @@ export default function PaymentsTableRow({row, selected, handleClick
           paymentItemIndex: itemIndex,
           paymentPrice: price
         };
-        path = '/dashborad/payment/refund/avatar';
+        path = 'dashboard/payment/refund/avatar';
       }
       else if(category === "Game"){
         body = {
@@ -70,14 +70,14 @@ export default function PaymentsTableRow({row, selected, handleClick
           paymentItemIndex: itemIndex,
           paymentPrice: price
         };
-        path = '/dashborad/payment/refund/game';
+        path = 'dashboard/payment/refund/game';
       }
 
       axiosRequest(path, body, 'POST', 'json')
         .then((response) => {
-          if(response.data === 'success'){
+          if(response === 'success'){
             alert('환불 취소 완료');
-            // window.location.reload();
+            window.location.reload();
           }
           else{
             alert('환불 취소 실패');
@@ -95,7 +95,7 @@ export default function PaymentsTableRow({row, selected, handleClick
           userIndex: userIndex,
           paymentPrice: price
         };
-        path = '/dashborad/payment/refund/cash';
+        path = 'dashboard/payment/refund/cash';
       }
       else if(category === "Avatar"){
         body = {
@@ -105,7 +105,7 @@ export default function PaymentsTableRow({row, selected, handleClick
           paymentItemIndex: itemIndex,
           paymentPrice: price
         };
-        path = '/dashborad/payment/refund/avatar';
+        path = 'dashboard/payment/refund/avatar';
       }
       else if(category === "Game"){
         body = {
@@ -115,17 +115,21 @@ export default function PaymentsTableRow({row, selected, handleClick
           paymentItemIndex: itemIndex,
           paymentPrice: price
         };
-        path = '/dashborad/payment/refund/game';
+        path = 'dashboard/payment/refund/game';
       }
 
       axiosRequest(path, body, 'POST', 'json')
         .then((response) => {
-          if(response.data === 'success'){
+          if(response === '성공'){
             alert('환불 완료');
-            // window.location.reload();
+            window.location.reload();
           }
           else{
-            alert('환불 실패');
+            if(response === '캐시 부족'){
+              alert('캐시가 부족합니다.');
+            }
+            else
+              alert('환불 실패');
           }
         });
     }
