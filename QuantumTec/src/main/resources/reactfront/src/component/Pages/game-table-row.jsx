@@ -20,7 +20,7 @@ export default function GameTableRow({row, selected, handleClick}) {
   const name = row.gameName;
   const price = row.gamePrice;
   const company = row.gameDeveloper;
-  const category = row.gameCategoryId;
+  const category = row.gameCategoryName;
   const review = row.gameRating;
   const day = row.gameReleaseDate;        
   const [open, setOpen] = useState(null);

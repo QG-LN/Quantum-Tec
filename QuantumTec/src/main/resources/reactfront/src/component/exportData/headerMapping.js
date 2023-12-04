@@ -41,7 +41,7 @@ const handlerMappingGame = {
 	"게임이름" : "gameName",
 	"가격" : "gamePrice",
 	"개발자" : "gameDeveloper",
-	"장르" : "gameGenre",
+	"장르" : "gameCategoryName",
 	"출시일" : "gameReleaseDate",
 	"평가" : "gameRating",
 }
