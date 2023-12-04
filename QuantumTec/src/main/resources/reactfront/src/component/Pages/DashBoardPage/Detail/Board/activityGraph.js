@@ -1,8 +1,6 @@
 import React from 'react';
-
 import { useTheme } from "@mui/material/styles";
 import {
-  AppCurrentVisits,
   AppWebsiteVisits,
 } from "../../../../../dashboard/sections/@dashboard/app";
 import ThemeProvider from "../../../../../dashboard/theme";
@@ -10,36 +8,54 @@ import ThemeProvider from "../../../../../dashboard/theme";
 import { Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-//일별 게임 이용자 수
-const dayChartData = [
-  { date: "01/01/2023"},
-  { date: '02/01/2023'},
-  { date: '03/01/2023'},
-  { date: '04/01/2023'},
-  { date: '05/01/2023'},
-  { date: '06/01/2023'},
-  { date: '07/01/2023'},
-  { date: '08/01/2023'},
-  { date: '09/01/2023'},
-  { date: '10/01/2023'},
-  { date: '11/01/2023'},
-];
-const dayChartDataGame = [
-    { gameName: "Game 1", value: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]},
-    { gameName: "Game 2", value: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]},
-    { gameName: "Game 3", value: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]}
-];
+import { faker } from "@faker-js/faker";
 
-const setGameData = () =>{
-    const data = dayChartDataGame.map((data, index) => ({
-        name: data.gameName,
-        type: "line",
-        fill: "solid",
-        data: data.value,
-    }));
-    return data;
+// 현재로부터 최근 일주일 날짜를 구하기 위한 함수 [ 더미 데이터 ] 포맷 : 2021-10-01
+const getDates = () => {
+  const dates = [];
+  const today = new Date();
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(today.setDate(today.getDate() - 1));
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    dates.push({
+      time: `${year}-${month.toString().padStart(2, "0")}-${day
+        .toString()
+        .padStart(2, "0")}`,
+    });
+  }
+  return dates;
+};
+
+const timeChartData = getDates();
+console.log(timeChartData);
+
+// 일별 게임 이용자 수 데이터 [ 더미 데이터 ]
+const randomData = (count) => {
+  const data = [];
+  for (let i = 0; i < count; i++) {
+    data.push(faker.datatype.number({ min: 0, max: 100 }));
+  }
+  return data;
 }
 
+// 일별 게임 이용자 수 데이터 [ 더미 데이터 ]
+const timeChartDataGame = [
+  { gameName: "조회수", value: randomData(7)},
+  { gameName: "댓글증가량", value: randomData(7)},  
+  // { gameName: "Game 3", value: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]}
+];
+
+const setGraphData = () => {
+  const data = timeChartDataGame.map((data, index) => ({
+    name: data.gameName,
+    type: "line",
+    fill: "solid",
+    data: data.value,
+  }));
+  return data;
+}
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
@@ -67,26 +83,16 @@ function ActivityGraph() {
         <ThemeProvider>
           <div className="activity-graph">
               <Grid container spacing={3}>
-                  <Grid item xs={12} md={6} lg={8}>
+                  <Grid item xs={12} md={12} lg={12}>
                       <AppWebsiteVisits
                         title="게임 구매 추이"
                         // subheader="(+43%) than last year"
+                        xaxisType={"date"}
                         chartLabels={
-                          dayChartData.map((data, index) => data.date)}
+                          timeChartData.map((data, index) => data.time)}
                         chartData={
-                          setGameData()
+                          setGraphData()
                       }
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                      <AppCurrentVisits
-                        title="일일 접속량(명)"
-                        chartData={
-                          dayUserAgeData.map((ds, index) => (ds))
-                        }
-                        chartColors={[
-                          theme.palette.primary.main,
-                        ]}
                       />
                     </Grid>
                 </Grid>
