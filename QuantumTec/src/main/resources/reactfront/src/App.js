@@ -56,6 +56,7 @@ import LogDetail from './component/Pages/DashBoardPage/Detail/User/logDetail.js'
 import { useDispatch } from 'react-redux';
 import { setDashboardUserProfileList } from './redux/actions/dashboardUserProfileAction.js';
 import { setDashboardGameProfileList } from './redux/actions/dashboardGameProfileAction.js';
+import { setDashboardPaymentsProfileList } from './redux/actions/dashboardPaymentsProfileAction.js';
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
@@ -339,9 +340,25 @@ function BoardDashBoardPage(){
   )
 }
 function PaymentsDashBoardPage(){
+
+  const dispatch = useDispatch();
+  const [paymentsData, setPaymentsData] = useState();
+
+  useEffect(() => {
+    getData("dashboard/paymentlist")
+      .then(data => {
+        console.log("payments data", data);
+        setPaymentsData(data);
+        dispatch(setDashboardPaymentsProfileList(data));
+      })
+      .catch(error => {
+        console.error("데이터 로딩 중 오류 발생", error);
+      });
+  }, []);
+
   return (
     <div className="dashboard">
-        <TablePage title={"Payments"} dataRow={paymentsTableRow} dataLabel={paymentsHeadLabel} data={payments}/>
+        <TablePage title={"Payments"} dataRow={paymentsTableRow} dataLabel={paymentsHeadLabel} data={paymentsData}/>
     </div>
   )
 }

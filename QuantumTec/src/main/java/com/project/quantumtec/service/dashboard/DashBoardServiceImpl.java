@@ -4,6 +4,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
+import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsListDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
@@ -199,5 +200,50 @@ public class DashBoardServiceImpl implements DashBoardService{
     @Override
     public List<GameCommentDTO> getGameComment(GameIdDTO request) {
         return dashBoardDAO.getGameComment(request);
+    }
+
+
+    /////////////////////////// 페이먼츠 관련 메소드 ///////////////////////////
+
+    // 페이먼츠 리스트 불러오기
+    @Override
+    public List<PaymentsListDTO> getPaymentList() {
+        return dashBoardDAO.getPaymentList();
+    }
+
+    // 페이먼츠 캐시 환불
+    @Override
+    public String refundCash(PaymentsListDTO paymentsListDTO) {
+        return dashBoardDAO.refundCash(paymentsListDTO);
+    }
+
+    // 페이먼츠 캐시 환불 취소
+    @Override
+    public String cancelRefundCash(PaymentsListDTO paymentsListDTO) {
+        return dashBoardDAO.cancelRefundCash(paymentsListDTO);
+    }
+    
+    // 페이먼츠 게임 환불
+    @Override
+    public String refundGame(PaymentsListDTO paymentsListDTO) {
+        return dashBoardDAO.refundGame(paymentsListDTO);
+    }
+
+    // 페이먼츠 게임 환불 취소
+    @Override
+    public String cancelRefundGame(PaymentsListDTO paymentsListDTO) {
+        return dashBoardDAO.cancelRefundGame(paymentsListDTO);
+    }
+
+    // 페이먼츠 아바타 환불
+    @Override
+    public String refundAvatar(PaymentsListDTO paymentsListDTO) {
+        return dashBoardDAO.refundAvatar(paymentsListDTO);
+    }
+
+    // 페이먼츠 아바타 환불 취소
+    @Override
+    public String cancelRefundAvatar(PaymentsListDTO paymentsListDTO) {
+        return dashBoardDAO.cancelRefundAvatar(paymentsListDTO);
     }
 }

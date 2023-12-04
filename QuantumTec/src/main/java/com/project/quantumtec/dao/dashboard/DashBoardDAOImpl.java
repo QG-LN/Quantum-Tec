@@ -15,6 +15,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameTimeDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsListDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
 import com.project.quantumtec.Model.vo.dashboard.GameListVO;
@@ -179,5 +180,114 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public List<GameCommentDTO> getGameComment(GameIdDTO request) {
         return sqlSession.selectList("DashBoardService.getGameComment", request);
+    }
+
+
+    /////////////////////////// 페이먼츠 관련 메소드 ///////////////////////////
+
+    // 페이먼츠 리스트 불러오기
+    @Override
+    public List<PaymentsListDTO> getPaymentList() {
+        return sqlSession.selectList("DashBoardService.getPaymentList");
+    }
+
+    // 페이먼츠 캐시 환불
+    @Override
+    public String refundCash(PaymentsListDTO paymentsListDTO) {
+        sqlSession.selectOne("DashBoardService.refundCash", paymentsListDTO);
+        String result;
+        int update_result = paymentsListDTO.getUpdate_result();
+        if(update_result == 1){
+            result = "성공";
+        }
+        else if(update_result == 0){
+            result = "실패";
+        }
+        else{
+            result = "캐시 부족";
+        }
+        return result;
+    }
+    
+    // 페이먼츠 캐시 환불 취소
+    @Override
+    public String cancelRefundCash(PaymentsListDTO paymentsListDTO) {
+        sqlSession.selectOne("DashBoardService.cancelRefundCash", paymentsListDTO);
+        String result;
+        int update_result = paymentsListDTO.getUpdate_result();
+        if(update_result == 1){
+            result = "성공";
+        }
+        else{
+            result = "실패";
+        }
+        return result;
+    }
+
+
+    // 페이먼츠 게임 환불
+    @Override
+    public String refundGame(PaymentsListDTO paymentsListDTO) {
+        sqlSession.selectOne("DashBoardService.refundGame", paymentsListDTO);
+        String result;
+        int update_result = paymentsListDTO.getUpdate_result();
+        if(update_result == 1){
+            result = "성공";
+        }
+        else{
+            result = "실패";
+        }
+        return result;
+    }
+
+    // 페이먼츠 게임 환불 취소
+    @Override
+    public String cancelRefundGame(PaymentsListDTO paymentsListDTO) {
+        sqlSession.selectOne("DashBoardService.cancelRefundGame", paymentsListDTO);
+        String result;
+        int update_result = paymentsListDTO.getUpdate_result();
+        if(update_result == 1){
+            result = "성공";
+        }
+        else if(update_result == 0){
+            result = "실패";
+        }
+        else{
+            result = "캐시 부족";
+        }
+        return result;
+    }
+    
+    // 페이먼츠 아바타 환불
+    @Override
+    public String refundAvatar(PaymentsListDTO paymentsListDTO) {
+        sqlSession.selectOne("DashBoardService.refundAvatar", paymentsListDTO);
+        String result;
+        int update_result = paymentsListDTO.getUpdate_result();
+        if(update_result == 1){
+            result = "성공";
+        }
+        else{
+            result = "실패";
+        }
+        return result;
+    }
+
+    // 페이먼츠 아바타 환불 취소
+    @Override
+    public String cancelRefundAvatar(PaymentsListDTO paymentsListDTO) {
+        sqlSession.selectOne("DashBoardService.cancelRefundAvatar", paymentsListDTO);
+        String result;
+        int update_result = paymentsListDTO.getUpdate_result();
+        if(update_result == 1){
+            result = "성공";
+        }
+        else if(update_result == 0){
+            result = "실패";
+        }
+        else{
+            result = "캐시 부족";
+        }
+        return result;
     }
 }

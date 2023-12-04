@@ -7,20 +7,29 @@ import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
+import Label from '../../dashboard/components/label';
 
 import Iconify from '../../dashboard/components/iconify';
+
+import { axiosRequest } from '../Utils/networkUtils';
 
 // ----------------------------------------------------------------------
 
 export default function PaymentsTableRow({row, selected, handleClick
 }) {
-  const index = row.index;
-  const payhistory = row.payhistory;
-  const userid = row.userid;
-  const paytype = row.paytype;
-  const payday = row.payday;
-  const paystates = row.paystates;
+  const index = row.paymentIndex;
+  const payhistory = row.paymentName;
+  const userid = row.userId;
+  const paytype = row.paymentMethod;
+  const payday = row.paymentDate;
+  const paystates = row.paymentStatus;
+  const userIndex = row.userIndex;
+  const category = row.paymentCategory;
+  const price = row.paymentPrice;
+  const itemIndex = row.paymentItemIndex;
+
   const [open, setOpen] = useState(null);
+  const editMenu = row.paymentStatus !== '결제 실패';
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -28,6 +37,110 @@ export default function PaymentsTableRow({row, selected, handleClick
 
   const handleCloseMenu = () => {
     setOpen(null);
+  };
+
+  const handleRefund = () => {
+    if(paystates === '환불'){
+      let body;
+      let path;
+      if(category === "Cash"){
+        body = {
+          paymentIndex: index,
+          paymentStatus: '결제 완료',
+          userIndex: userIndex,
+          paymentPrice: price
+        };
+        path = 'dashboard/payment/refund/cash/cancel';
+      }
+      else if(category === "Avatar"){
+        body = {
+          paymentIndex: index,
+          paymentStatus: '결제 완료',
+          userIndex: userIndex,
+          paymentItemIndex: itemIndex,
+          paymentPrice: price
+        };
+        path = 'dashboard/payment/refund/avatar/cancel';
+      }
+      else if(category === "Game"){
+        body = {
+          paymentIndex: index,
+          paymentStatus: '결제 완료',
+          userIndex: userIndex,
+          paymentItemIndex: itemIndex,
+          paymentPrice: price
+        };
+        path = 'dashboard/payment/refund/game/cancel';
+      }
+
+      axiosRequest(path, body, 'POST', 'string')
+        .then((response) => {
+          if(response === '성공'){
+            alert('환불 취소 완료');
+            window.location.reload();
+          }
+          else{
+            if(response === '캐시 부족'){
+              alert('캐시가 부족합니다.');
+            }
+            else
+              alert('환불 취소 실패');
+          }
+        });
+
+    }
+    else if(paystates === '결제 완료'){
+      let body;
+      let path;
+      if(category === "Cash"){
+        body = {
+          paymentIndex: index,
+          paymentStatus: '환불',
+          userIndex: userIndex,
+          paymentPrice: price
+        };
+        path = 'dashboard/payment/refund/cash';
+      }
+      else if(category === "Avatar"){
+        body = {
+          paymentIndex: index,
+          paymentStatus: '환불',
+          userIndex: userIndex,
+          paymentItemIndex: itemIndex,
+          paymentPrice: price
+        };
+        path = 'dashboard/payment/refund/avatar';
+      }
+      else if(category === "Game"){
+        body = {
+          paymentIndex: index,
+          paymentStatus: '환불',
+          userIndex: userIndex,
+          paymentItemIndex: itemIndex,
+          paymentPrice: price
+        };
+        console.log(body);
+        path = 'dashboard/payment/refund/game';
+      }
+
+      axiosRequest(path, body, 'POST', 'string')
+        .then((response) => {
+          console.log(response);
+          if(response === '성공'){
+            alert('환불 완료');
+            window.location.reload();
+          }
+          else{
+            if(response === '캐시 부족'){
+              alert('캐시가 부족합니다.');
+            }
+            else
+              alert('환불 실패');
+          }
+        });
+    }
+      
+    handleCloseMenu();
   };
 
   return (
@@ -56,7 +169,7 @@ export default function PaymentsTableRow({row, selected, handleClick
         </TableCell>
 
         <TableCell align='center'>
-          {paystates}
+          <Label color={((paystates === '결제 실패' || paystates === "환불") && 'error') || 'success'}>{paystates}</Label>
         </TableCell>
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
@@ -75,14 +188,16 @@ export default function PaymentsTableRow({row, selected, handleClick
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
+        {editMenu && (
+          <MenuItem onClick={handleRefund}>
+            <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+            {paystates === '환불' ? '환불 취소' : '환불 처리'}
+          </MenuItem>
+        )}
 
         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
+          삭제
         </MenuItem>
       </Popover>
     </>

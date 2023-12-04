@@ -13,6 +13,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
+import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsListDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.service.dashboard.DashBoardService;
 import com.project.quantumtec.service.game.GameService;
@@ -150,5 +151,49 @@ public class DashBoardController {
         // index가 높아질 수록 최근 날짜
         // 마지막 index는 오늘 날짜
         return dashBoardService.getGameAccessByDay(gameIdDTO);
+    }
+
+    /////////////////////////// 페이먼츠 관련 메소드 ///////////////////////////
+
+    // 페이먼츠 리스트 불러오기
+    @RequestMapping("/paymentlist")
+    public List<PaymentsListDTO> getPaymentList() throws Exception{
+        return dashBoardService.getPaymentList();
+    }
+
+    // 페이먼츠 캐시 환불
+    @PostMapping("/payment/refund/cash")
+    public String refundCash(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.refundCash(paymentsListDTO);
+    }
+
+    // 페이먼츠 캐시 환불 취소
+    @PostMapping("/payment/refund/cash/cancel")
+    public String cancelRefundCash(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.cancelRefundCash(paymentsListDTO);
+    }
+
+    // 페이먼츠 게임 환불
+    @PostMapping("/payment/refund/game")
+    public String refundGame(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.refundGame(paymentsListDTO);
+    }
+
+    // 페이먼츠 게임 환불 취소
+    @PostMapping("/payment/refund/game/cancel")
+    public String cancelRefundGame(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.cancelRefundGame(paymentsListDTO);
+    }
+
+    // 페이먼츠 아바타 환불
+    @PostMapping("/payment/refund/avatar")
+    public String refundAvatar(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.refundAvatar(paymentsListDTO);
+    }
+
+    // 페이먼츠 아바타 환불 취소
+    @PostMapping("/payment/refund/avatar/cancel")
+    public String cancelRefundAvatar(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.cancelRefundAvatar(paymentsListDTO);
     }
 }
