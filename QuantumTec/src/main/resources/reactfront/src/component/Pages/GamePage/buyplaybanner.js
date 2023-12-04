@@ -19,7 +19,7 @@ export default function Buyplaybanner(props) {
         // alert('게임을 실행합니다.');
         try {
             // id값을 받아서 게임 실행
-            window.open('http://localhost:5500/' + id + '/index.html');
+            window.open('http://www.argonautdev.org:5500/' + id + '/index.html');
         } catch (e) {
             console.log(e);
         }
