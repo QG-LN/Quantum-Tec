@@ -3,9 +3,12 @@ package com.project.quantumtec.service.game;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.dao.game.GameDAO;
 import com.project.quantumtec.Model.dto.game.*;
+import com.project.quantumtec.Model.vo.game.GameCommentVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("GameServiceImpl")
@@ -33,7 +36,15 @@ public class GameServiceImpl implements GameService{
         int itemNum = 10; // 한 페이지(로딩 단위) 당 표시할 댓글 수
         request.setStartIndex((request.getPageNum()-1)*itemNum); // 페이지 (로딩 단위)에 따른 시작 댓글 인덱스 계산
         request.setEndIndex(itemNum); // 한 페이지(로딩 단위) 당 댓글 수
-        return gameDAO.getPostGameComment(request);
+        List<GameCommentDTO> commentList = new ArrayList<>();
+        List<GameCommentVO> commentVOList = gameDAO.getPostGameComment(request);
+        for(int i = 0; i < commentVOList.size(); i++){
+            GameCommentDTO dto = new GameCommentDTO();
+            dto = dto.mapGameCommentVOToDTO(commentVOList.get(i));
+
+            commentList.add(dto);
+        }
+        return commentList;
     }
 
     @Override

@@ -111,16 +111,27 @@
         8. 비추천수
         9. 게임 만족도
     -->
-    <select id="getGameCommentList" resultType="GameCommentDTO">
+    <select id="getGameCommentList" resultType="GameCommentVO">
         SELECT
             U.USER_ID,
             U.USER_NAME,
-            <!-- G.GAME_COMMENT_TITLE,  -->
             G.COMMENT_CONTENT,
             G.COMMENT_CREATED_DATE,
             G.COMMENT_UPVOTES,
             G.COMMENT_DOWNVOTES,
-            G.COMMENT_RATING
+            G.COMMENT_RATING,
+            (SELECT 
+                JSON_ARRAYAGG(JSON_OBJECT('itemName',
+                                    ai.ITEM_NAME,
+                                    'itemCategoryName',
+                                    aic.ITEM_CATEGORY_NAME))
+            FROM
+                ((USER_AVATAR_INVENTORY_TB uai
+                JOIN AVATAR_ITEM_TB ai ON (ai.ITEM_INDEX = uai.ITEM_INDEX))
+                JOIN AVATAR_ITEM_CATEGORY_TB aic ON (aic.ITEM_CATEGORY_ID = ai.ITEM_CATEGORY_ID))
+            WHERE
+                uai.USER_INDEX = U.USER_INDEX
+                    AND uai.ITEM_USAGE_STATUS = 1) AS AVATAR_ITEM_LIST
         FROM
             GAME_COMMENT_INFO_TB G, USER_INFO_TB U
         WHERE

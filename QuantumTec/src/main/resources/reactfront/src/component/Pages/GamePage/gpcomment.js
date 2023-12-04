@@ -2,6 +2,7 @@ import React, {useState, useParams, useEffect} from "react";
 import {faX, faWrench} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import AvatarCanvas from "../avatarInventory/avatarCanvas";
 
 export default function Gamecomment(props) {
     // commnet 배열 가져오기
@@ -84,8 +85,11 @@ export default function Gamecomment(props) {
                         <FontAwesomeIcon icon={faX} style={{color: "#aaa",}} className='position-absolute top-1 end-2'/>
                         <div className='row align-items-center p-0 m-0 ms-3'>
                             <div className='col-1 m-0 p-0 me-3 user-select-none'>
-                                <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'
-                                     className="rounded w-[70px]" alt="..."></img>
+                                {/* <img src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'
+                                     className="rounded w-[70px]" alt="..."></img> */}
+                                <div className="w-[70px]">
+                                    <AvatarCanvas size={[200,200]} position={[128,128]} avatarItemList={comment.avatarItemList || []}/>
+                                </div>
                             </div>
                             <div className='col-2 text-start ps-0 user-select-none'>
                                 <div className='text-start ps-0'>{comment.userName}</div>

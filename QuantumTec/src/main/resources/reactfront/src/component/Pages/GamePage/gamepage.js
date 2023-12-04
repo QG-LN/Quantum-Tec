@@ -6,6 +6,7 @@ import GPcomment from './gpcomment.js'
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import {axiosRequest} from "../../Utils/networkUtils";
+import AvatarCanvas from '../avatarInventory/avatarCanvas.js';
 
 
 
@@ -261,9 +262,12 @@ export default function GamePage() {
             {buyStatus &&
                 <div>
                     <h3 class='text-left ml-16 mb-5'>{gameName.replaceAll('_',' ')}에 대한 평가</h3>
-                    <div class='ml-16 flex'>
-                        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9aAVl5QQCGWBdIwuGs2ybjGoAuiwAWflMh5imVUnvk3SbYbDXelzOpCCJEHlJ67IIU5k&usqp=CAU' class='w-[140px] h-[140px]'/>
-                        <div class='ml-[80px]'>
+                    <div class='flex'>
+                        {/* <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9aAVl5QQCGWBdIwuGs2ybjGoAuiwAWflMh5imVUnvk3SbYbDXelzOpCCJEHlJ67IIU5k&usqp=CAU' class='w-[140px] h-[140px]'/> */}
+                        <div class='w-[140px] h-[140px] mx-2'>
+                            <AvatarCanvas />
+                        </div>
+                        <div class=''>
                             <textarea name='comment' class='border' rows='10' cols='119'placeholder='평가를 작성해 주세요' onChange={HandleSetComment} value={comment}></textarea>
                             <div>
                                 <fieldset class='radioButtonStyle'>

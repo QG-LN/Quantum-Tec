@@ -2,6 +2,8 @@ package com.project.quantumtec.dao.game;
 
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.game.*;
+import com.project.quantumtec.Model.vo.game.GameCommentVO;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -38,7 +40,7 @@ public class GameDAOImpl implements GameDAO{
     }
 
     @Override
-    public List<GameCommentDTO> getPostGameComment(GameCommentListDTO request) {
+    public List<GameCommentVO> getPostGameComment(GameCommentListDTO request) {
         try{
             return sqlSession.selectList("GameService.getGameCommentList", request);
         }catch (Exception e) {
