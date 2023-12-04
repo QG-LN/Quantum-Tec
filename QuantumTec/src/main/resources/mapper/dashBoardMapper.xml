@@ -92,7 +92,11 @@
                 u.USER_ID AS userId,
                 p.PAYMENT_METHOD AS paymentMethod,
                 p.PAYMENT_DATE AS paymentDate,
-                p.PAYMENT_STATUS AS paymentStatus
+                p.PAYMENT_STATUS AS paymentStatus,
+                "Game" AS paymentCategory,
+                p.PAYMENT_AMOUNT AS paymentPrice,
+                p.GAME_INDEX AS paymentItemIndex,
+                u.USER_INDEX AS userIndex
             FROM
                 PAYMENT_INFO_TB p
             JOIN
@@ -109,7 +113,11 @@
                 u.USER_ID AS userId,
                 a.PAYMENT_METHOD AS paymentMethod,
                 a.PAYMENT_DATE AS paymentDate,
-                a.PAYMENT_STATUS AS paymentStatus
+                a.PAYMENT_STATUS AS paymentStatus,
+                "Avatar" AS paymentCategory,
+                a.PAYMENT_AMOUNT AS paymentPrice,
+                a.ITEM_INDEX AS paymentItemIndex,
+                u.USER_INDEX AS userIndex
             FROM
                 AVATAR_PAYMENT_HISTORY_TB a
             JOIN
@@ -126,7 +134,11 @@
                 u.USER_ID AS userId,
                 c.PAYMENT_METHOD AS paymentMethod,
                 c.PAYMENT_DATE AS paymentDate,
-                c.PAYMENT_STATUS AS paymentStatus
+                c.PAYMENT_STATUS AS paymentStatus,
+                "Cash" AS paymentCategory,
+                c.PAYMENT_AMOUNT AS paymentPrice,
+                NULL AS paymentItemIndex,
+                u.USER_INDEX AS userIndex
             FROM
                 CASH_PAYMENT_HISTORY_TB c
             JOIN
