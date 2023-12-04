@@ -185,9 +185,9 @@ export default function TablePage(props) {
             <div class='mr-5'>
               {data[0] !== null ? <ExportDataToExcelButton title={"엑셀 다운로드"} fileName={pageName} data={data} header={header} /> : <></>}
             </div>
-              {props.createButton === undefined ? <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill"/>}>
+              {/* {props.createButton === undefined ? <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill"/>}>
               New {pageName}
-              </Button>:<></>}
+              </Button>:<></>} */}
           </div>
         </Stack>
 
