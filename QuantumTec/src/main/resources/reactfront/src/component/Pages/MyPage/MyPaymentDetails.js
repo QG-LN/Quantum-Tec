@@ -59,9 +59,9 @@ export default function MyPaymentDetails() {
       case "결제 완료":
         return <span class="text-primary">{status}</span>;
       case "결제 취소":
-        return <span class="text-danger">{status}</span>;
-      case "결제 환불":
         return <span class="text-warning">{status}</span>;
+      case "환불":
+        return <span class="text-danger">{status}</span>;
       default:
         return <span class="text-primary">{status}</span>;
     }
