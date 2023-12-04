@@ -1,45 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 
 import { useTheme } from "@mui/material/styles";
 import {
-  AppCurrentVisits,
-  AppWebsiteVisits,
+  AppConversionRates,
 } from "../../../../../dashboard/sections/@dashboard/app";
 import ThemeProvider from "../../../../../dashboard/theme";
+import { axiosRequest } from "../../../../Utils/networkUtils";
 
 import { Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-//일별 게임 이용자 수
-const dayChartData = [
-  { date: "01/01/2023"},
-  { date: '02/01/2023'},
-  { date: '03/01/2023'},
-  { date: '04/01/2023'},
-  { date: '05/01/2023'},
-  { date: '06/01/2023'},
-  { date: '07/01/2023'},
-  { date: '08/01/2023'},
-  { date: '09/01/2023'},
-  { date: '10/01/2023'},
-  { date: '11/01/2023'},
-];
-const dayChartDataGame = [
-    { gameName: "Game 1", value: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]},
-    { gameName: "Game 2", value: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]},
-    { gameName: "Game 3", value: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]}
-];
+import { faker } from "@faker-js/faker";
 
-const setGameData = () =>{
-    const data = dayChartDataGame.map((data, index) => ({
-        name: data.gameName,
-        type: "line",
-        fill: "solid",
-        data: data.value,
-    }));
-    return data;
+// 시간대 별 체크를 위한 시간 데이터 그냥 나열한것
+const timeChartData = [];
+
+for (let hour = 0; hour < 24; hour++) {
+  const time = `${hour.toString().padStart(2, "0")}`;
+  timeChartData.push({ time });
 }
 
+const dayChartDataGame = [
+  // { gameName: "시간 별", value: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 10, 10]},
+  {
+    gameName: "시간 별",
+    value: [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ],
+    // value: faker.datatype.number({ min: 0, max: 100}),
+  },
+];
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
@@ -56,56 +46,128 @@ const Main = styled("div")(({ theme }) => ({
   },
 }));
 
-//일별 이용자 연령대
-const dayUserAgeData = [
-    { label: "게임", value: [2,3,6,7,8,2] },
-]
+let setGameData = () => {
+  const data = dayChartDataGame.map((data, index) => ({
+    name: data.gameName,
+    type: "line",
+    fill: "solid",
+    data: data.value,
+  }));
+  return data;
+};
+
+// //게임 이용자 수 데이터 [ 더미 데이터 ]
+const gameUserData = (type) => {
+  if (type === "time") {
+    const data = timeChartData.map((data, index) => ({
+      label: data.time,
+      value: faker.datatype.number({ min: 0, max: 100 }),
+    }));
+    return data;
+  } else {
+  }
+};
+
+// 현재로부터 최근 일주일 날짜를 구하기 위한 함수 [ 더미 데이터 ] 포맷 : 2021-10-01
+const getDates = () => {
+  const dates = [];
+  const today = new Date();
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(today.setDate(today.getDate() - 1));
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    dates.push({
+      time: `${year}-${month.toString().padStart(2, "0")}-${day
+        .toString()
+        .padStart(2, "0")}`,
+    });
+  }
+  return dates;
+};
+
+const dayCommentData = (type) => {
+  const data = [];
+  for (let i = 0; i < 7; i++) {
+    data.push({
+      label: getDates()[i].time,
+      value: faker.datatype.number({ min: 0, max: 100 }),
+    });
+  }
+
+  return data;
+}
 
 function ActivityGraph() {
-    const theme = useTheme();
-    return (
-        <ThemeProvider>
-          <div className="activity-graph">
-              <h2>활동 그래프</h2>
+  useEffect(() => {
+    const path = "dashboard/gameinfo/accessbytime";
+    const body = {
+      gameIndex: 1,
+    };
 
-              <Grid container spacing={3}>
-                  <Grid item xs={12} md={6} lg={8}>
-                      <AppWebsiteVisits
-                        title="게임 구매 추이"
-                        // subheader="(+43%) than last year"
-                        chartLabels={
-                          dayChartData.map((data, index) => data.date)}
-                        chartData={
-                          setGameData()
-                      }
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                      <AppCurrentVisits
-                        title="일일 접속량(명)"
-                        chartData={
-                          dayUserAgeData.map((ds, index) => (ds))
-                        }
-                        chartColors={[
-                          theme.palette.primary.main,
-                        ]}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                      <AppCurrentVisits
-                        title="댓글 작성량"
-                        chartData={
-                          dayUserAgeData.map((ds, index) => (ds))
-                        }
-                        chartColors={[
-                          theme.palette.primary.main,
-                        ]}
-                      />
-                    </Grid>
-                </Grid>
-          </div>
-        </ThemeProvider>
-    );
+    const requestData = [];
+
+    axiosRequest(path, body, "POST", "json")
+      .then((response) => {
+        requestData.push(response.accessCount);
+
+        // 더미 데이터 생성
+        const values = [];
+        for (let hour = 0; hour < 24; hour++) {
+          const value = faker.datatype.number({ min: 0, max: 100 });
+          values.push(value);
+        }
+        const valueData = { value: values };
+
+        setGameData = () => {
+          const data = requestData.map((data, index) => ({
+            name: data.gameName,
+            type: "line",
+            fill: "solid",
+            data: valueData.value, // 더미데이터로 임시 세팅
+          }));
+          return data;
+        };
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const theme = useTheme();
+  return (
+    <ThemeProvider>
+      <div className="activity-graph">
+        <h2>활동 그래프</h2>
+
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6} lg={12}>
+            <AppConversionRates
+              title="일일 접속량(명)"
+              horizontal={false}
+              chartData={gameUserData("time").map((data, index) => data)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6} lg={6}>
+            <AppConversionRates
+              title="댓글 작성량(명)"
+              // subheader="(+43%) than last year"
+              horizontal={false}
+              chartData={dayCommentData("time").map((data, index) => data)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6} lg={6}>
+            <AppConversionRates
+              title="게임 구매량(명)"
+              // subheader="(+43%) than last year"
+              horizontal={false}
+              chartData={dayCommentData("time").map((data, index) => data)}
+            />
+          </Grid>
+        </Grid>
+      </div>
+    </ThemeProvider>
+  );
 }
 
 export default ActivityGraph;
