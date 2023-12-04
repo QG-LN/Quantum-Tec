@@ -39,7 +39,11 @@ public class DashBoardController {
 
     @Autowired
     private DashBoardService dashBoardService;
+
+    @Autowired
     private UserService userService;
+
+    @Autowired
     private BoardService boardService;
 
     //프로필 정보 조회
@@ -215,11 +219,11 @@ public class DashBoardController {
     // 게시글 상세정보 불러오기 (유저 아이디(mapper 확인하니 미사용중), 게시글 번호)
     @PostMapping("/postinfo")
     public ViewResponseDTO getPostInfo(@RequestBody ViewDTO request) throws Exception{
-        CommentCountDTO count = new CommentCountDTO(); // 댓글 수를 불러올때 쓰는 Request DTO
-        count.setPostIndex(request.getPostIndex()); // ViewDTO 내부에서 postIndex를 받아와서 count에 넣어줌
-        ViewResponseDTO view = new ViewResponseDTO(); // 게시글 상세정보를 담을 Response DTO
-        view = boardService.getPost(request);      // 게시글 상세정보를 불러옴
-        view.setPostComments(boardService.getCommentCount(count)); // 댓글 수를 불러옴
+        CommentCountDTO count = new CommentCountDTO();              // 댓글 수를 불러올때 쓰는 Request DTO
+        count.setPostIndex(request.getPostIndex());                 // ViewDTO 내부에서 postIndex를 받아와서 count에 넣어줌
+        ViewResponseDTO view = new ViewResponseDTO();               // 게시글 상세정보를 담을 Response DTO
+        view = boardService.getPost(request);                       // 게시글 상세정보를 불러옴
+        view.setPostComments(boardService.getCommentCount(count));  // 댓글 수를 불러옴
         return view;
     }
 

@@ -10,20 +10,24 @@ import IconButton from '@mui/material/IconButton';
 
 import Iconify from '../../dashboard/components/iconify';
 
+import { useNavigate } from 'react-router-dom';
+
 // ----------------------------------------------------------------------
 
 export default function BoardTableRow({row, selected, handleClick
 }) {
 
-  const boardname = row.boardname;
-  const user = row.user;
-  const boardcategory = row.boardcategory;
-  const recommend = row.recommend;
-  const views = row.views;
-  const comment = row.comment;
-  const index = row.index;
-  const day = row.day;
+  const boardname = row.postTitle;
+  const user = row.postAuthorName;
+  const boardcategory = row.boardCategoryName;
+  const recommend = row.postUpvotes;
+  const views = row.postViews;
+  const comment = row.postComments;
+  const index = row.postIndex;
+  const day = row.postCreatedDate;
   const [open, setOpen] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -33,9 +37,13 @@ export default function BoardTableRow({row, selected, handleClick
     setOpen(null);
   };
 
+  const handleClickRow = (event) => {
+    navigate(`/dashboard/board/${index}`);
+  };
+
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+      <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClickRow}>
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>

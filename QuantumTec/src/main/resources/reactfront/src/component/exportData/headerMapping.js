@@ -56,6 +56,7 @@ const handlerMappingGamePayment = {
 	"결제 일자" : "paymentDate",
 }
 
+// 게임 정보 [댓글 내역]
 const handlerMappingGameComment = {
 	"사용자명" : "userName",
 	"댓글 내용" : "commentContent",
@@ -65,4 +66,28 @@ const handlerMappingGameComment = {
 	"비추천 수" : "commentDownvote"
 }
 
-export {handlerMappingUser, handlerMappingUserPayment, handlerMappingUserActive, handlerMappingGame, handlerMappingGamePayment, handlerMappingGameComment};
+// 게시글 정보 [메인 정보]
+const handlerMappingPost = {
+	"번호" : "postIndex",
+	"게시판" : "boardTitle",
+	"게시글명" : "postTitle",
+	"사용자명" : "postAuthorName",
+	"작성일자" : "postCreatedDate",
+	"조회수" : "postViews",
+	"추천수" : "postUpvotes",
+	"댓글수" : "postComments",
+}
+
+const handlerMappingPostComment = {
+	"번호" : "commentIndex",
+	"사용자명" : "commentWriter",
+	"댓글 내용" : "commentContent",
+	"댓글 작성 시간" : "commentCreatedDate",
+	"평점" : "commentRating",
+	"추천 수" : "commentUpvote",
+	"비추천 수" : "commentDownvote"
+}
+
+export {handlerMappingUser, handlerMappingUserPayment, handlerMappingUserActive, 
+	handlerMappingGame, handlerMappingGamePayment, handlerMappingGameComment,
+	handlerMappingPost, handlerMappingPostComment};

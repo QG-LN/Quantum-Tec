@@ -66,8 +66,6 @@ function ActivityGraph() {
     return (
         <ThemeProvider>
           <div className="activity-graph">
-              <h2>활동 그래프</h2>
-
               <Grid container spacing={3}>
                   <Grid item xs={12} md={6} lg={8}>
                       <AppWebsiteVisits
@@ -83,17 +81,6 @@ function ActivityGraph() {
                     <Grid item xs={12} md={6} lg={4}>
                       <AppCurrentVisits
                         title="일일 접속량(명)"
-                        chartData={
-                          dayUserAgeData.map((ds, index) => (ds))
-                        }
-                        chartColors={[
-                          theme.palette.primary.main,
-                        ]}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                      <AppCurrentVisits
-                        title="댓글 작성량"
                         chartData={
                           dayUserAgeData.map((ds, index) => (ds))
                         }

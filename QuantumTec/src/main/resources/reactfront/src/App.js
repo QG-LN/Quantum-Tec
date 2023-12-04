@@ -44,7 +44,7 @@ import GameProfile from './component/Pages/DashBoardPage/Detail/Game/gameProfile
 import dBoardTableRow from './component/Pages/dboard-table-row';
 import dBoard from './dashboard/_mock/dBoard';                // 임시데이터
 import dBoardHeadLabel from './dashboard/_mock/dBoardHeadLabel';
-import BoardProfilePage from './component/Pages/DashBoardPage/Detail/Board/boardProfile.js';
+import BoardProfile from './component/Pages/DashBoardPage/Detail/Board/boardProfile.js';
 
 //DashBoard -> payments
 import paymentsTableRow from './component/Pages/payments-table-row';
@@ -57,6 +57,7 @@ import { useDispatch } from 'react-redux';
 import { setDashboardUserProfileList } from './redux/actions/dashboardUserProfileAction.js';
 import { setDashboardGameProfileList } from './redux/actions/dashboardGameProfileAction.js';
 import { setDashboardPaymentsProfileList } from './redux/actions/dashboardPaymentsProfileAction.js';
+import { setDashboardBoardProfileList } from './redux/actions/dashboardBoardProfileAction.js';
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
@@ -314,7 +315,6 @@ function GameProfilePage(){
   const [gameData, setGameData] = useState();
 
   useEffect(() => {
-    console.log(111);
     getData("dashboard/gamelist")
       .then(data => {
         setGameData(data);
@@ -333,12 +333,50 @@ function GameProfilePage(){
 
 
 function BoardDashBoardPage(){
+  const dispatch = useDispatch();
+  const [boardData, setBoardData] = useState();
+
+  useEffect(() => {
+    getData("dashboard/boardlist")
+      .then(data => {
+        setBoardData(data);
+        dispatch(setDashboardBoardProfileList(data));
+      })
+      .catch(error => {
+        console.error("데이터 로딩 중 오류 발생", error);
+      });
+  }, []);
+
+
   return (
     <div className="dashboard">
-        <TablePage title={"DashBaords"} dataRow={dBoardTableRow} dataLabel={dBoardHeadLabel} data={dBoard}/>
+        <TablePage title={"Board"} dataRow={dBoardTableRow} dataLabel={dBoardHeadLabel} data={boardData}/>
     </div>
   )
 }
+
+function BoardProfilePage(){
+  const dispatch = useDispatch();
+  const [boardData, setBoardData] = useState();
+
+  useEffect(() => {
+    getData("dashboard/boardlist")
+      .then(data => {
+        setBoardData(data);
+        dispatch(setDashboardBoardProfileList(data));
+      })
+      .catch(error => {
+        console.error("데이터 로딩 중 오류 발생", error);
+      });
+  }, []);
+
+  return (
+    <div className="dashboard">
+        {boardData && <BoardProfile loadState={boardData} />}
+    </div>
+  )
+}
+
 function PaymentsDashBoardPage(){
 
   const dispatch = useDispatch();
@@ -347,7 +385,6 @@ function PaymentsDashBoardPage(){
   useEffect(() => {
     getData("dashboard/paymentlist")
       .then(data => {
-        console.log("payments data", data);
         setPaymentsData(data);
         dispatch(setDashboardPaymentsProfileList(data));
       })

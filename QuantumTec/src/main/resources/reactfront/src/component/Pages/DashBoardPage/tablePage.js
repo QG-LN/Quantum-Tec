@@ -21,7 +21,10 @@ import UserTableToolbar from "../user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "../utils";
 
 import ExportDataToExcelButton from "../../exportData/exportData";
-import {handlerMappingUser, handlerMappingUserPayment, handlerMappingUserActive, handlerMappingGame, handlerMappingGamePayment, handlerMappingGameComment} from "../../exportData/headerMapping";
+import {handlerMappingUser, handlerMappingUserPayment, handlerMappingUserActive, 
+      handlerMappingGame, handlerMappingGamePayment, handlerMappingGameComment,
+      handlerMappingPost, handlerMappingPostComment
+} from "../../exportData/headerMapping";
 
 // ----------------------------------------------------------------------
 // styled를 사용하여 커스텀 Container 컴포넌트 생성
@@ -135,6 +138,12 @@ export default function TablePage(props) {
         return handlerMappingGameComment;
       }else{
         return null;
+      }
+    }else if(location.pathname.includes("/board")){
+      if(pageName.includes("BOARD")){
+        return handlerMappingPost;
+      }else if(pageName.includes("댓글리스트")){
+        return handlerMappingPostComment;
       }
     }else{
       return null;

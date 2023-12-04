@@ -1,18 +1,54 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import ActivityGraph from './activityGraph';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import {axiosRequest} from '../../../../Utils/networkUtils';
+import AccountManagement from './accountManagement';
+import BoardItems from './boardItems';
+import { Viewer } from '@toast-ui/react-editor';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
 
-function boardProfile(props) {
-  const boardNum = 1;
-  const allBoardNum = 10;
-  const boardType = "자유게시판";
-  const postName = "게시글1";
-  const postWriter = "홍길동";
-  const postDate = "2021-10-10";
-  const postContent = "안녕하세요";
-  const postUpvote = 10;
-  const postDownvote = 1;
+function BoardProfile({loadState}) {
+  const states = useSelector(state => state.dashboardBoardProfile.dashboardBoardList);
+  const { id } = useParams();
+  const [state, setState] = useState(states.filter(e => e.postIndex === parseInt(id))[0]);
+
+  const [postInfo, setPostInfo] = useState({
+    boardTitle: "",
+    postAuthor: "",
+    boardIndex: 0,
+    postName: "",
+    postDate: null,
+    postContent: "",
+    postUpvotes: 0,
+    postView: 0,
+    postDownvotes: 0,
+  });
+
+
+  useEffect(() => {
+    if(!state?.postIndex) {
+      setState(loadState);
+      return;
+    }    const path = 'dashboard/postinfo';
+    const body = {
+      postIndex: state.postIndex,
+      userID : localStorage.getItem('userID')
+    }
+    axiosRequest(path, body, 'POST', 'json')
+      .then((response) => {
+        setState(prevState => ({ ...prevState, ...response }));
+        console.log(response)
+        setPostInfo(prevState => ({ ...prevState, ...response }));
+      })
+      .catch((error) => {
+        console.log(error);
+      }
+    );
+
+  }, [state.postIndex]);
+
 
 
   return (
@@ -24,79 +60,67 @@ function boardProfile(props) {
           </div>
         </div>
         <div className="flex p-6 gap-10">
-          <div className="flex flex-col w-1/4">
-            <IconClipboardlist className="w-24 h-24 text-gray-300" />
-            <div className="mt-4">
-              <h2 className="text-lg font-semibold">게시글 번호</h2>
-              <p className="text-gray-600">{boardNum}</p>
-            </div>
-            <div className="mt-4">
-              <h2 className="text-lg font-semibold">총 게시글 수</h2>
-              <p className="text-gray-600">{allBoardNum}</p>
-            </div>
-            <div className="mt-4">
-              <h2 className="text-lg font-semibold">게시판 명칭</h2>
-              <p className="text-gray-600">{boardType}</p>
-            </div>
-            <div className="mt-4">
-              <h2 className="text-lg font-semibold">게시글 명칭</h2>
-              <p className="text-gray-600">{postName}</p>
-            </div>
-            <div className="mt-4">
-              <h2 className="text-lg font-semibold">작성자</h2>
-              <p className="text-gray-600">{postWriter}</p>
-            </div>
-            <div className="mt-4">
-              <h2 className="text-lg font-semibold">작성일자</h2>
-              <p className="text-gray-600">{postDate}</p>
+          <div className="flex flex-col">
+            <div className='w-4/12'>
+              <IconClipboardlist className="w-24 h-24 text-gray-300" />
+              <div className="mt-4">
+                <h2 className="text-lg font-semibold">게시글 번호</h2>
+                <p className="text-gray-600">{id}</p>
+              </div>
+              <div className="mt-4">
+                <h2 className="text-lg font-semibold">게시판 명칭</h2>
+                <p className="text-gray-600">{postInfo.boardTitle}</p>
+              </div>
+              <div className="mt-4">
+                <h2 className="text-lg font-semibold">게시글 명칭</h2>
+                <p className="text-gray-600">{postInfo.postTitle}</p>
+              </div>
+              <div className="mt-4">
+                <h2 className="text-lg font-semibold">작성자</h2>
+                <p className="text-gray-600">{postInfo.postAuthor}</p>
+              </div>
+              <div className="mt-4">
+                <h2 className="text-lg font-semibold">작성일자</h2>
+                <p className="text-gray-600">{postInfo.postDate}</p>
+              </div>
             </div>
           </div>
-          <div className="flex-grow">
-            <div className="mb-6">
-              <h2>게시글 내용</h2>
-              <div className="bg-gray-100 p-4 mt-4">
-              <p className="text-sm">{postContent}</p>
-              </div>
-              
-              <h2 className="text-xl font-semibold mb-2">게시글 추가 정보</h2>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-100 p-4">
-                  <p className="text-sm text-gray-600">추천 수</p>
-                  <p className="text-lg font-semibold">{postUpvote}</p>
+            <div className="flex-grow">
+              <div className="mb-6">
+              <h2 className="text-x1 text-start mb-2 ml-4 mr-4">게시글 내용</h2>
+                <div className="border-2 p-4 ml-4 mr-4 mt-4 mb-8">
+                  {postInfo.postContent && (
+                    <Viewer
+                        initialValue={postInfo.postContent}
+                        plugins={[codeSyntaxHighlight]}/>
+                  )}
                 </div>
-                <div className="bg-gray-100 p-4">
-                  <p className="text-sm text-gray-600">비추천 수</p>
-                  <p className="text-lg font-semibold">{postDownvote}</p>
+                <h2 className="text-x1 text-start mb-2 ml-4 mr-4">게시글 내용</h2>
+                <div className="grid grid-cols-3 gap-4 ml-4 mr-4">
+                  <div className="bg-gray-100 p-4">
+                    <p className="fs-3 text-gray-600">추천 수</p>
+                    <p className="text-lg font-semibold">{postInfo.postUpvotes}</p>
+                  </div>
+                  <div className="bg-gray-100 p-4">
+                    <p className="fs-3 text-gray-600">비추천 수</p>
+                    <p className="text-lg font-semibold">{postInfo.postDownvotes}</p>
+                  </div>
+                  <div className="bg-gray-100 p-4">
+                    <p className="fs-3 text-gray-600">조회 수</p>
+                    <p className="text-lg font-semibold">{postInfo.postView}</p>
+                  </div>
+                </div>
+                <BoardItems state={state} setState={setState} />
+              </div>
+              <div className="mb-6">
+                <h2 className="text-x1 text-start mb-2 ml-4 mr-4">그래프 정보</h2>
+                <div className="p-4">
+                  <div className='m-5'></div>
+                  <ActivityGraph state={state} />
                 </div>
               </div>
-              <div className="bg-gray-100 p-4 mt-4">
-                <h3 className="text-lg font-semibold mb-2">댓글 리스트</h3>
-                <p className="text-sm text-gray-600">댓글1</p>
-                <p className="text-sm text-gray-600">댓글2</p>
-                <p className="text-sm text-gray-600">댓글3</p>
-                <p className="text-sm text-gray-600">댓글4</p>
-                <p className="text-sm text-gray-600">댓글5</p>
-              </div>
+              <AccountManagement state={state} />
             </div>
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-2">추천수 변화 그래프</h2>
-              <div className="bg-gray-100 p-4">
-                <div className='m-5'></div>
-                <ActivityGraph />
-              </div>
-            </div>
-            <div className="flex justify-end space-x-2">
-              <Button className="bg-[#f3f4f6] text-black" variant="outline">
-                게시글 추가
-              </Button>
-              <Button className="bg-[#f3f4f6] text-black" variant="outline">
-                게시글 수정
-              </Button>
-              <Button className="bg-[#f3f4f6] text-black" variant="outline">
-                게시글 삭제
-              </Button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -208,4 +232,4 @@ function IconUsercircle(props) {
     </svg>
   )
 }
-export default boardProfile;
+export default BoardProfile;
