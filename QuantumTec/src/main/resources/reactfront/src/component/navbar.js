@@ -1,5 +1,5 @@
 import '../App.css';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Logo from './Pages/MainPage/BringUP_LOGO.png';
 import '../App.js';
 import Sidebar from './sidebar.js';
@@ -23,6 +23,25 @@ export default function Navbar() {
     const [userCashFormat, setUserCashFormat] = useState('');           // 사용자 유료캐시 포맷
     const [userFreeCashFormat, setUserFreeCashFormat] = useState('');   // 사용자 무료캐시 포맷
 
+    const side = useRef();
+    const [isOpen, setOpen] = useState(false);
+
+    // 사이드바 외부 클릭시 닫히는 함수
+    const handleClose = async e => {
+        let sideArea = side.current;
+        let sideCildren = side.current.contains(e.target);
+        if (isOpen && (!sideArea || !sideCildren)) {
+        await setOpen(false);
+        }
+    }
+
+    useEffect(()=> {
+        window.addEventListener('click', handleClose);
+        return () => {
+        window.removeEventListener('click', handleClose);
+        };
+    })
+    
     useEffect(() => {
         // 로그인 상태일때 유저 이름 받아오기
         if (truelogin) {
@@ -43,12 +62,13 @@ export default function Navbar() {
     }, [truelogin, cashChange, userCash, userFreeCash]);
 
     const handleLogInfo = (e) => {
-        console.log(e.currentTarget)
-        //class이름이 LogInfo인 div태그 속성을 hidden에서 block으로 변경
-        if (e.currentTarget.nextSibling.style.display === 'block')
-            e.currentTarget.nextSibling.style.display = 'none';
-        else
-            e.currentTarget.nextSibling.style.display = 'block';
+        // console.log(e.currentTarget)
+        // //class이름이 LogInfo인 div태그 속성을 hidden에서 block으로 변경
+        // if (e.currentTarget.nextSibling.style.display === 'block')
+        //     e.currentTarget.nextSibling.style.display = 'none';
+        // else
+        //     e.currentTarget.nextSibling.style.display = 'block';
+        setOpen(!isOpen);
     }
 
     const handleInventory = () => {
@@ -85,7 +105,7 @@ export default function Navbar() {
             <Sidebar width={300}>
                 <Contact/>
             </Sidebar>
-            <nav className="navbar navbar-expand-lg" style={{zIndex: '3' ,backgroundColor :'#f6f8fa', height:'60px'}}>
+            <nav ref={side} className="navbar navbar-expand-lg" style={{zIndex: '3' ,backgroundColor :'#f6f8fa', height:'60px'}}>
                 <div class="block w-[100%] relative mt-1">
                     {/*로고(클릭시 메인화면)*/}
                     <a class="navbar-brand mb-2">
@@ -111,7 +131,7 @@ export default function Navbar() {
                                         <AvatarCanvas size={[220,220]} position={[128,128]}/>
                                     </div>
                                 </a>
-                                <div class='LogInfo hidden w-[320px] absolute bg-light top-[38px] right-0 z-40 overflow-hidden rounded-3 shadow-sm'>
+                                {isOpen && <div class='LogInfo w-[320px] absolute bg-light top-[38px] right-0 z-40 overflow-hidden rounded-3 shadow-sm'>
                                     <div class="info_t p-1 border-bottom bg-secondary bg-opacity-25">
                                         <ul class='flex mt-3 pl-2'>
                                             <li class="thum ml-5">
@@ -173,7 +193,7 @@ export default function Navbar() {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>}
                             </div>}
                     </form>
                 </div>
