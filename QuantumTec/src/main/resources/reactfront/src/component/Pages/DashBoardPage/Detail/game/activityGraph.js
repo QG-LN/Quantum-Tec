@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { useTheme } from "@mui/material/styles";
 import {
-  AppCurrentVisits,
-  AppWebsiteVisits,
   AppConversionRates,
 } from "../../../../../dashboard/sections/@dashboard/app";
 import ThemeProvider from "../../../../../dashboard/theme";
@@ -57,16 +55,6 @@ let setGameData = () => {
   }));
   return data;
 };
-
-// //게임별 이용자 수
-// const gameUserData =[
-//   { label: "Game1", value: 20 },
-//   { label: "Game2", value: 30 },
-//   { label: "Game3", value: 26 },
-//   { label: "Game4", value: 20 },
-//   { label: "Game5", value: 30 },
-//   { label: "Game6", value: 43 },
-// ]
 
 // //게임 이용자 수 데이터 [ 더미 데이터 ]
 const gameUserData = (type) => {

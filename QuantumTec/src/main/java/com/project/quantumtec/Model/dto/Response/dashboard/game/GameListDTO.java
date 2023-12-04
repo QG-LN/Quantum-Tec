@@ -9,7 +9,7 @@ public class GameListDTO {
     private String gameName; // 게임 이름
     private int gamePrice; // 게임 가격
     private String gameDeveloper; // 게임 개발사
-    private int gameCategoryId; // 게임 카테고리 번호
+    private String gameCategoryName; // 게임 카테고리 번호
     private String gameReleaseDate; // 게임 출시일
     private float gameRating; // 게임 평점
 
@@ -26,7 +26,7 @@ public class GameListDTO {
         gameListDTO.setGameName(gameListVO.getGameName());
         gameListDTO.setGamePrice(gameListVO.getGamePrice());
         gameListDTO.setGameDeveloper(gameListVO.getGameDeveloper());
-        gameListDTO.setGameCategoryId(gameListVO.getGameCategoryId());
+        gameListDTO.setGameCategoryName(gameListVO.getGameCategoryName());
         gameListDTO.setGameReleaseDate(gameListVO.getGameReleaseDate());
         gameListDTO.setGameRating(gameListVO.getGameRating());
         gameListDTO.setGamePlatform(gameListVO.getGamePlatform());
