@@ -1,16 +1,22 @@
 package com.project.quantumtec.dao.dashboard;
 
+import com.project.quantumtec.Model.dto.Request.board.ViewDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
+import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardCommentActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
@@ -146,7 +152,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public boolean updateGameInfo(GameInfoUpdateDTO gameInfoUpdateDTO) {
         try {
-            
+
             return sqlSession.update("DashBoardService.updateGameInfo", gameInfoUpdateDTO) == 1;
         } catch (Exception e) {
             return false;
@@ -208,7 +214,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
         }
         return result;
     }
-    
+
     // 페이먼츠 캐시 환불 취소
     @Override
     public String cancelRefundCash(PaymentsListDTO paymentsListDTO) {
@@ -257,7 +263,7 @@ public class DashBoardDAOImpl implements DashBoardDAO{
         }
         return result;
     }
-    
+
     // 페이먼츠 아바타 환불
     @Override
     public String refundAvatar(PaymentsListDTO paymentsListDTO) {
@@ -289,5 +295,29 @@ public class DashBoardDAOImpl implements DashBoardDAO{
             result = "캐시 부족";
         }
         return result;
+    }
+
+    // 게시글 리스트를 불러오는 메소드
+    @Override
+    public List<BoardListDTO> getBoardList() {
+        return sqlSession.selectList("DashBoardService.getBoardList");
+    }
+
+    // 특정 게시글의 댓글 리스트를 불러오는 메소드
+    @Override
+    public List<CommentListResponseDTO> getCommentList(PostIdDTO request) {
+        return sqlSession.selectList("DashBoardService.getCommentList", request);
+    }
+
+    // 특정 게시글의 수정 로그를 불러오는 메소드
+    @Override
+    public List<BoardModifyLogDTO> getPostModifyLog(PostIdDTO request) {
+        return sqlSession.selectList("DashBoardService.getPostModifyLog", request);
+    }
+
+    // 특정 게시글의 댓글 작성 활동량을 불러오는 메소드
+    @Override
+    public List<BoardCommentActivityDTO> getPostCommentActivity(PostIdDTO request) {
+        return sqlSession.selectList("DashBoardService.getPostCommentActivity", request);
     }
 }

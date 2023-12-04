@@ -164,4 +164,53 @@
     <select id="cancelRefundAvatar" statementType="CALLABLE" parameterType="paymentsListDTO">
         {CALL cancelRefundAvatar(#{paymentIndex}, #{paymentStatus}, #{userIndex}, #{paymentPrice}, #{update_result, mode=OUT, jdbcType=INTEGER})}
     </select>
+    <select id="getBoardList" resultType="BoardListDTO">
+        SELECT
+            p.POST_INDEX,
+            b.BOARD_NAME AS BOARD_CATEGORY_NAME,
+            p.POST_TITLE,
+            u.USER_NAME AS POST_AUTHOR_NAME,
+            p.POST_CREATED_DATE,
+            p.POST_VIEWS,
+            p.POST_UPVOTES,
+            p.POST_DOWNVOTES,
+            (SELECT COUNT(*) FROM COMMENT_INFO_TB WHERE POST_INDEX = p.POST_INDEX) AS POST_COMMENTS
+        FROM
+            POST_INFO_TB p
+                INNER JOIN
+            BOARD_LIST_TB b ON p.BOARD_INDEX = b.BOARD_INDEX
+                INNER JOIN
+            USER_INFO_TB u ON p.POST_AUTHOR_INDEX = u.USER_INDEX;
+    </select>
+
+    <select id="getCommentList" resultType="CommentListResponseDTO">
+        SELECT
+            c.COMMENT_INDEX,
+            c.COMMENT_CONTENT,
+            c.COMMENT_CREATED_DATE AS COMMENT_DATE,
+            u.USER_NAME AS COMMENT_WRITER,
+            c.COMMENT_UPVOTES,
+            c.COMMENT_DOWNVOTES,
+            c.COMMENT_RATING
+        FROM
+            COMMENT_INFO_TB c
+                INNER JOIN
+            USER_INFO_TB u ON c.COMMENT_AUTHOR_INDEX = u.USER_INDEX
+        WHERE
+            c.POST_INDEX = #{postIndex};
+    </select>
+
+    <select id="getPostModifyLog" resultType="BoardModifyLogDTO">
+        SELECT
+            OPERATED_BY AS USER_ID,
+            JSON_UNQUOTE(JSON_EXTRACT(L.NEW_VALUE, '$.POST_TITLE')) AS POST_TITLE,
+            JSON_UNQUOTE(JSON_EXTRACT(L.NEW_VALUE, '$.POST_CONTENT')) AS POST_CONTENT,
+            L.TIMESTAMP AS POST_UPDATE_DATE,
+            JSON_UNQUOTE(JSON_EXTRACT(L.NEW_VALUE, '$.BOARD_INDEX')) AS BOARD_INDEX
+        FROM
+            POST_INFO_TB_LOG L
+        WHERE
+            L.OPERATION_TYPE = 'UPDATE'
+          AND JSON_UNQUOTE(JSON_EXTRACT(L.NEW_VALUE, '$.POST_INDEX')) = #{postIndex};
+    </select>
 </mapper>

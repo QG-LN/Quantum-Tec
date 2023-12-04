@@ -12,4 +12,5 @@ public class ViewResponseDTO {
     private int postUpvotes;           // 게시글 좋아요
     private int postDownvotes;           // 게시글 싫어요
     private String postContent;     // 게시글 내용
+    private int postComments;           // 게시글 댓글 수(DashBoardController 에서 따로 연결해서 값을 넣음)
 }

@@ -5,17 +5,21 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
+import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardCommentActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
 import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsListDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
-import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
 
 import java.util.List;
 
@@ -91,4 +95,17 @@ public interface DashBoardService {
 
     // 페이먼츠 아바타 환불 취소
     String cancelRefundAvatar(PaymentsListDTO paymentsListDTO);
+
+
+    // 모든 게시글 정보를 불러오는 메소드
+    List<BoardListDTO> getBoardList();
+
+    // 특정 게시글의 댓글 리스트를 불러오는 메소드
+    List<CommentListResponseDTO> getCommentList(PostIdDTO request);
+
+    // 특정 게시글의 수정 로그를 불러오는 메소드
+    List<BoardModifyLogDTO> getPostModifyLog(PostIdDTO request);
+
+    // 특정 게시글의 댓글 작성 활동량을 불러오는 메소드
+    List<BoardCommentActivityDTO> getPostCommentActivity(PostIdDTO request);
 }

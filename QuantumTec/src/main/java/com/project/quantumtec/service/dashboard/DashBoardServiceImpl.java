@@ -1,8 +1,13 @@
 package com.project.quantumtec.service.dashboard;
 
+import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
+import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardCommentActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
 import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsListDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
@@ -26,7 +31,6 @@ import com.project.quantumtec.Model.vo.dashboard.UserListVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -222,7 +226,7 @@ public class DashBoardServiceImpl implements DashBoardService{
     public String cancelRefundCash(PaymentsListDTO paymentsListDTO) {
         return dashBoardDAO.cancelRefundCash(paymentsListDTO);
     }
-    
+
     // 페이먼츠 게임 환불
     @Override
     public String refundGame(PaymentsListDTO paymentsListDTO) {
@@ -245,5 +249,25 @@ public class DashBoardServiceImpl implements DashBoardService{
     @Override
     public String cancelRefundAvatar(PaymentsListDTO paymentsListDTO) {
         return dashBoardDAO.cancelRefundAvatar(paymentsListDTO);
+    }
+
+    @Override
+    public List<BoardListDTO> getBoardList() {
+        return dashBoardDAO.getBoardList();
+    }
+
+    @Override
+    public List<CommentListResponseDTO> getCommentList(PostIdDTO request) {
+        return dashBoardDAO.getCommentList(request);
+    }
+
+    @Override
+    public List<BoardModifyLogDTO> getPostModifyLog(PostIdDTO request) {
+        return dashBoardDAO.getPostModifyLog(request);
+    }
+
+    @Override
+    public List<BoardCommentActivityDTO> getPostCommentActivity(PostIdDTO request) {
+        return dashBoardDAO.getPostCommentActivity(request);
     }
 }

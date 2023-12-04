@@ -1,20 +1,28 @@
 package com.project.quantumtec.controller;
 
+import com.project.quantumtec.Model.dto.Request.board.*;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
+import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.Model.dto.Response.board.ViewResponseDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardCommentActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
 import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsListDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
+import com.project.quantumtec.service.board.BoardService;
 import com.project.quantumtec.service.dashboard.DashBoardService;
 import com.project.quantumtec.service.game.GameService;
 import com.project.quantumtec.service.user.UserService;
@@ -32,7 +40,7 @@ public class DashBoardController {
     @Autowired
     private DashBoardService dashBoardService;
     private UserService userService;
-    private GameService gameService;
+    private BoardService boardService;
 
     //프로필 정보 조회
     @PostMapping("/userinfo")
@@ -196,4 +204,56 @@ public class DashBoardController {
     public String cancelRefundAvatar(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
         return dashBoardService.cancelRefundAvatar(paymentsListDTO);
     }
+
+    // 게시판 관리
+    // 게시판 리스트 불러오기
+    @PostMapping("/boardlist")
+    public List<BoardListDTO> getBoardList() throws Exception{
+        return dashBoardService.getBoardList();
+    }
+
+    // 게시글 상세정보 불러오기 (유저 아이디(mapper 확인하니 미사용중), 게시글 번호)
+    @PostMapping("/postinfo")
+    public ViewResponseDTO getPostInfo(@RequestBody ViewDTO request) throws Exception{
+        CommentCountDTO count = new CommentCountDTO(); // 댓글 수를 불러올때 쓰는 Request DTO
+        count.setPostIndex(request.getPostIndex()); // ViewDTO 내부에서 postIndex를 받아와서 count에 넣어줌
+        ViewResponseDTO view = new ViewResponseDTO(); // 게시글 상세정보를 담을 Response DTO
+        view = boardService.getPost(request);      // 게시글 상세정보를 불러옴
+        view.setPostComments(boardService.getCommentCount(count)); // 댓글 수를 불러옴
+        return view;
+    }
+
+    // 게시글 댓글 불러오기 (게시글 번호)
+    @PostMapping("/postcomment")
+    public List<CommentListResponseDTO> getCommentList(@RequestBody PostIdDTO request) throws Exception{
+        return dashBoardService.getCommentList(request);
+    }
+
+    // 게시글 삭제 (유저 아이디, 게시글 번호)
+    @DeleteMapping("/postinfo/delete")
+    public boolean deletePost(@RequestBody DeleteDTO request) throws Exception{
+        return boardService.deletePost(request);
+    }
+
+    // 게시글 수정
+    @PostMapping("/postinfo/modify")
+    public boolean modifyPost(@RequestBody ModifyDTO request) throws Exception{
+        return boardService.modifyPost(request);
+    }
+
+    // 게시글 추천 수 변화 그래프
+    // 있을뻔했다 없었어요
+
+    // 게시글 수정 로그 불러오기
+    @PostMapping("/postinfo/modifylog")
+    public List<BoardModifyLogDTO> getPostModifyLog(@RequestBody PostIdDTO request) throws Exception{
+        return dashBoardService.getPostModifyLog(request);
+    }
+
+    // 게시글 내 댓글 작성 증가량
+    @PostMapping("/postcomment/activity")
+    public List<BoardCommentActivityDTO> getPostCommentActivity(@RequestBody PostIdDTO request) throws Exception{
+        return dashBoardService.getPostCommentActivity(request);
+    }
+
 }
