@@ -232,8 +232,8 @@ function ProfileInfo({state, setState}) {
                             <tr>
                                 <th className="w-[40%]">장르</th>
                                 <TableCell 
-                                    id="gameGenre"
-                                    content={state.gameGenre}
+                                    id="gameCategoryName"
+                                    content={state.gameCategoryName}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} 
                                     editable={false}
