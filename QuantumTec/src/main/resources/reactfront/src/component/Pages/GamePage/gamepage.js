@@ -190,7 +190,7 @@ export default function GamePage() {
         // 게임 해더 이미지 경로를 반환하는 함수
         const gameImageLink = (index) => {
             let path = `http://localhost:9090/image/game/games_`;
-            path += index > 4 ? 'test' : index; // 추후 이미부분은 수정해야함
+            path += index > 16 ? 'test' : index; // 추후 이미부분은 수정해야함
             path += '_0.png';
             return path;
         }
