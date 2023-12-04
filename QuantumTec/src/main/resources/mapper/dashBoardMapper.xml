@@ -102,4 +102,21 @@
         INNER JOIN 
             USER_INFO_TB u ON p.POST_AUTHOR_INDEX = u.USER_INDEX;
     </select>
+
+    <select id="getCommentList" resultType="CommentListResponseDTO">
+        SELECT 
+            c.COMMENT_INDEX,
+            c.COMMENT_CONTENT,
+            c.COMMENT_CREATED_DATE AS COMMENT_DATE,
+            u.USER_NAME AS COMMENT_WRITER,
+            c.COMMENT_UPVOTES,
+            c.COMMENT_DOWNVOTES,
+            c.COMMENT_RATING
+        FROM 
+            COMMENT_INFO_TB c
+        INNER JOIN 
+            USER_INFO_TB u ON c.COMMENT_AUTHOR_INDEX = u.USER_INDEX
+        WHERE 
+            c.POST_INDEX = #{postIndex};
+    </select>
 </mapper>
