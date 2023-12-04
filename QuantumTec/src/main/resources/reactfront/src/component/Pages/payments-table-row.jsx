@@ -120,6 +120,7 @@ export default function PaymentsTableRow({row, selected, handleClick
 
       axiosRequest(path, body, 'POST', 'string')
         .then((response) => {
+          console.log(response);
           if(response === '성공'){
             alert('환불 완료');
             window.location.reload();

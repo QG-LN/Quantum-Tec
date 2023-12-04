@@ -152,4 +152,7 @@
     <select id="cancelRefundCash" statementType="CALLABLE" parameterType="paymentsListDTO">
         {CALL cancelRefundCash(#{paymentIndex}, #{paymentStatus}, #{userIndex}, #{paymentPrice}, #{update_result, mode=OUT, jdbcType=INTEGER})}
     </select>
+    <select id="refundGame" statementType="CALLABLE" parameterType="paymentsListDTO">
+        {CALL refundGame(#{paymentIndex}, #{paymentStatus}, #{userIndex}, #{paymentPrice}, #{update_result, mode=OUT, jdbcType=INTEGER})}
+    </select>
 </mapper>

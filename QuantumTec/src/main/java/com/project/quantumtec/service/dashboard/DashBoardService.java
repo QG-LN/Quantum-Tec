@@ -79,4 +79,7 @@ public interface DashBoardService {
 
     // 페이먼츠 캐시 환불 취소
     String cancelRefundCash(PaymentsListDTO paymentsListDTO);
+
+    // 페이먼츠 게임 환불
+    String refundGame(PaymentsListDTO paymentsListDTO);
 }

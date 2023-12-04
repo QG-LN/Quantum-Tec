@@ -223,5 +223,21 @@ public class DashBoardDAOImpl implements DashBoardDAO{
         }
         return result;
     }
+
+
+    // 페이먼츠 게임 환불
+    @Override
+    public String refundGame(PaymentsListDTO paymentsListDTO) {
+        sqlSession.selectOne("DashBoardService.refundGame", paymentsListDTO);
+        String result;
+        int update_result = paymentsListDTO.getUpdate_result();
+        if(update_result == 1){
+            result = "성공";
+        }
+        else{
+            result = "실패";
+        }
+        return result;
+    }
     
 }

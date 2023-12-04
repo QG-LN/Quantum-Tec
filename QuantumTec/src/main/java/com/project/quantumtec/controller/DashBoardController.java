@@ -173,4 +173,10 @@ public class DashBoardController {
     public String cancelRefundCash(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
         return dashBoardService.cancelRefundCash(paymentsListDTO);
     }
+
+    // 페이먼츠 게임 환불
+    @PostMapping("/payment/refund/game")
+    public String refundGame(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.refundGame(paymentsListDTO);
+    }
 }
