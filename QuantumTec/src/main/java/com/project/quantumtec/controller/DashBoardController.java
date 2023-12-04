@@ -167,4 +167,10 @@ public class DashBoardController {
     public String refundCash(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
         return dashBoardService.refundCash(paymentsListDTO);
     }
+
+    // 페이먼츠 캐시 환불 취소
+    @PostMapping("/payment/refund/cash/cancel")
+    public String cancelRefundCash(@RequestBody PaymentsListDTO paymentsListDTO) throws Exception{
+        return dashBoardService.cancelRefundCash(paymentsListDTO);
+    }
 }

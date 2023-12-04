@@ -216,4 +216,10 @@ public class DashBoardServiceImpl implements DashBoardService{
     public String refundCash(PaymentsListDTO paymentsListDTO) {
         return dashBoardDAO.refundCash(paymentsListDTO);
     }
+
+    // 페이먼츠 캐시 환불 취소
+    @Override
+    public String cancelRefundCash(PaymentsListDTO paymentsListDTO) {
+        return dashBoardDAO.cancelRefundCash(paymentsListDTO);
+    }
 }
