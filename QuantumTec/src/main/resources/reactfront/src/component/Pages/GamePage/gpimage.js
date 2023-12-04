@@ -38,12 +38,12 @@ export default function GameImage(props) {
     }
 
     return (
-        <div style={{ width: `100%`, height: `100%` }}>
+        <div>
             {imgList.length > 0 ?
                 <img  style={{ width: `100%`, height: `${imgSize[1]}px`}} src={selectImg} alt='게임이미지'/> : <div>이미지가 없습니다.</div>
             }
             {/* <div class='overflow-x-scroll w-[720px] mt-4'> */}
-            <div class={`overflow-x-scroll w-[${imgSize[0]}] mt-2`}>
+            <div class={`overflow-x-scroll w-[${imgSize[0]}px] mt-2`}>
                 <div className="image-slider flex">
                     <fieldset class='imgButtonStyle flex'>
                         <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] '></legend>
