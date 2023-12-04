@@ -1,5 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import styles from "./sidebar.module.css";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 const Sidebar = ({ width=280, children }) => {
@@ -42,7 +44,8 @@ const Sidebar = ({ width=280, children }) => {
           <button onClick={() => toggleMenu()}
           className={styles.button}>
             {isOpen ? 
-            <span>X</span> : <></>
+            <FontAwesomeIcon icon={faTimes} style={{color: "#000"}} id='modify' className="ms-[1px]" />
+            : <FontAwesomeIcon icon={faBars} style={{color: "#000"}} id='modify' className="ms-[1px]" />
             //  <img src="https://cdn-icons-png.flaticon.com/512/660/660026.png" alr="contact open button" className={styles.openBtn}/>
             }
           </button>
