@@ -319,8 +319,6 @@ export default function Mysection(props){
 
     return (
         <div class="signup-form container mypagestyle float-right w-mypagesection max-w-[880px] relative min-w-[700px]">
-            <h2 class='account_main_page_title '>회원 정보 수정</h2>
-            
             <div class='form-group row mt-4'>
                 <div class= 'col-3'>
                     <label htmlFor='input_nickname'>닉네임 : </label>

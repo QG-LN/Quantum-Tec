@@ -9,29 +9,6 @@ import {axiosRequest} from "../../Utils/networkUtils";
 
 
 
-//추천 게임 리스트
-const Relatedgame=[
-  {
-    Rgameimg: "https://th.bing.com/th/id/OIP.PtoZt74pQgbIgegGFJoEoQHaEK?w=299&h=180&c=7&r=0&o=5&pid=1.7",
-    Rgameurl: "www.naver.com",
-    Rgamename: "battlefield 1",
-    Rgameprice: "59,000",
-  }
-]
-
-
-
-  //초기값들
-  const gameinfo = 'Season 4: Eleventh Hour에서 더 높은 곳을 향하세요. Battlefield™ 2042는 프랜차이즈의 상징인 전면전으로의 복귀를 알리는 1인칭 슈팅 게임입니다.'
-  const gamegrade ='9.0 긍정적'
-  const gamedate = '2021/02/14'
-  const developer = 'DICE'
-  const Categorylist = '액션, 슈팅, FP'
-
-  const gamename='Battlefield™ 2042'
-  const gameprice = '59,000'
-
-
 export default function GamePage() {
     //구매상태 초기값
     const [buyStatus, setBuyStatus] = useState(true);                       // 구매상태를 저장할 state
@@ -213,7 +190,7 @@ export default function GamePage() {
         // 게임 해더 이미지 경로를 반환하는 함수
         const gameImageLink = (index) => {
             let path = `http://localhost:9090/image/game/games_`;
-            path += index > 4 ? 'test' : index; // 추후 이미부분은 수정해야함
+            path += index > 16 ? 'test' : index; // 추후 이미부분은 수정해야함
             path += '_0.png';
             return path;
         }
@@ -227,9 +204,9 @@ export default function GamePage() {
                             <label className='hover:cursor-pointer w-[320px] h-[240px] m-2'>
                                 <input type="radio" class='hidden' name='subimg' id='subimg'
                                     onChange={handleInputImg}
-                                    value={index}
+                                    value={image.gameIndex}
                                     onClick={()=>gameLink(image.gameIndex,image.gameName) }/>
-                                <img class='max-w-none w-[320px] h-[180px]' src={gameImageLink(index+1)}/>
+                                <img class='max-w-none w-[320px] h-[180px]' src={gameImageLink(image.gameIndex)}/>
                                 <div class='mt-2 font-bold'>
                                     {image.gameName}
                                 </div>
