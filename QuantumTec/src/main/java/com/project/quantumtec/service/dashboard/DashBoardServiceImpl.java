@@ -1,8 +1,12 @@
 package com.project.quantumtec.service.dashboard;
 
+import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
+import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
@@ -25,7 +29,6 @@ import com.project.quantumtec.Model.vo.dashboard.UserListVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -199,5 +202,20 @@ public class DashBoardServiceImpl implements DashBoardService{
     @Override
     public List<GameCommentDTO> getGameComment(GameIdDTO request) {
         return dashBoardDAO.getGameComment(request);
+    }
+
+    @Override
+    public List<BoardListDTO> getBoardList() {
+        return dashBoardDAO.getBoardList();
+    }
+
+    @Override
+    public List<CommentListResponseDTO> getCommentList(PostIdDTO request) {
+        return dashBoardDAO.getCommentList(request);
+    }
+
+    @Override
+    public List<BoardModifyLogDTO> getPostModifyLog(PostIdDTO request) {
+        return dashBoardDAO.getPostModifyLog(request);
     }
 }
