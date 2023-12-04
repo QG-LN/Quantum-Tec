@@ -15,7 +15,7 @@ AppConversionRates.propTypes = {
   chartData: PropTypes.array.isRequired,
 };
 
-export default function AppConversionRates({ title, subheader, chartData, ...other }) {
+export default function AppConversionRates({ title, subheader, chartData, horizontal ,...other }) {
   const chartLabels = chartData.map((i) => i.label);
 
   const chartSeries = chartData.map((i) => i.value);
@@ -31,7 +31,7 @@ export default function AppConversionRates({ title, subheader, chartData, ...oth
       },
     },
     plotOptions: {
-      bar: { horizontal: true, barHeight: '28%', borderRadius: 2 },
+      bar: { horizontal: horizontal === undefined ? true : horizontal, barHeight: '28%', borderRadius: 2 },
     },
     xaxis: {
       categories: chartLabels,
