@@ -20,6 +20,7 @@ export default function GameTableRow({row, selected, handleClick}) {
   const name = row.gameName;
   const price = row.gamePrice;
   const company = row.gameDeveloper;
+  const userIndex = row.gameDeveloperIndex;
   const category = row.gameCategoryName;
   const review = row.gameRating;
   const day = row.gameReleaseDate;        
@@ -35,7 +36,10 @@ export default function GameTableRow({row, selected, handleClick}) {
   const handleClickRow = (event) => {
     navigate(`/dashboard/game/${index}`);
   };
-
+  const handleUserClick = (e) => {
+    e.stopPropagation();
+    navigate(`/dashboard/user/${userIndex}`);
+  }
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClickRow}>
@@ -52,7 +56,7 @@ export default function GameTableRow({row, selected, handleClick}) {
         </TableCell>
 
         <TableCell align='center'>
-          {company}
+          <a className='link-dark' style={{cursor: "pointer"}} onClick={handleUserClick}>{company}</a>
         </TableCell>
 
         <TableCell align='center'>
