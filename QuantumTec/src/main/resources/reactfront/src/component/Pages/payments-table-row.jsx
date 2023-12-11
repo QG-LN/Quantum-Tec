@@ -12,11 +12,14 @@ import Label from '../../dashboard/components/label';
 import Iconify from '../../dashboard/components/iconify';
 
 import { axiosRequest } from '../Utils/networkUtils';
+import { useNavigate } from 'react-router';
 
 // ----------------------------------------------------------------------
 
 export default function PaymentsTableRow({row, selected, handleClick
 }) {
+  const navigate = useNavigate();
+
   const index = row.paymentIndex;
   const payhistory = row.paymentName;
   const userid = row.userId;
@@ -143,6 +146,10 @@ export default function PaymentsTableRow({row, selected, handleClick
     handleCloseMenu();
   };
 
+  const handleUserClick = () => {
+    navigate(`/dashboard/user/${userIndex}`);
+  }
+
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
@@ -157,7 +164,7 @@ export default function PaymentsTableRow({row, selected, handleClick
         </TableCell>
 
         <TableCell align='center'>
-          {userid}
+          <a className='link-dark' style={{cursor: "pointer"}} onClick={handleUserClick}>{userid}</a>
         </TableCell>
 
         <TableCell align='center'>
