@@ -275,8 +275,8 @@ public class DashBoardServiceImpl implements DashBoardService{
         List<BoardPostActivityDTO> dtoList = new ArrayList<>();
         for(PostDateVO vo : list){
             BoardPostActivityDTO dto = new BoardPostActivityDTO();
-            dto.setPostViewCount(vo.getPostViewCount());
-            dto.setPostCommentCount(vo.getPostCommentCount());
+            dto.setViewCount(vo.getViewCount());
+            dto.setCommentCount(vo.getCommentCount());
             dtoList.add(dto);
         }
         return dtoList;
