@@ -49,6 +49,16 @@ function BoardProfile({ loadState }) {
       .catch((error) => {
         console.log(error);
       });
+
+      // 아직 백부분이 미완성되어 임시 대기
+    // const path2 = "dashboard/postcomment/activity"; // 댓글 활동 그래프
+    // const body2 = {
+    //   postIndex: state.postIndex,
+    // }
+    // axiosRequest(path2, body2, "POST", "json")
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
   }, [state.postIndex]);
 
   return (

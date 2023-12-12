@@ -144,6 +144,8 @@ export default function TablePage(props) {
         return handlerMappingPost;
       }else if(pageName.includes("댓글리스트")){
         return handlerMappingPostComment;
+      }else if(pageName.includes("활동사항")) {
+        return handlerMappingUserActive;
       }
     }else{
       return null;
