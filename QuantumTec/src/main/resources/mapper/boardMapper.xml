@@ -82,10 +82,23 @@
     </insert>
     <update id="modifyPost" parameterType="ModifyDTO">
         UPDATE POST_INFO_TB
-        SET POST_TITLE = #{title}, POST_CONTENT = #{content}
+        SET POST_TITLE   = #{title},
+            POST_CONTENT = #{content}
         WHERE POST_INDEX = #{postIndex}
-            AND POST_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
-            AND BOARD_INDEX = #{boardIndex};
+          AND (
+                    POST_AUTHOR_INDEX = (
+                    SELECT USER_INDEX
+                    FROM USER_INFO_TB
+                    WHERE USER_ID = #{userID}
+                )
+                OR (
+                       -- 사용자가 관리자 권한이 있는지 확인
+                       SELECT USER_ROLE
+                       FROM USER_INFO_TB
+                       WHERE USER_ID = #{userID}
+                   ) = 'admin'
+            )
+          AND BOARD_INDEX = #{boardIndex};
     </update>
     <delete id="deletePost" parameterType="DeleteDTO">
         DELETE FROM POST_VOTE_TB
