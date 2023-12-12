@@ -12,11 +12,13 @@ import Collapse from '@mui/material/Collapse';
 import Box from '@mui/material/Box';
 
 import Iconify from '../../dashboard/components/iconify';
+import { useNavigate } from 'react-router';
 
 // ----------------------------------------------------------------------
 
 export default function LogDetailTableRow({row, selected, handleClick
 }) {
+  const navigate = useNavigate();
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -28,6 +30,7 @@ export default function LogDetailTableRow({row, selected, handleClick
   const oldValue = row.oldValue.replace("{", "").replace("}", "").split(",");
   const newValue = row.newValue.replace("{", "").replace("}", "").split(",");
   const columnName = row.columnName.split(",");
+  const userIndex = row.userIndex;
 
   const handleRowClick = () => {
     setIsExpanded(!isExpanded); // 행 클릭시 확장 상태 토글
@@ -62,6 +65,11 @@ export default function LogDetailTableRow({row, selected, handleClick
     )
   }
 
+  const handleUserClick = () => {
+    navigate(`/dashboard/user/${userIndex}`);
+    window.location.reload()
+  }
+
   return (
     <>
       <TableRow hover tabIndex={-1} selected={selected} onClick={handleRowClick}>
@@ -71,7 +79,7 @@ export default function LogDetailTableRow({row, selected, handleClick
         <TableCell align='center'>{content.length > 20 ? content.substring(0, 30) + "..." : content}</TableCell>
 
         <TableCell align="center">
-          {changer}
+          <a className='link-dark' style={{cursor: "pointer"}} onClick={handleUserClick}>{changer}</a>
         </TableCell>
 
         <TableCell align='center'>
