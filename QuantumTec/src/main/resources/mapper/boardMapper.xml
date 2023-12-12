@@ -87,28 +87,8 @@
             AND POST_AUTHOR_INDEX = (SELECT USER_INDEX FROM USER_INFO_TB WHERE USER_ID = #{userID})
             AND BOARD_INDEX = #{boardIndex};
     </update>
-    <delete id="deletePost" parameterType="DeleteDTO">
-        DELETE FROM POST_VOTE_TB
-        WHERE POST_INDEX = #{postIndex};
-        DELETE FROM COMMENT_VOTE_TB
-        WHERE POST_INDEX = #{postIndex};
-        DELETE FROM COMMENT_INFO_TB
-        WHERE POST_INDEX = #{postIndex};
-        DELETE FROM POST_INFO_TB
-        WHERE POST_INDEX = #{postIndex}
-          AND (
-                    POST_AUTHOR_INDEX = (
-                    SELECT USER_INDEX
-                    FROM USER_INFO_TB
-                    WHERE USER_ID = #{userID}
-                )
-                OR (
-                       -- 사용자가 관리자 권한이 있는지 확인
-                       SELECT USER_ROLE
-                       FROM USER_INFO_TB
-                       WHERE USER_ID = #{userID}
-                   ) = 'admin'
-            );
+    <delete id="deletePost" statementType="CALLABLE" parameterType="DeleteDTO">
+        {CALL deletePost(#{postIndex}, #{userID}, #{update_result, mode=OUT, jdbcType=INTEGER})}
     </delete>
     <select id="checkVote" resultType="String">
         SELECT POST_VOTE_CHECK FROM POST_VOTE_TB
