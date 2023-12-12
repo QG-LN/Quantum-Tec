@@ -16,6 +16,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarPaymentHistoryDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
@@ -120,4 +121,7 @@ public interface DashBoardDAO {
 
     // 아바타 상세 정보를 불러오는 메소드
     AvatarDetailDTO getAvatarInfo(AvatarIdDTO request);
+
+    // 아바타 결제 내역을 불러오는 메소드
+    List<AvatarPaymentHistoryDTO> getAvatarPaymentHistory(AvatarIdDTO request);
 }

@@ -8,6 +8,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO
 import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarPaymentHistoryDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
@@ -293,5 +294,11 @@ public class DashBoardServiceImpl implements DashBoardService{
     @Override
     public AvatarDetailDTO getAvatarInfo(AvatarIdDTO request) {
         return dashBoardDAO.getAvatarInfo(request);
+    }
+
+    // 아바타 결제 내역을 불러오는 메소드
+    @Override
+    public List<AvatarPaymentHistoryDTO> getAvatarPaymentHistory(AvatarIdDTO request) {
+        return dashBoardDAO.getAvatarPaymentHistory(request);
     }
 }

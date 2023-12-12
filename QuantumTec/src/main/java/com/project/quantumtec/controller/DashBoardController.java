@@ -18,6 +18,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarPaymentHistoryDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
@@ -272,5 +273,12 @@ public class DashBoardController {
     public AvatarDetailDTO getAvatarInfo(@RequestBody AvatarIdDTO request) throws Exception{
         return dashBoardService.getAvatarInfo(request);
     }
+
+    // 아바타 결제내역을 불러오는 메소드
+    @PostMapping("/avatarinfo/paymentlist")
+    public List<AvatarPaymentHistoryDTO> getAvatarPaymentHistory(@RequestBody AvatarIdDTO request) throws Exception{
+        return dashBoardService.getAvatarPaymentHistory(request);
+    }
+
 
 }
