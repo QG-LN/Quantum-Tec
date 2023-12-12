@@ -13,4 +13,5 @@ public class UserActivityLogDTO {
     private String newValue;
     private String metaData;
     private String columnName;
+    private int userIndex; 
 }

@@ -25,6 +25,7 @@ public class GameCommentDTO {
     private int commentUpvote;          // 댓글 추천수
     private int commentDownvote;        // 댓글 비추천수
     private int commentRating;          // 댓글 평점
+    private int userIndex;              // 댓글 작성자 번호
 
     // 착용중인 아바타 정보
     private List<AvatarInventoryDTO> avatarItemList; // 착용중인 아바타 아이템 리스트
@@ -38,6 +39,7 @@ public class GameCommentDTO {
         dto.commentUpvote = gameCommentVO.getCommentUpvote();
         dto.commentDownvote = gameCommentVO.getCommentDownvote();
         dto.commentRating = gameCommentVO.getCommentRating();
+        
         ObjectMapper mapper = new ObjectMapper();
         try {
             if (gameCommentVO.getAvatarItemList() != null) {

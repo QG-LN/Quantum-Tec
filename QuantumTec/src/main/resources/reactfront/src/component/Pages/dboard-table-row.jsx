@@ -25,6 +25,7 @@ export default function BoardTableRow({row, selected, handleClick
   const comment = row.postComments;
   const index = row.postIndex;
   const day = row.postCreatedDate;
+  const userIndex = row.postAuthorIndex;
   const [open, setOpen] = useState(null);
 
   const navigate = useNavigate();
@@ -41,6 +42,10 @@ export default function BoardTableRow({row, selected, handleClick
     navigate(`/dashboard/board/${index}`);
   };
 
+  const handleUserClick = (e) => {
+    e.stopPropagation();
+    navigate(`/dashboard/user/${userIndex}`);
+  }
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClickRow}>
@@ -57,7 +62,7 @@ export default function BoardTableRow({row, selected, handleClick
         </TableCell>
 
         <TableCell align='center'>
-          {user}
+        <a className='link-dark' style={{cursor: "pointer"}} onClick={handleUserClick}>{user}</a>
         </TableCell>
 
         <TableCell align='center'>
@@ -71,6 +76,7 @@ export default function BoardTableRow({row, selected, handleClick
         <TableCell align='center'>
           {recommend}
         </TableCell>
+
         <TableCell align='center'>
           {comment}
         </TableCell>
