@@ -17,6 +17,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarPaymentHistoryDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarUsageVolumeDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
@@ -341,5 +342,11 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public List<AvatarSalesVolumeVO> getAvatarSalesVolume(AvatarIdDTO request) {
         return sqlSession.selectList("DashBoardService.getAvatarPaymentSalesVolumeByMonth", request);
+    }
+
+    // 아바타 사용량을 불러오는 메소드
+    @Override
+    public List<AvatarUsageVolumeDTO> getAvatarUseage(AvatarIdDTO request) {
+        return sqlSession.selectList("DashBoardService.getAvatarUsageVolumeByMonth", request);
     }
 }

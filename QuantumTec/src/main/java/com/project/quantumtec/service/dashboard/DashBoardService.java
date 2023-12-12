@@ -15,10 +15,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarPaymentHistoryDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarSalesVolumeDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.*;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
@@ -125,4 +122,7 @@ public interface DashBoardService {
 
     // 아바타 판매량을 불러오는 메소드
     List<AvatarSalesVolumeDTO> getAvatarSalesVolume(AvatarIdDTO request);
+
+    // 아바타 사용량을 불러오는 메소드
+    List<AvatarUsageVolumeDTO> getAvatarUseage(AvatarIdDTO request);
 }

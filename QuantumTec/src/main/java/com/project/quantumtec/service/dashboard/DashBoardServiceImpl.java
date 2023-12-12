@@ -6,10 +6,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarPaymentHistoryDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarSalesVolumeDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.*;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
@@ -312,6 +309,16 @@ public class DashBoardServiceImpl implements DashBoardService{
             AvatarSalesVolumeDTO dto = new AvatarSalesVolumeDTO();
             dto.setSalesVolumeCount(vo.getSalesVolumeCount());
             dtos.add(dto);
+        }
+        return dtos;
+    }
+
+    // 아바타 사용량을 불러오는 메소드
+    @Override
+    public List<AvatarUsageVolumeDTO> getAvatarUseage(AvatarIdDTO request) {
+        List<AvatarUsageVolumeDTO> dtos = dashBoardDAO.getAvatarUseage(request);
+        for (AvatarUsageVolumeDTO dto : dtos){
+            dto.setItemNotUsageCount(dto.getPaymentSuccessCount() - dto.getItemUsageCount());
         }
         return dtos;
     }

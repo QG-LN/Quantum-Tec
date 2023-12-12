@@ -16,10 +16,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarPaymentHistoryDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarSalesVolumeDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.*;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
@@ -285,6 +282,12 @@ public class DashBoardController {
     @PostMapping("/avatarinfo/sales")
     public List<AvatarSalesVolumeDTO> getAvatarSalesVolume(@RequestBody AvatarIdDTO request) throws Exception{
         return dashBoardService.getAvatarSalesVolume(request);
+    }
+
+    // 아바타 사용량을 불러오는 메소드
+    @PostMapping("/avatarinfo/useage")
+    public List<AvatarUsageVolumeDTO> getAvatarUseage(@RequestBody AvatarIdDTO request) throws Exception{
+        return dashBoardService.getAvatarUseage(request);
     }
 
 
