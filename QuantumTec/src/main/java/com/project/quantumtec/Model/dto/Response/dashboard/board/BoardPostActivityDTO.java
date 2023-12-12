@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class BoardPostActivityDTO {
-    private int commentActivityCount; // 댓글 활동 수
+    private int PostViewCount; // 게시글 조회수
+    private int PostCommentCount; // 게시글 댓글 수
 }
