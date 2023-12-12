@@ -5,6 +5,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
@@ -278,5 +279,10 @@ public class DashBoardServiceImpl implements DashBoardService{
             }
         }
         return dtoList;
+    }
+
+    @Override
+    public List<AvatarListDTO> getAvatarList() {
+        return dashBoardDAO.getAvatarList();
     }
 }

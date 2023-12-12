@@ -15,6 +15,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
@@ -255,6 +256,13 @@ public class DashBoardController {
     @PostMapping("/postcomment/activity")
     public List<BoardPostActivityDTO> getPostCommentActivity(@RequestBody PostIdDTO request) throws Exception{
         return dashBoardService.getPostCommentActivity(request);
+    }
+
+    // 아바타 관리
+    // 아바타 리스트를 불러오는 메소드
+    @PostMapping("/avatarlist")
+    public List<AvatarListDTO> getAvatarList() throws Exception{
+        return dashBoardService.getAvatarList();
     }
 
 }

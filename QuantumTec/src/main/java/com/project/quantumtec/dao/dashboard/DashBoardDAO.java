@@ -13,7 +13,7 @@ import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
@@ -112,4 +112,7 @@ public interface DashBoardDAO {
 
     // 특정 게시글의 댓글/조회수 활동량을 불러오는 메소드
     List<PostDateVO> getPostCommentActivity(PostIdDTO request);
+
+    // 아바타 리스트를 불러오는 메소드
+    List<AvatarListDTO> getAvatarList();
 }

@@ -13,7 +13,7 @@ import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
@@ -314,5 +314,11 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public List<PostDateVO> getPostCommentActivity(PostIdDTO request) {
         return sqlSession.selectList("DashBoardService.getPostActivityByDate", request);
+    }
+
+    // 아바타 목록을 불러오는 메소드
+    @Override
+    public List<AvatarListDTO> getAvatarList() {
+        return sqlSession.selectList("DashBoardService.getAvatarLists");
     }
 }
