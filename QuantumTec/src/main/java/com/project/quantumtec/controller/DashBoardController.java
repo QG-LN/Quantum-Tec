@@ -234,7 +234,7 @@ public class DashBoardController {
     }
 
     // 게시글 삭제 (유저 아이디, 게시글 번호)
-    @DeleteMapping("/postinfo/delete")
+    @PostMapping("/postinfo/delete")
     public boolean deletePost(@RequestBody DeleteDTO request) throws Exception{
         return boardService.deletePost(request);
     }
