@@ -283,6 +283,7 @@ public class DashBoardServiceImpl implements DashBoardService{
         return dtoList;
     }
 
+    // 아바타 목록을 불러오는 메소드
     @Override
     public List<AvatarListDTO> getAvatarList() {
         return dashBoardDAO.getAvatarList();
