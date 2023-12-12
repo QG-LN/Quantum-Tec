@@ -25,6 +25,7 @@ const AvatarImg = (props) => {
     navigate(`${currentPath}/1`);
   };
 
+
   return (
     <div className="avatar-img-container">
       {/* 이미지 렌더링 */}
@@ -47,5 +48,7 @@ const AvatarImg = (props) => {
     </div>
   );
 };
+
+
 
 export default AvatarImg;

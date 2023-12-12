@@ -11,12 +11,11 @@ function AvatarPage() {
   
     // 각 버튼에 대한 이미지 src
   const buttonImageMap = [
+    "전체",
     "배경",
     "모자",
     "이너",
-    "바지",
-    "치마",
-    "신발",
+    "바지"
   ];
   // 버튼 클릭 시 해당 버튼의 이미지 src를 변경
   const handleButtonClick = (buttonName) => {

@@ -11315,3 +11315,10 @@ dd.closed {
 .horizontal-menu ul li:hover {
   text-decoration: underline;
 }
+
+.avatarinfotext {
+  flex: 0 0 auto;
+  width: 25% !important;
+  margin : auto !important;
+  text-align: left;
+}
