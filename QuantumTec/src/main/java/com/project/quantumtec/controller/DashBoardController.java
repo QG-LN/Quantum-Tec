@@ -7,7 +7,6 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
-import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
@@ -16,7 +15,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardCommentActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
@@ -24,13 +23,11 @@ import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsList
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.service.board.BoardService;
 import com.project.quantumtec.service.dashboard.DashBoardService;
-import com.project.quantumtec.service.game.GameService;
 import com.project.quantumtec.service.user.UserService;
 import com.project.quantumtec.Model.vo.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -254,9 +251,9 @@ public class DashBoardController {
         return dashBoardService.getPostModifyLog(request);
     }
 
-    // 게시글 내 댓글 작성 증가량
+    // 게시글 내 댓글/조회수 작성 증가량
     @PostMapping("/postcomment/activity")
-    public List<BoardCommentActivityDTO> getPostCommentActivity(@RequestBody PostIdDTO request) throws Exception{
+    public List<BoardPostActivityDTO> getPostCommentActivity(@RequestBody PostIdDTO request) throws Exception{
         return dashBoardService.getPostCommentActivity(request);
     }
 

@@ -5,15 +5,13 @@ import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardCommentActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
 import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsListDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
-import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
-import com.project.quantumtec.Model.vo.dashboard.GameListVO;
-import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
+import com.project.quantumtec.Model.vo.dashboard.*;
 import com.project.quantumtec.dao.dashboard.DashBoardDAO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
@@ -26,7 +24,6 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
 import com.project.quantumtec.global.DatabaseColumnName;
 import com.project.quantumtec.global.ExpToLevel;
-import com.project.quantumtec.Model.vo.dashboard.UserListVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -251,23 +248,35 @@ public class DashBoardServiceImpl implements DashBoardService{
         return dashBoardDAO.cancelRefundAvatar(paymentsListDTO);
     }
 
+    // 모든 게시글 정보를 불러오는 메소드
     @Override
     public List<BoardListDTO> getBoardList() {
         return dashBoardDAO.getBoardList();
     }
 
+    // 특정 게시글의 댓글 리스트를 불러오는 메소드
     @Override
     public List<CommentListResponseDTO> getCommentList(PostIdDTO request) {
         return dashBoardDAO.getCommentList(request);
     }
 
+    // 특정 게시글의 수정 로그를 불러오는 메소드
     @Override
     public List<BoardModifyLogDTO> getPostModifyLog(PostIdDTO request) {
         return dashBoardDAO.getPostModifyLog(request);
     }
 
+    // 특정 게시글의 댓글/조회수 활동량을 불러오는 메소드
     @Override
-    public List<BoardCommentActivityDTO> getPostCommentActivity(PostIdDTO request) {
-        return dashBoardDAO.getPostCommentActivity(request);
+    public List<BoardPostActivityDTO> getPostCommentActivity(PostIdDTO request) {
+        List<PostDateVO> list = dashBoardDAO.getPostCommentActivity(request);
+        List<BoardPostActivityDTO> dtoList = new ArrayList<>();
+        for(BoardPostActivityDTO dto : dtoList){
+            for(PostDateVO vo : list){
+                dto.setPostViewCount(vo.getPostViewCount());
+                dto.setPostCommentCount(vo.getPostCommentCount());
+            }
+        }
+        return dtoList;
     }
 }
