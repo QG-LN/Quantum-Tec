@@ -285,9 +285,9 @@ public class DashBoardController {
     }
 
     // 아바타 사용량을 불러오는 메소드
-    @PostMapping("/avatarinfo/useage")
-    public List<AvatarUsageVolumeDTO> getAvatarUseage(@RequestBody AvatarIdDTO request) throws Exception{
-        return dashBoardService.getAvatarUseage(request);
+    @PostMapping("/avatarinfo/usage")
+    public List<AvatarUsageVolumeDTO> getAvatarUsage(@RequestBody AvatarIdDTO request) throws Exception{
+        return dashBoardService.getAvatarUsage(request);
     }
 
 

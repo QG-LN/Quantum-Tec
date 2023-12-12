@@ -323,8 +323,8 @@ public class DashBoardServiceImpl implements DashBoardService{
 
     // 아바타 사용량을 불러오는 메소드
     @Override
-    public List<AvatarUsageVolumeDTO> getAvatarUseage(AvatarIdDTO request) {
-        List<AvatarUsageVolumeDTO> dtos = dashBoardDAO.getAvatarUseage(request);
+    public List<AvatarUsageVolumeDTO> getAvatarUsage(AvatarIdDTO request) {
+        List<AvatarUsageVolumeDTO> dtos = dashBoardDAO.getAvatarUsage(request);
         for (AvatarUsageVolumeDTO dto : dtos){
             dto.setItemNotUsageCount(dto.getPaymentSuccessCount() - dto.getItemUsageCount());
         }

@@ -130,5 +130,5 @@ public interface DashBoardDAO {
     List<AvatarSalesVolumeVO> getAvatarSalesVolume(AvatarIdDTO request);
 
     // 아바타 사용량을 불러오는 메소드
-    List<AvatarUsageVolumeDTO> getAvatarUseage(AvatarIdDTO request);
+    List<AvatarUsageVolumeDTO> getAvatarUsage(AvatarIdDTO request);
 }
