@@ -33,31 +33,31 @@ function AvatarPage() {
   //  ]
 
   const avatarinfo = [
-    { avatarId: 7, avatarColor: "파란색", itemCategory: "배경" },
-    { avatarId: 8, avatarColor: "갈색", itemCategory: "배경" },
-    { avatarId: 9, avatarColor: "초록색", itemCategory: "배경" },
-    { avatarId: 10, avatarColor: "보라색", itemCategory: "배경" },
-    { avatarId: 11, avatarColor: "빨간색", itemCategory: "배경" },
-    { avatarId: 12, avatarColor: "파란색", itemCategory: "모자" },
-    { avatarId: 13, avatarColor: "갈색", itemCategory: "모자" },
-    { avatarId: 14, avatarColor: "초록색", itemCategory: "모자" },
-    { avatarId: 15, avatarColor: "보라색", itemCategory: "모자" },
-    { avatarId: 16, avatarColor: "빨간색", itemCategory: "모자" },
-    { avatarId: 17, avatarColor: "파란색", itemCategory: "이너" },
-    { avatarId: 18, avatarColor: "갈색", itemCategory: "이너" },
-    { avatarId: 19, avatarColor: "초록색", itemCategory: "이너" },
-    { avatarId: 20, avatarColor: "보라색", itemCategory: "이너" },
-    { avatarId: 21, avatarColor: "빨간색", itemCategory: "이너" },
-    { avatarId: 23, avatarColor: "파란색", itemCategory: "바지" },
-    { avatarId: 24, avatarColor: "갈색", itemCategory: "바지" },
-    { avatarId: 25, avatarColor: "초록색", itemCategory: "바지" },
-    { avatarId: 26, avatarColor: "보라색", itemCategory: "바지" },
-    { avatarId: 27, avatarColor: "빨간색", itemCategory: "바지" },
-    { avatarId: 28, avatarColor: "파란색", itemCategory: "치마" },
-    { avatarId: 29, avatarColor: "갈색", itemCategory: "치마" },
-    { avatarId: 30, avatarColor: "초록색", itemCategory: "치마" },
-    { avatarId: 31, avatarColor: "보라색", itemCategory: "치마" },
-    { avatarId: 32, avatarColor: "빨간색", itemCategory: "치마" },
+    { itemIndex: 7, itemName: "파란색 배경", itemCategory: "배경" },
+    { itemIndex: 8, itemName: "갈색 배경", itemCategory: "배경" },
+    { itemIndex: 9, itemName: "초록색 배경", itemCategory: "배경" },
+    { itemIndex: 10, itemName: "보라색 배경", itemCategory: "배경" },
+    { itemIndex: 11, itemName: "빨간색 배경", itemCategory: "배경" },
+    { itemIndex: 12, itemName: "파란색 모자", itemCategory: "모자" },
+    { itemIndex: 13, itemName: "갈색 모자", itemCategory: "모자" },
+    { itemIndex: 14, itemName: "초록색 모자", itemCategory: "모자" },
+    { itemIndex: 15, itemName: "보라색 모자", itemCategory: "모자" },
+    { itemIndex: 16, itemName: "빨간색 모자", itemCategory: "모자" },
+    { itemIndex: 17, itemName: "파란색 이너", itemCategory: "이너" },
+    { itemIndex: 18, itemName: "갈색 이너", itemCategory: "이너" },
+    { itemIndex: 19, itemName: "초록색 이너", itemCategory: "이너" },
+    { itemIndex: 20, itemName: "보라색 이너", itemCategory: "이너" },
+    { itemIndex: 21, itemName: "빨간색 이너", itemCategory: "이너" },
+    { itemIndex: 23, itemName: "파란색 바지", itemCategory: "바지" },
+    { itemIndex: 24, itemName: "갈색 바지", itemCategory: "바지" },
+    { itemIndex: 25, itemName: "초록색 바지", itemCategory: "바지" },
+    { itemIndex: 26, itemName: "보라색 바지", itemCategory: "바지" },
+    { itemIndex: 27, itemName: "빨간색 바지", itemCategory: "바지" },
+    { itemIndex: 28, itemName: "파란색 치마", itemCategory: "치마" },
+    { itemIndex: 29, itemName: "갈색 치마", itemCategory: "치마" },
+    { itemIndex: 30, itemName: "초록색 치마", itemCategory: "치마" },
+    { itemIndex: 31, itemName: "보라색 치마", itemCategory: "치마" },
+    { itemIndex: 32, itemName: "빨간색 치마", itemCategory: "치마" },
   ];
 
   const renderAvatarImages = () => {
@@ -72,8 +72,8 @@ function AvatarPage() {
           .filter((item) => item.itemCategory === attribute)
           .map((item) => ({
             category: attribute,
-            filename: item.avatarColor + " " + attribute,
-            avatarid: item.avatarId,
+            filename: item.itemName,
+            itemIndex: item.itemIndex,
           }))
       );
       // 이미지 업데이트
@@ -84,8 +84,8 @@ function AvatarPage() {
         .filter((item) => item.itemCategory === selectedButton)
         .map((item) => ({
           category: selectedButton,
-          filename: item.avatarColor + " " + selectedButton,
-          avatarid: item.avatarId,
+          filename: item.itemName,
+          itemIndex: item.itemIndex,
         }));
       // 이미지 업데이트
       setLoadedImages(newImages);
@@ -107,10 +107,10 @@ function AvatarPage() {
   };
   const imagesPerPage = 8;
 
-  // Calculate the total number of pages
+  // 전체 페이지 갯수를 계산
   const totalPages = Math.ceil(loadedImages.length / imagesPerPage);
 
-  // Create an array of page numbers from 1 to totalPages
+  // 1부터 전체페이지 갯수 배열로 저장
   const pageNumbers = Array.from(
     { length: totalPages },
     (_, index) => index + 1
@@ -159,7 +159,7 @@ function AvatarPage() {
               key={image.filename}
               category={image.category}
               filename={image.filename}
-              avatarid={image.avatarid}
+              itemIndex={image.itemIndex}
             />
           ))}
           <div class="flex m-auto place-content-center">{pageButtons}</div>
