@@ -10,4 +10,5 @@ public class GamePaymentListDTO {
     private String paymentMethod;     // 결제 수단
     private String paymentStatus; // 결제 상태
     private String paymentDate; // 결제 날짜
+    private int userIndex; // 사용자 번호
 }
