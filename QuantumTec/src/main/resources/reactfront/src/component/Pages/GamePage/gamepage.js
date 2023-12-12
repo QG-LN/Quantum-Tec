@@ -201,7 +201,7 @@ export default function GamePage() {
             <div class='overflow-x-scroll w-[1200px] mt-4'>
                 <div className="image-slider flex">
                     <fieldset class='imgButtonStyle flex '>
-                        <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] '></legend>
+                        <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] max-w-xl'></legend>
                         {categoryGameList.map((image, index) => (
                             <label className='hover:cursor-pointer w-[320px] h-[240px] m-2'>
                                 <input type="radio" class='hidden' name='subimg' id='subimg'
@@ -271,7 +271,7 @@ export default function GamePage() {
                             <textarea name='comment' class='border' rows='10' cols='119'placeholder='평가를 작성해 주세요' onChange={HandleSetComment} value={comment}></textarea>
                             <div>
                                 <fieldset class='radioButtonStyle'>
-                                    <legend class='absolute overflow-hidden h-1 w-1 m-[-1px]'></legend>
+                                    <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] max-w-xl'></legend>
                                     <label className='radioStyle hover:cursor-pointer'>
                                         <input type="radio" name='cate' id='cate' onChange={handleInputGrade} value='0'/><span onClick={ Clickgrade}>매우 긍정적</span>
                                     </label>

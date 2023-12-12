@@ -46,7 +46,7 @@ export default function GameImage(props) {
             <div class={`overflow-x-scroll w-[${imgSize[0]}px] mt-2`}>
                 <div className="image-slider flex">
                     <fieldset class='imgButtonStyle flex'>
-                        <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] '></legend>
+                        <legend class='absolute overflow-hidden h-1 w-1 m-[-1px] max-w-xl'></legend>
                         {imgList.map((image, index) => (
                             // <label className='hover:cursor-pointer w-[160] h-[90]'>
                             <label className={`w-[${imgSize[0]/ 4.5}] h-[${imgSize[1]/4.5}]`}>
