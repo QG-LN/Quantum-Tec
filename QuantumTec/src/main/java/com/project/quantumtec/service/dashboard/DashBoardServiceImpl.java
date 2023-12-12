@@ -1,10 +1,12 @@
 package com.project.quantumtec.service.dashboard;
 
+import com.project.quantumtec.Model.dto.Request.dashboard.avatar.AvatarIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
@@ -284,5 +286,11 @@ public class DashBoardServiceImpl implements DashBoardService{
     @Override
     public List<AvatarListDTO> getAvatarList() {
         return dashBoardDAO.getAvatarList();
+    }
+
+    // 아바타 상세 정보를 불러오는 메소드
+    @Override
+    public AvatarDetailDTO getAvatarInfo(AvatarIdDTO request) {
+        return dashBoardDAO.getAvatarInfo(request);
     }
 }

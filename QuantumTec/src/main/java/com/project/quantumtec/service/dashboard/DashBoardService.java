@@ -5,6 +5,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.avatar.AvatarIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
@@ -14,6 +15,7 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
@@ -112,4 +114,7 @@ public interface DashBoardService {
 
     // 아바타 리스트를 불러오는 메소드
     List<AvatarListDTO> getAvatarList();
+
+    // 아바타 상세 정보를 불러오는 메소드
+    AvatarDetailDTO getAvatarInfo(AvatarIdDTO request);
 }

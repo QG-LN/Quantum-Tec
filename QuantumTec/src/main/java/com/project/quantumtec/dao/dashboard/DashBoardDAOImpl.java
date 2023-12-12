@@ -5,6 +5,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.avatar.AvatarIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
@@ -13,6 +14,7 @@ import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
@@ -320,5 +322,11 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public List<AvatarListDTO> getAvatarList() {
         return sqlSession.selectList("DashBoardService.getAvatarLists");
+    }
+
+    // 아바타 상세 정보를 불러오는 메소드
+    @Override
+    public AvatarDetailDTO getAvatarInfo(AvatarIdDTO request) {
+        return sqlSession.selectOne("DashBoardService.getAvatarDetail", request);
     }
 }
