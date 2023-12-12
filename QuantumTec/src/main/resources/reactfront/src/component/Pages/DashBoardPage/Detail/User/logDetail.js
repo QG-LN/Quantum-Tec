@@ -22,6 +22,7 @@ function LogDetail({state}) {
         };
         axiosRequest(path, body, 'POST', 'json')
             .then((response) => {
+                console.log(response);
                 setLogData(response);
             })
             .catch((error) => {

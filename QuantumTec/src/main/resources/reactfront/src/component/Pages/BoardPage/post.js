@@ -128,7 +128,7 @@ export default function Post() {
         const data = {
             title: post.postTitle,
             content: post.postContent,
-            path: `/board/${no}/post/${id}`
+            beforePath: `/board/${no}/post/${id}`
         }
         navigate(`/board/${no}/post/${id}/edit`, {state: data});
     }

@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 export default function WritePage() {
     const editorRef = useRef();              
     const [title, setTitle] = useState('');  // 제목
-    const [path, setPath] = useState('');    // 수정 시 이전 페이지 경로
+    const [beforePath, setBeforePath] = useState('');    // 수정 시 이전 페이지 경로
 
     const [isEdit, setIsEdit] = useState(false);    // 글 수정인지 확인하는 변수
 
@@ -26,7 +26,7 @@ export default function WritePage() {
         if(state !== null){
             setIsEdit(true);
             setTitle(state.title);
-            setPath(state.path);
+            setBeforePath(state.beforePath);
             editorRef.current.getInstance().setMarkdown(state.content);
         }
 
@@ -44,21 +44,35 @@ export default function WritePage() {
             return;
         }else{
             if(isEdit){
-                const path = 'board/modify';
-                const body = {
-                    boardIndex : (no === "0") ? 1 : no,
-                    postIndex : id,
-                    userID : localStorage.getItem("userID"),
-                    title : title,
-                    content : editorRef.current.getInstance().getMarkdown()
+                let path = '';
+                let body = {};
+                if(state.to === 'admin'){
+                    path = 'dashboard/postinfo/modify';
+                    body = {
+                        boardIndex : (no === "0") ? 1 : no,
+                        postIndex : id,
+                        userID : localStorage.getItem("userID"),
+                        title : title,
+                        content : editorRef.current.getInstance().getMarkdown()
+                    }
+                }else{
+                    path = 'board/modify';
+                    body = {
+                        boardIndex : (no === "0") ? 1 : no,
+                        postIndex : id,
+                        userID : localStorage.getItem("userID"),
+                        title : title,
+                        content : editorRef.current.getInstance().getMarkdown()
+                    }
+    
                 }
-
+                console.log("body" + body)
                 axiosRequest(path,body,'POST','json')
                 .then(res => {
                     console.log(res);
                     if(res){
                         alert("글을 성공적으로 수정하였습니다.");
-                        navigate(`/board/${no}`);
+                        navigate(beforePath);
                     }else{
                         alert("글 수정에 실패하였습니다.");
                     }
@@ -96,7 +110,7 @@ export default function WritePage() {
         
         if(isEdit){
             // 글 수정 시 이전 페이지로 이동
-            navigate(path);
+            navigate(beforePath);
         }else{
             // 글 작성 시 이전 페이지로 이동
             navigate(`/board/${no}`);
