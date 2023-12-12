@@ -43,3 +43,13 @@
     border-radius: 0%;
     border: none;
   }
+
+  .page-button {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    padding: 10px;
+    transition: transform 0.3s ease, width 0.3s ease; /* width 속성 추가 */
+    overflow: hidden; /* 자식 요소가 넘치는 경우를 위해 추가 */
+  }

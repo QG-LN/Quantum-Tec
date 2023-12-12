@@ -14,7 +14,7 @@ const AvatarImg = (props) => {
   const handleClick = () => {
     // 클릭 시 주소에 '/1' 추가
     const currentPath = window.location.pathname;
-    navigate(`${currentPath}/1`);
+    navigate(`${currentPath}/${props.avatarid}`);
   };
 
   console.log(props);
