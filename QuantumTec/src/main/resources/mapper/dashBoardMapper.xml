@@ -36,7 +36,8 @@
             pi.PAYMENT_AMOUNT AS PAYMENT_AMOUNT,
             pi.PAYMENT_METHOD AS PAYMENT_METHOD,
             pi.PAYMENT_STATUS AS PAYMENT_STATUS,
-            pi.PAYMENT_DATE AS PAYMENT_DATE
+            pi.PAYMENT_DATE AS PAYMENT_DATE,
+            ui.USER_INDEX AS USER_INDEX
         FROM 
             PAYMENT_INFO_TB pi
         JOIN 
@@ -75,7 +76,8 @@
             gc.COMMENT_CREATED_DATE,
             gc.COMMENT_UPVOTES,
             gc.COMMENT_DOWNVOTES,
-            gc.COMMENT_RATING
+            gc.COMMENT_RATING,
+            ui.USER_INDEX
         FROM 
             GAME_COMMENT_INFO_TB gc
         INNER JOIN 
@@ -174,6 +176,7 @@
             p.POST_VIEWS,
             p.POST_UPVOTES,
             p.POST_DOWNVOTES,
+            p.POST_AUTHOR_INDEX,
             (SELECT COUNT(*) FROM COMMENT_INFO_TB WHERE POST_INDEX = p.POST_INDEX) AS POST_COMMENTS
         FROM
             POST_INFO_TB p
@@ -191,7 +194,8 @@
             u.USER_NAME AS COMMENT_WRITER,
             c.COMMENT_UPVOTES,
             c.COMMENT_DOWNVOTES,
-            c.COMMENT_RATING
+            c.COMMENT_RATING,
+            u.USER_INDEX
         FROM
             COMMENT_INFO_TB c
                 INNER JOIN

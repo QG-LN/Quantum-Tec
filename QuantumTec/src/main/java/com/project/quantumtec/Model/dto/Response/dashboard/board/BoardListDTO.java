@@ -8,6 +8,7 @@ public class BoardListDTO {
     private String boardCategoryName;          //게시판 명칭
     private String postTitle;      // 게시글 제목
     private String postAuthorName;  // 게시글 작성자
+    private int postAuthorIndex;  // 게시글 작성자 번호
     private String postCreatedDate;        // 게시글 작성일
     private int postViews;           // 게시글 조회수
     private int postUpvotes;           // 게시글 좋아요

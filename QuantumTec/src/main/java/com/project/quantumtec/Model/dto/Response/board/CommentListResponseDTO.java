@@ -12,4 +12,5 @@ public class CommentListResponseDTO { // 댓글 리스트를 담는 Response DTO
     private int commentUpvote; // 댓글 추천 수
     private int commentDownvote; // 댓글 비추천 수
     private int commentRating; // 댓글 평점
+    private int userIndex; // 사용자 번호
 }
