@@ -12,7 +12,17 @@ export default function ItemTableRow({row, selected, handleClick}) {
   delete data.userIndex;
   const userIdIndex = Object.keys(data).indexOf('userId');
   const userNameIndex = Object.keys(data).indexOf('userName');
-  const whereIndex = userIdIndex !== -1 ? userIdIndex : (userNameIndex !== -1 ? userNameIndex : -1);
+  const commentWriterIndex = Object.keys(data).indexOf('commentWriter');
+  let whereIndex = -1;
+  if (userIdIndex !== -1) {
+    whereIndex = userIdIndex;
+  }
+  else if (userNameIndex !== -1) {
+    whereIndex = userNameIndex;
+  }
+  else if (commentWriterIndex !== -1) {
+    whereIndex = commentWriterIndex;
+  }
   
   const handleUserClick = (e) => {
     e.stopPropagation();

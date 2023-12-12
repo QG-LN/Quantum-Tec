@@ -194,7 +194,8 @@
             u.USER_NAME AS COMMENT_WRITER,
             c.COMMENT_UPVOTES,
             c.COMMENT_DOWNVOTES,
-            c.COMMENT_RATING
+            c.COMMENT_RATING,
+            u.USER_INDEX
         FROM
             COMMENT_INFO_TB c
                 INNER JOIN
