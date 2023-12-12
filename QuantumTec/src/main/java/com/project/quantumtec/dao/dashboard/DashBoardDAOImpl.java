@@ -347,6 +347,6 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     // 아바타 사용량을 불러오는 메소드
     @Override
     public List<AvatarUsageVolumeDTO> getAvatarUsage(AvatarIdDTO request) {
-        return sqlSession.selectList("DashBoardService.getAvatarUsageVolumeByMonth", request);
+        return sqlSession.selectList("DashBoardService.getAvatarUsageVolume", request);
     }
 }

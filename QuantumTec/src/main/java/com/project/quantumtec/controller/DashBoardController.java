@@ -255,7 +255,7 @@ public class DashBoardController {
 
     // 게시글 내 댓글/조회수 작성 증가량
     @PostMapping("/postcomment/activity")
-    public List<BoardPostActivityDTO> getPostCommentActivity(@RequestBody PostIdDTO request) throws Exception{
+    public BoardPostActivityDTO getPostCommentActivity(@RequestBody PostIdDTO request) throws Exception{
         return dashBoardService.getPostCommentActivity(request);
     }
 

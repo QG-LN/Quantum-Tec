@@ -109,7 +109,7 @@ public interface DashBoardService {
     List<BoardModifyLogDTO> getPostModifyLog(PostIdDTO request);
 
     // 특정 게시글의 댓글/조회수 활동량을 불러오는 메소드
-    List<BoardPostActivityDTO> getPostCommentActivity(PostIdDTO request);
+    BoardPostActivityDTO getPostCommentActivity(PostIdDTO request);
 
     // 아바타 리스트를 불러오는 메소드
     List<AvatarListDTO> getAvatarList();
