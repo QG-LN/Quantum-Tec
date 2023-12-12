@@ -223,14 +223,12 @@
     <select id="getAvatarLists" resultType="AvatarListDTO">
         SELECT
             a.ITEM_INDEX,
-            a.ITEM_NAME
+            a.ITEM_NAME,
+            c.ITEM_CATEGORY_NAME
         FROM
             AVATAR_ITEM_TB a
         INNER JOIN
             AVATAR_ITEM_CATEGORY_TB c ON a.ITEM_CATEGORY_ID = c.ITEM_CATEGORY_ID
-        WHERE
-            c.ITEM_CATEGORY_NAME = #{itemCategoryName}
-        LIMIT #{startIndex}, #{offset};
     </select>
 
     <select id="getAvatarDetail" resultType="AvatarDetailDTO">
