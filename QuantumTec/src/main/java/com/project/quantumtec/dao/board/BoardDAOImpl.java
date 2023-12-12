@@ -68,7 +68,6 @@ public class BoardDAOImpl implements BoardDAO {
     @Override
     public boolean modifyPost(ModifyDTO request) {
         try {
-            System.out.println(request);
             // 게시물 수정
             return sqlSession.update("BoardService.modifyPost", request) > 0;
         } catch (Exception e) {
@@ -80,6 +79,7 @@ public class BoardDAOImpl implements BoardDAO {
     public boolean deletePost(DeleteDTO request) { // 게시글 삭제 성공해도 false 반환하는 중...
         try {
             // 게시물 삭제
+            System.out.println("12312341234"+sqlSession.delete("BoardService.deletePost", request));
             return sqlSession.delete("BoardService.deletePost", request) > 0;
         } catch (Exception e) {
             return false;
