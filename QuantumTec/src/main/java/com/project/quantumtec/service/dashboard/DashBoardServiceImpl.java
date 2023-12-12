@@ -271,15 +271,23 @@ public class DashBoardServiceImpl implements DashBoardService{
     // 특정 게시글의 댓글/조회수 활동량을 불러오는 메소드
     @Override
     public List<BoardPostActivityDTO> getPostCommentActivity(PostIdDTO request) {
-        List<PostDateVO> list = dashBoardDAO.getPostCommentActivity(request);
-        List<BoardPostActivityDTO> dtoList = new ArrayList<>();
-        for(PostDateVO vo : list){
-            BoardPostActivityDTO dto = new BoardPostActivityDTO();
-            dto.setViewCount(vo.getViewCount());
-            dto.setCommentCount(vo.getCommentCount());
-            dtoList.add(dto);
+        try{
+            List<PostDateVO> list = dashBoardDAO.getPostCommentActivity(request);
+            List<BoardPostActivityDTO> dtoList = new ArrayList<>();
+            System.out.println("리스트 크기1 : " + list.size());
+            for(PostDateVO vo : list){
+                System.out.println("리스트 크기2 : " + list.size());
+                System.out.println("VO값 : " + vo.getCommentsCount());
+                System.out.println("VO값 : " + vo.getViewsCount());
+                BoardPostActivityDTO dto = new BoardPostActivityDTO();
+                dto.setViewsCount(vo.getViewsCount());
+                dto.setCommentsCount(vo.getCommentsCount());
+                dtoList.add(dto);
+            }
+            return dtoList;
+        }catch (Exception e){
+            return null;
         }
-        return dtoList;
     }
 
     // 아바타 목록을 불러오는 메소드
