@@ -9,6 +9,7 @@ import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarPaymentHistoryDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarSalesVolumeDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
@@ -275,11 +276,11 @@ public class DashBoardServiceImpl implements DashBoardService{
     public List<BoardPostActivityDTO> getPostCommentActivity(PostIdDTO request) {
         List<PostDateVO> list = dashBoardDAO.getPostCommentActivity(request);
         List<BoardPostActivityDTO> dtoList = new ArrayList<>();
-        for(BoardPostActivityDTO dto : dtoList){
-            for(PostDateVO vo : list){
-                dto.setPostViewCount(vo.getPostViewCount());
-                dto.setPostCommentCount(vo.getPostCommentCount());
-            }
+        for(PostDateVO vo : list){
+            BoardPostActivityDTO dto = new BoardPostActivityDTO();
+            dto.setPostViewCount(vo.getPostViewCount());
+            dto.setPostCommentCount(vo.getPostCommentCount());
+            dtoList.add(dto);
         }
         return dtoList;
     }
@@ -300,5 +301,18 @@ public class DashBoardServiceImpl implements DashBoardService{
     @Override
     public List<AvatarPaymentHistoryDTO> getAvatarPaymentHistory(AvatarIdDTO request) {
         return dashBoardDAO.getAvatarPaymentHistory(request);
+    }
+
+    // 아바타 판매량을 불러오는 메소드
+    @Override
+    public List<AvatarSalesVolumeDTO> getAvatarSalesVolume(AvatarIdDTO request) {
+        List<AvatarSalesVolumeVO> vos = dashBoardDAO.getAvatarSalesVolume(request);
+        List<AvatarSalesVolumeDTO> dtos = new ArrayList<>();
+        for(AvatarSalesVolumeVO vo : vos){
+            AvatarSalesVolumeDTO dto = new AvatarSalesVolumeDTO();
+            dto.setSalesVolumeCount(vo.getSalesVolumeCount());
+            dtos.add(dto);
+        }
+        return dtos;
     }
 }

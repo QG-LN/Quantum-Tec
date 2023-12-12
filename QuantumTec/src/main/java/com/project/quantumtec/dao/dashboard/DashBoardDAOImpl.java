@@ -336,4 +336,10 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     public List<AvatarPaymentHistoryDTO> getAvatarPaymentHistory(AvatarIdDTO request) {
         return sqlSession.selectList("DashBoardService.getAvatarPaymentHistory", request);
     }
+
+    // 아바타 판매량을 불러오는 메소드
+    @Override
+    public List<AvatarSalesVolumeVO> getAvatarSalesVolume(AvatarIdDTO request) {
+        return sqlSession.selectList("DashBoardService.getAvatarPaymentSalesVolumeByMonth", request);
+    }
 }

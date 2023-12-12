@@ -124,4 +124,7 @@ public interface DashBoardDAO {
 
     // 아바타 결제 내역을 불러오는 메소드
     List<AvatarPaymentHistoryDTO> getAvatarPaymentHistory(AvatarIdDTO request);
+
+    // 아바타 판매량을 불러오는 메소드
+    List<AvatarSalesVolumeVO> getAvatarSalesVolume(AvatarIdDTO request);
 }
