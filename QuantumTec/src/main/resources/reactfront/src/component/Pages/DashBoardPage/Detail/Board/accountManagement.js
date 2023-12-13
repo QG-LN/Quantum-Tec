@@ -12,13 +12,12 @@ function AccountManagement(props) {
 
   const handleButtonAddClick = () => {
     console.log("게시글 추가");
-    navigate("/board/3/write");
+    navigate("/board/3/write" ,{ state: { beforePath: `/dashboard/board/${checkBoardIndex(props.state.boardCategoryName)}` } });
   };
 
-  const handleButtonModifyClick = () => {
-    console.log("게시글 수정");
+  const checkBoardIndex = (boardCategoryName) => {
     let boardNo = 0;
-    switch (props.state.boardCategoryName) {
+    switch (boardCategoryName) {
       case "자유게시판":
         boardNo = 1;
         break;
@@ -32,6 +31,12 @@ function AccountManagement(props) {
         boardNo = 3;
         break;
     }
+    return boardNo;
+  }
+
+  const handleButtonModifyClick = () => {
+    console.log("게시글 수정");
+    let boardNo = checkBoardIndex(props.state.boardCategoryName);
     const data = {
       boardIndex : boardNo,
       title: props.state.postTitle,

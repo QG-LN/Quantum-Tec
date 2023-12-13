@@ -113,7 +113,7 @@ export default function WritePage() {
             navigate(beforePath);
         }else{
             // 글 작성 시 이전 페이지로 이동
-            navigate(`/board/${no}`);
+            navigate(beforePath === undefined ? `/board/${no}` : beforePath);
         }
     }
 
