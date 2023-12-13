@@ -1,19 +1,19 @@
 package com.project.quantumtec.service.dashboard;
 
+import com.project.quantumtec.Model.dto.Request.dashboard.avatar.AvatarIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardCommentActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.*;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
 import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsListDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
-import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
-import com.project.quantumtec.Model.vo.dashboard.GameListVO;
-import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
+import com.project.quantumtec.Model.vo.dashboard.*;
 import com.project.quantumtec.dao.dashboard.DashBoardDAO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
@@ -26,7 +26,6 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
 import com.project.quantumtec.global.DatabaseColumnName;
 import com.project.quantumtec.global.ExpToLevel;
-import com.project.quantumtec.Model.vo.dashboard.UserListVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -251,23 +250,84 @@ public class DashBoardServiceImpl implements DashBoardService{
         return dashBoardDAO.cancelRefundAvatar(paymentsListDTO);
     }
 
+    // 모든 게시글 정보를 불러오는 메소드
     @Override
     public List<BoardListDTO> getBoardList() {
         return dashBoardDAO.getBoardList();
     }
 
+    // 특정 게시글의 댓글 리스트를 불러오는 메소드
     @Override
     public List<CommentListResponseDTO> getCommentList(PostIdDTO request) {
         return dashBoardDAO.getCommentList(request);
     }
 
+    // 특정 게시글의 수정 로그를 불러오는 메소드
     @Override
     public List<BoardModifyLogDTO> getPostModifyLog(PostIdDTO request) {
         return dashBoardDAO.getPostModifyLog(request);
     }
 
+    // 특정 게시글의 댓글/조회수 활동량을 불러오는 메소드
     @Override
-    public List<BoardCommentActivityDTO> getPostCommentActivity(PostIdDTO request) {
-        return dashBoardDAO.getPostCommentActivity(request);
+    public BoardPostActivityDTO getPostCommentActivity(PostIdDTO request) {
+        try{
+            List<PostDateVO> list = dashBoardDAO.getPostCommentActivity(request);
+            BoardPostActivityDTO dto = new BoardPostActivityDTO();
+            for(PostDateVO vo : list){
+                int[] viewsCount = new int[7];
+                int[] commentsCount = new int[7];
+                for(int i = 0; i < list.size(); i++){
+                    viewsCount[i] = vo.getViewsCount();
+                    commentsCount[i] = vo.getCommentsCount();
+                }
+                dto.setCommentsCount(commentsCount);
+                dto.setViewsCount(viewsCount);
+            }
+            return dto;
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    // 아바타 목록을 불러오는 메소드
+    @Override
+    public List<AvatarListDTO> getAvatarList() {
+        return dashBoardDAO.getAvatarList();
+    }
+
+    // 아바타 상세 정보를 불러오는 메소드
+    @Override
+    public AvatarDetailDTO getAvatarInfo(AvatarIdDTO request) {
+        return dashBoardDAO.getAvatarInfo(request);
+    }
+
+    // 아바타 결제 내역을 불러오는 메소드
+    @Override
+    public List<AvatarPaymentHistoryDTO> getAvatarPaymentHistory(AvatarIdDTO request) {
+        return dashBoardDAO.getAvatarPaymentHistory(request);
+    }
+
+    // 아바타 판매량을 불러오는 메소드
+    @Override
+    public List<AvatarSalesVolumeDTO> getAvatarSalesVolume(AvatarIdDTO request) {
+        List<AvatarSalesVolumeVO> vos = dashBoardDAO.getAvatarSalesVolume(request);
+        List<AvatarSalesVolumeDTO> dtos = new ArrayList<>();
+        for(AvatarSalesVolumeVO vo : vos){
+            AvatarSalesVolumeDTO dto = new AvatarSalesVolumeDTO();
+            dto.setSalesVolumeCount(vo.getSalesVolumeCount());
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+    // 아바타 사용량을 불러오는 메소드
+    @Override
+    public List<AvatarUsageVolumeDTO> getAvatarUsage(AvatarIdDTO request) {
+        List<AvatarUsageVolumeDTO> dtos = dashBoardDAO.getAvatarUsage(request);
+        for (AvatarUsageVolumeDTO dto : dtos){
+            dto.setItemNotUsageCount(dto.getPaymentSuccessCount() - dto.getItemUsageCount());
+        }
+        return dtos;
     }
 }

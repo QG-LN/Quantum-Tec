@@ -1,11 +1,11 @@
 package com.project.quantumtec.dao.dashboard;
 
-import com.project.quantumtec.Model.dto.Request.board.ViewDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserBanDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.avatar.AvatarIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
@@ -14,19 +14,18 @@ import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardCommentActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarPaymentHistoryDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarUsageVolumeDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GamePaymentListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.game.GameTimeDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsListDTO;
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
-import com.project.quantumtec.Model.vo.dashboard.GameDateVO;
-import com.project.quantumtec.Model.vo.dashboard.GameListVO;
-import com.project.quantumtec.Model.vo.dashboard.GameTimeVO;
-import com.project.quantumtec.Model.vo.dashboard.UserListVO;
+import com.project.quantumtec.Model.vo.dashboard.*;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -315,9 +314,39 @@ public class DashBoardDAOImpl implements DashBoardDAO{
         return sqlSession.selectList("DashBoardService.getPostModifyLog", request);
     }
 
-    // 특정 게시글의 댓글 작성 활동량을 불러오는 메소드
+    // 특정 게시글의 댓글/조회수 활동량을 불러오는 메소드
     @Override
-    public List<BoardCommentActivityDTO> getPostCommentActivity(PostIdDTO request) {
-        return sqlSession.selectList("DashBoardService.getPostCommentActivity", request);
+    public List<PostDateVO> getPostCommentActivity(PostIdDTO request) {
+        return sqlSession.selectList("DashBoardService.getPostActivityByDate", request);
+    }
+
+    // 아바타 목록을 불러오는 메소드
+    @Override
+    public List<AvatarListDTO> getAvatarList() {
+        return sqlSession.selectList("DashBoardService.getAvatarLists");
+    }
+
+    // 아바타 상세 정보를 불러오는 메소드
+    @Override
+    public AvatarDetailDTO getAvatarInfo(AvatarIdDTO request) {
+        return sqlSession.selectOne("DashBoardService.getAvatarDetail", request);
+    }
+
+    // 아바타 결제 내역을 불러오는 메소드
+    @Override
+    public List<AvatarPaymentHistoryDTO> getAvatarPaymentHistory(AvatarIdDTO request) {
+        return sqlSession.selectList("DashBoardService.getAvatarPaymentHistory", request);
+    }
+
+    // 아바타 판매량을 불러오는 메소드
+    @Override
+    public List<AvatarSalesVolumeVO> getAvatarSalesVolume(AvatarIdDTO request) {
+        return sqlSession.selectList("DashBoardService.getAvatarPaymentSalesVolumeByMonth", request);
+    }
+
+    // 아바타 사용량을 불러오는 메소드
+    @Override
+    public List<AvatarUsageVolumeDTO> getAvatarUsage(AvatarIdDTO request) {
+        return sqlSession.selectList("DashBoardService.getAvatarUsageVolume", request);
     }
 }

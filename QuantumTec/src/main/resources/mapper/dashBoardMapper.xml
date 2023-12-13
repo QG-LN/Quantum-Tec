@@ -217,4 +217,68 @@
             L.OPERATION_TYPE = 'UPDATE'
           AND JSON_UNQUOTE(JSON_EXTRACT(L.NEW_VALUE, '$.POST_INDEX')) = #{postIndex};
     </select>
+
+    <!-- 아래부터 만들어주시면 됩니다. -->
+    <!-- 요청: 게시글 최근 7일간 일별 댓글량, 조회수량으로 받아옴 VO수정해주고, 서비스에서 다른 코드처럼 만들어주세요. 예: getGameAccessByDay -->
+    <select id="getPostActivityByDate" resultType="PostDateVO">
+        CALL CalculatePostActivityByDate(#{postIndex});
+    </select>
+
+    <select id="getAvatarLists" resultType="AvatarListDTO">
+        SELECT
+            a.ITEM_INDEX,
+            a.ITEM_NAME,
+            c.ITEM_CATEGORY_NAME
+        FROM
+            AVATAR_ITEM_TB a
+        INNER JOIN
+            AVATAR_ITEM_CATEGORY_TB c ON a.ITEM_CATEGORY_ID = c.ITEM_CATEGORY_ID
+    </select>
+
+    <select id="getAvatarDetail" resultType="AvatarDetailDTO">
+        SELECT
+            a.ITEM_PRICE,
+            u.USER_NAME ITEM_CREATOR_NAME,
+            a.ITEM_CREATE_DATE,
+            a.ITEM_DESC
+        FROM
+            AVATAR_ITEM_TB a
+        INNER JOIN
+            USER_INFO_TB u ON a.ITEM_CREATOR_INDEX = u.USER_INDEX
+        WHERE
+            ITEM_INDEX = #{itemIndex};
+    </select>
+
+    <select id="getAvatarPaymentHistory" resultType="AvatarPaymentHistoryDTO">
+        SELECT
+            a.PAYMENT_INDEX,
+            a.PAYMENT_AMOUNT,
+            a.PAYMENT_METHOD,
+            a.PAYMENT_DATE,
+            a.PAYMENT_STATUS,
+            u.USER_ID
+        FROM
+            AVATAR_PAYMENT_HISTORY_TB a
+        INNER JOIN
+            USER_INFO_TB u ON a.USER_INDEX = u.USER_INDEX
+        WHERE
+            a.ITEM_INDEX = #{itemIndex};
+    </select>
+
+    <select id="getAvatarPaymentSalesVolumeByMonth" resultType="AvatarSalesVolumeVO">
+        CALL CalculateAvatarSalesVolumeByMonth(#{itemIndex});
+    </select>
+
+    <!-- 요청: 아바타 사용함, 사용안함으로 구분 되어야 하는데 쿼리는 구매량, 사용함으로 불러옴, 서비스에서 사용함, 사용안함으로 계산 해주세요 -->
+    <select id="getAvatarUsageVolume" resultType="AvatarUsageVolumeDTO">
+        SELECT
+            (SELECT COUNT(*) FROM AVATAR_PAYMENT_HISTORY_TB WHERE ITEM_INDEX = #{itemIndex} AND PAYMENT_STATUS = '결제 완료') AS PAYMENT_SUCCESS_COUNT,
+            COUNT(*) AS ITEM_USAGE_COUNT
+        FROM
+            USER_AVATAR_INVENTORY_TB
+        WHERE
+            ITEM_INDEX = #{itemIndex}
+        AND ITEM_USAGE_STATUS = 1;
+    </select>
+
 </mapper>

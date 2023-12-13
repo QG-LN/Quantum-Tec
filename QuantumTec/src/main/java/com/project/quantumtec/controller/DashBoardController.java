@@ -6,8 +6,8 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.avatar.AvatarIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
-import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
@@ -16,7 +16,8 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardCommentActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.*;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
@@ -24,13 +25,11 @@ import com.project.quantumtec.Model.dto.Response.dashboard.payments.PaymentsList
 import com.project.quantumtec.Model.dto.game.GameCommentDTO;
 import com.project.quantumtec.service.board.BoardService;
 import com.project.quantumtec.service.dashboard.DashBoardService;
-import com.project.quantumtec.service.game.GameService;
 import com.project.quantumtec.service.user.UserService;
 import com.project.quantumtec.Model.vo.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -254,10 +253,42 @@ public class DashBoardController {
         return dashBoardService.getPostModifyLog(request);
     }
 
-    // 게시글 내 댓글 작성 증가량
+    // 게시글 내 댓글/조회수 작성 증가량
     @PostMapping("/postcomment/activity")
-    public List<BoardCommentActivityDTO> getPostCommentActivity(@RequestBody PostIdDTO request) throws Exception{
+    public BoardPostActivityDTO getPostCommentActivity(@RequestBody PostIdDTO request) throws Exception{
         return dashBoardService.getPostCommentActivity(request);
     }
+
+    // 아바타 관리
+    // 아바타 리스트를 불러오는 메소드
+    @PostMapping("/avatarlist")
+    public List<AvatarListDTO> getAvatarList() throws Exception{
+        return dashBoardService.getAvatarList();
+    }
+
+    // 아바타 상세정보 불러오는 메소드
+    @PostMapping("/avatarinfo")
+    public AvatarDetailDTO getAvatarInfo(@RequestBody AvatarIdDTO request) throws Exception{
+        return dashBoardService.getAvatarInfo(request);
+    }
+
+    // 아바타 결제내역을 불러오는 메소드
+    @PostMapping("/avatarinfo/paymentlist")
+    public List<AvatarPaymentHistoryDTO> getAvatarPaymentHistory(@RequestBody AvatarIdDTO request) throws Exception{
+        return dashBoardService.getAvatarPaymentHistory(request);
+    }
+
+    // 아바타 판매량을 불러오는 메소드
+    @PostMapping("/avatarinfo/sales")
+    public List<AvatarSalesVolumeDTO> getAvatarSalesVolume(@RequestBody AvatarIdDTO request) throws Exception{
+        return dashBoardService.getAvatarSalesVolume(request);
+    }
+
+    // 아바타 사용량을 불러오는 메소드
+    @PostMapping("/avatarinfo/usage")
+    public List<AvatarUsageVolumeDTO> getAvatarUsage(@RequestBody AvatarIdDTO request) throws Exception{
+        return dashBoardService.getAvatarUsage(request);
+    }
+
 
 }

@@ -5,6 +5,7 @@ import com.project.quantumtec.Model.dto.Request.dashboard.UserIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserIndexDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserInfoUpdateDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.UserItemSearchDTO;
+import com.project.quantumtec.Model.dto.Request.dashboard.avatar.AvatarIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.board.PostIdDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameDeveloperDTO;
 import com.project.quantumtec.Model.dto.Request.dashboard.game.GameIdDTO;
@@ -14,7 +15,8 @@ import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardCommentActivityDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.*;
+import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardPostActivityDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.*;
@@ -106,6 +108,21 @@ public interface DashBoardService {
     // 특정 게시글의 수정 로그를 불러오는 메소드
     List<BoardModifyLogDTO> getPostModifyLog(PostIdDTO request);
 
-    // 특정 게시글의 댓글 작성 활동량을 불러오는 메소드
-    List<BoardCommentActivityDTO> getPostCommentActivity(PostIdDTO request);
+    // 특정 게시글의 댓글/조회수 활동량을 불러오는 메소드
+    BoardPostActivityDTO getPostCommentActivity(PostIdDTO request);
+
+    // 아바타 리스트를 불러오는 메소드
+    List<AvatarListDTO> getAvatarList();
+
+    // 아바타 상세 정보를 불러오는 메소드
+    AvatarDetailDTO getAvatarInfo(AvatarIdDTO request);
+
+    // 아바타 결제 내역을 불러오는 메소드
+    List<AvatarPaymentHistoryDTO> getAvatarPaymentHistory(AvatarIdDTO request);
+
+    // 아바타 판매량을 불러오는 메소드
+    List<AvatarSalesVolumeDTO> getAvatarSalesVolume(AvatarIdDTO request);
+
+    // 아바타 사용량을 불러오는 메소드
+    List<AvatarUsageVolumeDTO> getAvatarUsage(AvatarIdDTO request);
 }
