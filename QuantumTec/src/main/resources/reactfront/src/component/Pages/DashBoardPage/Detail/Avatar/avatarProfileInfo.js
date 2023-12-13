@@ -87,13 +87,14 @@ function ProfileInfo({state, setState}) {
     //   });
     // });
   state ={
-    itemIndex: state.itemIndex,
-    itemName: state.itemName,
-    itemCategoryName: state.category,
-    itemPrice: "3000",
-    itemCreatorIndex: "남정연",
-    itemCreateDate: "2023-12-05",
-    itemDesc: "",
+    //undefined 방지
+    itemIndex: state?.itemIndex || "", 
+    itemName: state?.itemName || "",
+    itemCategoryName: state?.category || "",
+    itemPrice: state?.itemPrice || "0",
+    itemCreatorIndex: state?.itemCreatorIndex || "홍길동",
+    itemCreateDate: state?.itemCreateDate || "9999-99-99",
+    itemDesc: state?.itemDesc || "-",
 
   }
   
@@ -174,7 +175,7 @@ function ProfileInfo({state, setState}) {
                                 <th className="w-[40%]">가격</th>
                                 <TableCell 
                                     id="itemPrice"
-                                    content={state.itemPrice}
+                                    content={state.itemPrice+' 원'}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
                             </tr>
