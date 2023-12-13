@@ -64,7 +64,7 @@ function AvatarProfile() {
           <div className="m-5"></div>
           <ActivityGraph state={state} />
           <div className="m-5"></div>
-          <AccountManagement state={state} />
+          {/* <AccountManagement state={state} /> */}
         </div>
       </Container>
     </Styles>

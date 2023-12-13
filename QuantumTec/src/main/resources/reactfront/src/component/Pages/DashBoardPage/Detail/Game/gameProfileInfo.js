@@ -156,8 +156,8 @@ function ProfileInfo({state, setState}) {
         <h2>게임 정보</h2>
         <hr />
         <div className='position-relative'>
-            {!state?.gameIndex && ( {loading} && ( <Loading /> ))}
             <Grid container>
+            {/* {!state?.gameIndex && ( {loading} && ( <Loading /> ))} */}
                 <Grid item xs={12} sm={12} md={4}>
                     <div style={{ width: `auto`, height: `auto`}} className='mr-2 ml-2'>
                         <GameImage imgSize={[400, 200]} imgList={gameImageList} imgPath={imagePath + "/games_" + state.gameImageLocation} />

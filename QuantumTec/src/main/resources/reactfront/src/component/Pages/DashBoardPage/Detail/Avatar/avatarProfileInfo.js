@@ -3,6 +3,7 @@ import { Grid, Table } from '@mui/material';
 import TableCell from '../../tableCell';
 import { useParams } from "react-router-dom";
 import { setEditingValue } from '../../Data/editingValue';
+import CircularProgress from '@mui/material/CircularProgress';
 
 // export const EditingContext = React.createContext();
 
@@ -42,6 +43,25 @@ function ProfileInfo({state, setState, avatarInfo}) {
       const avatarName = name.replaceAll(" ", "_");
       window.open(`/avatar/${id}/${avatarName}/`);
     };
+
+    const Loading = () => {
+      return (
+        <div style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+        className='bg-black bg-gradient bg-opacity-50'>
+          <CircularProgress />
+        </div>
+      );
+    }
+
 
 
     state ={
@@ -134,6 +154,7 @@ function ProfileInfo({state, setState, avatarInfo}) {
                   content={avatarInfo.itemCreateDate}
                   className="w-[60%]"
                   onUpdate={handleContentUpdate}
+                  editable={false} 
                   isLoading={loading}
                 />
               </tr>
