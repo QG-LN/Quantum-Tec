@@ -125,4 +125,7 @@ public interface DashBoardService {
 
     // 아바타 사용량을 불러오는 메소드
     List<AvatarUsageVolumeDTO> getAvatarUsage(AvatarIdDTO request);
+
+    // 아바타 상세정보를 수정하는 메소드
+    boolean updateAvatarItem(AvatarItemUpdateDTO request);
 }

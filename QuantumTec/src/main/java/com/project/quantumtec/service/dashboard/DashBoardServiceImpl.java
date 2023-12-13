@@ -330,4 +330,10 @@ public class DashBoardServiceImpl implements DashBoardService{
         }
         return dtos;
     }
+
+    // 아바타 상세정보를 수정하는 메소드
+    @Override
+    public boolean updateAvatarItem(AvatarItemUpdateDTO request) {
+        return dashBoardDAO.updateAvatarItem(request);
+    }
 }

@@ -290,5 +290,10 @@ public class DashBoardController {
         return dashBoardService.getAvatarUsage(request);
     }
 
+    // 아바타 상세정보를 변경하는 메소드
+    @PostMapping("/avatarinfo/update")
+    public boolean updateAvatarItem(@RequestBody AvatarItemUpdateDTO request) throws Exception{
+        return dashBoardService.updateAvatarItem(request);
+    }
 
 }
