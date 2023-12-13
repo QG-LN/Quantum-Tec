@@ -24,10 +24,12 @@ export default function WritePage() {
 
     useEffect(() => {
         if(state !== null){
-            setIsEdit(true);
-            setTitle(state.title);
+            if(state.method === "modify"){
+                setIsEdit(true);
+                setTitle(state.title);
+                editorRef.current.getInstance().setMarkdown(state.content);
+            }
             setBeforePath(state.beforePath);
-            editorRef.current.getInstance().setMarkdown(state.content);
         }
 
     }, []);
@@ -94,7 +96,7 @@ export default function WritePage() {
                     .then(res => {
                         if(res){
                             alert("글을 성공적으로 등록하였습니다.");
-                            navigate(`/board/${no}`);
+                            navigate(beforePath === undefined ? `/board/${no}`: "/dashboard/board");
                         }else{
                             alert("글 등록에 실패하였습니다.");
                         }
@@ -107,6 +109,7 @@ export default function WritePage() {
 
     const handleCancel = (event) => {
         event.preventDefault(); 
+        console.log(beforePath);
         
         if(isEdit){
             // 글 수정 시 이전 페이지로 이동

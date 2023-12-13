@@ -12,7 +12,11 @@ function AccountManagement(props) {
 
   const handleButtonAddClick = () => {
     console.log("게시글 추가");
-    navigate("/board/3/write" ,{ state: { beforePath: `/dashboard/board/${checkBoardIndex(props.state.boardCategoryName)}` } });
+    const data = {
+      beforePath: `/dashboard/board/${checkBoardIndex(props.state.boardCategoryName)}`,
+      method:"add",
+    }
+    navigate("/board/3/write" ,{ state: data});
   };
 
   const checkBoardIndex = (boardCategoryName) => {
@@ -43,6 +47,7 @@ function AccountManagement(props) {
       content: props.state.postContent,
       beforePath: `/dashboard/board/${props.state.postIndex}`,
       to: 'admin',
+      method:"modify",
     };
     navigate(`/board/${boardNo}/post/${props.state.postIndex}/edit`, { state: data });
   };
