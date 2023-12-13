@@ -36,11 +36,6 @@ const navConfig = [
     path: '/dashboard/payments',
     icon: icon('ic_disabled'),
   },
-  {
-    title: 'Dashboard',
-    path: '/dashboard',
-    icon: icon('ic_disabled'),
-  },
 ];
 
 export default navConfig;
