@@ -47,16 +47,6 @@ const timeChartDataGame = [
   // { gameName: "Game 3", value: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]}
 ];
 
-const setGraphData = () => {
-  const data = timeChartDataGame.map((data, index) => ({
-    name: data.gameName,
-    type: "line",
-    fill: "solid",
-    data: data.value,
-  }));
-  return data;
-}
-
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
 const Main = styled("div")(({ theme }) => ({
@@ -72,10 +62,6 @@ const Main = styled("div")(({ theme }) => ({
   },
 }));
 
-//일별 이용자 연령대
-const dayUserAgeData = [
-    { label: "게임", value: [2,3,6,7,8,2] },
-]
 
 function ActivityGraph() {
     const theme = useTheme();
@@ -85,14 +71,25 @@ function ActivityGraph() {
               <Grid container spacing={3}>
                   <Grid item xs={12} md={12} lg={12}>
                       <AppWebsiteVisits
-                        title="게임 구매 추이"
+                        title="게시글 조회수 및 댓글 증가량"
                         // subheader="(+43%) than last year"
                         xaxisType={"date"}
                         chartLabels={
                           timeChartData.map((data, index) => data.time)}
-                        chartData={
-                          setGraphData()
-                      }
+                        chartData={[
+                          {
+                            name: "조회수",
+                            type: "column",
+                            fill: "solid",
+                            data: timeChartDataGame[0].value,
+                          },
+                          {
+                            name: "댓글증가량",
+                            type: "line",
+                            fill: "solid",
+                            data: timeChartDataGame[1].value,
+                          }
+                        ]}
                       />
                     </Grid>
                 </Grid>
