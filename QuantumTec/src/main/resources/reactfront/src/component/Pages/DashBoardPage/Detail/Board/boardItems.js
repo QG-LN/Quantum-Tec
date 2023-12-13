@@ -19,10 +19,10 @@ function BoardItems({state, setState}){
 	];
 
 	const logDetailHeadLabel = [
-        { id: 'columnName', label: '활동사항', align: 'center' },
-        { id: 'newValue', label: '활동내용', align: 'center' },
-        { id: 'operatedBy', label: '활동자', align: 'center' },
-        { id: 'timestamp', label: '활동 시간', align: 'center'}
+        { id: 'operatedBy', label: '수정자', align: 'center' },
+        { id: 'columnName', label: '제목', align: 'center' },
+        { id: 'newValue', label: '내용', align: 'center' },
+        { id: 'timestamp', label: '수정시간', align: 'center'}
     ];
 
 	useEffect(() => {
@@ -43,24 +43,28 @@ function BoardItems({state, setState}){
 				console.log(error);
 			});
 
-		// const path2 = 'dashboard/postinfo/modifylog';
-		// const body2 = {
-		// 	postIndex: state.postIndex
-		// }
-		// axiosRequest(path2, body2, 'POST', 'json')
-		// 	.then((response) => {
-		// 		console.log(response);
-		// 		setLogData(response);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log(error);
-		// 	});
+		const path2 = 'dashboard/postinfo/modifylog';
+		const body2 = {
+			postIndex: state.postIndex
+		}
+		axiosRequest(path2, body2, 'POST', 'json')
+			.then((response) => {
+				// boardIndex를 제외한 나머지 데이터를 temp에 저장
+				const temp = response.map((e) => {
+					const {boardIndex, ...temp} = e;
+					return temp;
+				});
+				setLogData(temp);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}, [state.postIndex]);
 
 	return (
 		<div>
 			<TablePage margin={false} createButton={false} title={"댓글리스트_"+ state.postTitle} dataRow={ItemTableRow} dataLabel={commentHeadLabel} data={commentData} />
-			{/* <TablePage margin={false} createButton={false} title={"활동사항_"+state.postTitle} dataRow={LogDetailTableRow} dataLabel={logDetailHeadLabel} data={logData} /> */}
+			<TablePage margin={false} createButton={false} title={"수정내역_"+state.postTitle} dataRow={ItemTableRow} dataLabel={logDetailHeadLabel} data={logData} />
 		</div>
 	)
 }

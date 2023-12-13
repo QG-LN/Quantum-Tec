@@ -23,7 +23,7 @@ import { emptyRows, applyFilter, getComparator } from "../utils";
 import ExportDataToExcelButton from "../../exportData/exportData";
 import {handlerMappingUser, handlerMappingUserPayment, handlerMappingUserActive, 
       handlerMappingGame, handlerMappingGamePayment, handlerMappingGameComment,
-      handlerMappingPost, handlerMappingPostComment,
+      handlerMappingPost, handlerMappingPostComment, handleMappingBoardHistory,
       handleMappingAvatarPayment,
       handleMappingPayments
 } from "../../exportData/headerMapping";
@@ -148,6 +148,8 @@ export default function TablePage(props) {
         return handlerMappingPostComment;
       }else if(pageName.includes("활동사항")) {
         return handlerMappingUserActive;
+      }else if(pageName.includes("수정내역")){
+        return handleMappingBoardHistory;
       }
     }else if(location.pathname.includes("/avatar")){
       if(pageName.includes("구매내역")){

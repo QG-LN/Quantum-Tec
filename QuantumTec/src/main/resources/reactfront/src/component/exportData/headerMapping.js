@@ -88,6 +88,14 @@ const handlerMappingPostComment = {
 	"비추천 수" : "commentDownvote"
 }
 
+
+const handleMappingBoardHistory = {
+	"수정자": "userID",
+	"제목": "postTitle",
+	"내용": "postContent",
+	"수정시간": "postUpdateDate"
+}
+
 // 아바타 정보 [구매 내역]
 const handleMappingAvatarPayment = {
 	"번호" : "paymentIndex",
@@ -110,6 +118,6 @@ const handleMappingPayments = {
 
 export {handlerMappingUser, handlerMappingUserPayment, handlerMappingUserActive, 
 	handlerMappingGame, handlerMappingGamePayment, handlerMappingGameComment,
-	handlerMappingPost, handlerMappingPostComment,
+	handlerMappingPost, handlerMappingPostComment, handleMappingBoardHistory,
 	handleMappingAvatarPayment, 
 	handleMappingPayments};
