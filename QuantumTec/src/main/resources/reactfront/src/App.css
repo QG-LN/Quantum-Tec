@@ -100,3 +100,9 @@
 .avatorBoardPageBody{
   width: calc(100% - 281px);
 }
+
+@media (max-width: 768px) {
+  .avatorBoardPageBody{
+    width: 100%;
+  }
+}

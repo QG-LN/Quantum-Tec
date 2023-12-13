@@ -62,6 +62,7 @@ import { setDashboardUserProfileList } from './redux/actions/dashboardUserProfil
 import { setDashboardGameProfileList } from './redux/actions/dashboardGameProfileAction.js';
 import { setDashboardPaymentsProfileList } from './redux/actions/dashboardPaymentsProfileAction.js';
 import { setDashboardBoardProfileList } from './redux/actions/dashboardBoardProfileAction.js';
+import { setDashboardAvatarProfileList } from './redux/actions/dashboardAvatarProfileAction.js';
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
