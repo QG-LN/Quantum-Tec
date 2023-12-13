@@ -25,9 +25,9 @@ const dayChartData = [
   { date: '11/01/2023'},
 ];
 const dayChartDataGame = [
-    { gameName: "Game 1", value: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]},
-    { gameName: "Game 2", value: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]},
-    { gameName: "Game 3", value: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]}
+    { gameName: "별에서 온 곱셈 공식", value: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]},
+    { gameName: "삼각형 닮음 카드 게임", value: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]},
+    { gameName: "제곱근 레이싱", value: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]}
 ];
 
 const setGameData = () =>{
