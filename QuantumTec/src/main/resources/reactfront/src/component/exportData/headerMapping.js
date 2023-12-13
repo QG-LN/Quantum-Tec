@@ -98,7 +98,18 @@ const handleMappingAvatarPayment = {
 	"결제 상태" : "paymentStatus",
 }
 
+// 결제 정보 [결제 내역]
+const handleMappingPayments = {
+	"번호" : "paymentIndex",
+	"결제내역" : "paymentName",
+	"사용자ID" : "userId",
+	"결제유형" : "paymentMethod",
+	"결제일시" : "paymentDate",
+	"결제상태" : "paymentStatus"
+}
+
 export {handlerMappingUser, handlerMappingUserPayment, handlerMappingUserActive, 
 	handlerMappingGame, handlerMappingGamePayment, handlerMappingGameComment,
 	handlerMappingPost, handlerMappingPostComment,
-	handleMappingAvatarPayment};
+	handleMappingAvatarPayment, 
+	handleMappingPayments};

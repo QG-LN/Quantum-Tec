@@ -24,7 +24,8 @@ import ExportDataToExcelButton from "../../exportData/exportData";
 import {handlerMappingUser, handlerMappingUserPayment, handlerMappingUserActive, 
       handlerMappingGame, handlerMappingGamePayment, handlerMappingGameComment,
       handlerMappingPost, handlerMappingPostComment,
-      handleMappingAvatarPayment
+      handleMappingAvatarPayment,
+      handleMappingPayments
 } from "../../exportData/headerMapping";
 
 // ----------------------------------------------------------------------
@@ -151,6 +152,10 @@ export default function TablePage(props) {
     }else if(location.pathname.includes("/avatar")){
       if(pageName.includes("구매내역")){
         return handleMappingAvatarPayment;
+      }
+    }else if(location.pathname.includes("/payment")){
+      if(pageName.includes("PAYMENTS")){
+        return handleMappingPayments;
       }
     }else{
       return null;
