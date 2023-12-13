@@ -14,10 +14,7 @@ import com.project.quantumtec.Model.dto.Response.board.CommentListResponseDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserActivityLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserInfoDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.UserItemDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarDetailDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarListDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarPaymentHistoryDTO;
-import com.project.quantumtec.Model.dto.Response.dashboard.avatar.AvatarUsageVolumeDTO;
+import com.project.quantumtec.Model.dto.Response.dashboard.avatar.*;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardListDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.board.BoardModifyLogDTO;
 import com.project.quantumtec.Model.dto.Response.dashboard.game.GameInfoDTO;
@@ -348,5 +345,11 @@ public class DashBoardDAOImpl implements DashBoardDAO{
     @Override
     public List<AvatarUsageVolumeDTO> getAvatarUsage(AvatarIdDTO request) {
         return sqlSession.selectList("DashBoardService.getAvatarUsageVolume", request);
+    }
+
+    // 아바타 상세정보를 수정하는 메소드
+    @Override
+    public boolean updateAvatarItem(AvatarItemUpdateDTO request) {
+        return sqlSession.update("DashBoardService.updateAvatarItem", request) == 1;
     }
 }
