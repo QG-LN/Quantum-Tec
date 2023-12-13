@@ -79,7 +79,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   }
 
   return (
-    <Link to="/" component={RouterLink} sx={{ display: 'contents' }} >
+    <Link to="/dashboard" component={RouterLink} sx={{ display: 'contents' }} >
       {/*{logo}*/}
       <div className="d-flex justify-content-center">
         <img className="w-75 " src={imgSrc + 'BringUP_LOGO_Green.png'}/>
