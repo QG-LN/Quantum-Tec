@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState }from 'react';
 
 import { useTheme } from "@mui/material/styles";
 import {
@@ -6,9 +6,12 @@ import {
   AppWebsiteVisits,
 } from "../../../../../dashboard/sections/@dashboard/app";
 import ThemeProvider from "../../../../../dashboard/theme";
+import { axiosRequest } from "../../../../Utils/networkUtils";
 
 import { Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
+
+import { faker } from "@faker-js/faker";
 
 //일별 게임 이용자 수
 const dayChartData = [
@@ -59,40 +62,86 @@ const itemUsing = [
     { label: "사용량", value:1 },
 ]
 
-function ActivityGraph() {
-    const theme = useTheme();
-    return (
-        <ThemeProvider>
-          <div className="activity-graph">
-              <h2>활동 그래프</h2>
+// 월별 체크를 위한 월 데이터 그냥 나열한것
+const avatarMonthDate = [];
+for (let month = 1; month <= 12; month++) {
+  const date = `${month.toString().padStart(2, "0")}`;
+  avatarMonthDate.push({ date });
+}
 
-              <Grid container spacing={3}>
-                  <Grid item xs={12} md={6} lg={8}>
-                      <AppWebsiteVisits
-                        title="아바타 구매 추이"
-                        // subheader="(+43%) than last year"
-                        chartLabels={
-                          dayChartData.map((data, index) => data.date)}
-                        chartData={
-                          setAvatarData()
-                      }
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                      <AppConversionRates
-                        title="아바타 사용량(명)"
-                        chartData={
-                          itemUsing.map((ds, index) => (ds))
-                        }
-                        chartColors={[
-                          theme.palette.primary.main,
-                        ]}
-                      />
-                    </Grid>
-                </Grid>
-          </div>
-        </ThemeProvider>
-    );
+// 아바타 데이터 부족에 따른 더미데이터
+const avatarSaleData = () => {
+  const data = avatarMonthDate.map((data, index) => ({
+    label: data.date,
+    value: faker.datatype.number({ min: 0, max: 100 }),
+    lineValue: faker.datatype.number({ min: 0, max: 100 }),
+  }));
+  return data;
+}
+
+function ActivityGraph({state}) {
+  
+  useEffect(() => {
+    const path = "dashboard/avatarinfo/sales";  // 아바타 판매량을 불러오는 메소드
+    const body = {
+      itemIndex: state.itemIndex,
+    };
+    axiosRequest(path, body, "POST", "json")
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    const path2 = "dashboard/avatarinfo/usage";  // 아바타 사용량을 불러오는 메소드
+    axiosRequest(path2, body, "POST", "json")
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+  }, []);
+
+
+  const theme = useTheme();
+  return (
+    <ThemeProvider>
+      <div className="activity-graph">
+        <h2>활동 그래프</h2>
+
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6} lg={12}>
+            {/* <AppConversionRates
+                title="월별 판매량(개)"
+                horizontal={false}
+                chartData={avatarSaleData().map((data, index) => data)}
+              /> */}
+              <AppWebsiteVisits
+                title="월별 판매량(개)"
+                // subheader="월별 판매량"
+                xaxisType="date"
+                chartLabels={avatarSaleData().map((data, index) => data.label)}
+                chartData={[
+                  {
+                    name: "판매량",
+                    type: 'column',
+                    data: avatarSaleData().map((data, index) => data.value),
+                  },
+                  {
+                    name: "사용량",
+                    data: avatarSaleData().map((data, index) => data.lineValue),
+                  },
+                ]}
+              />
+          </Grid>
+        </Grid>
+      </div>
+    </ThemeProvider>
+  );
 }
 
 export default ActivityGraph;
