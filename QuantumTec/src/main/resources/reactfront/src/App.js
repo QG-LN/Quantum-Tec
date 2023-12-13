@@ -60,11 +60,11 @@ import LogDetail from './component/Pages/DashBoardPage/Detail/User/logDetail.js'
 import { useDispatch } from 'react-redux';
 import { setDashboardUserProfileList } from './redux/actions/dashboardUserProfileAction.js';
 import { setDashboardGameProfileList } from './redux/actions/dashboardGameProfileAction.js';
+import { setDashboardAvatarProfileList } from './redux/actions/dashboardAvatarProfileAction.js';
 
 function App() {
     // truelogin 값을 로컬 스토리지에서 가져옴, 이때 문자열 값이 아닌 boolean값으로 사용하기 위해서 조건문으로 표시
     let [truelogin, setTruelogin] = useState(localStorage.getItem("truelogin") === "true");
-
     truelogin = '';
   return (
    <Router>

@@ -17,22 +17,14 @@ function ProfileInfo({state, setState}) {
     const { id, avatarName } = useParams(); // url에서 게임번호와 이름을 가져옴
     const [categoryGameList, setCategoryGameList] = useState([]); // 카테고리 게임 리스트를 저장할 state
   
-    const imagePath = "http://localhost:9090/image/game"; // 이미지 경로
-    const imageListPath = "http://localhost:9090/image/game/list"; // 이미지 리스트 경로
     const defaultImage =
       "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"; // 이미지가 없을 경우 기본 이미지
     //이미지
     const handleInputImg = (e) => {
       console.log(e.target.value);
     };
-    // 게임 해더 이미지 경로를 반환하는 함수
-    const AvatarImageLink = (index) => {
-      let path = `http://localhost:9090/image/game/games_`;
-      path += index > 4 ? "test" : index; // 추후 이미부분은 수정해야함
-      path += "_0.png";
-      return path;
-    };
-  
+    console.log(state)
+  console.log(state.itemName);
     const useDidMountEffect = (func, deps) => {
       const didMount = useRef(false);
   
@@ -94,17 +86,14 @@ function ProfileInfo({state, setState}) {
     //     setCategoryGameList(data); // 카테고리 게임 리스트 저장
     //   });
     // });
-    const itemCategoryName = "모자";
-  const itemName = "빨간색 모자";
-
   state ={
-    itemIndex: " ",
-    itemName: " ",
-    itemCategoryName: " ",
-    itemPrice: " ",
-    itemCreatorIndex: " ",
-    itemCreateDate: " ",
-    itemDesc: " ",
+    itemIndex: state.itemIndex,
+    itemName: state.itemName,
+    itemCategoryName: state.category,
+    itemPrice: "3000",
+    itemCreatorIndex: "남정연",
+    itemCreateDate: "2023-12-05",
+    itemDesc: "",
 
   }
   
@@ -120,8 +109,8 @@ function ProfileInfo({state, setState}) {
             >
               <div class="space-y-1.5 p-6">
                 <img
-                  src={`${process.env.PUBLIC_URL}/image/${itemCategoryName}/${itemName}_shop.png`}
-                  alt={`${itemName} Image`}
+                  src={`${process.env.PUBLIC_URL}/image/${state.itemCategoryName}/${state.itemName}_shop.png`}
+                  alt={`${state.itemName} Image`}
                 />
               </div>
             </div>
@@ -158,14 +147,6 @@ function ProfileInfo({state, setState}) {
                                     onUpdate={handleContentUpdate} 
                                     editable={false} />
                             </tr>
-                            <tr>
-                                <th className="w-[40%]">가격</th>
-                                <TableCell 
-                                    id="itemPrice"
-                                    content={state.itemPrice}
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} />
-                            </tr>
                         </tbody>
                     </table>
                 </Grid>
@@ -190,21 +171,12 @@ function ProfileInfo({state, setState}) {
                                     onUpdate={handleContentUpdate} />
                             </tr>
                             <tr>
-                                <th className="w-[40%]">아바타 할인 기간 설정</th>
+                                <th className="w-[40%]">가격</th>
                                 <TableCell 
                                     id="itemPrice"
                                     content={state.itemPrice}
                                     className="w-[60%]"
                                     onUpdate={handleContentUpdate} />
-                            </tr>
-                            <tr>
-                                <th className="w-[40%]">아바타 저장위치</th>
-                                <TableCell 
-                                    id="itemCategoryName"
-                                    content={state.itemCategoryName }
-                                    className="w-[60%]"
-                                    onUpdate={handleContentUpdate} 
-                                    editable={false} />
                             </tr>
                         </tbody>
                     </table>

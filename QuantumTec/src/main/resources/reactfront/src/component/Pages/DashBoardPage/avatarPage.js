@@ -72,7 +72,7 @@ function AvatarPage() {
           .filter((item) => item.itemCategory === attribute)
           .map((item) => ({
             category: attribute,
-            filename: item.itemName,
+            itemName: item.itemName,
             itemIndex: item.itemIndex,
           }))
       );
@@ -84,7 +84,7 @@ function AvatarPage() {
         .filter((item) => item.itemCategory === selectedButton)
         .map((item) => ({
           category: selectedButton,
-          filename: item.itemName,
+          itemName: item.itemName,
           itemIndex: item.itemIndex,
         }));
       // 이미지 업데이트
@@ -156,9 +156,9 @@ function AvatarPage() {
           {/* 이미지를 렌더링 */}
           {loadedImages.slice(currentImages, limit).map((image) => (
             <AvatarImg
-              key={image.filename}
+              key={image.fileName}
               category={image.category}
-              filename={image.filename}
+              itemName={image.itemName}
               itemIndex={image.itemIndex}
             />
           ))}

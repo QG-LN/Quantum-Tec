@@ -14,7 +14,7 @@ const AvatarImg = (props) => {
   const handleClick = () => {
     // 클릭 시 주소에 '/1' 추가
     const currentPath = window.location.pathname;
-    navigate(`${currentPath}/${props.itemIndex}`);
+    navigate(`${currentPath}/${props.itemIndex}`,{ state: props});
   };
 
   console.log(props);
@@ -24,12 +24,12 @@ const AvatarImg = (props) => {
       {/* 이미지 렌더링 */}
         <div class='cursor-pointer' onClick={handleClick}>
           <img
-            src={`${process.env.PUBLIC_URL}/image/${props.category}/${props.filename}_shop.png`}
+            src={`${process.env.PUBLIC_URL}/image/${props.category}/${props.itemName}_shop.png`}
             alt={`Image`}
           />
           <div class="text-start m-3 animated-box w-[full]">
             <h6 class='font-bold'>
-              {props.filename}
+              {props.itemName}
             </h6>
           </div>
         </div>
