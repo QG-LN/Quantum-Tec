@@ -256,7 +256,8 @@
             a.PAYMENT_METHOD,
             a.PAYMENT_DATE,
             a.PAYMENT_STATUS,
-            u.USER_ID
+            u.USER_NICKNAME,
+            a.USER_INDEX
         FROM
             AVATAR_PAYMENT_HISTORY_TB a
         INNER JOIN

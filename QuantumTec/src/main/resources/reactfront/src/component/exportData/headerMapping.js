@@ -88,6 +88,17 @@ const handlerMappingPostComment = {
 	"비추천 수" : "commentDownvote"
 }
 
+// 아바타 정보 [구매 내역]
+const handleMappingAvatarPayment = {
+	"번호" : "paymentIndex",
+	"결제자" : "userNickName",
+	"결제 금액" : "paymentAmount",
+	"결제 수단" : "paymentMethod",
+	"결제 일자" : "paymentDate",
+	"결제 상태" : "paymentStatus",
+}
+
 export {handlerMappingUser, handlerMappingUserPayment, handlerMappingUserActive, 
 	handlerMappingGame, handlerMappingGamePayment, handlerMappingGameComment,
-	handlerMappingPost, handlerMappingPostComment};
+	handlerMappingPost, handlerMappingPostComment,
+	handleMappingAvatarPayment};
