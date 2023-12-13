@@ -4,6 +4,7 @@ import TableCell from '../../tableCell';
 import { useParams } from "react-router-dom";
 import { setEditingValue } from '../../Data/editingValue';
 import CircularProgress from '@mui/material/CircularProgress';
+import {axiosRequest} from '../../../../Utils/networkUtils';
 
 // export const EditingContext = React.createContext();
 
@@ -12,36 +13,36 @@ function ProfileInfo({state, setState, avatarInfo}) {
     const [editingId, setEditingId] = useState(null); // 현재 수정 중인 셀의 id
     const [originalContent, setOriginalContent] = useState(null); // 수정 전 셀의 내용
 
-    const [avatarImage, setAvatarImage] = useState(""); // 아바타의 메인 이미지를 저장할 state
-    const [avatarImageList, setGameImageList] = useState([]); // 아바타의 이미지를 저장할 state
-    const [avatarCate, setGameGenre] = useState([]); // 게임의 장르를 저장할 state
-    const { id, avatarName } = useParams(); // url에서 게임번호와 이름을 가져옴
-    const [categoryGameList, setCategoryGameList] = useState([]); // 카테고리 게임 리스트를 저장할 state
-  
-    const defaultImage = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"; // 이미지가 없을 경우 기본 이미지
-    //이미지
-    const handleInputImg = (e) => {
-      console.log(e.target.value);
-    };
-    const useDidMountEffect = (func, deps) => {
-      const didMount = useRef(false);
-
-      useEffect(() => {
-        if (didMount.current) func();
-        else didMount.current = true;
-      }, deps);
-    };
     // 수정 된 셀의 내용을 저장.
     const handleContentUpdate = (id, newContent) => {
-      setState((prevState) => ({
-        ...prevState,
-        [id]: newContent,
-      }));
-    };
-    const avatarLink = (id, name) => {
-      console.log(id, name);
-      const avatarName = name.replaceAll(" ", "_");
-      window.open(`/avatar/${id}/${avatarName}/`);
+      // setState((prevState) => ({
+      //   ...prevState,
+      //   [id]: newContent,
+      // }));
+      setLoading(true);
+      
+      const path = "dashboard/avatarinfo/update";
+      const body = {
+        itemName : state.itemName,
+        itemPrice : avatarInfo.itemPrice,
+        itemDesc : avatarInfo.itemDesc,
+        itemIndex : state.itemIndex,
+      }
+      console.log(body);
+      axiosRequest(path, body, "POST", "json")
+        .then((response) => {
+          if(response){
+            setState(prevState => ({ ...prevState, ...response }));
+          }else{
+            alert("수정 실패");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setLoading(false);
+      });
     };
 
     const Loading = () => {
@@ -62,7 +63,8 @@ function ProfileInfo({state, setState, avatarInfo}) {
       );
     }
 
-
+    console.log(state);
+    console.log(avatarInfo);
 
     state ={
       //undefined 방지
@@ -80,6 +82,7 @@ function ProfileInfo({state, setState, avatarInfo}) {
   return (
     <div className="profile-info">
       <h3>아바타 정보</h3>
+      {!state?.itemName && { loading } && <Loading />}
       <Grid container>
         <Grid item xs={12} sm={12} md={2} className="pt-3">
           {/*이미지 처리하는 부분 */}
@@ -116,6 +119,7 @@ function ProfileInfo({state, setState, avatarInfo}) {
                   content={state.itemName}
                   className="w-[60%]"
                   onUpdate={handleContentUpdate}
+                  editable={false}
                   isLoading={loading}
                 />
               </tr>
@@ -154,7 +158,7 @@ function ProfileInfo({state, setState, avatarInfo}) {
                   content={avatarInfo.itemCreateDate}
                   className="w-[60%]"
                   onUpdate={handleContentUpdate}
-                  editable={false} 
+                  editable={false}
                   isLoading={loading}
                 />
               </tr>
@@ -165,6 +169,7 @@ function ProfileInfo({state, setState, avatarInfo}) {
                   content={avatarInfo.itemPrice + " 원"}
                   className="w-[60%]"
                   onUpdate={handleContentUpdate}
+                  editable={false}
                   isLoading={loading}
                 />
               </tr>
@@ -181,8 +186,9 @@ function ProfileInfo({state, setState, avatarInfo}) {
             <TableCell
               id="itemDesc"
               content={avatarInfo.itemDesc}
-              colSpan={5}
+              colSpan={8}
               onUpdate={handleContentUpdate}
+              editable={false}
               isLoading={loading}
             />
           </tr>

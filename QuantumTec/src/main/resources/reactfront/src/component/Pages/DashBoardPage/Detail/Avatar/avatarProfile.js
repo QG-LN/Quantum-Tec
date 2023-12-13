@@ -21,6 +21,7 @@ function AvatarProfile() {
   const [avatarInfo, setAvatarInfo] = useState({});
 
   useEffect(() => {
+
     getData("dashboard/avatarlist")
       .then((data) => {
         setItemsData(data);
@@ -37,7 +38,6 @@ function AvatarProfile() {
     };
     axiosRequest(path, body, "POST", "json")
       .then((response) => {
-        console.log(response);
         setAvatarInfo(response);
       })
       .catch((error) => {
@@ -56,7 +56,7 @@ function AvatarProfile() {
       <Container maxWidth="xl">
         <div className="mt-[100px]"></div>
         <div className="text-left">
-          <ProfileInfo state={state} avatarInfo={avatarInfo}  />
+          <ProfileInfo state={state} avatarInfo={avatarInfo} setState={setAvatarInfo} />
           <div className="m-5"></div>
           <AvatarItems state={state} />
           {/* <div className='m-5'></div>
