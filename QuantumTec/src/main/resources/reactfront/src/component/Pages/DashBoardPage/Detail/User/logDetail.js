@@ -8,7 +8,7 @@ function LogDetail({state}) {
         { id: 'columnName', label: '활동사항', align: 'center' },
         { id: 'newValue', label: '활동내용', align: 'center' },
         { id: 'operatedBy', label: '활동자', align: 'center' },
-        { id: 'timestamp', label: '활동 시간', align: 'center'}
+        { id: 'timestamp', label: '활동시간', align: 'center'}
     ];
 
     const [logData, setLogData] = useState([]);

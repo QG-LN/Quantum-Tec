@@ -6,7 +6,7 @@
 const handlerMappingUser ={
 	"번호" : "userID",
 	"레벨" : "userLevel",
-	"닉네임": "userNickName",
+	"닉네임": "userNickname",
 	"이름" : "userName",
 	"현재 상태" : "userStatus",
 	"보유 캐시" : "userCash",
